@@ -27,7 +27,7 @@ exports.isAuth = (req, res, next)->
 
 	next()
 
-exports.authenticate = (strategy, params = {}) ->
-	stratParams = _.extend params, params[strategy]
+exports.authenticate = (strategy, lparams = {}) ->
+	stratParams = _.extend params[strategy], lparams
 
-	passport.authenticate strategy, params[strategy]
+	passport.authenticate strategy, stratParams
