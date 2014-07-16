@@ -34,6 +34,10 @@ schema = new mongoose.Schema
 	invited_by:
 		type: ObjectId
 		ref: 'Client'
+	status: # 0 - common, 1 - specialist
+		type: Number
+		required: true
+		default: 0
 ,
 	collection: 'client'
 
