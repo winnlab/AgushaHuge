@@ -1,0 +1,48 @@
+extends ../layout
+
+block append header
+	
+
+block content
+	.panel.panel-default
+		.panel-heading
+			h3.panel-title Запись на экскурсию #{tour_record._id}
+		.panel-body
+			- if (tour_record.tour)
+				.form-group
+					.col-sm-2.control-label Тур:
+					.col-sm-10 #{tour_record.tour.date}
+			.form-group
+				.col-sm-2.control-label Имя:
+				.col-sm-10 #{tour_record.firstname}
+			.form-group
+				.col-sm-2.control-label Фамилия:
+				.col-sm-10 #{tour_record.lastname}
+			.form-group
+				.col-sm-2.control-label Отчество:
+				.col-sm-10 #{tour_record.patronymic}
+			.form-group
+				.col-sm-2.control-label E-mail:
+				.col-sm-10 #{tour_record.email}
+			.form-group
+				.col-sm-2.control-label Phone:
+				.col-sm-10 #{tour_record.phone}
+			.form-group
+				.col-sm-2.control-label Children:
+				.col-sm-10
+					- each c, j in tour_record.children
+						.panel.panel-default
+							.panel-body
+								div имя: #{c.name}
+								div муж: #{c.gender}
+								div возраст: #{c.age}
+								div с родителями: #{c.withParents}
+			.form-group
+				.col-sm-2.control-label Active:
+				.col-sm-10 #{tour_record.active}
+			.form-group
+				.col-sm-2.control-label Is_read:
+				.col-sm-10 true
+
+block append scripts
+	

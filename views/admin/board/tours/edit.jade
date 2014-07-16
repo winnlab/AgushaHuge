@@ -1,0 +1,31 @@
+extends ../layout
+
+block append header
+	link(href="/js/plugins/datepicker/datepicker.css" rel="stylesheet" type="text/css")
+
+block content
+	.panel.panel-default
+		.panel-heading
+			h3.panel-title Редактирование экскурсии
+		.panel-body
+			form(method="post" action="/admin/tour")
+				.box-body
+					if tour._id
+						input(type="hidden" name="id" value=tour._id)
+					
+					.form-group
+						label(for="date") Дата:
+						.input-group
+							.input-group-addon
+								i.fa.fa-calendar
+							input.form-control.pull-right.datepicker(type="text" name="date" placeholder="Дата" value=tour.date)
+				
+				.pull-right
+					button.btn.btn-primary(type="submit") Сохранить изменения
+
+block append scripts
+	script(src="/js/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript")
+	script.
+		$('.datepicker').datepicker({
+			format: 'dd/mm/yyyy'
+		});

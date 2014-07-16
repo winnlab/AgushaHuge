@@ -1,0 +1,100 @@
+extends ../layout
+
+block append header
+    link(href="/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css")
+    link(href="/js/admin/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" type="text/css")
+    style.
+        img.img-thumbnail {
+            max-height: 140px;
+        }
+        .textarea {
+            width: 100%;
+            height: 200px;
+            font-size: 14px;
+            line-height: 18px;
+            border: 1px solid #dddddd;
+            padding: 10px;
+        }
+
+block append scripts
+    script(src="/js/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js")
+    script(src="/js/admin/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")
+    script.
+        $(function() {
+            $(".textarea").wysihtml5();
+            $('#age-select').on('change', function() {
+                var value = $(this).find('option:selected').data('level');
+                $('#age-level').val(value);
+            });
+        });
+
+block content
+    section.content
+        .row
+            .col-md-10
+                .box.box-primary
+                    .box-header
+                        .box-title= "Редактирование товара"
+                    form(role="form" enctype="multipart/form-data" method="post" action="/admin/product")
+                        .box-body
+                            if product._id
+                                input(type="hidden" name="id" value=product._id)
+                            .form-group
+                                label(for="title")= "Название:"
+                                input.form-control(type="text" name="title" placeholder="Наименование продукта" value=product.title)
+                            .form-group
+                                .checkbox
+                                    label
+                                        if product.active == false
+                                            input(type="checkbox" name="active")
+                                        else
+                                            input(type="checkbox" name="active" checked)
+                                        span= " Активен?"
+                            .form-group
+                                label(for="text")= "Описание:"
+                                textarea.textarea(name="text" placeholder="Описание продукта")
+                                    | #{product.text}
+                            .form-group
+                                label(for="image")= "Изображение:"
+                                if product.image
+                                    div
+                                        img.img-thumbnail(src="/img/#{product.image}")
+                                input(type="file" name="image")
+                            .form-group
+                                label(for="storage_life")= "Срок хранения:"
+                                input.form-control(type="text" name="storage_life" placeholder="Срок хранения продукта" value=product.storage_life)
+                            .form-group
+                                label(for="composition")= "Состав продукта:"
+                                div
+                                    input.form-control(data-role="tagsinput" name="composition" placeholder="Введите название продукта и нажмите Enter" value=product.composition)
+                            .form-group
+                                label(for="volume")= "Объем:"
+                                input.form-control(type="text" name="volume" placeholder="Объем продукта:" value=product.volume)
+                            .form-group
+                                label(for="recommended")= "Рекомендации:"
+                                input.form-control(type="text" name="recommended" placeholder="Рекомендации к использованию продукта" value=product.recommended)
+                            .form-group
+                                label(for="age")= "Возраст:"
+                                select#age-select.form-control(name="age")
+                                    each age in ages
+                                        option(
+                                            value=age._id
+                                            data-level=age.level
+                                            selected=age.exists == true
+                                        )= age.title
+                            .form-group
+                                label(for="certificate[]")= "Сертификаты:"
+                                each cert in certificates
+                                    label.checkbox-inline
+                                        input(type="checkbox" name="certificate[]" value=cert._id checked=cert.exists == true)
+                                        |&nbsp;#{cert.name}
+                            .form-group
+                                label(for="category[]")= "Категории:"
+                                each cat in categories
+                                    label.checkbox-inline
+                                        input(type="checkbox" name="category[]" value=cat._id checked=cat.exists == true)
+                                        |&nbsp;#{cat.name}
+                            input#age-level(type="hidden" name="age_level")
+
+                        .box-footer
+                            button.btn.btn-primary(type="submit")= "Сохранить изменения"

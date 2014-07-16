@@ -1,0 +1,110 @@
+extends ../layout
+
+block append header
+    link(href="/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css")
+    style.
+        .img-container {
+            position: relative;
+            height: 140px;
+            width: 200px;
+            float: left;
+        }
+        img.img-thumbnail {
+            max-height: 140px;
+            margin: 10px;
+        }
+        .removeImage {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        .textarea {
+            width: 100%;
+            height: 200px;
+            font-size: 14px;
+            line-height: 18px;
+            border: 1px solid #dddddd;
+            padding: 10px;
+        }
+
+block append scripts
+    script(src="/js/plugins/underscore/underscore-min.js")
+    script(src="/js/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js")
+    script(src="/js/admin/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.min.js")
+    script(src="/js/admin/jqueryupload.js")
+    script(src="/js/admin/custom_image_wysihtml5.js")
+    script.
+        $(function() {
+            $(".t-removeImage").on('click', function(ev){
+                ev.preventDefault();
+
+                self = $(this);
+                $.get(self.attr('href'), function(data){
+                    console.log(data);
+                    if(data === true) {
+                        self.parent().remove();
+                    } else {
+                        var msg = data === false
+                            ? "Произошла ошибка при удалении изображения." 
+                            : data;
+                        alert(msg);
+                    }
+                });
+            });
+        });
+
+block content
+    section.content
+        .row
+            .col-md-10
+                .box.box-primary
+                    .box-header
+                        .box-title= "Редактирование новости"
+                    form(role="form" enctype="multipart/form-data" method="post" action="/admin/news")
+                        .box-body
+                            if news._id
+                                input(type="hidden" name="id" value=news._id)
+                            .form-group
+                                label(for="desc_title")= "Название:"
+                                input.form-control(type="text" name="desc_title" placeholder="Название статьи" value=news.desc_title)
+                            .form-group
+                                label(for="type")= "Тип:"
+                                select.form-control(name="type")
+                                    option(value=0 selected=(news.type && news.type.id == 0))= "Новость"
+                                    option(value=1 selected=(news.type && news.type.id == 1))= "Акция"
+                            .form-group
+                                .checkbox
+                                    label
+                                        if news.active == false
+                                            input(type="checkbox" name="active")
+                                        else
+                                            input(type="checkbox" name="active" checked)
+                                        span= " Активен?"
+
+                            .form-group
+                                label(for="desc_shorttext")= "Краткий текст описания:"
+                                textarea.textarea(
+                                    name="desc_shorttext" 
+                                    placeholder="Короткое описание статьи" 
+                                )= news.desc_shorttext
+
+                            .form-group
+                                label(for="desc_text")= "Текст описания:"
+                                textarea.textarea(
+                                    name="desc_text" 
+                                    placeholder="Текст описания статьи" 
+                                )= news.desc_text
+
+                            .form-group
+                                label(for="desc_image")= "Изображения (может быть более одного):"
+                                input(type="file" name="desc_image" multiple)
+                                if news.desc_image
+                                    each img in news.desc_image
+                                        .img-container
+                                            img.img-thumbnail.clearfix(src="/img/#{img}")
+                                            a.t-removeImage(href="/admin/news/deleteimg/#{news._id}/#{img}")
+                                                i.removeImage.glyphicon.glyphicon-remove
+                                    .clearfix
+                                
+                        .box-footer
+                            button.btn.btn-primary(type="submit")= "Сохранить изменения"

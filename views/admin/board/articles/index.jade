@@ -1,0 +1,54 @@
+extends ../layout
+
+block append header
+    link(href="/css/admin/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css")
+
+block append scripts
+    script(src="/js/admin/plugins/datatables/jquery.dataTables.js")
+    script(src="/js/admin/plugins/datatables/dataTables.bootstrap.js")
+    script.
+        $(function() {
+            $('#dtable').dataTable({
+                "bPaginate": true,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bSort": true,
+                "bInfo": true,
+                "bAutoWidth": false
+            });
+        });
+
+block content
+    .box
+        .box-header
+            h3.box-title= "Список статей"
+        .box-header
+            .panel-primary
+                .panel-body
+                    a(href="articles/create")
+                        button.btn.btn-primary= "Создать новую статью"
+        .box-body.table-responsive
+            table.table.table-bordered.table-striped#dtable
+                thead
+                    tr
+                        th= "Название"
+                        th= "Активен?"
+                        th= "Тип"
+                        th= "Действия"
+                tbody
+                    each item in articles
+                        tr
+                            td= item.desc_title
+                            td= (item.active?"Да":"Нет")
+                            td= item.type.msg
+                            td
+                                div.col-md-6
+                                    a(href="articles/edit/#{item._id}")
+                                        button.btn.btn-warning(type="button")
+                                            i.glyphicon.glyphicon-edit
+                                            span= " Редактировать"
+                                div.col-md-6
+                                    a(href="articles/delete/#{item._id}")
+                                        button.btn.btn-danger(type="button")
+                                            i.glyphicon.glyphicon-remove-circle
+                                            span= " Удалить"

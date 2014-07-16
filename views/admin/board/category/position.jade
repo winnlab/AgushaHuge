@@ -1,0 +1,46 @@
+extends ../layout
+
+block append header
+    link(href="/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css")
+    style.
+        .sort {
+            padding: 4px;
+        }
+
+block append scripts
+    script(src="/js/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js")
+    script(src="/js/admin/jquery-ui-1.10.3.min.js")
+    script.
+        $(function() {
+            $('.sortable').sortable();
+            $('.sortable').on('sortupdate', function(){
+                var value = '';
+                $('.t-sort').each(function(){
+                    console.log($(this).data('id'))
+                    value += $(this).data('id') + ',';
+                });
+                value = value.substring(0, value.length - 1);
+                $('.pos-cont').val(value);
+            });
+        });
+
+block content
+    section.content
+        .row
+            .col-md-10
+                .box.box-primary
+                    .box-header
+                        .box-title Категория: #{category.name}
+                        div (Перетягивайте мышкой блоки с названиями товаров)
+                    .box-header
+                        form(role="form" enctype="multipart/form-data" method="post" action="/admin/category/position")
+                            input(type="hidden" name="c_id" value=category._id)
+                            input.pos-cont(type="hidden" name="positions" value="")
+                            .panel-default
+                                .panel-body
+                                    button.btn.btn-primary(type="submit") Сохранить позиции
+                        .box-body
+                            .sortable
+                                each pos in positions
+                                    .form-control.t-sort(data-id=pos.p_id._id.toString())
+                                        | #{pos.p_id.title}
