@@ -11,6 +11,7 @@ Products = require './admin/products'
 Themes = require './admin/themes'
 Tours = require './admin/tours'
 Tour_records = require './admin/tour_records'
+Years = require './admin/years'
 Wysi = require './helper/wysi'
 
 Router = express.Router()
@@ -58,6 +59,10 @@ Router.post '/news', News.save
 Router.get '/themes', Themes.index
 
 Router.post '/themes', Themes.save
+#----------------#
+Router.get '/years', Years.index
+
+Router.post '/years', Years.save
 #----------------#
 Router.get '/articles', Articles.index
 Router.get '/articles/create', Articles.create
