@@ -50,20 +50,38 @@ html(lang="ru")
 							ul.treeview-menu
 								li(class= (currentHref=='products'?"active":""))
 									a(href="/admin/products")
-										i.fa.fa-th
+										i.fa.fa-angle-double-right
 										span= "Продукты"
 								li(class= (currentHref=='ages'?"active":""))
 									a(href="/admin/ages")
-										i.fa.fa-th
+										i.fa.fa-angle-double-right
 										span= "Возраста"
 								li(class= (currentHref=='category'?"active":""))
 									a(href="/admin/category")
-										i.fa.fa-th
+										i.fa.fa-angle-double-right
 										span= "Категории"
 								li(class= (currentHref=='certificate'?"active":""))
 									a(href="/admin/certificate")
-										i.fa.fa-th
+										i.fa.fa-angle-double-right
 										span= "Сертификаты"
+						li(class=(['contributions', 'themes', 'years'].indexOf(currentHref) > -1?'treeview active':'treeview'))
+							a(href="#")
+								i.fa.fa-th
+								span Энциклопедия
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class= (currentHref=='contributions'?"active":""))
+									a(href="/admin/contributions")
+										i.fa.fa-angle-double-right
+										span= "Статьи"
+								li(class= (currentHref=='themes'?"active":""))
+									a(href="/admin/themes")
+										i.fa.fa-angle-double-right
+										span= "Темы"
+								li(class= (currentHref=='years'?"active":""))
+									a(href="/admin/years")
+										i.fa.fa-angle-double-right
+										span= "Возраста"
 						li(class=(currentHref=='news'||currentHref=='articles'?'treeview active':'treeview'))
 							a(href="#")
 								i.fa.fa-th
