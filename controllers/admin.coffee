@@ -8,6 +8,7 @@ Clients = require './admin/clients'
 Main = require './admin/main'
 News = require './admin/news'
 Products = require './admin/products'
+Themes = require './admin/themes'
 Tours = require './admin/tours'
 Tour_records = require './admin/tour_records'
 Wysi = require './helper/wysi'
@@ -53,6 +54,10 @@ Router.get '/news/delete/:id', News.delete
 Router.get '/news/deleteimg/:id/:img', News.deleteImage
 
 Router.post '/news', News.save
+#----------------#
+Router.get '/themes', Themes.index
+
+Router.post '/themes', Themes.save
 #----------------#
 Router.get '/articles', Articles.index
 Router.get '/articles/create', Articles.create
