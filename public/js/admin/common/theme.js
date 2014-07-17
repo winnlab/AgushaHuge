@@ -35,7 +35,7 @@ $(document).ready(function(){
       if(item.pid) {
          item.pid = item.pid;
       }
-      if(!item.pid) {
+      if(!item.pid || item.active) {
          item.open = true;
       }
    }
