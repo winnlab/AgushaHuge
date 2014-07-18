@@ -1,0 +1,60 @@
+extends ../layout
+
+block append header
+    link(href="/css/admin/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css")
+
+block append scripts
+    script(src="/js/admin/plugins/datatables/jquery.dataTables.js")
+    script(src="/js/admin/plugins/datatables/dataTables.bootstrap.js")
+    script.
+        $(function() {
+            $('#dtable').dataTable({
+                "bPaginate": true,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bSort": true,
+                "bInfo": true,
+                "bAutoWidth": false
+            });
+        });
+
+block content
+    .box
+        .box-header
+            h3.box-title= "Список статей энциклопедии"
+        .box-header
+            .panel-primary
+                .panel-body
+                    a(href="contributions/create")
+                        button.btn.btn-primary= "Создать новую статью"
+        .box-body.table-responsive
+            table.table.table-bordered.table-striped#dtable
+                thead
+                    tr
+                        th= "Название"
+                        th= "Автор"
+                        th= "Активен?"
+                        th= "Рекомендован?"
+                        th= "Возраста"
+                        th= "Темы"
+                        th= "Действия"
+                tbody
+                    each item in contributions
+                        tr
+                            td= item.title
+                            td= item.authorName
+                            td= (item.active?"Да":"Нет")
+                            td= (item.recommended?"Да":"Нет")
+                            td= item.years.name
+                            td= item.theme.name
+                            td
+                                div.col-md-6
+                                    a(href="contributions/edit/#{item._id}")
+                                        button.btn.btn-warning(type="button")
+                                            i.glyphicon.glyphicon-edit
+                                            span= " Редактировать"
+                                div.col-md-6
+                                    a(href="contributions/delete/#{item._id}")
+                                        button.btn.btn-danger(type="button")
+                                            i.glyphicon.glyphicon-remove-circle
+                                            span= " Удалить"
