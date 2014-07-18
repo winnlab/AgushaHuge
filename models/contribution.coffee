@@ -3,14 +3,14 @@ moment = require 'moment'
 
 ObjectId = mongoose.Schema.Types.ObjectId
 
-setUpdateDate = () ->
-	return moment()
-
 schema = new mongoose.Schema
-	date:
+	updated:
 		type: Date
-		required: false
-		set: setUpdateDate
+		required: true
+	created:
+		type: Date
+		require: true
+		default: moment
 	desc_image: [
 		type: String
 		required: false
@@ -30,7 +30,7 @@ schema = new mongoose.Schema
 	active:
 		type: Boolean
 		required: true
-		default: false
+		default: true
 	recommended:
 		type: Boolean
 		required: true
@@ -59,4 +59,4 @@ schema = new mongoose.Schema
 ,
 	collection: 'contribution'
 
-module.exports = mongoose.model 'Сontribution', schema
+module.exports = mongoose.model 'Contribution', schema
