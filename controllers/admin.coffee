@@ -4,6 +4,7 @@ Ages = require './admin/ages'
 Articles = require './admin/articles'
 Category = require './admin/category'
 Certificate = require './admin/certificate'
+Contributions = require './admin/contributions'
 Clients = require './admin/clients'
 Main = require './admin/main'
 News = require './admin/news'
@@ -71,6 +72,14 @@ Router.get '/articles/delete/:id', Articles.delete
 Router.get '/articles/deleteimg/:id/:img', Articles.deleteImage
 
 Router.post '/articles', Articles.save
+#----------------#
+Router.get '/contributions', Contributions.index
+Router.get '/contributions/create', Contributions.create
+Router.get '/contributions/edit/:id', Contributions.get
+Router.get '/contributions/delete/:id', Contributions.delete
+Router.get '/contributions/deleteimg/:id/:img', Contributions.deleteImage
+
+Router.post '/contributions', Contributions.save
 #----------------#
 Router.get '/certificate', Certificate.index
 Router.get '/certificate/create', Certificate.create
