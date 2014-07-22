@@ -4,6 +4,9 @@ moment = require 'moment'
 ObjectId = mongoose.Schema.Types.ObjectId
 
 schema = new mongoose.Schema
+	type: # 0 - contribution, 1 - quiz
+		type: Number
+		required: true
 	updated:
 		type: Date
 		required: true
@@ -56,7 +59,33 @@ schema = new mongoose.Schema
 	author:
 		type: ObjectId
 		ref: "Client"
+	quiz: [
+		id:
+			type: ObjectId
+			default: mongoose.Types.ObjectId
+			required: true
+		answer:
+			type: String
+			required: true
+		counter:
+			type: Number
+			default: 0
+		position:
+			type: Number
+			default: 0
+			required: true
+	]
 ,
 	collection: 'contribution'
+
+schema.static 'findArticles', (cb) ->
+	where = type: 0
+
+	@find where, cb
+
+schema.static 'findQuizes', (cb) ->
+	where = type: 1
+
+	@find where, cb
 
 module.exports = mongoose.model 'Contribution', schema
