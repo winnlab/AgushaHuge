@@ -1,4 +1,13 @@
 $(document).ready(function(){
+   var addDiyDom = function(treeId, treeNode) {
+      var aObj = $("#" + treeNode.tId + "_a");
+      if ($("#diyInput_" + treeNode.tId).length > 0) return;
+      var editStr = "<span id='diyBtn_space_" +treeNode.tId+ "' > </span>"
+         + "<input data-role='tagsinput' id='diyInput_" + treeNode.tId
+         + "' type='text' />";
+      aObj.append(editStr);
+   };
+
    var zTreeObj;
    var setting = {
       check: {
@@ -10,7 +19,8 @@ $(document).ready(function(){
          }
       },
       view: {
-         showIcon: false
+         showIcon: false,
+         addDiyDom: addDiyDom
       },
       edit: {
          drag: {
