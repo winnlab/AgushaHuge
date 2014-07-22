@@ -2,9 +2,11 @@ extends ../layout
 
 block append header
     link(href="/js/plugins/zTree_v3/css/zTreeStyle.css" rel="stylesheet" type="text/css")
+    link(href="/js/admin/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" type="text/css")
 
 block append scripts
     script(src="/js/plugins/zTree_v3/js/jquery.ztree.all-3.5.min.js")
+    script(src="/js/admin/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")
     script.
         var nodes = !{JSON.stringify(themes)};
     script(src="/js/admin/common/theme.js")
