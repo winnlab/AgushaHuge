@@ -104,7 +104,7 @@ block content
                                 input(type="file" name="background")
                                 if contribution.background
                                     div
-                                        img.img-thumbnail(src="/img/#{contribution.image}")
+                                        img.img-thumbnail(src="/img/#{contribution.background}")
                             .form-group
                                 label(for="desc_image")= "Изображения (может быть более одного):"
                                 input(type="file" name="desc_image" multiple)
@@ -116,23 +116,7 @@ block content
                                                 i.removeImage.glyphicon.glyphicon-remove
                                     .clearfix
                             .form-group
-                                label(for="years")
-                                select.choosed.form-control(name="years")
-                                    each item in years
-                                        option(
-                                            value=item._id
-                                            selected=(item._id.toString() == contribution.years.toString())
-                                            )= item.name
-                            .form-group
-                                label(for="theme")
-                                select.choosed.form-control(name="theme")
-                                    each item in theme
-                                        option(
-                                            value=item._id
-                                            selected=(item._id.toString() == contribution.theme.toString())
-                                            )= item.name
-                            .form-group
-                                label(for="author")
+                                label(for="author")= "Автор:"
                                 select.choosed.form-control(name="author")
                                     option(value="0")= "{редакция}"
                                     each item in client
@@ -140,5 +124,21 @@ block content
                                             value=item._id
                                             selected=(item._id.toString() == contribution.author.toString())
                                             )= item.login
+                            .form-group
+                                label(for="years")= "Возраст статьи:"
+                                select.choosed.form-control(name="years")
+                                    each item in years
+                                        option(
+                                            value=item._id
+                                            selected=(item._id.toString() == contribution.years.toString())
+                                            )= item.name
+                            .form-group
+                                label(for="theme")= "Тема:"
+                                select.choosed.form-control(name="theme")
+                                    each item in theme
+                                        option(
+                                            value=item._id
+                                            selected=(item._id.toString() == contribution.theme.toString())
+                                            )= item.name
                         .box-footer
                             button.btn.btn-primary(type="submit")= "Сохранить изменения"
