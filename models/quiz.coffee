@@ -20,6 +20,6 @@ schema = new mongoose.Schema
 		required: true
 		default: moment
 ,
-	collection: 'likes'
+	collection: 'quiz'
 
-module.exports = mongoose.model 'Likes', schema
+module.exports = mongoose.model 'Quiz', schema
