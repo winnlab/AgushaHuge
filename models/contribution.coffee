@@ -59,6 +59,10 @@ schema = new mongoose.Schema
 	author:
 		type: ObjectId
 		ref: "Client"
+	tags: [
+		type: ObjectId
+		ref: "Tag"
+	]
 	quiz: [
 		id:
 			type: ObjectId
