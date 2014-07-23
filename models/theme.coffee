@@ -9,6 +9,10 @@ schema = new mongoose.Schema
 	pid:
 		type: ObjectId
 		ref: "Theme"
+	tags: [
+		type: ObjectId
+		ref: "Tag"
+	]
 	active:
 		type: Boolean
 		required: true
