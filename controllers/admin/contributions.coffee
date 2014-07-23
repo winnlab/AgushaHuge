@@ -10,7 +10,7 @@ array = require '../../utils/array'
 exports.index = (req, res) ->
 	async.waterfall [
 		(next) ->
-			Model 'Contribution', 'find', next
+			Model 'Contribution', 'findArticles', next
 		(docs, next) ->
 			Model 'Contribution', 'populate', next, docs, 'theme years author'
 		(docs) ->
