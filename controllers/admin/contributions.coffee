@@ -27,9 +27,14 @@ preloadData = (contribution, cb) ->
 
 	async.parallel
 		years: (next) ->
-			Model 'Years', 'find', next, active: true
+			Model 'Years', 'find', next, active: true, '-__v'
 		theme: (next) ->
-			Model 'Theme', 'find', next, active: true
+			async.waterfall [
+				(next2) ->
+					Model 'Theme', 'find', next2, active: true, '-__v'
+				(docs) ->
+					Model 'Theme', 'populate', next, docs, 'tags'
+			], next
 		client: (next) ->
 			Model 'Client', 'find', next, active: true, '_id login status'
 	, (err, results)->
@@ -39,6 +44,17 @@ preloadData = (contribution, cb) ->
 
 		results.years = array.makeTreeForSelect results.years
 		results.theme = array.makeTreeForSelect results.theme
+		results.cTags = {}
+		for item in contribution.tags
+			results.cTags[item] = true
+
+		themeAdjusted = {}
+		for t in results.theme
+			themeAdjusted[t._id] = t.tags
+
+		results.themeAdjusted = JSON.stringify themeAdjusted
+		results.themeAdjustedObject = themeAdjusted
+
 		if results.contribution.author
 			results.contribution.authorName = results.contribution.author.login
 		else
@@ -72,6 +88,11 @@ exports.save = (req, res) ->
 	data = req.body
 	data.background = req.files.background?.name
 	data.desc_image = []
+	data.type = 0
+	data.updated = moment()
+	if data.author is '0'
+		data.author = null
+
 	if req.files?.desc_image
 		if req.files.desc_image.name
 			data.desc_image.push req.files.desc_image.name
@@ -88,14 +109,11 @@ exports.save = (req, res) ->
 					(doc) ->
 						for own prop, val of data
 							unless prop is 'id' or val is undefined
-								if prop is 'author' and val is '0'
-									doc[prop] = null
-								else if prop is 'desc_image'
+								if prop is 'desc_image'
 									doc[prop] = doc[prop].concat val
 								else
 									doc[prop] = val
 
-						doc.updated = moment()
 						doc.save next
 				], (err) ->
 					next err
