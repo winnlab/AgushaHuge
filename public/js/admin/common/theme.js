@@ -3,9 +3,14 @@ $(document).ready(function(){
       var aObj = $("#" + treeNode.tId + "_a");
       if ($("#diyInput_" + treeNode.tId).length > 0) return;
       var editStr = "<span id='diyBtn_space_" +treeNode.tId+ "' > </span>"
-         + "<input data-role='tagsinput' id='diyInput_" + treeNode.tId
+         + "<input class='diyInput' id='diyInput_" + treeNode.tId
          + "' type='text' />";
+
       aObj.append(editStr);
+
+      $('.diyInput').on('click', function() {
+         $(this).focus();
+      });
    };
 
    var zTreeObj;
@@ -37,6 +42,18 @@ $(document).ready(function(){
          key: {
             checked: 'active'
          }
+      },
+      callback: {
+         onNodeCreated: function(event, treeId, treeNode) {
+            if(treeNode.tags) {
+               var tags = [];
+               for(var i = 0, len = treeNode.tags.length; i < len; i++) {
+                  tags.push(treeNode.tags[i].name);
+               }
+
+               $('#diyInput_'+treeNode.tId).val(tags.join(' '));
+            }
+         }
       }
    };
 
@@ -64,6 +81,8 @@ $(document).ready(function(){
       obj.tId = item.tId;
       obj.name = item.name;
       obj.active = item.active;
+      obj.tags = $('#'+item.tId+' .diyInput').val();
+
       parent = item.getParentNode();
       if(parent) {
          obj.parent = parent.id;
@@ -91,7 +110,7 @@ $(document).ready(function(){
       }
 
       $.post('/admin/themes', {items: data}, function(res) {
-         alert(res);
+        alert(res);
       });
    });
 });
