@@ -36,8 +36,29 @@ block append scripts
     script(src="/js/admin/jqueryupload.js")
     script(src="/js/admin/custom_image_wysihtml5.js")
     script.
+        var themes = !{themeAdjusted};
         $(function() {
+            var createTagsForm = function(id) {
+                var panel = $('.t-tagPanel');
+                panel.empty();
+                var chckbx = '';
+                for(var i = 0, len = themes[id].length; i < len; i++) {
+                    var tag = themes[id][i];
+                    chckbx += '<div><input type="checkbox" name="tags" value="'
+                        + tag._id + '"/>'
+                        + '<label for="tags"> ' + tag.name + '</label></div>';
+                }
+                panel.html(chckbx);
+                panel.find('input').iCheck({
+                    checkboxClass: 'icheckbox_minimal'
+                });
+            };
+
             $('.choosed').chosen();
+
+            $('.themed').on('change', function(ev, params){
+                createTagsForm(params.selected);
+            });
             $(".t-removeImage").on('click', function(ev){
                 ev.preventDefault();
 
@@ -122,7 +143,7 @@ block content
                                     each item in client
                                         option(
                                             value=item._id
-                                            selected=(item._id.toString() == contribution.author.toString())
+                                            selected=(contribtuion.author && item._id.toString() == contribution.author.toString())
                                             )= item.login
                             .form-group
                                 label(for="years")= "Возраст статьи:"
@@ -130,15 +151,23 @@ block content
                                     each item in years
                                         option(
                                             value=item._id
-                                            selected=(item._id.toString() == contribution.years.toString())
+                                            selected=(contribution.years && item._id.toString() == contribution.years.toString())
                                             )= item.name
                             .form-group
                                 label(for="theme")= "Тема:"
-                                select.choosed.form-control(name="theme")
+                                select.choosed.themed.form-control(name="theme")
                                     each item in theme
                                         option(
                                             value=item._id
-                                            selected=(item._id.toString() == contribution.theme.toString())
+                                            selected=(contribution.theme && item._id.toString() == contribution.theme.toString())
                                             )= item.name
+                                .panel.panel-default
+                                    .panel-heading= "Теги темы:"
+                                    .panel-body.t-tagPanel
+                                        if contribution.theme && themeAdjustedObject[contribution.theme]
+                                            each item in themeAdjustedObject[contribution.theme]
+                                                div
+                                                    input(type="checkbox" value=item._id name="tags" checked=(cTags[item._id] == true))
+                                                    label(for="tags")= item.name
                         .box-footer
                             button.btn.btn-primary(type="submit")= "Сохранить изменения"
