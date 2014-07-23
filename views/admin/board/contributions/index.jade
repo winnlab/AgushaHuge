@@ -45,8 +45,8 @@ block content
                             td= item.authorName
                             td= (item.active?"Да":"Нет")
                             td= (item.recommended?"Да":"Нет")
-                            td= item.years.name
-                            td= item.theme.name
+                            td= (item.years?item.years.name:"{удалено}")
+                            td= (item.theme?item.theme.name:"{удалено}")
                             td
                                 div.col-md-6
                                     a(href="contributions/edit/#{item._id}")
