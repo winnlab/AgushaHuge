@@ -96,6 +96,12 @@ html(lang="ru")
 									a(href="/admin/articles")
 										i.fa.fa-angle-double-right
 										span Статьи
+						li(class=(currentHref=='consultation'?'active':''))
+							a(href="/admin/consultation")
+								i.fa.fa-th
+								span Консультации
+								small.badge.pull-right.bg-yellow(title="Открытых общественных консультаций")= consComm
+								small.badge.pull-right.bg-red(title="Открытых консультаций для специалиста")= consSpec
 						li(class=(currentHref=='clients'?'active':''))
 							a(href="/admin/clients")
 								i.fa.fa-th
