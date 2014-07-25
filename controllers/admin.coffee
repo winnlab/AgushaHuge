@@ -9,6 +9,7 @@ Clients = require './admin/clients'
 Main = require './admin/main'
 News = require './admin/news'
 Products = require './admin/products'
+Profile = require './admin/profile'
 Themes = require './admin/themes'
 Tours = require './admin/tours'
 Tour_records = require './admin/tour_records'
@@ -99,6 +100,10 @@ Router.post '/tour', Tours.save
 #----------------#
 Router.get '/tour_records', Tour_records.index
 Router.get '/tour_record/:id', Tour_records.item
+#----------------#
+Router.get '/profile', Profile.index
+
+Router.post '/profile', Profile.save
 #- upload helper for wysihtml5 -#
 Router.get '/getAttached', Wysi.get
 Router.post '/uploadWysi', Wysi.upload
