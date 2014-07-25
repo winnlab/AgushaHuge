@@ -2,36 +2,33 @@ mongoose = require 'mongoose'
 crypto = require 'crypto'
 
 cryptoUtil = require '../utils/crypto'
+timeUtil = require '../utils/time'
 validator = require '../utils/validate'
 
 ObjectId = mongoose.Schema.Types.ObjectId
 
 UserShemaFields = 
-	username: { 
-		type: String, 
+	username:
+		type: String
 		required: true
 		unique: true
-	}
-	password: {
-		type: String, 
-		required: true, 
+	password:
+		type: String
+		required: true
 		set: cryptoUtil.password
 		validate: validator.password
-	}
-	role: {
+	role:
 		type: String
 		required: true
 		default: 0
 		ref: 'Role'
-	}
 	status:
 		type: Number
 		default: 0
-	email: {
+	email:
 		type: String,
 		required: true
 		unique: true
-	}
 	created_at:
 		type: Number
 		default: Date.now
@@ -41,6 +38,16 @@ UserShemaFields =
 	lastName:
 		type: String
 		required: false
+	title:
+		type: String
+	text:
+		type: String
+	photo:
+		type: String
+	birthday:
+		type: Date
+		get: timeUtil.getDate
+		set: timeUtil.setDate
 
 options =
 	collection: 'users'
