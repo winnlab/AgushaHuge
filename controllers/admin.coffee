@@ -4,6 +4,7 @@ Ages = require './admin/ages'
 Articles = require './admin/articles'
 Category = require './admin/category'
 Certificate = require './admin/certificate'
+Consultation = require './admin/consultation'
 Contributions = require './admin/contributions'
 Clients = require './admin/clients'
 Main = require './admin/main'
@@ -104,6 +105,8 @@ Router.get '/tour_record/:id', Tour_records.item
 Router.get '/profile', Profile.index
 
 Router.post '/profile', Profile.save
+#----------------#
+Router.get '/consultation', Consultation.index
 #- upload helper for wysihtml5 -#
 Router.get '/getAttached', Wysi.get
 Router.post '/uploadWysi', Wysi.upload
