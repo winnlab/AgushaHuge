@@ -16,10 +16,12 @@ multer = require 'multer'
 compression = require 'compression'
 gzip = require 'connect-gzip'
 
+Admin = require '../lib/admin'
 Auth = require '../lib/auth'
 Cache = require '../lib/cache'
+Logger = require '../lib/logger'
+Model = require '../lib/model'
 View = require '../lib/view'
-Admin = require '../lib/admin'
 
 admin_controller = require '../controllers/admin'
 user_controller = require '../controllers/user'
@@ -42,6 +44,25 @@ routes = () ->
 	@use '/admin', admin_controller.Router
 
 configure = () ->
+	@use (req, res, next) ->
+		async.parallel
+			consSpec: (callback) ->
+				Model 'Consultation', 'count', callback, 
+					type: 0
+					closed: false
+			consComm: (callback) ->
+				Model 'Consultation', 'count', callback, 
+					type: 1
+					'answers.length': 0
+		, (err, results) ->
+			Logger.log 'info', err if err
+
+			res.locals.consSpec = if results.consSpec is undefined then 'N/A' else results.consSpec
+			res.locals.consComm = if results.consComm is undefined then 'N/A' else results.consComm
+
+			next()
+
+
 	@set 'views', "#{__dirname}/../views"
 	@set 'view engine', 'jade'
 	@set 'view options', jadeOptions
