@@ -35,6 +35,7 @@ block append scripts
     script(src="/js/plugins/chosen/chosen.jquery.min.js")
     script(src="/js/admin/jqueryupload.js")
     script(src="/js/admin/custom_image_wysihtml5.js")
+    script(src="/js/admin/jquery-ui-1.10.3.min.js")
     script.
         var themes = !{themeAdjusted};
         $(function() {
@@ -53,6 +54,20 @@ block append scripts
                     checkboxClass: 'icheckbox_minimal'
                 });
             };
+
+            $('.t-addAnswer').on('click', function(){
+                var html = '<div class="toDrag"><label for="quiz.name">Текст варианта опроса:</label>'
+                            + '<input type="hidden" name="quiz_id" value="-1" />'
+                            + '<textarea class="textarea"></textarea></div>';
+
+                $('.t-answerCont').append(html);
+
+                var el = $('.t-answerCont .textarea:last');
+                el.wysihtml5($.extend(__wysiwygOptions, {html:true, color:false, stylesheets:[]}));
+                el.sortable();
+            });
+
+            $('.toDrag').sortable();
 
             $('.choosed').chosen();
 
@@ -84,17 +99,17 @@ block content
                 .box.box-primary
                     .box-header
                         .box-title= "Редактирование статьи энциклопедии"
-                    form(role="form" enctype="multipart/form-data" method="post" action="/admin/contributions")
+                    form(role="form" enctype="multipart/form-data" method="post" action="/admin/quizes")
                         .box-body
-                            if contribution._id
-                                input(type="hidden" name="id" value=contribution._id)
+                            if quiz._id
+                                input(type="hidden" name="id" value=quiz._id)
                             .form-group
                                 label(for="title")= "Название:"
-                                input.form-control(type="text" name="title" placeholder="Название статьи" value=contribution.title)
+                                input.form-control(type="text" name="title" placeholder="Название статьи" value=quiz.title)
                             .form-group
                                 .checkbox
                                     label
-                                        if contribution.active == false
+                                        if quiz.active == false
                                             input(type="checkbox" name="active")
                                         else
                                             input(type="checkbox" name="active" checked)
@@ -104,7 +119,7 @@ block content
                                     label
                                         input(type="checkbox" 
                                             name="recommended" 
-                                            checked=(contribution.recommended == false)
+                                            checked=(quiz.recommended == false)
                                         )
                                         span= " Рекомендован?"
                             .form-group
@@ -112,28 +127,28 @@ block content
                                 textarea.textarea(
                                     name="desc_shorttext" 
                                     placeholder="Короткое описание статьи" 
-                                )= contribution.desc_shorttext
+                                )= quiz.desc_shorttext
 
                             .form-group
                                 label(for="desc_text")= "Текст описания:"
                                 textarea.textarea(
                                     name="desc_text" 
                                     placeholder="Текст описания статьи" 
-                                )= contribution.desc_text
+                                )= quiz.desc_text
                             .form-group
                                 label(for="background")= "Изображение фона"
                                 input(type="file" name="background")
-                                if contribution.background
+                                if quiz.background
                                     div
-                                        img.img-thumbnail(src="/img/#{contribution.background}")
+                                        img.img-thumbnail(src="/img/#{quiz.background}")
                             .form-group
                                 label(for="desc_image")= "Изображения (может быть более одного):"
                                 input(type="file" name="desc_image" multiple)
-                                if contribution.desc_image
-                                    each img in contribution.desc_image
+                                if quiz.desc_image
+                                    each img in quiz.desc_image
                                         .img-container
                                             img.img-thumbnail.clearfix(src="/img/#{img}")
-                                            a.t-removeImage(href="/admin/contributions/deleteimg/#{contribution._id}/#{img}")
+                                            a.t-removeImage(href="/admin/quizes/deleteimg/#{quiz._id}/#{img}")
                                                 i.removeImage.glyphicon.glyphicon-remove
                                     .clearfix
                             .form-group
@@ -143,7 +158,7 @@ block content
                                     each item in client
                                         option(
                                             value=item._id
-                                            selected=(contribution.author && item._id.toString() == contribution.author.toString())
+                                            selected=(quiz.author && item._id.toString() == quiz.author.toString())
                                             )= item.login
                             .form-group
                                 label(for="years")= "Возраст статьи:"
@@ -151,7 +166,7 @@ block content
                                     each item in years
                                         option(
                                             value=item._id
-                                            selected=(contribution.years && item._id.toString() == contribution.years.toString())
+                                            selected=(quiz.years && item._id.toString() == quiz.years.toString())
                                             )= item.name
                             .form-group
                                 label(for="theme")= "Тема:"
@@ -159,15 +174,30 @@ block content
                                     each item in theme
                                         option(
                                             value=item._id
-                                            selected=(contribution.theme && item._id.toString() == contribution.theme.toString())
+                                            selected=(quiz.theme && item._id.toString() == quiz.theme.toString())
                                             )= item.name
                                 .panel.panel-default
                                     .panel-heading= "Теги темы:"
                                     .panel-body.t-tagPanel
-                                        if contribution.theme && themeAdjustedObject[contribution.theme]
-                                            each item in themeAdjustedObject[contribution.theme]
+                                        if quiz.theme && themeAdjustedObject[quiz.theme]
+                                            each item in themeAdjustedObject[quiz.theme]
                                                 div
                                                     input(type="checkbox" value=item._id name="tags" checked=(cTags[item._id] == true))
                                                     label(for="tags")= item.name
+                                .panel.panel-primary
+                                    .panel-heading= "Варианты опроса:"
+                                    .panel-body
+                                        input.t-addAnswer(type='button' value='Добавить вариант')
+                                    .panel-body.t-answerCont
+                                        if quiz.quiz
+                                            each item in quiz.quiz
+                                                div.toDrag
+                                                    label(for="quizname")= "Текст варианта опроса:"
+                                                    input(type='hidden' name='quiz_id' value=item._id)
+                                                    textarea.textarea(
+                                                        name="quizname" 
+                                                        placeholder="Текст варианта опроса" 
+                                                    )= item.name
+
                         .box-footer
                             button.btn.btn-primary(type="submit")= "Сохранить изменения"

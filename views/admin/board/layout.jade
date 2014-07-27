@@ -64,7 +64,7 @@ html(lang="ru")
 									a(href="/admin/certificate")
 										i.fa.fa-angle-double-right
 										span= "Сертификаты"
-						li(class=(['contributions', 'themes', 'years'].indexOf(currentHref) > -1?'treeview active':'treeview'))
+						li(class=(['contributions', 'themes', 'years', 'quizes'].indexOf(currentHref) > -1?'treeview active':'treeview'))
 							a(href="#")
 								i.fa.fa-th
 								span Энциклопедия
@@ -74,6 +74,10 @@ html(lang="ru")
 									a(href="/admin/contributions")
 										i.fa.fa-angle-double-right
 										span= "Статьи"
+								li(class= (currentHref=='quizes'?"active":""))
+									a(href="/admin/quizes")
+										i.fa.fa-angle-double-right
+										span= "Опросы"
 								li(class= (currentHref=='themes'?"active":""))
 									a(href="/admin/themes")
 										i.fa.fa-angle-double-right
