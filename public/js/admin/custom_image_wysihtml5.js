@@ -105,57 +105,57 @@ bootWysiOverrides = {
 
 $.extend($.fn.wysihtml5.Constructor.prototype, bootWysiOverrides);
 
-$(function() {
-
-  // override options
-  var wysiwygOptions = {
-    customTags: {
-      "em": {},
-      "strong": {},
-      "hr": {}
-    },
-    customStyles: {
-      // keys with null are used to preserve items with these classes, but not show them in the styles dropdown
-      'shrink_wrap': null,
-      'credit': null,
-      'tombstone': null,
-      'chat': null,
-      'caption': null
-    },
-    customTemplates: {
-      /* this is the template for the image button in the toolbar */
-      image: function(params) {
-        locale = params.locale;
-        return "<li>" +
-          "<div class='bootstrap-wysihtml5-insert-image-modal modal fade in'>" +
-          "<div class='modal-dialog'>" +
-          "<div class='modal-content'>" +
-          "<div class='modal-header'>" +
-          "<a class='close' data-dismiss='modal'>&times;</a>" +
-          "<h3>" + locale.image.insert + "</h3>" +
-          "</div>" +
-          "<div class='modal-body'>" +
-          "<div class='chooser_wrapper'>" +
-          "<table class='image_chooser images'></table>" +
-          "<h4>Or Upload one to insert</h4>" +
-          "<input name=\"file\" id=\"file1\" type=\"file\">" +
-          "<div id=\"uploadresult\"></div>" +
-          "</div>" +
-          "</div>" +
-          "<div class='modal-footer'>" +
-          "<a href='#' class='btn' data-dismiss='modal'>" + locale.image.cancel + "</a>" +
-          "</div>" +
-          "</div>" +
-          "</div>" +
-          "</div>" +
-          "<a class='btn btn-default' tabindex='-1' unselectable='on' data-wysihtml5-command='insertImage' title='" + locale.image.insert + "'><i class='glyphicon glyphicon-picture'></i></a>" +
-          "</li>";
-      }
+// override options
+var __wysiwygOptions = {
+  customTags: {
+    "em": {},
+    "strong": {},
+    "hr": {}
+  },
+  customStyles: {
+    // keys with null are used to preserve items with these classes, but not show them in the styles dropdown
+    'shrink_wrap': null,
+    'credit': null,
+    'tombstone': null,
+    'chat': null,
+    'caption': null
+  },
+  customTemplates: {
+    /* this is the template for the image button in the toolbar */
+    image: function(params) {
+      locale = params.locale;
+      return "<li>" +
+        "<div class='bootstrap-wysihtml5-insert-image-modal modal fade in'>" +
+        "<div class='modal-dialog'>" +
+        "<div class='modal-content'>" +
+        "<div class='modal-header'>" +
+        "<a class='close' data-dismiss='modal'>&times;</a>" +
+        "<h3>" + locale.image.insert + "</h3>" +
+        "</div>" +
+        "<div class='modal-body'>" +
+        "<div class='chooser_wrapper'>" +
+        "<table class='image_chooser images'></table>" +
+        "<h4>Or Upload one to insert</h4>" +
+        "<input name=\"file\" id=\"file1\" type=\"file\">" +
+        "<div id=\"uploadresult\"></div>" +
+        "</div>" +
+        "</div>" +
+        "<div class='modal-footer'>" +
+        "<a href='#' class='btn' data-dismiss='modal'>" + locale.image.cancel + "</a>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "<a class='btn btn-default' tabindex='-1' unselectable='on' data-wysihtml5-command='insertImage' title='" + locale.image.insert + "'><i class='glyphicon glyphicon-picture'></i></a>" +
+        "</li>";
     }
-  };
+  }
+};
+
+$(function() {
 
   $('.tip').tooltip();
   $('textarea').each(function() {
-    $(this).wysihtml5($.extend(wysiwygOptions, {html:true, color:false, stylesheets:[]}));
+    $(this).wysihtml5($.extend(__wysiwygOptions, {html:true, color:false, stylesheets:[]}));
   });
 });
