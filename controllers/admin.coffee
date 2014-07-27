@@ -11,6 +11,7 @@ Main = require './admin/main'
 News = require './admin/news'
 Products = require './admin/products'
 Profile = require './admin/profile'
+Quizes = require './admin/quiz'
 Themes = require './admin/themes'
 Tours = require './admin/tours'
 Tour_records = require './admin/tour_records'
@@ -82,6 +83,14 @@ Router.get '/contributions/delete/:id', Contributions.delete
 Router.get '/contributions/deleteimg/:id/:img', Contributions.deleteImage
 
 Router.post '/contributions', Contributions.save
+#----------------#
+Router.get '/quizes', Quizes.index
+Router.get '/quizes/create', Quizes.create
+Router.get '/quizes/edit/:id', Quizes.get
+Router.get '/quizes/delete/:id', Quizes.delete
+Router.get '/quizes/deleteimg/:id/:img', Quizes.deleteImage
+
+Router.post '/quizes', Quizes.save
 #----------------#
 Router.get '/certificate', Certificate.index
 Router.get '/certificate/create', Certificate.create
