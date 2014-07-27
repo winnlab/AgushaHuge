@@ -64,20 +64,8 @@ schema = new mongoose.Schema
 		ref: "Tag"
 	]
 	quiz: [
-		id:
-			type: ObjectId
-			default: mongoose.Types.ObjectId
-			required: true
-		answer:
-			type: String
-			required: true
-		counter:
-			type: Number
-			default: 0
-		position:
-			type: Number
-			default: 0
-			required: true
+		type: ObjectId
+		ref: 'QuizAnswer'
 	]
 ,
 	collection: 'contribution'
