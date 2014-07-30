@@ -111,7 +111,7 @@ exports.save = (req, res) ->
 					(next2) ->
 						Model 'quiz', 'findOne', next2, {_id}
 					(doc) ->
-						if data.quizname, index and data.quiz_id
+						if data.quizname and data.quiz_id
 							quizData = []
 							for item, i in data.quiz_id
 								quizData.push {
