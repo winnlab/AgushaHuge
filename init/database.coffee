@@ -13,3 +13,6 @@ opts =
 connString = 'mongodb://'+opts.user+":"+opts.pass+"@"+opts.host+":"+opts.port+"/"+opts.database+"?auto_reconnect=true"
 
 mongoose.connect connString, opts
+
+mongoose.connection.on 'error', (err) ->
+	console.log 'MongoDB connection error:', err
