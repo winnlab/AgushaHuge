@@ -1,0 +1,58 @@
+extends ../layout
+
+block append header
+    link(href="/css/admin/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css")
+
+block append scripts
+    script(src="/js/admin/plugins/datatables/jquery.dataTables.js")
+    script(src="/js/admin/plugins/datatables/dataTables.bootstrap.js")
+    script.
+        $(function() {
+            $('#dtable').dataTable({
+                "bPaginate": true,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bSort": true,
+                "bInfo": true,
+                "bAutoWidth": false
+            });
+        });
+
+block content
+    .box
+        .box-header
+            h3.box-title= "Список консультаций"
+        .box-body.table-responsive
+            table.table.table-bordered.table-striped#dtable
+                thead
+                    tr
+                        th= "Название"
+                        th= "Тип"
+                        th= "Автор"
+                        th= "Возраст"
+                        th= "Тема"
+                        th= "Таги"
+                        th= "Действия"
+                        
+                tbody
+                    each item in consultations
+                        tr
+                            td= item.name
+                            td= item.type
+                            td= item.author.lastName + " " + item.author.firstName
+                            td= item.years.name
+                            td= item.theme.name
+                            td
+                                each item in item.tags
+                                    | #{item.name + " "}
+                            td
+                                div.col-md-6
+                                    a(href="consultations/delete/#{item._id}")
+                                        button.btn.btn-danger(type="button")
+                                            i.glyphicon.glyphicon-remove-circle
+                                            span= " Удалить"
+                                div.col-md-6.t-giveAnswer
+                                    a(href="consultations/answer/#{item._id}")
+                                        button.btn.btn-danger(type="button")
+                                            i.glyphicon.glyphicon-remove-circle
+                                            span= " Удалить"
