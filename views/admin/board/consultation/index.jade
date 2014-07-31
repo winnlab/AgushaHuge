@@ -38,21 +38,22 @@ block content
                     each item in consultations
                         tr
                             td= item.name
-                            td= item.type
-                            td= item.author.lastName + " " + item.author.firstName
+                            td= item.type.name
+                            td= (item.author !== undefined ? item.author.lastName + " " + item.author.firstName : '')
                             td= item.years.name
                             td= item.theme.name
                             td
-                                each item in item.tags
-                                    | #{item.name + " "}
+                                if item.tags
+                                    each item in item.tags
+                                        | #{item.name + " "}
                             td
-                                div.col-md-6
-                                    a(href="consultations/delete/#{item._id}")
-                                        button.btn.btn-danger(type="button")
-                                            i.glyphicon.glyphicon-remove-circle
-                                            span= " Удалить"
                                 div.col-md-6.t-giveAnswer
-                                    a(href="consultations/answer/#{item._id}")
+                                    a(href="consultation/view/#{item._id}")
+                                        button.btn.btn-default(type="button")
+                                            i.glyphicon.glyphicon-envelope
+                                            span= " Просмотреть"
+                                div.col-md-6
+                                    a(href="consultation/delete/#{item._id}")
                                         button.btn.btn-danger(type="button")
                                             i.glyphicon.glyphicon-remove-circle
                                             span= " Удалить"
