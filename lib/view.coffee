@@ -15,18 +15,16 @@ exports.render = render = (name, res, data, cacheId) ->
 
 			Cache.put name, data, cacheId, res.locals, next
 		(next) -> # view
-			res.render name, data, next
+			res.render name, data
+			next()
 	], (err, results)->
 		if err
 			Logger.log 'error', 'Error in View.render:', err
 			res.send '404_OR_500_PAGE_SHOULD_BE_HERE_SOMETIMES_LATER'
 
-			node_env = process.env.NODE_ENV || 'development'
-			if node_env is 'development'
+			if process.env.NODE_ENV is undefined
 				console.log err
 				throw err
-		else
-			res.send results[1]
 
 exports.renderWithSession = (req, res, path, data) ->
 	data = data || {}
