@@ -119,12 +119,13 @@ Router.get '/profile', Profile.index
 Router.post '/profile', Profile.save
 #----------------#
 Router.get '/consultation', Consultation.index
+Router.get '/consultation/view/:id', Consultation.view
 #- upload helper for wysihtml5 -#
 Router.get '/getAttached', Wysi.get
 Router.post '/uploadWysi', Wysi.upload
 #- FIXTURES -#
 if process.env.NODE_ENV is undefined
-	Router.get '/addConsultation', Fixture.addConsultation
+	Router.get '/addConsultation/:id', Fixture.addConsultation
 ########################
 
 exports.Router = Router
