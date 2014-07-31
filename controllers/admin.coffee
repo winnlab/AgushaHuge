@@ -18,6 +18,9 @@ Tour_records = require './admin/tour_records'
 Years = require './admin/years'
 Wysi = require './helper/wysi'
 
+if process.env.NODE_ENV is undefined
+	Fixture = require './helper/fixture'
+
 Router = express.Router()
 
 #########################
@@ -119,6 +122,9 @@ Router.get '/consultation', Consultation.index
 #- upload helper for wysihtml5 -#
 Router.get '/getAttached', Wysi.get
 Router.post '/uploadWysi', Wysi.upload
+#- FIXTURES -#
+if process.env.NODE_ENV is undefined
+	Router.get '/addConsultation', Fixture.addConsultation
 ########################
 
 exports.Router = Router
