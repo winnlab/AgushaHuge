@@ -3,6 +3,22 @@ moment = require 'moment'
 
 ObjectId = mongoose.Schema.Types.ObjectId
 
+getConsultationType = (type) ->
+	switch type
+		when 0
+			return {
+				id: 0
+				name: 'К специалисту'
+			}
+		when 1
+			return {
+				id: 1
+				name: 'К сообществу'
+			}
+		else
+			throw new Error "Incorrect consultation type: #{type}"
+
+
 schema = new mongoose.Schema
 	name:
 		type: String
@@ -14,6 +30,7 @@ schema = new mongoose.Schema
 		type: Number
 		require: true
 		default: 0
+		get: getConsultationType
 	author:
 		type: ObjectId
 		ref: 'Client'
@@ -23,7 +40,7 @@ schema = new mongoose.Schema
 		requried: true
 	active:
 		type: Boolean
-		default: false
+		default: true
 	specialist:
 		type: ObjectId
 		ref: 'User'
