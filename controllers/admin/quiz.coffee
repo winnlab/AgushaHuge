@@ -121,7 +121,7 @@ exports.save = (req, res) ->
 
 							iterator = (item, cb) ->
 								if item._id == '-1'
-									answ = new mongoose.models['quizAnswer']
+									answ = new mongoose.models.QuizAnswer
 									answ.name = item.name
 									answ.save cb
 								else
