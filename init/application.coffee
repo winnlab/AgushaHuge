@@ -6,7 +6,6 @@ passport = require 'passport'
 roles = require 'roles'
 crypto = require 'crypto'
 _ = require 'underscore'
-# flash = require 'connect-flash'
 
 cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
