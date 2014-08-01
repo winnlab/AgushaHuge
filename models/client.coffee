@@ -38,7 +38,18 @@ schema = new mongoose.Schema
 		type: Number
 		required: true
 		default: 0
+	firstName:
+		type: String
+		trim: true
+		default: ""
+	lastName:
+		type: String
+		trim: true
+		default: ""
 ,
 	collection: 'client'
+
+schema.methods.name = () ->
+	"#{@firstName} #{@lastName}"
 
 module.exports = mongoose.model 'Client', schema
