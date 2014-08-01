@@ -17,6 +17,10 @@ getConsultationType = (type) ->
 			}
 		else
 			throw new Error "Incorrect consultation type: #{type}"
+			return {
+				id: -1
+				name: '//ошибка//'
+			}
 
 
 schema = new mongoose.Schema
