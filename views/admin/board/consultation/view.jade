@@ -30,18 +30,27 @@ block content
         .panel.panel-primary
             .panel-heading
                 .row
-                    .col-xs-4
-                        | #{consultation.name}
-                    .col-xs-4
+                    .col-xs-6
+                        | Наименование консультации:   #{consultation.name}
+                    .col-xs-6
                         - if(consultation.author)
-                            | Автор: #{consultation.author.firstName} #{consultation.author.lastName}
+                            | Автор:   #{consultation.author.name()}
             .panel-body
                 | !{consultation.text}
+        if messages
+            .content
+                each msg in messages
+                    .panel.panel-primary
+                        .panel-heading
+                            - if(msg.author)
+                                | Автор: #{msg.author.name()}
+                        .panel-body
+                            | !{msg.text}
     section.content
         .panel.panel-primary
             .panel-heading= "Написать ответ:"
             .panel-body
-                form(role="form" enctype="multipart/form-data" method="post" action="/admin/contribution/update")
+                form(role="form" enctype="multipart/form-data" method="post" action="/admin/consultation/update")
                     input(type="hidden" name="_id" value=consultation._id)
 
                     .form-group

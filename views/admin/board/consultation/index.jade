@@ -39,7 +39,11 @@ block content
                         tr
                             td= item.name
                             td= item.type.name
-                            td= (item.author !== undefined ? item.author.lastName + " " + item.author.firstName : '')
+                            td
+                                if item.author && (item.author.firstName || item.author.lastName)
+                                    | #{item.author.name()}
+                                else
+                                    | //пусто//
                             td= item.years.name
                             td= item.theme.name
                             td
@@ -50,7 +54,7 @@ block content
                                 div.col-md-6.t-giveAnswer
                                     a(href="consultation/view/#{item._id}")
                                         button.btn.btn-default(type="button")
-                                            i.glyphicon.glyphicon-envelope
+                                            i.glyphicon.glyphicon-th-list
                                             span= " Просмотреть"
                                 div.col-md-6
                                     a(href="consultation/delete/#{item._id}")
