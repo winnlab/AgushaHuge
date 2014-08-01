@@ -58,7 +58,7 @@ schema = new mongoose.Schema
 		type: ObjectId
 		name: 'Tag'
 	]
-	answers: [
+	answer: [
 		type: ObjectId
 		ref: 'Answer'
 	]
