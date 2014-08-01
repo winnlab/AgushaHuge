@@ -16,7 +16,6 @@ module.exports = (Name) ->
 			ref: 'User'
 		date:
 			type: Date
-			required: true
 			default: moment
 		text:
 			type: String
