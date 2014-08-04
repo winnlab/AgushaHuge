@@ -13,9 +13,9 @@ entityModelType = 1
 exports.index = (req, res) ->
 	async.waterfall [
 		(next) ->
-			Model 'quiz', 'findQuizes', next
+			Model 'Contribution', 'findQuizes', next
 		(docs, next) ->
-			Model 'quiz', 'populate', next, docs, 'theme years author'
+			Model 'Contribution', 'populate', next, docs, 'theme years author'
 		(docs) ->
 			for item in docs
 				item.authorName = item.author?.login or '{редакция}'
@@ -48,12 +48,14 @@ preloadData = (quiz, cb) ->
 		results.years = array.makeTreeForSelect results.years
 		results.theme = array.makeTreeForSelect results.theme
 		results.cTags = {}
-		for item in quiz.tags
-			results.cTags[item] = true
+		if quiz.tags
+			for item in quiz.tags
+				results.cTags[item] = true
 
 		themeAdjusted = {}
-		for t in results.theme
-			themeAdjusted[t._id] = t.tags
+		if results.theme
+			for t in results.theme
+				themeAdjusted[t._id] = t.tags
 
 		results.themeAdjusted = JSON.stringify themeAdjusted
 		results.themeAdjustedObject = themeAdjusted
@@ -69,7 +71,9 @@ exports.get = (req, res) ->
 	id = req.params.id
 	async.waterfall [
 		(next) ->
-			Model 'quiz', 'findOne', next, _id: id
+			Model 'Contribution', 'findOne', next, _id: id
+		(doc, next) ->
+			Model 'Contribution', 'populate', next, doc, 'quiz'
 		preloadData
 		(results) ->
 			View.render 'admin/board/quizes/edit', res, results
@@ -109,8 +113,8 @@ exports.save = (req, res) ->
 				out_doc = false
 				async.waterfall [
 					(next2) ->
-						Model 'quiz', 'findOne', next2, {_id}
-					(doc) ->
+						Model 'Contribution', 'findOne', next2, {_id}
+					(doc, next2) ->
 						if data.quizname and data.quiz_id
 							quizData = []
 							for item, i in data.quiz_id
@@ -125,7 +129,7 @@ exports.save = (req, res) ->
 									answ.name = item.name
 									answ.save cb
 								else
-									Model 'quizAnswer', 'findOne', (err, answ) ->
+									Model 'QuizAnswer', 'findOne', (err, answ) ->
 										answ.name = item.name
 										answ.save cb
 									, _id: item._id
@@ -142,9 +146,9 @@ exports.save = (req, res) ->
 									delete data.quiz_id
 									data.quiz = _ids
 
-								next null, doc
+								next2 null, doc
 						else
-							next null, doc, []
+							next2 null, doc, []
 					(doc, _ids) ->
 						for own prop, val of data
 
@@ -158,7 +162,7 @@ exports.save = (req, res) ->
 				], (err) ->
 					next err
 			else
-				Model 'quiz', 'create', next, data
+				Model 'Contribution', 'create', next, data
 		(doc, next) ->
 			if not doc
 				return next "Произошла неизвестная ошибка."
@@ -173,7 +177,7 @@ exports.delete = (req, res) ->
 	_id = req.params.id
 	async.waterfall [
 		(next) ->
-			Model 'quiz', 'findOneAndRemove', next, {_id}
+			Model 'Contribution', 'findOneAndRemove', next, {_id}
 		() ->
 			View.message true, 'Опрос успешно удален!', res
 	], (err) ->
@@ -186,7 +190,7 @@ exports.deleteImage = (req, res) ->
 	img = req.params.img
 	async.waterfall [
 		(next) ->
-			Model 'quiz', 'findOne', next, {_id}
+			Model 'Contribution', 'findOne', next, {_id}
 		(doc, next) ->
 			fs.unlink "./public/img/#{img}", (err) ->
 				next err, doc

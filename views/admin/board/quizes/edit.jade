@@ -27,6 +27,9 @@ block append header
             border: 1px solid #dddddd;
             padding: 10px;
         }
+        .t-removeAnswer {
+            cursor: pointer;
+        }
 
 block append scripts
     script(src="/js/plugins/underscore/underscore-min.js")
@@ -55,19 +58,37 @@ block append scripts
                 });
             };
 
+            var removeAnswerFunc = function(){
+                if(confirm('Удалить вариант ответа?')) {
+                    $(this).parents('.toDrag').fadeOut(300).remove();
+                };
+            };
+
             $('.t-addAnswer').on('click', function(){
-                var html = '<div class="toDrag"><label for="quiz.name">Текст варианта опроса:</label>'
+                var html = '<div class="toDrag"><label for="quizname"><span>Текст варианта опроса:</span>'
+                            + '<span class="badge pull-right t-removeAnswer"><i class="glyphicon glyphicon-remove"></i></span></label>'
                             + '<input type="hidden" name="quiz_id" value="-1" />'
-                            + '<textarea class="textarea"></textarea></div>';
+                            + '<textarea name="quizname" class="textarea"></textarea></div>';
 
                 $('.t-answerCont').append(html);
 
+                $('.t-removeAnswer:last').on('click', removeAnswerFunc);
+
                 var el = $('.t-answerCont .textarea:last');
                 el.wysihtml5($.extend(__wysiwygOptions, {html:true, color:false, stylesheets:[]}));
-                el.sortable();
+                
+                //$('.t-answerCont').sortable({
+                //    items: "> .toDrag"
+                //});
             });
 
-            $('.toDrag').sortable();
+            $('.t-removeAnswer').each(function() {
+                $(this).on('click', removeAnswerFunc);
+            });
+
+            //- $('.t-answerCont').sortable({
+            //-     items: "> .toDrag"
+            //- });
 
             $('.choosed').chosen();
 
@@ -187,12 +208,15 @@ block content
                                 .panel.panel-primary
                                     .panel-heading= "Варианты опроса:"
                                     .panel-body
-                                        input.t-addAnswer(type='button' value='Добавить вариант')
+                                        input.btn.btn-primary.t-addAnswer(type='button' value='Добавить вариант')
                                     .panel-body.t-answerCont
                                         if quiz.quiz
                                             each item in quiz.quiz
                                                 div.toDrag
-                                                    label(for="quizname")= "Текст варианта опроса:"
+                                                    label(for="quizname")
+                                                        span= "Текст варианта опроса:"
+                                                        span.badge
+                                                            i.glyphicon.glyphicon-remove
                                                     input(type='hidden' name='quiz_id' value=item._id)
                                                     textarea.textarea(
                                                         name="quizname" 
