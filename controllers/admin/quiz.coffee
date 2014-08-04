@@ -2,11 +2,13 @@ async = require 'async'
 fs = require 'fs'
 moment = require 'moment'
 mongoose = require 'mongoose'
+_ = require 'underscore'
 
 View = require '../../lib/view'
 Model = require '../../lib/model'
 Logger = require '../../lib/logger'
 array = require '../../utils/array'
+MyLib = require '../../lib/quiz'
 
 entityModelType = 1
 
@@ -100,6 +102,9 @@ exports.save = (req, res) ->
 	if data.author is '0'
 		data.author = null
 
+	data.active = if data.active then true else false
+	data.recommended = if data.recommended then true else false
+
 	if req.files?.desc_image
 		if req.files.desc_image.name
 			data.desc_image.push req.files.desc_image.name
@@ -116,6 +121,15 @@ exports.save = (req, res) ->
 						Model 'Contribution', 'findOne', next2, {_id}
 					(doc, next2) ->
 						if data.quizname and data.quiz_id
+							unless _.isArray data.quizname
+								data.quizname = [ data.quizname ]
+
+							unless _.isArray data.quiz_id
+								data.quiz_id = [ data.quiz_id ]
+
+							if data.quizname.length isnt data.quiz_id.length
+								return next2 'Length of quiz names array do not math length of quiz _ids array'
+
 							quizData = []
 							for item, i in data.quiz_id
 								quizData.push {
@@ -139,17 +153,21 @@ exports.save = (req, res) ->
 									return Logger.log 'error', 'Error saving quiz variant: ', err
 
 								_ids = []
+
 								if results
 									for item in results
-										_ids.push item._id
+										_ids.push mongoose.Types.ObjectId item._id
 									delete data.quizname
 									delete data.quiz_id
 									data.quiz = _ids
 
-								next2 null, doc
+									return next2 null, doc, _ids
+
+								next2 null, doc, []
 						else
 							next2 null, doc, []
-					(doc, _ids) ->
+					MyLib.removeOutdated
+					(doc) ->
 						for own prop, val of data
 
 							unless prop is 'id' or val is undefined
