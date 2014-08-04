@@ -100,7 +100,6 @@ block append scripts
 
                 self = $(this);
                 $.get(self.attr('href'), function(data){
-                    console.log(data);
                     if(data === true) {
                         self.parent().remove();
                     } else {
@@ -140,7 +139,7 @@ block content
                                     label
                                         input(type="checkbox" 
                                             name="recommended" 
-                                            checked=(quiz.recommended == false)
+                                            checked=(quiz.recommended == true)
                                         )
                                         span= " Рекомендован?"
                             .form-group
@@ -209,13 +208,17 @@ block content
                                     .panel-heading= "Варианты опроса:"
                                     .panel-body
                                         input.btn.btn-primary.t-addAnswer(type='button' value='Добавить вариант')
+                                        section.content
+                                            .panel.panel-primary
+                                                .panel-body
+                                                    | Внимание, при переименовании варианта опроса набранные им голоса останутся учтенными!
                                     .panel-body.t-answerCont
                                         if quiz.quiz
                                             each item in quiz.quiz
                                                 div.toDrag
                                                     label(for="quizname")
                                                         span= "Текст варианта опроса:"
-                                                        span.badge
+                                                        span.badge.t-removeAnswer
                                                             i.glyphicon.glyphicon-remove
                                                     input(type='hidden' name='quiz_id' value=item._id)
                                                     textarea.textarea(
