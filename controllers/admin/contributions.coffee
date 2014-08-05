@@ -5,7 +5,7 @@ moment = require 'moment'
 View = require '../../lib/view'
 Model = require '../../lib/model'
 Logger = require '../../lib/logger'
-array = require '../../utils/array'
+MyModel = require '../../lib/contribution'
 
 exports.index = (req, res) ->
 	async.waterfall [
@@ -13,61 +13,18 @@ exports.index = (req, res) ->
 			Model 'Contribution', 'findArticles', next
 		(docs, next) ->
 			Model 'Contribution', 'populate', next, docs, 'theme years author'
-		(docs) ->
-			for item in docs
-				item.authorName = item.author?.login or '{редакция}'
-			View.render 'admin/board/contributions/index', res, contributions: docs
+		MyModel.aggregateRelations
+		(results) ->
+			View.render 'admin/board/contributions/index', res, results
 	], (err) ->
 		Logger.log 'info', "Error in controllers/admin/contributions/index: %s #{err.message or err}"
-
-preloadData = (contribution, cb) ->
-	if typeof contribution is 'function'
-		cb = contribution
-		contribution = {}
-
-	async.parallel
-		years: (next) ->
-			Model 'Years', 'find', next, active: true, '-__v'
-		theme: (next) ->
-			async.waterfall [
-				(next2) ->
-					Model 'Theme', 'find', next2, active: true, '-__v'
-				(docs) ->
-					Model 'Theme', 'populate', next, docs, 'tags'
-			], next
-		client: (next) ->
-			Model 'Client', 'find', next, active: true, '_id login status'
-	, (err, results)->
-		cb err if err
-
-		results.contribution = contribution
-
-		results.years = array.makeTreeForSelect results.years
-		results.theme = array.makeTreeForSelect results.theme
-		results.cTags = {}
-		for item in contribution.tags
-			results.cTags[item] = true
-
-		themeAdjusted = {}
-		for t in results.theme
-			themeAdjusted[t._id] = t.tags
-
-		results.themeAdjusted = JSON.stringify themeAdjusted
-		results.themeAdjustedObject = themeAdjusted
-
-		if results.contribution.author
-			results.contribution.authorName = results.contribution.author.login
-		else
-			results.contribution.authorName = '{редакция}'
-
-		cb null, results
 
 exports.get = (req, res) ->
 	id = req.params.id
 	async.waterfall [
 		(next) ->
 			Model 'Contribution', 'findOne', next, _id: id
-		preloadData
+		MyModel.preloadData
 		(results) ->
 			View.render 'admin/board/contributions/edit', res, results
 	], (err) ->
@@ -76,7 +33,7 @@ exports.get = (req, res) ->
 
 exports.create = (req, res) ->
 	async.waterfall [
-		preloadData
+		MyModel.preloadData
 		(results) ->
 			View.render 'admin/board/contributions/edit', res, results
 	], (err) ->
@@ -90,6 +47,9 @@ exports.save = (req, res) ->
 	data.desc_image = []
 	data.type = 0
 	data.updated = moment()
+
+	data.active = if data.active then true else false
+	data.recommended = if data.recommended then true else false
 	if data.author is '0'
 		data.author = null
 
@@ -157,10 +117,9 @@ exports.deleteImage = (req, res) ->
 
 			doc.save next
 		() ->
-			#View.message true, 'Изображение удалено!', res
 			res.send true
 	], (err) ->
 		Logger.log 'info', "Error in controllers/admin/contributions/remove: %s #{err.message or err}"
 		msg = "Произошла ошибка при удалении: #{err.message or err}"
-		#View.message false, msg, res
+
 		res.send msg
