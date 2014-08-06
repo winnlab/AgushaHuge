@@ -5,16 +5,16 @@ moment = require 'moment'
 View = require '../../lib/view'
 Model = require '../../lib/model'
 Logger = require '../../lib/logger'
-MyModel = require '../../lib/contribution'
+MyLib = require '../../lib/contribution'
 
 exports.index = (req, res) ->
 	async.waterfall [
 		(next) ->
 			what = '_id title author background like_count comment_count view_count'
-			(Model 'Contribution', 'findArticles', null, {}, what).limit(20).exec next
+			Model 'Contribution', 'findArticles', next, {}, what
 		(docs, next) ->
 			Model 'Contribution', 'populate', next, docs, 'author'
-		MyModel.aggregateRelations
+		MyLib.aggregateRelations
 		(results) ->
 			View.render 'admin/board/contributions/index', res, results
 	], (err) ->
@@ -25,7 +25,7 @@ exports.get = (req, res) ->
 	async.waterfall [
 		(next) ->
 			Model 'Contribution', 'findOne', next, _id: id
-		MyModel.preloadData
+		MyLib.preloadData
 		(results) ->
 			View.render 'admin/board/contributions/edit', res, results
 	], (err) ->
@@ -34,7 +34,7 @@ exports.get = (req, res) ->
 
 exports.create = (req, res) ->
 	async.waterfall [
-		MyModel.preloadData
+		MyLib.preloadData
 		(results) ->
 			View.render 'admin/board/contributions/edit', res, results
 	], (err) ->

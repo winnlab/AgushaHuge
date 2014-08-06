@@ -15,14 +15,42 @@ $(function(){
 
 	Controller.prototype.drawPagination = function() {
 		var html = '<li class="t-first"><a href="#">&laquo;</a></li>';
-		var page_count = Math.ceil(this.items.length / this.limit);
-		for(var i = 1; i <= page_count; i++) {
-			html += '<li class="t-page" data-id="' + i 
+		var pageCount = Math.ceil(this.items.length / this.limit);
+		this.pageCount = pageCount;
+
+		for(var i = 1; i <= pageCount; i++) {
+			html += '<li class="t-page" data-page="' + i 
 				 + '"><a href="#">' + i + '</a></li>';
 		}
 		html += '<li class="t-last"><a href="#">&raquo;</a></li>';
 		$(this.pagesWrapper).html(html);
 		$(this.pagesWrapper + ' li.t-page').eq(this.page - 1).addClass('active');
+
+		var self = this;
+		$('.t-page').on('click', function(){
+			el = $(this);
+			if(el.hasClass('.active')) {
+				return;
+			}
+
+			$('.t-page.active').removeClass('active');
+			el.addClass('active');
+			self.show(el.data('page'));
+		});
+
+		$('.t-first').on('click', function(){
+			$('.t-page.active').removeClass('active');
+			$('.t-page:first').addClass('active');
+
+			self.show(1);
+		});
+
+		$('.t-last').on('click', function(){
+			$('.t-page.active').removeClass('active');
+			$('.t-page:last').addClass('active');
+
+			self.show(self.pageCount);
+		});
 	};
 
 	Controller.prototype.loadSingleTemplate = function(item) {
@@ -49,27 +77,30 @@ $(function(){
 		return r;
 	};
 
-	Controller.prototype.show = function(page) {
+	Controller.prototype.show = function(page, redrawPagination) {
 		this.page = page || this.page;
-		var sliced = this.items.slice((this.page - 1) * this.limit, this.limit * this.page - 1);
+		var sliced = this.items.slice((this.page - 1) * this.limit, this.limit * this.page);
 
 		var html = '';
 		for(var i = 0, len = sliced.length; i < len; i++) {
 			html += this.loadSingleTemplate(sliced[i]);
 		}
 
-		this.drawPagination();
+		if(redrawPagination) {
+			this.drawPagination();
+		}
+
 		$(this.itemsWrapper).html(html);
 	};
 
 	Controller.prototype.reloadItems = function(items) {
 		this.items = items || this.items;
-		this.show(1);
+		this.show(1, true);
 	}
 
 	var controller = new Controller;
 
-	controller.show();
+	controller.show(null, true);
 
 	var chosenOpts = {
 		width: '18%',
