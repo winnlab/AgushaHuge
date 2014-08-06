@@ -16,7 +16,6 @@ block append scripts
             $('.sortable').on('sortupdate', function(){
                 var value = '';
                 $('.t-sort').each(function(){
-                    console.log($(this).data('id'))
                     value += $(this).data('id') + ',';
                 });
                 value = value.substring(0, value.length - 1);
