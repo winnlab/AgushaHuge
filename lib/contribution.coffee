@@ -8,7 +8,7 @@ array = require '../utils/array'
 distinctAndPopulate = (fieldname, modelname, callback) ->
 	async.waterfall [
 		(next) ->
-			Model('Contribution', 'find', null, type: 0)
+			Model('Contribution', 'findArticles', null)
 				.distinct fieldname, next
 		(items, next) ->
 			where = { $or: [] }
@@ -29,10 +29,12 @@ exports.aggregateRelations = (docs, callback) ->
 		tags: (next) ->
 			aggregation = [
 				{ $unwind: '$tags'}
+				{ $match: type: 0 }
 				{
 					$group: {
 						_id: null
-						data: $push: '$title'
+						ids: $push: '$tags'
+						names: $push: '$title'
 					}
 				}
 			]
@@ -45,12 +47,19 @@ exports.aggregateRelations = (docs, callback) ->
 				for item in docs
 					item.authorName = item.author?.name() or '{редакция}'
 
+			tags = []
+			for index in [0...results.tags[0].ids.length]
+				tags.push {
+					_id: results.tags[0].ids[index]
+					name: results.tags[0].names[index]
+				}
+
 			return callback err, {
 				contributions: docs
 				years: results.years
 				themes: results.themes
 				authors: results.authors
-				tags: results.tags.data
+				tags: tags
 			}
 
 exports.preloadData = (contribution, cb) ->
