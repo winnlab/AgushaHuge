@@ -86,6 +86,7 @@ Router.get '/contributions/delete/:id', Contributions.delete
 Router.get '/contributions/deleteimg/:id/:img', Contributions.deleteImage
 
 Router.post '/contributions', Contributions.save
+Router.post '/contributions/sort', Contributions.doSort
 #----------------#
 Router.get '/quizes', Quizes.index
 Router.get '/quizes/create', Quizes.create
