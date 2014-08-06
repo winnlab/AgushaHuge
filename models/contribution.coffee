@@ -1,5 +1,6 @@
-mongoose = require 'mongoose'
+_ = require 'underscore'
 moment = require 'moment'
+mongoose = require 'mongoose'
 
 ObjectId = mongoose.Schema.Types.ObjectId
 
@@ -70,14 +71,29 @@ schema = new mongoose.Schema
 ,
 	collection: 'contribution'
 
-schema.static 'findArticles', (cb) ->
-	where = type: 0
+findByType = (type, where, what, cb) ->
+	if typeof where is 'string'
+		what = where
+		where = {}
 
-	@find where, cb
+	if typeof what is 'function'
+		cb = what
+		what = null
 
-schema.static 'findQuizes', (cb) ->
-	where = type: 1
+	if typeof where is 'function'
+		cb = where
+		where = {}
+		what = null
 
-	@find where, cb
+	where = _.extend type: type, where
+
+	@find where, what, cb
+
+schema.statics.findArticles = (where, what, cb) ->
+	findByType.call @, 0, where, what, cb
+	
+
+schema.statics.findQuizes = (where, what, cb) ->
+	findByType.call @, 1, where, what, cb
 
 module.exports = mongoose.model 'Contribution', schema
