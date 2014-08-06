@@ -1,11 +1,14 @@
 extends ../layout
 
 block append header
+    link(href="/js/plugins/chosen/chosen.css" rel="stylesheet" type="text/css")
     link(href="/css/admin/common/contribution.css" rel="stylesheet" type="text/css")
 
 block append scripts    
+    script(src="/js/plugins/chosen/chosen.jquery.min.js")
+    script.
+        var __contributions = !{JSON.stringify(contributions)}
     script(src="/js/admin/common/contribution.js")
-
 
 block content
     .box
@@ -17,58 +20,38 @@ block content
                     a(href="contributions/create")
                         button.btn.btn-primary= "Создать новую статью"
         .box-header.cont-filter
-            .col-md-4.white
+            .col-md-2.white
                 | Фильтр:
-            .col-md-8
-                select.t-years
-                    option(value="-1")= "Все возраста"
+            .col-md-10
+                select.t-years.chzn(data-placeholder="Все возраста")
+                    option(value="")
                     each item in years
                         option(value=item._id)= item.name
-                select.t-theme
-                    option(value="-1")= "Все темы"
+                select.t-theme.chzn(data-placeholder="Все темы")
+                    option(value="")
                     each item in themes
                         option(value=item._id)= item.name
-                select.t-author
-                    option(value="-1")= "Все авторы"
+                select.t-author.chzn(data-placeholder="Все авторы")
+                    option(value="")
                     each item in authors
                         option(value=item._id)= item.name
-                select.t-sort
-                    option(value="-1")= "Сортировка"
-                    option(value="0")= "Просмотры (max -> min)"
-                    option(value="1")= "Просмотры (max <- min)"
-                    option(value="2")= "Лайки (max -> min)"
-                    option(value="3")= "Лайки (max <- min)"
-                    option(value="4")= "Комментарии (max -> min)"
-                    option(value="5")= "Комментарии (max <- min)"
-
-        .box-body.table-responsive
-            table.table.table-bordered.table-striped#dtable
-                thead
-                    tr
-                        th= "Название"
-                        th= "Автор"
-                        th= "Активен?"
-                        th= "Рекомендован?"
-                        th= "Возраста"
-                        th= "Темы"
-                        th= "Действия"
-                tbody
-                    each item in contributions
-                        tr
-                            td= item.title
-                            td= item.authorName
-                            td= (item.active?"Да":"Нет")
-                            td= (item.recommended?"Да":"Нет")
-                            td= (item.years?item.years.name:"{удалено}")
-                            td= (item.theme?item.theme.name:"{удалено}")
-                            td
-                                div.col-md-6
-                                    a(href="contributions/edit/#{item._id}")
-                                        button.btn.btn-warning(type="button")
-                                            i.glyphicon.glyphicon-edit
-                                            span= " Редактировать"
-                                div.col-md-6
-                                    a(href="contributions/delete/#{item._id}")
-                                        button.btn.btn-danger(type="button")
-                                            i.glyphicon.glyphicon-remove-circle
-                                            span= " Удалить"
+            
+                select.t-sort.chzn(data-placeholder="Сортировка...")
+                    option(value="")
+                    option(value="7")= "Название (max -> min)"
+                    option(value="8")= "Название (max -> min)"
+                    option(value="1")= "Просмотры (max -> min)"
+                    option(value="2")= "Просмотры (max <- min)"
+                    option(value="3")= "Лайки (max -> min)"
+                    option(value="4")= "Лайки (max <- min)"
+                    option(value="5")= "Комментарии (max -> min)"
+                    option(value="6")= "Комментарии (max <- min)"
+            .col-md-2.white
+                | Таги:
+            .col-md-10
+                select.t-tags.chzn(multiple data-placeholder="Все таги")
+                    each item in tags
+                        option(value=item._id)= item.name
+        .box-header
+            ul#pager.pull-right.pagination
+        .box-body.table-responsive.t-itemWrap
