@@ -10,9 +10,10 @@ MyModel = require '../../lib/contribution'
 exports.index = (req, res) ->
 	async.waterfall [
 		(next) ->
-			Model 'Contribution', 'findArticles', next
+			what = '_id title author background like_count comment_count view_count'
+			(Model 'Contribution', 'findArticles', null, {}, what).limit(20).exec next
 		(docs, next) ->
-			Model 'Contribution', 'populate', next, docs, 'theme years author'
+			Model 'Contribution', 'populate', next, docs, 'author'
 		MyModel.aggregateRelations
 		(results) ->
 			View.render 'admin/board/contributions/index', res, results
@@ -123,3 +124,28 @@ exports.deleteImage = (req, res) ->
 		msg = "Произошла ошибка при удалении: #{err.message or err}"
 
 		res.send msg
+
+exports.doSort = (req, res) ->
+	where = {}
+	for item in ['years', 'theme', 'author']
+		if req.body[item]
+			where[item] = req.body[item]
+
+	if req.body.tags
+		where.tags = $in: req.body.tags
+
+	async.waterfall [
+		(next) ->
+			what = '_id title author background like_count comment_count view_count'
+			query = (Model 'Contribution', 'findArticles', null, where, what)
+			if req.body.sortField and req.body.sortValue
+				sParam = {}
+				sParam[req.body.sortField] = req.body.sortValue
+				query.sort sParam
+			query.exec next
+		(docs, next) ->
+			Model 'Contribution', 'populate', next, docs, 'author'
+		(docs) ->
+			res.send docs
+	], (err) ->
+		res.send 'ESORT'
