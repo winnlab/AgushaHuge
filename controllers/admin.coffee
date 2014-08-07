@@ -84,6 +84,7 @@ Router.get '/contributions/create', Contributions.create
 Router.get '/contributions/edit/:id', Contributions.get
 Router.get '/contributions/delete/:id', Contributions.delete
 Router.get '/contributions/deleteimg/:id/:img', Contributions.deleteImage
+Router.get '/contributions/autocomplete', Contributions.autocomplete
 
 Router.post '/contributions', Contributions.save
 Router.post '/contributions/sort', Contributions.doSort
@@ -128,7 +129,7 @@ Router.post '/consultation/update', Consultation.update
 Router.get '/getAttached', Wysi.get
 Router.post '/uploadWysi', Wysi.upload
 #- FIXTURES -#
-if process.env.NODE_ENV is undefined
+if process.env.NODE_ENV isnt 'production'
 	Router.get '/addConsultation/:id', Fixture.addConsultation
 	Router.get '/addAnswer', Fixture.addAnswer
 	Router.get '/linkCosultationAnswer/:c/:a', Fixture.linkCosultationAnswer
