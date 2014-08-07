@@ -6,6 +6,7 @@ block append header
 
 block append scripts    
     script(src="/js/plugins/chosen/chosen.jquery.min.js")
+    script(src="/js/admin/jquery.autocomplete.js")
     script.
         var __contributions = !{JSON.stringify(contributions)}
     script(src="/js/admin/common/contribution.js")
@@ -52,6 +53,15 @@ block content
                 select.t-tags.chzn(multiple data-placeholder="Все таги")
                     each item in tags
                         option(value=item._id)= item.name
-        .box-header
+            .col-md-2.white
+                | Поиск:
+            .col-md-6
+                form.t-search-form
+                    .input-group
+                        input#query.form-control(type="text" name="q" placeholder="Поиск...")
+                        span.input-group-btn
+                            button#search-btn.btn.btn-flat(name="search")
+                                i.fa.fa-search
+        .box-header.border-down
             ul#pager.pull-right.pagination
         .box-body.table-responsive.t-itemWrap
