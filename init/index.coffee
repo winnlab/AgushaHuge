@@ -21,14 +21,18 @@ async.waterfall [
 	(next) ->
 		Logger.log 'info', 'Logger is initializated'
 
-		Migrate.init next
-	(next) ->
-		Logger.log 'info', 'Migrate is initializated'
-
 		ModelPreloader "#{process.cwd()}/models/", next
 	(next) ->
 		Logger.log 'info', 'Models are preloaded'
 
+		Migrate.init next
+	(next) ->
+		Logger.log 'info', 'Migrate is initializated'
+
+		Image.checkDirectories next
+	(next) ->
+		Logger.log 'info', 'Image directories are checked'
+		
 		Application.init next
 	(next) ->
 		Logger.log 'info', "Application is initializated"
@@ -37,9 +41,9 @@ async.waterfall [
 	(next) ->
 		Logger.log 'info', 'Auth is initializated'
 
-		Notifier.init Application.server, next
-	(next) ->
-		Logger.log 'info', 'Notifier is initializated'
+		# Notifier.init Application.server, next
+	# (next) ->
+		# Logger.log 'info', 'Notifier is initializated'
 
 		Application.listen appPort, next
 	(next) ->

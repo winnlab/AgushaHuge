@@ -7,8 +7,9 @@ _ = require 'underscore'
 View = require '../../lib/view'
 Model = require '../../lib/model'
 Logger = require '../../lib/logger'
-array = require '../../utils/array'
 MyLib = require '../../lib/quiz'
+Image = require '../../lib/image'
+array = require '../../utils/array'
 
 entityModelType = 1
 
@@ -210,7 +211,7 @@ exports.deleteImage = (req, res) ->
 		(next) ->
 			Model 'Contribution', 'findOne', next, {_id}
 		(doc, next) ->
-			fs.unlink "./public/img/#{img}", (err) ->
+			Image.doRemoveImage img, (err) ->
 				next err, doc
 		(doc, next) ->
 			images = doc.desc_image

@@ -41,6 +41,11 @@ routes = () ->
 	@use user_controller.Router
 	@use '/', user_controller.Router
 	@use '/admin', admin_controller.Router
+	@use (err, req, res, next) ->
+		if process.env.NODE_ENV isnt 'production'
+			console.log err
+
+		res.send 500, 'Something broke, sorry! :('
 
 configure = () ->
 	@use (req, res, next) ->
@@ -82,7 +87,10 @@ configure = () ->
 		res.set 'Content-Type', 'text/plain'
 		res.send "User-agent: *\nDisallow: /"
 
-	@use multer {dest: './public/img/'}
+	@use multer {
+		dest: './public/img/'
+		onFileUploadComplete: Image.doResize
+	}
 
 	@use Cache.requestCache
 	@use bodyParser()

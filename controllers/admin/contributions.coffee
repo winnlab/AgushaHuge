@@ -6,6 +6,7 @@ View = require '../../lib/view'
 Model = require '../../lib/model'
 Logger = require '../../lib/logger'
 MyLib = require '../../lib/contribution'
+Image = require '../../lib/image'
 
 exports.index = (req, res) ->
 	async.waterfall [
@@ -109,7 +110,7 @@ exports.deleteImage = (req, res) ->
 		(next) ->
 			Model 'Contribution', 'findOne', next, {_id}
 		(doc, next) ->
-			fs.unlink "./public/img/#{img}", (err) ->
+			Image.doRemoveImage img, (err) ->
 				next err, doc
 		(doc, next) ->
 			images = doc.desc_image
