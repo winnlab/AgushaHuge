@@ -131,6 +131,9 @@ exports.doSort = (req, res) ->
 		if req.body[item]
 			where[item] = req.body[item]
 
+	if req.body.title
+		where.title = new RegExp ".*#{req.body.title}.*", 'i'
+
 	if req.body.tags
 		where.tags = $in: req.body.tags
 
@@ -149,3 +152,24 @@ exports.doSort = (req, res) ->
 			res.send docs
 	], (err) ->
 		res.send 'ESORT'
+
+exports.autocomplete = (req, res) ->
+	query = req.query.query
+	async.waterfall [
+		(next) ->
+			Model 'Contribution', 'findArticles', next, title: new RegExp(".*#{query}.*", "i"), 'title'
+		(docs) ->
+			result =
+				query: query
+				suggestions: []
+			if docs
+				for item in docs
+					result.suggestions.push item.title
+
+			res.send result
+	], (err) ->
+		Logger.log 'error', 'Error occured in admin/contributions/autocomplete', err
+		res.send {
+			query
+			suggestions: []
+		}
