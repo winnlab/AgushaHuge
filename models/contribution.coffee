@@ -25,6 +25,7 @@ schema = new mongoose.Schema
 	title:
 		type: String
 		required: true
+		unique: false
 	desc_shorttext:
 		type: String
 		required: false
