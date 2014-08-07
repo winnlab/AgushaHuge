@@ -6,9 +6,10 @@ Database = require './database'
 Logger = require '../lib/logger'
 Migrate = require './migrate'
 Application = require './application'
-Notifier = require '../lib/notifier'
 AuthStartegies = require './auth'
 ModelPreloader = require './mpload'
+Notifier = require '../lib/notifier'
+Image = require '../lib/image'
 
 appPort = 8080
 
