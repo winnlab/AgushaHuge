@@ -70,7 +70,12 @@ exports.delete = (req, res) ->
 	_id = req.params.id
 	async.waterfall [
 		(next) ->
-			Model 'Category', 'findOneAndRemove', next, {_id}
+			Model 'Category', 'findOne', next, _id: _id
+		(doc, next) ->
+			if doc
+				doc.remove next
+			else
+				next null
 		(next) ->
 			View.message true, 'Категория успешно удалена!', res
 	], (err) ->
