@@ -2,6 +2,8 @@ mongoose = require 'mongoose'
 ObjectId = mongoose.Schema.Types.ObjectId
 Mixed = mongoose.Schema.Types.Mixed
 
+LibSchema = '../lib/schema'
+
 schema = new mongoose.Schema
 	title:
 		type: String
@@ -31,6 +33,6 @@ schema = new mongoose.Schema
 ,
 	collection: 'age'
 
-
+LibSchema.init schema, 'icon desc_image'
 
 module.exports = mongoose.model 'Age', schema

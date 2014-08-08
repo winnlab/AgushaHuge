@@ -68,7 +68,12 @@ exports.delete = (req, res) ->
 	_id = req.params.id
 	async.waterfall [
 		(next) ->
-			Model 'Certificate', 'findOneAndRemove', next, {_id}
+			Model 'Certificate', 'findOne', next, _id: _id
+		(doc) ->
+			if doc
+				doc.remove next
+			else
+				View.message true, 'Такого сертификата (уже?) нет в базе данных.', res
 		() ->
 			View.message true, 'Сертификат успешно удален!', res
 	], (err) ->
