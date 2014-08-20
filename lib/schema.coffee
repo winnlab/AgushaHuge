@@ -4,7 +4,7 @@ _ = require 'underscore'
 Image = require './image'
 Logger = require './logger'
 
-genereteCleanupFn - (fields) ->
+genereteCleanupFn = (fields) ->
 	return (doc) ->
 		iterator = (field, callback) ->
 			unless doc[field]
@@ -23,4 +23,4 @@ genereteCleanupFn - (fields) ->
 				Logger.log 'info', 'Error occured while removing images:', err
 
 exports.init = (Schema, fields) ->
-	Shema.post 'remove', genereteCleanupFn fields
+	Schema.post 'remove', genereteCleanupFn fields

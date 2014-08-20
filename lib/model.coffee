@@ -6,8 +6,14 @@ noMethod = 'Exception in Model library: method with name %s does not exist'
 
 module.exports = (modelName, methodName, cb, args...) ->
 	mdl = mongoose.models[modelName]
-
+	console.log typeof mdl
 	throw new Error sprintf noModel, modelName if mdl is undefined
+
+	if method is undefined
+		if typeof cb is 'function'
+			return cb null, mdl
+		else
+			return mdl 
 
 	method = mdl[methodName]
 

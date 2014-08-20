@@ -4,7 +4,8 @@
   "description": "Agusha site",
   "private": true,
   "scripts": {
-    "start": "coffee init"
+    "start": "coffee init",
+    "test": "mocha --compilers coffee:coffee-script"
   },
   "authors": {
     "Rastopyr": "rastopyr@gmail.com"
@@ -12,6 +13,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/winnlab/AgushaHuge.git"
+  },
+  "devDependencies": {
+    "mocha": "1.21.4",
+    "jscoverage": "0.5.6",
+    "should": "4.0.4"
   },
   "dependencies": {
     "express": "4.3.1",
