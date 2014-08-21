@@ -7,6 +7,8 @@ async = require 'async'
 ModelPreload = require '../init/mpload'
 Model = require '../lib/model.coffee'
 
+ObjectId = mongoose.Schema.Types.ObjectId
+
 describe 'ModelPreload', ->
 	it 'should preload test model', (done) ->
 		ModelPreload "#{process.cwd()}/models/", ->
@@ -24,7 +26,7 @@ describe 'Model', ->
 				mdl.should.have.property 'modelName', 'Test'
 				done()
 
-	describe 'saving', ->
+	describe 'setting:', ->
 		it 'should create new document in collection', (done) ->
 			mdl = Model 'Test'
 			doc = new mdl
@@ -46,50 +48,21 @@ describe 'Model', ->
 
 		before (done) ->
 			mdl = Model 'Test'
-			async.parallel [
-				(cb) ->
-					doc1 = new mdl
-					doc1._id = "53f4db0528ee770512d71354"
-					doc1.string = 'before'
-					doc1.save cb
-				(cb) ->
-					doc2 = new mdl
-					doc2._id = "53f4db0528ee770512d71355"
-					doc2.string = 'toRemove'
-					doc2.save cb
-			], ->
-				done()
+			doc = new mdl
+			doc.string = 'before'
+			doc.save done
 
 		it 'should update existing model', (done) ->
-			cb = (err, doc) ->
+			cb = (err, affected) ->
 				done err if err
-
-				doc.should.have.property 'string', 'before'
-				doc.string = 'edited'
-				doc.save (err, doc, affected) ->
-					done err if err
-
-					affected.should.be.exactly 1
-					doc.should.have.property 'string', 'edited'
-
-					done()
+				affected.should.be.exactly 1
+				done()
 			
-			Model 'Test', 'findOne', cb, _id: "53f4db0528ee770512d71354"
+			Model 'Test', 'update', cb, string: "before", string: 'edited'
 
 
 		it 'should remove existing model', (done) ->
-			Model 'Test', 'findOne', cb, _id: "53f4db0528ee770512d71355"
-			cb = (err, doc) ->
-				done err if err
+			cb = (err) ->
+				done err
 
-				(err == null).should.be.true
-				doc.remove (err, doc) ->
-					done err if err
-
-					doc.should.have.property '_id', "53f4db0528ee770512d71355"
-					done()
-
-			undefined
-
-		after (done) ->
-			Model 'Test','remove', done, _id: "53f4db0528ee770512d71354"
+			Model 'Test', 'remove', cb, {}
