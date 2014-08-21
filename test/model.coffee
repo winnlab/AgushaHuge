@@ -10,42 +10,38 @@ Model = require '../lib/model.coffee'
 describe 'ModelPreload', ->
 	it 'should preload test model', (done) ->
 		ModelPreload "#{process.cwd()}/models/", ->
-			mongoose.models.Test.should.be.a.Function
+			mongoose.models.Test.should.have.property 'modelName', 'Test'
 			done()
 
 describe 'Model', ->
 	describe 'getting', ->
 		it 'should return a model instance if no method provided, and do it synchronously if no cb provided', ->
 			mdl = Model 'Test'
-			mdl.should.be.a.Function
+			mdl.should.have.property 'modelName', 'Test'
 		it 'should return a model instance if no method provided, and do it asynchronously if cb provided', (done) ->
 			mdl = Model 'Test', null, (err, mdl) ->
-				(err == null).should.be.true
-				mdl.should.be.a.Function
+				done err if err
+				mdl.should.have.property 'modelName', 'Test'
 				done()
+
 	describe 'saving', ->
 		it 'should create new document in collection', (done) ->
 			mdl = Model 'Test'
 			doc = new mdl
-
-			doc.should.have.property 'string'
-			doc.save.should.be.a.function
 			
 			doc.string = 'test'
 			doc.number = 42
-			doc.date = testDate = Date.now()
+			doc.date = Date.now()
 			doc.bool = true
+
 			doc.save (err, doc, affected) ->
-				(err == null).should.be.true
+				done err if err
+
 				affected.should.be.exactly 1
+
 				doc.should.have.property '_id'
 				doc._id.should.not.be.empty
-				doc.should.have.property 'string', 'test'
-				doc.number.should.be.exactly 42
-				doc.should.have.property 'date'
-				doc.bool.should.be.true
 
-				_id = doc._id
 				done()
 
 		before (done) ->
@@ -66,26 +62,30 @@ describe 'Model', ->
 
 		it 'should update existing model', (done) ->
 			cb = (err, doc) ->
-				(err == null).should.be.true
-				doc.should.have.property 'string', 'test'
+				done err if err
+
+				doc.should.have.property 'string', 'before'
 				doc.string = 'edited'
 				doc.save (err, doc, affected) ->
-					(err == null).should.be.true
+					done err if err
+
 					affected.should.be.exactly 1
 					doc.should.have.property 'string', 'edited'
+
 					done()
-			cb.should.be.a.Function
+			
 			Model 'Test', 'findOne', cb, _id: "53f4db0528ee770512d71354"
-			undefined
+
 
 		it 'should remove existing model', (done) ->
 			Model 'Test', 'findOne', cb, _id: "53f4db0528ee770512d71355"
 			cb = (err, doc) ->
+				done err if err
+
 				(err == null).should.be.true
-				doc.should.have.property 'string', 'toRemove'
-				doc.string = 'edited'
 				doc.remove (err, doc) ->
-					(err == null).should.be.true
+					done err if err
+
 					doc.should.have.property '_id', "53f4db0528ee770512d71355"
 					done()
 
