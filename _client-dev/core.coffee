@@ -10,13 +10,13 @@ requirejs.config({
     }
 });
 
-requirejs ['jquery', 'can', 'bootstrap', 'jqueryUi', 'iCheck'], ($, can, bootstrap, jquery-ui, iCheck) ->
+requirejs ['jquery', 'can', 'bootstrap', 'jqueryUi', 'iCheck'], ($, can, bootstrap, jqueryui, iCheck) ->
     Core = can.Control.extend
         defaults: 
             inited: false
     ,
         init: (element, options) ->
             self = @
-            console.log 'bla'
+            console.log 'blabla'
 
 core = new Core $('body')
