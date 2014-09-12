@@ -11,7 +11,7 @@ ModelPreloader = require './mpload'
 Notifier = require '../lib/notifier'
 Image = require '../lib/image'
 
-appPort = 8080
+config = require '../config.json'
 
 _.mixin _.str.exports()
 
@@ -46,9 +46,9 @@ async.waterfall [
 	# (next) ->
 		# Logger.log 'info', 'Notifier is initializated'
 
-		Application.listen appPort, next
+		Application.listen config.port, next
 	(next) ->
-		Logger.log 'info', "Application is binded to #{appPort}"
+		Logger.log 'info', "Application is binded to #{config.port}"
 
 ], (err) ->
 	Logger.error 'Init error: ', err
