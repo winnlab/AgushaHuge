@@ -41,14 +41,9 @@ async.waterfall [
 		AuthStartegies.init next
 	(next) ->
 		Logger.log 'info', 'Auth is initializated'
-
-		# Notifier.init Application.server, next
-	# (next) ->
-		# Logger.log 'info', 'Notifier is initializated'
-
+		
 		Application.listen config.port, next
 	(next) ->
 		Logger.log 'info', "Application is binded to #{config.port}"
-
 ], (err) ->
 	Logger.error 'Init error: ', err

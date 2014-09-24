@@ -3,7 +3,7 @@ _ = require 'underscore'
 moment = require 'moment'
 
 Logger = require './logger'
-Cache = require './cache'
+# Cache = require './cache'
 
 exports.render = render = (name, res, data, cacheId) ->
 	data or= {}
