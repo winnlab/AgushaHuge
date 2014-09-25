@@ -1,9 +1,16 @@
 async = require 'async'
 _ = require 'underscore'
 moment = require 'moment'
+jade = require 'jade'
+fs = require 'fs'
+zlib = require 'zlib'
 
 Logger = require './logger'
 # Cache = require './cache'
+
+viewDirectory = "#{__dirname}/../views"
+
+compiledFiles = []
 
 exports.render = render = (name, res, data, cacheId) ->
 	data or= {}
@@ -26,14 +33,35 @@ exports.render = render = (name, res, data, cacheId) ->
 				console.log err
 				throw err
 
-exports.renderWithSession = (req, res, path, data) ->
-	data = data || {}
-	
-	if req.session.err?
-		data.err = req.session.err
-		delete req.session.err
-	
-	render path, res, data
+exports.renderJade = (req, res, path, dataFunc) ->
+	async.waterfall [
+		(next) ->
+			if(dataFunc && typeof(dataFunc) == 'function')
+				return dataFunc req, res, next
+			
+			next null, {}
+		(data) ->
+			_.extend data, res.locals
+			
+			# if res.locals.is_ajax_request is true
+				# return ajaxResponse res, null, data
+			
+			# html = application.ectRenderer.render path += '/index', data
+				
+			if not compiledFiles[path]
+				options =
+					compileDebug: false
+					pretty: false
+				
+				compiledFiles[path] = jade.compileFile "#{viewDirectory}/#{path}/index.jade", options
+			
+			html = compiledFiles[path] data
+			
+			res.send html
+	], (err) ->
+		error = err.message || err
+		Logger.log 'error', 'Error in View.renderJade: ', error + ''
+		res.send error
 
 exports.message = message = (success, message, res) ->
 	data = {
@@ -54,7 +82,6 @@ exports.clientError = (err, res) ->
 
 	render 'user/main/error/index', res, data
 
-
 exports.clientSuccess = (data, res)->
 	data =
 		success: true
@@ -72,13 +99,13 @@ exports.clientFail = (err, res)->
 	res.send data
 
 exports.globals = (req, res, next)->
-	res.locals.defLang = 'ru'
-	res.locals.lang = req.lang
-
 	if req.user
-		res.locals.euser = req.user
 		res.locals.user = req.user
-
+	
+	res.locals.base_url = base_url = 'http://' + req.headers.host
+	res.locals.current_url = base_url + req.originalUrl
+	res.locals.params = req.params
+	
 	res.locals.moment = moment
-
+	
 	next()
