@@ -61,12 +61,12 @@
 }
 
 .switch input:checked ~ label {
-	background: $darkgreen;
+	
 }
 
 .switch input:checked ~ label i {
 	right: -1%;
-	border: 1px solid $darkgreen;
+	
 }
 
 .switch input:checked ~ label i:before {
