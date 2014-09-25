@@ -1,0 +1,17 @@
+@import '../dynamic/dynamic';
+
+button {
+	border: none;
+	outline-style: none;
+	
+	&:hover {
+		opacity: 0.8;
+	}
+}
+
+input {
+	@include border_radius(5px);
+	@include border_boxed;
+	border: none;
+	outline-style: none;
+}

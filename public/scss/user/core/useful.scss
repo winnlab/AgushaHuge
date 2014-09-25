@@ -1,0 +1,110 @@
+@import '../dynamic/dynamic';
+
+textarea {
+	resize: none;
+}
+
+.centered {
+	text-align: center;
+}
+
+.error {
+	color: #fd7b6a;
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+.non_uppercase {
+	text-transform: none !important;
+}
+
+.half {
+	float: left;
+	width: 50%;
+	height: 100%;
+}
+
+/* Useful stuff */
+
+.adorable_container { /* Should have width */
+	@include absolute_centered;
+	display: table;
+	position: relative;
+	
+	&:before {
+		@include lovely;
+	}
+}
+
+.inline_adorable_container { /* Should have width */
+	position: relative;
+	display: inline-block;
+	line-height: 0;
+	letter-spacing: -1px;
+	vertical-align: top;
+	
+	.adorable {
+		line-height: normal;
+		letter-spacing: normal;
+	}
+	
+	&:before {
+		@include lovely;
+	}
+}
+
+.adorable {
+	@include absolute_centered;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+.adorable_table {
+	display: table;
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+
+.adorable_cell {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	height: 100%;
+	width: 100%;
+	white-space: normal;
+}
+
+.inline_container {
+	display: inline-block;
+	line-height: 0;
+	letter-spacing: -1px;
+	
+	.inline {
+		line-height: normal;
+		letter-spacing: normal;
+	}
+}
+
+.rounded {
+	@include border_radius(99999em);
+}
+
+.force_height {
+	overflow: auto;
+	position: relative;
+}
+
+.bold {
+	font-family: 'PT_Sans_Bold';
+}
+
+.border_boxed {
+	@include border_boxed;
+}
+
+.pull_right {
+	float: right;
+}

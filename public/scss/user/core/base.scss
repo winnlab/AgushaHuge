@@ -1,0 +1,21 @@
+@import '../../normalize/normalize';
+@import '../dynamic/dynamic';
+@import '../helpers/dropdown';
+
+body {
+	font-size: 14px;
+	min-width: 1000px;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+p {
+	margin-top: 0;
+}
+
+h3 {
+	margin-top: 0;
+}

@@ -1,0 +1,56 @@
+@import '../dynamic/dynamic';
+
+.checkbox {
+	margin: 0 auto;
+	position: relative;
+	height: 34px;
+	width: 108px;
+	
+	label {
+		&:not(.error) {
+			width: 100%;
+			height: 100%;
+			position: relative;
+			display: block;
+			border-radius: 3px;
+			background-color: #FFFFFF;
+			
+			.img {
+				@include absolute_centered;
+				background: url('/img/user/tour/checkbox.png') no-repeat;
+				background-position: 0 0;
+				background-position: -60px 0;
+			}
+		}
+	}
+	
+	input {
+		top: 0; 
+		right: 0; 
+		bottom: 0; 
+		left: 0;
+		opacity: 0;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+		z-index: 100;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		
+		&:hover {
+			&~ label {
+				.img {
+					background-position: -30px 0 !important;
+				}
+			}
+		}
+		
+		&:checked {
+			&~ label {
+				.img {
+					background-position: 0 0;
+				}
+			}
+		}
+	}
+}
