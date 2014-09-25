@@ -2,8 +2,6 @@ async = require 'async'
 _ = require 'underscore'
 moment = require 'moment'
 jade = require 'jade'
-fs = require 'fs'
-zlib = require 'zlib'
 
 Logger = require './logger'
 # Cache = require './cache'
