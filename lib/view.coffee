@@ -31,7 +31,7 @@ exports.render = render = (name, res, data, cacheId) ->
 				console.log err
 				throw err
 
-exports.renderJade = (req, res, path, data) ->
+exports.renderJade = (res, path, data) ->
 	data = data || {}
 	
 	_.extend data, res.locals
