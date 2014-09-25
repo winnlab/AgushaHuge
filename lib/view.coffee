@@ -63,6 +63,13 @@ exports.renderJade = (req, res, path, dataFunc) ->
 		Logger.log 'error', 'Error in View.renderJade: ', error + ''
 		res.send error
 
+exports.ajaxResponse = (res, err, data) ->
+	data =
+		err: (if err then err else false)
+		data: (if data then data else null)
+	
+	res.send data
+
 exports.message = message = (success, message, res) ->
 	data = {
 		success
