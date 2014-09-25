@@ -31,35 +31,26 @@ exports.render = render = (name, res, data, cacheId) ->
 				console.log err
 				throw err
 
-exports.renderJade = (req, res, path, dataFunc) ->
-	async.waterfall [
-		(next) ->
-			if(dataFunc && typeof(dataFunc) == 'function')
-				return dataFunc req, res, next
-			
-			next null, {}
-		(data) ->
-			_.extend data, res.locals
-			
-			# if res.locals.is_ajax_request is true
-				# return ajaxResponse res, null, data
-			
-			# html = application.ectRenderer.render path += '/index', data
-				
-			if not compiledFiles[path]
-				options =
-					compileDebug: false
-					pretty: false
-				
-				compiledFiles[path] = jade.compileFile "#{viewDirectory}/#{path}/index.jade", options
-			
-			html = compiledFiles[path] data
-			
-			res.send html
-	], (err) ->
-		error = err.message || err
-		Logger.log 'error', 'Error in View.renderJade: ', error + ''
-		res.send error
+exports.renderJade = (req, res, path, data) ->
+	data = data || {}
+	
+	_.extend data, res.locals
+	
+	# if res.locals.is_ajax_request is true
+		# return ajaxResponse res, null, data
+	
+	# html = application.ectRenderer.render path += '/index', data
+		
+	if not compiledFiles[path]
+		options =
+			compileDebug: false
+			pretty: false
+		
+		compiledFiles[path] = jade.compileFile "#{viewDirectory}/#{path}/index.jade", options
+	
+	html = compiledFiles[path] data
+	
+	res.send html
 
 exports.ajaxResponse = (res, err, data) ->
 	data =
