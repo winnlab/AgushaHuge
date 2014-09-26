@@ -75,6 +75,8 @@ h3 {
 	}
 	
 	.number {
+		@include border_radius(5px);
+		@include box_shadow(0 1px 0 #2c98ca);
 		background: url(/img/user/core/number_bg.png) center no-repeat;
 		position: relative;
 		display: inline-block;
