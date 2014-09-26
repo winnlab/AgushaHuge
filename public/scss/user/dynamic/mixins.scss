@@ -76,3 +76,8 @@
 	background-size: cover;
 	-moz-background-size: cover;
 }
+
+@mixin inline_block {
+	display: inline-block;
+	vertical-align: top;
+}
