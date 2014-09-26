@@ -2,6 +2,7 @@
 @import '../dynamic/dynamic';
 
 $min-height: 634px;
+$max-height: 768px;
 
 @mixin number_pseudo {
 	@include pseudo;
@@ -12,6 +13,12 @@ $min-height: 634px;
 	overflow: hidden;
 	top: 0;
 	width: 2px;
+}
+
+@mixin min_max_height {
+	max-height: $max-height;
+	min-height: $min-height;
+	height: 100%;
 }
 
 html, body {
@@ -40,17 +47,27 @@ h3 {
 	margin-top: 0;
 }
 
-#side_menu {
+#main_container {
+	@include min_max_height;
+	display: table;
+	width: 100%;
+}
+
+#left_menu {
+	@include min_max_height;
 	/*position: fixed;*/
 	top: 0;
 	left: 0;
 	width: 230px;
-	max-height: 768px;
-	min-height: $min-height;
-	height: 100%;
 	background-color: $blue;
-	display: table;
 	color: $white;
+	display: table-cell;
+	vertical-align: top;
+	
+	.left_content {
+		@include min_max_height;
+		display: table;
+	}
 	
 	.close {
 		position: absolute;
@@ -282,4 +299,16 @@ h3 {
 	font-size: 12px;
 	padding: 0 10px 0 35px;
 	position: relative;
+}
+
+#center_container {
+	display: table-cell;
+	text-align: center;
+	vertical-align: top;
+}
+
+#right_menu {
+	display: table-cell;
+	width: 0;
+	vertical-align: top;
 }
