@@ -54,15 +54,18 @@ h3 {
 	width: 100%;
 }
 
+.left_menu {
+	display: table-cell;
+	width: 230px;
+}
+
 #left_menu {
 	@include min_max_height;
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 230px;
 	background-color: $blue;
 	color: $white;
-	display: table-cell;
 	vertical-align: top;
 	z-index: 10;
 	
