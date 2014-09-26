@@ -5,12 +5,12 @@ html(lang="ru")
 			meta(charset="UTF-8")
 			title= "Агуша | Административная панель"
 			meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport')
-			link(href="/css/admin/bootstrap.min.css" rel="stylesheet" type="text/css")
-			link(href="/css/admin/font-awesome.min.css" rel="stylesheet" type="text/css")
-			link(href="/css/admin/ionicons.min.css" rel="stylesheet" type="text/css")
-			link(href="/css/admin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css")
+			//- link(href="/css/admin/bootstrap.min.css" rel="stylesheet" type="text/css")
+			//- link(href="/css/admin/font-awesome.min.css" rel="stylesheet" type="text/css")
+			//- link(href="/css/admin/ionicons.min.css" rel="stylesheet" type="text/css")
+			//- link(href="/css/admin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css")
 
-		link(href="/css/admin/AdminLTE.css" rel="stylesheet" type="text/css")
+		//- link(href="/css/admin/AdminLTE.css" rel="stylesheet" type="text/css")
 
 	body.skin-blue
 		header.header
@@ -130,7 +130,11 @@ html(lang="ru")
 				block content
 
 		block scripts
-			script(data-main="scripts/core" src="js/admin/require.js")
+			script(
+				src="/js/plugins/steal/steal.js" 
+				config-path="/config.js"
+				main="/js/app/admin/core/core.coffee"
+				  )
 			//- script(src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js")
 			//- script(src="/js/admin/jquery-ui-1.10.3.min.js" type="text/javascript")
 			//- script(src="/js/admin/bootstrap.min.js" type="text/javascript")
