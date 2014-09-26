@@ -1,0 +1,69 @@
+@import '../dynamic/dynamic';
+
+.radioswitch {
+	margin: 0 auto;
+	position: relative;
+	height: 34px;
+	width: 108px;
+	
+	label {
+		border-radius: 40px;
+		position: relative;
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+	
+	label .img {
+		@include absolute_centered;
+		background: url('/img/user/tour/radioswitch.png') no-repeat;
+		width: 18px;
+		height: 31px;
+	}
+	
+	input {
+		top: 0; 
+		right: 0; 
+		bottom: 0; 
+		left: 0;
+		opacity: 0;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+		z-index: 1;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		
+		&:hover ~ label {
+			@include inset_box_shadow(0 0 0 2px #f2f2f2);
+		}
+		
+		&:checked ~ label {
+			@include inset_box_shadow(0 0 0 2px #f2f2f2);
+		}
+	}
+	
+	&.boy {
+		label .img {
+			background-position: 0 0;
+		}
+		
+		input:checked {
+			&~ label .img {
+				background-position: 0 -31px;
+			}
+		}
+	}
+	
+	&.girl {
+		label .img {
+			background-position: -18px 0;
+		}
+		
+		input:checked {
+			&~ label .img {
+				background-position: -18px -31px;
+			}
+		}
+	}
+}

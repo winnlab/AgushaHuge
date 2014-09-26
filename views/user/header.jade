@@ -1,0 +1,24 @@
+#side_menu
+	.close
+	
+	.top
+		.logo
+			img.glow(src="/img/user/core/logo_glow.png")
+			img#logo(src="/img/user/core/logo.png")
+	
+	.counter
+		.count
+			- var likes = [5, 0, 9, 8, 4]
+			- each l, key in likes
+				.number
+					.line
+						.symbol #{l}
+	
+	.bottom
+		.social
+			.social_block.facebook
+			.social_block.vkontakte
+			.social_block.odnoklassniki
+			
+		.copyright.adorable_table
+			.adorable_cell © 2014 Вимм-Билль-Данн

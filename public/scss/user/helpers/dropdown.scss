@@ -1,0 +1,24 @@
+@import '../dynamic/dynamic';
+
+.dropdown_container {
+	&:hover {
+		.dropdown {
+			display: block;
+		}
+	}
+}
+
+.dropdown {
+	position: absolute;
+	z-index: 9998;
+	display: none;
+	left: 0;
+	right: 0;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: -5px;
+}
+
+.dropdown_panel {
+	
+}

@@ -12,12 +12,9 @@ bodyParser = require 'body-parser'
 session = require 'express-session'
 methodOverride = require 'method-override' 
 multer = require 'multer'
-compression = require 'compression'
-gzip = require 'connect-gzip'
 
 Admin = require '../lib/admin'
 Auth = require '../lib/auth'
-Cache = require '../lib/cache'
 Image = require '../lib/image'
 Logger = require '../lib/logger'
 Model = require '../lib/model'
@@ -32,21 +29,10 @@ jadeOptions =
 sessionParams =
 	secret: '4159J3v6V4rX6y1O6BN3ASuG2aDN7q'
 
-abideOption =
-	supported_languages: ['ru']
-	default_lang: 'ru',
-	translation_directory: 'locale'
-	locale_on_url: false
-
 routes = () ->
 	@use user_controller.Router
 	@use '/', user_controller.Router
 	@use '/admin', admin_controller.Router
-	@use (err, req, res, next) ->
-		if process.env.NODE_ENV isnt 'production'
-			console.log err
-
-		res.send 500, 'Something broke, sorry! :('
 
 configure = () ->
 	@use (req, res, next) ->
@@ -70,15 +56,11 @@ configure = () ->
 			res.locals.consComm = if results.consComm is undefined then 'N/A' else results.consComm.length
 
 			next()
-
-
+	
 	@set 'views', "#{__dirname}/../views"
 	@set 'view engine', 'jade'
 	@set 'view options', jadeOptions
-	@use compression
-		threshold: 2048
-	@use gzip.gzip
-		matchType: ///js/image/images/image/img///
+	
 	@use '/js', express.static "#{__dirname}/../public/js"
 	@use '/img', express.static "#{__dirname}/../public/img"
 	@use '/attachable', express.static "#{__dirname}/../public/img/admin/attachable"
@@ -89,11 +71,10 @@ configure = () ->
 		res.send "User-agent: *\nDisallow: /"
 
 	@use multer {
-		dest: './public/img/'
+		dest: './public/img/uploads/'
 		onFileUploadComplete: Image.doResize
 	}
-
-	@use Cache.requestCache
+	
 	@use bodyParser()
 	@use cookieParser 'LmAK3VNuA6'
 	@use session sessionParams

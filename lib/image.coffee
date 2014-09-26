@@ -5,7 +5,7 @@ path = require 'path'
 
 Logger = require './logger'
 
-uploadsPath = "#{process.cwd()}/public/img/"
+uploadsPath = "#{process.cwd()}/public/img/uploads/"
 
 #sizes = [100, 200, 350]
 sizes = [160, 220, 420]
