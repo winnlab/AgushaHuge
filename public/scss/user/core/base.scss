@@ -1,7 +1,7 @@
 @import '../../normalize/normalize';
 @import '../dynamic/dynamic';
 
-$min-height: 586px;
+$min-height: 634px;
 
 @mixin number_pseudo {
 	@include pseudo;
@@ -145,6 +145,51 @@ h3 {
 	.item {
 		position: relative;
 		margin: 20px 0;
+		text-transform: uppercase;
+		padding: 0 18px;
+		text-align: left;
+		cursor: pointer;
+		
+		&.adorable_table {
+			@include border_boxed;
+			height: auto;
+		}
+	}
+	
+	.icon {
+		width: 50px;
+		display: table-cell;
+		height: 33px;
+		
+		&:before {
+			@include pseudo;
+			height: 100%;
+			width: 37px;
+			background: url('/img/user/core/menu_icons.png') no-repeat;
+		}
+	}
+	
+	.specialist {
+		&:before {
+			background-position: -37px 0;
+		}
+	}
+	
+	.action {
+		&:before {
+			background-position: -74px 0;
+		}
+	}
+	
+	.about {
+		&:before {
+			background-position: -111px 0;
+		}
+	}
+	
+	.label {
+		display: table-cell;
+		vertical-align: middle;
 	}
 	
 	.search_item {
