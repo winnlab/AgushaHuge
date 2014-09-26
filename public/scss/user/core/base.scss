@@ -24,6 +24,7 @@ $max-height: 768px;
 html, body {
 	min-height: $min-height;
 	height: 100%;
+	overflow-x: hidden;
 }
 
 body {
@@ -63,6 +64,8 @@ h3 {
 	color: $white;
 	display: table-cell;
 	vertical-align: top;
+	z-index: 10;
+	position: relative;
 	
 	.left_content {
 		@include min_max_height;
@@ -311,4 +314,13 @@ h3 {
 	display: table-cell;
 	width: 0;
 	vertical-align: top;
+	z-index: 10;
+	position: relative;
+}
+
+.module {
+	.content {
+		position: relative;
+		z-index: 10;
+	}
 }
