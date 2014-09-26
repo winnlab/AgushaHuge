@@ -38,15 +38,13 @@ exports.renderJade = (res, path, data) ->
 	
 	# if res.locals.is_ajax_request is true
 		# return ajaxResponse res, null, data
+		
+	# if not compiledFiles[path]
+	options =
+		compileDebug: false
+		pretty: false
 	
-	# html = application.ectRenderer.render path += '/index', data
-		
-	if not compiledFiles[path]
-		options =
-			compileDebug: false
-			pretty: false
-		
-		compiledFiles[path] = jade.compileFile "#{viewDirectory}/#{path}/index.jade", options
+	compiledFiles[path] = jade.compileFile "#{viewDirectory}/#{path}/index.jade", options
 	
 	html = compiledFiles[path] data
 	

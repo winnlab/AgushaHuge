@@ -71,7 +71,7 @@ configure = () ->
 		res.send "User-agent: *\nDisallow: /"
 
 	@use multer {
-		dest: './public/img/'
+		dest: './public/img/uploads/'
 		onFileUploadComplete: Image.doResize
 	}
 	
