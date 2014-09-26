@@ -166,12 +166,12 @@ h3 {
 		margin: 20px 0;
 		text-transform: uppercase;
 		padding: 0 18px;
-		text-align: left;
-		cursor: pointer;
+		text-align: left;		
 		
 		&.adorable_table {
 			@include border_boxed;
 			height: auto;
+			cursor: pointer;
 		}
 	}
 	
