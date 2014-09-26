@@ -1,6 +1,17 @@
 @import '../../normalize/normalize';
 @import '../dynamic/dynamic';
 
+@mixin number_pseudo {
+	@include pseudo;
+	background-color: #4d4d4d;
+	bottom: 0;
+	height: 6px;
+	margin: auto;
+	overflow: hidden;
+	top: 0;
+	width: 2px;
+}
+
 body {
 	font-size: 14px;
 	min-width: 1000px;
@@ -53,10 +64,53 @@ h3 {
 		position: absolute;
 		top: 42px;
 		left: 43px;
+	}
+	
+	.glow {
+		margin: -30px 0 0 -30px;
+	}
+	
+	.count {
+		text-align: center;
+	}
+	
+	.number {
+		background: url(/img/user/core/number_bg.png) center no-repeat;
+		position: relative;
+		display: inline-block;
+		vertical-align: top;
+		width: 31px;
+		height: 44px;
+		font-family: 'PT_Sans_Bold';
+		font-size: 29px;
+		line-height: 44px;
+		color: $white;
 		
-		.glow {
-			margin: -30px 0 0 -30px;
+		&:after {
+			@include number_pseudo;
+			right: -1px;
 		}
+		
+		&:before {
+			@include number_pseudo;
+			left: -1px;
+		}
+	}
+	
+	.line:before {
+		@include pseudo;
+		background-color: #5cd5f7;
+		bottom: 0;
+		height: 2px;
+		left: 0;
+		margin: auto;
+		right: 0;
+		top: 0;
+		width: 29px;
+	}
+	
+	.symbol {
+		position: relative;
 	}
 	
 	.bottom {
