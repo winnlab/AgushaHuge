@@ -13,5 +13,16 @@ input {
 	@include border_radius(5px);
 	@include border_boxed;
 	border: none;
+	height: 50px;
+	line-height: 50px !important;
+	width: 100%;
+	text-transform: uppercase;
+	font-size: 100%;
 	outline-style: none;
+	padding: 0;
+	
+	&.error {
+		@include inset_box_shadow(0 0 0 3px #fd7b6a !important);
+		background: $white !important;
+	}
 }
