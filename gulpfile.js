@@ -5,7 +5,10 @@ var mocha = require('gulp-mocha');
 var sass = require('gulp-sass');
 
 var paths = {
-    // client: [''],
+    coffee: [
+        // './public/js/app/admin/*/*.coffee',
+        // './public/js/app/admin/*/*/*.coffee'
+    ],
     tests: ['./test/client/*/*.coffee'],
     adminUnitTest: ['./controllers/admin.coffee',
         './controllers/admin/*.coffee',
@@ -15,11 +18,11 @@ var paths = {
     sass: ['./public/scss/*.scss', './public/scss/*/*.scss']
 };
 
-// gulp.task('coffee-client', function () {
-//     gulp.src(paths.client)
-//         .pipe(coffee({bare: true}).on('error', gutil.log))
-//         .pipe(gulp.dest('./public/js/admin/scripts'));
-// });
+gulp.task('coffee', function () {
+    gulp.src(paths.coffee)
+        .pipe(coffee({bare: true}).on('error', gutil.log))
+        .pipe(gulp.dest('./public/js/app/admin'));
+});
 
 gulp.task('coffee-tests', function () {
     gulp.src(paths.tests)
@@ -39,7 +42,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('watch', function () {
-    // gulp.watch(paths.client, ['coffee-client']);
+    // gulp.watch(paths.coffee, ['coffee']);
     gulp.watch(paths.tests, ['coffee-tests']);
     gulp.watch(paths.adminUnitTest, ['unit-test-admin']);
     gulp.watch(paths.sass, ['sass']);

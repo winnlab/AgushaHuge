@@ -10,9 +10,19 @@ System.config({
 		"iCheck": "js/plugins/adminlte/js/plugins/iCheck/icheck.min.js",
 		"velocity": "js/plugins/velocity/velocity.min.js",
 		"velocity-ui": "js/plugins/velocity/velocity.ui.min.js",
+		"underscore": "js/plugins/underscore/underscore-min.js",
 
 		"adminlte-css/*": "js/plugins/adminlte/css/*css",
-		"bootstrap-wysihtml-css": "js/plugins/adminlte/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"
+		"bootstrap-wysihtml-css": "js/plugins/adminlte/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
+
+		"router": 'js/app/admin/router/router.js',
+		"placeholder": 'js/app/admin/router/placeholder.js',
+		"rConfig": 'js/app/admin/core/config.js',
+
+		"core": 'js/app/admin/core/core.js',
+		"appState": 'js/app/admin/core/appState.js',
+
+		"list": 'js/app/admin/lib/list/list.js'
 	},
 	map: {
 		"can/util/util": "can/util/jquery/jquery",
@@ -20,14 +30,26 @@ System.config({
 		"$": "jquery"
 	},
 	ext: {
-		css: 'js/plugins/steal/css',
-		coffee: 'js/app/lib/coffee/coffee'
+		css: 'js/plugins/steal/css'
 	},
 	meta: {
 		"can/*": {
 			deps: [
-				'jquery'
+				'jquery',
+				'can/route/pushstate/pushstate'
 			]
+		},
+		"core": {
+			deps: [
+				'jquery',
+				'can/',
+				'adminlte',
+				'css-admin/global.css!',
+				'router'
+			]
+		},
+		"placeholder": {
+			format: "steal"
 		},
 		slimscroll: {
 			deps: ["jquery"]
