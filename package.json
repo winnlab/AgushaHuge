@@ -22,9 +22,9 @@
     "jscoverage": "0.5.6",
     "mocha": "~1.21.4",
     "phantom": "^0.6.5",
-    "phantomjs": "^1.9.10",
     "should": "4.0.4",
-    "steal-tools": "^0.4.0"
+    "steal-tools": "^0.4.0",
+    "gulp-sass": "~1.0.0"
   },
   "dependencies": {
     "coffee-script": "1.7.1",
