@@ -17,10 +17,10 @@ System.config({
 
 		"router": 'js/app/admin/router/router.js',
 		"placeholder": 'js/app/admin/router/placeholder.js',
-		"rConfig": 'js/app/admin/core/config.js',
 
 		"core": 'js/app/admin/core/core.js',
 		"appState": 'js/app/admin/core/appState.js',
+		"rConfig": 'js/app/admin/core/config.js',
 
 		"list": 'js/app/admin/lib/list/list.js',
 		"baseModel": 'js/app/admin/lib/model/baseModel.js'
