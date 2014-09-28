@@ -3,6 +3,7 @@ express = require 'express'
 Ages = require './admin/ages'
 Articles = require './admin/articles'
 Category = require './admin/category'
+CategoryEncyclopedia = require './admin/categoryEncyclopedia'
 Certificate = require './admin/certificate'
 Consultation = require './admin/consultation'
 Contributions = require './admin/contributions'
@@ -125,6 +126,8 @@ Router.get '/consultation/view/:id', Consultation.view
 Router.get '/consultation/delete/:id', Consultation.remove
 
 Router.post '/consultation/update', Consultation.update
+#----------------#
+Router.get '/encyclopedia-category', CategoryEncyclopedia.index
 #- upload helper for wysihtml5 -#
 Router.get '/getAttached', Wysi.get
 Router.post '/uploadWysi', Wysi.upload

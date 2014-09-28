@@ -22,7 +22,8 @@ System.config({
 		"core": 'js/app/admin/core/core.js',
 		"appState": 'js/app/admin/core/appState.js',
 
-		"list": 'js/app/admin/lib/list/list.js'
+		"list": 'js/app/admin/lib/list/list.js',
+		"baseModel": 'js/app/admin/lib/model/baseModel.js'
 	},
 	map: {
 		"can/util/util": "can/util/jquery/jquery",

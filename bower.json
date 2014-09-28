@@ -8,6 +8,8 @@
   "main": "init/index.coffee",
   "moduleType": [
     "es6",
+    "steal",
+    "AMD",
     "node"
   ],
   "keywords": [

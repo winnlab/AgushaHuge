@@ -8,8 +8,8 @@ var config = {
 				path: 'js/app/admin/modules/main'
 			},
 			{
-				name: 'pages',
-				path: 'js/app/admin/modules/pages'
+				name: 'encyclopedia-category',
+				path: 'js/app/admin/modules/category'
 			}
 		]
 	}

@@ -76,10 +76,24 @@ html(lang="ru")
 									a(href="/admin/certificate")
 										i.fa.fa-angle-double-right
 										span= "Сертификаты"
-						li(class=(['contributions', 'themes', 'years', 'quizes'].indexOf(currentHref) > -1?'treeview active':'treeview'))
+						li.treeview
 							a(href="#")
 								i.fa.fa-th
 								span Энциклопедия
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li
+									a(href="/admin/contributions")
+										i.fa.fa-angle-double-right
+										span= "Статьи"
+								li
+									a(href="/admin/encyclopedia-category")
+										i.fa.fa-angle-double-right
+										span= "Категории"
+						li(class=(['contributions', 'themes', 'years', 'quizes'].indexOf(currentHref) > -1?'treeview active':'treeview'))
+							a(href="#")
+								i.fa.fa-th
+								span Энциклопедия (old)
 								i.fa.fa-angle-left.pull-right
 							ul.treeview-menu
 								li(class= (currentHref=='contributions'?"active":""))
