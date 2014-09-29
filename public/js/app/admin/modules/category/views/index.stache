@@ -1,28 +1,8 @@
-<div>
-    <div class='column' id='yearsWrap'>
-        <div class='panel panel-default'>
-            <div class='panel-heading'>
-                <div class='panel-title'>
-                    Возраста
-                </div>
-                <button class='addYears'>Добавить</button>
-            </div>
-            <div class='panel-body'>
+<section class="content">    
+    <div class='col-md-6' id='yearsWrap'>
 
-            </div>
-        </div>
     </div>
-    <div class='column' id='themeWrap'>
-        <div class='panel panel-default'>
-            <div class='panel-heading'>
-                <div class='panel-title'>
-                    Темы
-                </div>
-                <button class='addTheme'>Добавить</button>
-            </div>
-            <div class='panel-body'>
+    <div class='col-md-6' id='themeWrap'>
 
-            </div>
-        </div>
     </div>
-</div>
+</section>

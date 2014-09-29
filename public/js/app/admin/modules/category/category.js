@@ -1,11 +1,32 @@
 import can from 'can/'
-import yearsModel from 'js/app/admin/modules/category/yearsModel'
-import themeModel from 'js/app/admin/modules/category/themeModel'
+import Years from 'js/app/admin/modules/category/years'
+import Themes from 'js/app/admin/modules/category/themes'
 
-export default can.Control.extend({
-    init: function (el, opts) {
-        var self = this;
+import 'css/admin/category.css!'
 
-        
-    }
-});
+export default can.Control.extend(
+	{
+		defaults: {
+	        viewpath: '../js/app/admin/modules/category/views/'
+	    }
+	}, {
+		init: function () {
+
+            var self = this,
+                options = self.options;
+
+            self.element.html(
+                can.view(options.viewpath + 'index.stache', {})
+            );
+
+            new Years(self.element.find('#yearsWrap'), {
+                viewpath: options.viewpath
+            });
+
+            new Themes(self.element.find('#themeWrap'), {
+                viewpath: options.viewpath
+            });
+
+        }
+	}
+);

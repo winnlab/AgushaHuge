@@ -14,14 +14,15 @@ methodOverride = require 'method-override'
 multer = require 'multer'
 
 Admin = require '../lib/admin'
+Ajax = require '../lib/ajax'
 Auth = require '../lib/auth'
 Image = require '../lib/image'
 Logger = require '../lib/logger'
 Model = require '../lib/model'
 View = require '../lib/view'
 
-admin_controller = require '../controllers/admin'
-user_controller = require '../controllers/user'
+adminController = require '../controllers/admin'
+userController = require '../controllers/user'
 
 jadeOptions =
 	layout: false
@@ -30,9 +31,9 @@ sessionParams =
 	secret: '4159J3v6V4rX6y1O6BN3ASuG2aDN7q'
 
 routes = () ->
-	@use user_controller.Router
-	@use '/', user_controller.Router
-	@use '/admin', admin_controller.Router
+	@use userController.Router
+	@use '/', userController.Router
+	@use '/admin', adminController.Router
 
 configure = () ->
 	@use (req, res, next) ->
@@ -83,6 +84,9 @@ configure = () ->
 	@use '/admin', Auth.isAuth
 	@use methodOverride()
 	@use View.globals
+
+	@use '/admin', (req, res, next) ->
+		Ajax.isAjax req, res, next, adminController.layoutPage
 
 exports.init = (callback) ->
 	exports.express = app = express()

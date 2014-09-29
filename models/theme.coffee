@@ -6,17 +6,19 @@ schema = new mongoose.Schema
 	name:
 		type: String
 		required: true
-	pid:
+	years_id:
+		type: ObjectId
+		ref: "Years"
+	parent_id:
 		type: ObjectId
 		ref: "Theme"
-	tags: [
-		type: ObjectId
-		ref: "Tag"
-	]
 	active:
 		type: Boolean
 		required: true
 		default: true
+	position:
+		type: Number
+		default: 99
 ,
 	collection: 'theme'
 

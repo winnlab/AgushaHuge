@@ -5,11 +5,11 @@ var config = {
 		modules: [
 			{
 				name: 'dashboard',
-				path: 'js/app/admin/modules/main'
+				path: 'js/app/admin/modules/main/'
 			},
 			{
 				name: 'encyclopedia-category',
-				path: 'js/app/admin/modules/category'
+				path: 'js/app/admin/modules/category/'
 			}
 		]
 	}
