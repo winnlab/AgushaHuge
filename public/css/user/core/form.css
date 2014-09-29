@@ -1,1 +1,73 @@
-button{-moz-border-radius:99999em;-webkit-border-radius:99999em;-khtml-border-radius:99999em;border-radius:99999em;border:none;outline-style:none;background-color:white;text-transform:uppercase;font-family:'PT_Sans_Bold' !important}button:hover{opacity:0.8}input{-moz-border-radius:5px;-webkit-border-radius:5px;-khtml-border-radius:5px;border-radius:5px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;border:none;height:50px;line-height:50px !important;width:100%;text-transform:uppercase;font-size:100%;outline-style:none;padding:0}input.error{-webkit-box-shadow:inset 0 0 0 3px #fd7b6a !important;-moz-box-shadow:inset 0 0 0 3px #fd7b6a !important;box-shadow:inset 0 0 0 3px #fd7b6a !important;background:#fff !important}
+/*
+Syntax error: Undefined mixin 'bold'.
+        on line 21 of public/scss/user/core/form.scss, in `bold'
+        from line 21 of public/scss/user/core/form.scss
+
+16:    opacity: 1 !important;
+17: }
+18: 
+19: button {
+20: 	@include border_radius(99999em);
+21: 	@include bold;
+22: 	border: none;
+23: 	outline-style: none;
+24: 	background-color: white;
+25: 	text-transform: uppercase;
+26: 	font-family: 'PT_Sans_Bold' !important;
+
+Backtrace:
+public/scss/user/core/form.scss:21:in `bold'
+public/scss/user/core/form.scss:21
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/stack.rb:98:in `block in with_mixin'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/stack.rb:121:in `with_frame'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/stack.rb:98:in `with_mixin'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:318:in `visit_mixin'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/base.rb:36:in `visit'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/stack.rb:79:in `block in with_base'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/stack.rb:121:in `with_frame'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/stack.rb:79:in `with_base'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:152:in `visit'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:389:in `block (2 levels) in visit_rule'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:389:in `map'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:389:in `block in visit_rule'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:387:in `visit_rule'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/base.rb:36:in `visit'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/stack.rb:79:in `block in with_base'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/stack.rb:121:in `with_frame'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/stack.rb:79:in `with_base'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:152:in `visit'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/base.rb:52:in `map'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:161:in `block in visit_children'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:160:in `visit_children'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:180:in `visit_root'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/base.rb:36:in `visit'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:151:in `visit'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/visitors/perform.rb:8:in `visit'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/root_node.rb:36:in `css_tree'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/tree/root_node.rb:20:in `render'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/engine.rb:274:in `render'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/plugin/compiler.rb:378:in `update_stylesheet'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/plugin/compiler.rb:189:in `block in update_stylesheets'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/plugin/compiler.rb:186:in `each'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/plugin/compiler.rb:186:in `update_stylesheets'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/plugin/compiler.rb:357:in `on_file_changed'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/lib/sass/plugin/compiler.rb:250:in `block in watch'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/vendor/listen/lib/listen/listener.rb:252:in `call'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/vendor/listen/lib/listen/listener.rb:252:in `on_change'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/vendor/listen/lib/listen/listener.rb:290:in `block in initialize_adapter'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/vendor/listen/lib/listen/adapters/polling.rb:48:in `call'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/vendor/listen/lib/listen/adapters/polling.rb:48:in `poll_changed_directories'
+l:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.10/vendor/listen/lib/listen/adapter.rb:299:in `block in start_poller'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined mixin 'bold'.\A         on line 21 of public/scss/user/core/form.scss, in `bold'\A         from line 21 of public/scss/user/core/form.scss\A \A 16:    opacity: 1 !important;\A 17: }\A 18: \A 19: button {\A 20: 	@include border_radius(99999em);\A 21: 	@include bold;\A 22: 	border: none;\A 23: 	outline-style: none;\A 24: 	background-color: white;\A 25: 	text-transform: uppercase;\A 26: 	font-family: 'PT_Sans_Bold' !important;"; }

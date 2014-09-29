@@ -4,6 +4,8 @@
 $min-height: 622px;
 $max-height: 768px;
 
+$min-width: 1000px;
+
 @mixin number_pseudo {
 	@include pseudo;
 	background-color: #4d4d4d;
@@ -28,7 +30,7 @@ html, body {
 
 body {
 	font-size: 14px;
-	min-width: 1000px;
+	min-width: $min-width;
 	background-color: $bg;
 	color: $base;
 	font-family: 'PT_Sans_Regular';
@@ -332,7 +334,7 @@ h3 {
 	width: 175px;
 	height: 72px;
 	background: url('/img/user/core/register_bg.png');
-	z-index: 9;
+	z-index: 10;
 	
 	.lock {
 		position: absolute;
@@ -379,4 +381,17 @@ h3 {
 .top_label {
 	text-transform: uppercase;
 	font-size: 16px;
+}
+
+.column {
+	@include inline_block;
+	margin: 20px;
+	
+	&.one {
+		width: 280px;
+	}
+	
+	&.two {
+		width: 580px;
+	}
 }

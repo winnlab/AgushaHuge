@@ -20,21 +20,15 @@
 	border-radius: $size;
 }
 
-@mixin box_shadow($val) {
-	-webkit-box-shadow:	$val;
-	-moz-box-shadow:	$val;
-	box-shadow:			$val;
+@mixin box_shadow($shadow...) {
+	-webkit-box-shadow:	$shadow;
+	-moz-box-shadow:	$shadow;
+	box-shadow:			$shadow;
 }
 
 @mixin image_fix {
 	@include box_shadow(0 0 0 rgba(0, 0, 0, 0));
 	image-rendering: optimizespeed;
-}
-
-@mixin inset_box_shadow($val) {
-	-webkit-box-shadow: inset $val;
-	-moz-box-shadow: inset $val;
-	box-shadow: inset $val;
 }
 
 @mixin lovely {
@@ -80,4 +74,8 @@
 @mixin inline_block {
 	display: inline-block;
 	vertical-align: top;
+}
+
+@mixin rounded {
+	@include border_radius(99999em);
 }

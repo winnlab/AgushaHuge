@@ -1,5 +1,10 @@
 @import '../dynamic/dynamic';
 
+@mixin bold {
+	font-family: 'PT_Sans_Bold';
+	letter-spacing: 0.5px;
+}
+
 @font-face {
     font-family: 'novito_nova_thin';
     src: url('/css/fonts/Novito_Nova_Thin.eot');
@@ -72,6 +77,7 @@
 
 .novito_nova {
 	font-family: "novito_nova_thin";
+	word-spacing: -3.5px;
 }
 
 .novito_nova_regular {
