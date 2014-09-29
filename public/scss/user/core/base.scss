@@ -24,7 +24,6 @@ $max-height: 768px;
 html, body {
 	min-height: $min-height;
 	height: 100%;
-	overflow-x: hidden;
 }
 
 body {
@@ -33,6 +32,7 @@ body {
 	background-color: $bg;
 	color: $base;
 	font-family: 'PT_Sans_Regular';
+	overflow-x: hidden;
 }
 
 ul {
@@ -310,6 +310,55 @@ h3 {
 	display: table-cell;
 	text-align: center;
 	vertical-align: top;
+	height: 100%;
+}
+
+#modules {
+	height: 100%;
+	
+	.module {
+		height: 100%;
+	}
+
+	.content {
+		height: 100%;
+	}
+}
+
+#register_corner {
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 175px;
+	height: 72px;
+	background: url('/img/user/core/register_bg.png');
+	z-index: 9;
+	
+	.lock {
+		position: absolute;
+		top: 25px;
+		left: 50px;
+	}
+	
+	.adorable_cell {
+		text-align: left;
+	}
+	
+	.labels {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 90px;
+		height: 70px;
+		font-size: 12px;
+		color: $greyfont;
+	}
+	
+	.label {
+		span {
+			cursor: pointer;
+		}
+	}
 }
 
 #right_menu {
@@ -325,4 +374,9 @@ h3 {
 		position: relative;
 		z-index: 10;
 	}
+}
+
+.top_label {
+	text-transform: uppercase;
+	font-size: 16px;
 }
