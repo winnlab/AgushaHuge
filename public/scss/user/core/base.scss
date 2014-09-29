@@ -1,11 +1,6 @@
 @import '../../normalize/normalize';
 @import '../dynamic/dynamic';
 
-$min-height: 622px;
-$max-height: 768px;
-
-$min-width: 1000px;
-
 @mixin number_pseudo {
 	@include pseudo;
 	background-color: #4d4d4d;
