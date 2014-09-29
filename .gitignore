@@ -31,3 +31,6 @@ views/admin/board/pagesTEMP(will be removed later)
 
 # public images folder
 public/img/uploads
+
+# sass cache directory
+.sass-cache/
