@@ -1,8 +1,12 @@
 @import '../dynamic/dynamic';
 
 button {
+	@include border_radius(99999em);
 	border: none;
 	outline-style: none;
+	background-color: white;
+	text-transform: uppercase;
+	font-family: 'PT_Sans_Bold' !important;
 	
 	&:hover {
 		opacity: 0.8;
