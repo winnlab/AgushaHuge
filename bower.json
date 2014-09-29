@@ -23,6 +23,7 @@
     "velocity": "~1.1.0",
     "coffeescript": "~1.8.0",
     "CanJS": "git://github.com/bitovi/canjs.git#system-steal-domless",
-    "underscore": "~1.7.0"
+    "underscore": "~1.7.0",
+    "lodash": "~2.4.1"
   }
 }
