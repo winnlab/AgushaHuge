@@ -12,7 +12,7 @@
 var left_side_width = 220; //Sidebar width in pixels
 
 
-function fix_sidebar() {
+window.fix_sidebar = function () {
     //Make sure the body tag has the .fixed class
     if (!$("body").hasClass("fixed")) {
         return;
@@ -23,7 +23,7 @@ function fix_sidebar() {
         height: ($(window).height() - $(".header").height()) + "px",
         color: "rgba(0,0,0,0.2)"
     });
-}
+};
 
 /*END DEMO*/
 $(window).load(function() {

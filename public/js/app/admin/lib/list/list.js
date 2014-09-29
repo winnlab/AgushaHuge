@@ -1,8 +1,8 @@
-import can from 'can/'
+import 'can/'
 import 'can/route/'
 import 'can/view/'
 import 'can/map/define/'
-import appState from 'appState'
+import 'appState'
 
 export default can.Control.extend({
 	defaults: {
@@ -10,7 +10,7 @@ export default can.Control.extend({
 		viewName: 'index.stache',
 
 		// Edit entity controller
-		Edit: function() {},
+		Edit: function () {},
 		// Name for list entity in view
 		moduleName: 'list',
 		// Link to entity constructor model

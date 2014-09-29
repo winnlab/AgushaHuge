@@ -3,7 +3,7 @@ import can from 'can/'
 
 export default can.Model.extend({
     id: '_id',
-    resource: baseModel.chooseResource('/categoryEncyclopedia/years'),
+    resource: baseModel.chooseResource('/years'),
     parseModel: baseModel.parseModel,
     parseModels: baseModel.parseModels
 }, {});

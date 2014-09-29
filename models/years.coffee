@@ -6,13 +6,13 @@ schema = new mongoose.Schema
 	name:
 		type: String
 		required: true
-	pid:
-		type: ObjectId
-		ref: "Years"
 	active:
 		type: Boolean
 		required: true
 		default: true
+	position:
+		type: Number
+		default: 99
 ,
 	collection: 'years'
 

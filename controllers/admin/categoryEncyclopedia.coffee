@@ -1,22 +1,16 @@
-async = require 'async'
 _ = require 'underscore'
+async = require 'async'
 
 View = require '../../lib/view'
 Model = require '../../lib/mongooseTransport'
-Logger = require '../../lib/logger'
-mongoose = require 'mongoose'
 
-exports.index = (req, res) ->
-    years = []
-    async.waterfall [
-        (next) ->
-            Model 'Years', 'find', {}, '-__v', next
-        (docs, next) ->
-            years = docs
-            Model 'Theme', 'find', {}, '-__v', next
-        (themes) ->
-            View.render 'admin/board/encyclopedia/categories', res,
-                years: years
-                themes: themes
-    ], (err) ->
-        Logger.log 'info', "Error in #{module.filename}: #{err.message or err}"
+exports.years = (req, res) ->
+    Model 'Years', 'find', {}, '-__v', async.apply View.ajaxResponse, res
+
+exports.themes = (req, res) ->
+	years_id = req.params.years_id
+	
+	unless years_id
+		return View.ajaxResponse res, null, []
+
+	Model 'Theme', 'find', {years_id}, '-__v', async.apply View.ajaxResponse, res

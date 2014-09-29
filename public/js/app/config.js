@@ -11,6 +11,7 @@ System.config({
 		"velocity": "js/plugins/velocity/velocity.min.js",
 		"velocity-ui": "js/plugins/velocity/velocity.ui.min.js",
 		"underscore": "js/plugins/underscore/underscore-min.js",
+		"lodash": "js/plugins/lodash/dist/lodash.min.js",
 
 		"adminlte-css/*": "js/plugins/adminlte/css/*css",
 		"bootstrap-wysihtml-css": "js/plugins/adminlte/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
@@ -23,6 +24,7 @@ System.config({
 		"rConfig": 'js/app/admin/core/config.js',
 
 		"list": 'js/app/admin/lib/list/list.js',
+		"edit": 'js/app/admin/lib/edit/edit.js',
 		"baseModel": 'js/app/admin/lib/model/baseModel.js'
 	},
 	map: {
@@ -46,11 +48,9 @@ System.config({
 				'can/',
 				'adminlte',
 				'css-admin/global.css!',
-				'router'
+				'router',
+				'rConfig'
 			]
-		},
-		"placeholder": {
-			format: "steal"
 		},
 		slimscroll: {
 			deps: ["jquery"]
