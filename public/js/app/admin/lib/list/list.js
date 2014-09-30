@@ -2,6 +2,7 @@ import 'can/'
 import 'can/route/'
 import 'can/view/'
 import 'can/map/define/'
+import 'can/list/promise/'
 import 'appState'
 
 export default can.Control.extend({
@@ -52,8 +53,11 @@ export default can.Control.extend({
 			});
 		}
 
-		self.element.html(can.view(options.viewpath + options.viewName, self.module));
+		self.loadView();
+	},
 
+	loadView: function () {
+		this.element.html(can.view(this.options.viewpath + this.options.viewName, this.module));
 	},
 
 	/*

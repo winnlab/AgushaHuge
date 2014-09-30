@@ -6,9 +6,11 @@ schema = new mongoose.Schema
 	name:
 		type: String
 		required: true
-	years_id:
+	age_id: [
 		type: ObjectId
-		ref: "Years"
+		ref: "Age"
+		sparse: true
+	]
 	parent_id:
 		type: ObjectId
 		ref: "Theme"

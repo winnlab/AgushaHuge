@@ -3,43 +3,44 @@ import List from 'list'
 import _ from 'lodash'
 import appState from 'appState'
 
-import themeModel from 'js/app/admin/modules/category/themeModel'
+import ageModel from 'js/app/admin/modules/category/ageModel'
 
 export default List.extend(
 	{
 		defaults: {
-            viewName: 'themeList.stache',
+            viewName: 'ageList.stache',
 
-            moduleName: 'theme',
-            Model: themeModel,
+            moduleName: 'age',
+            Model: ageModel,
 
             Edit: null,
 
             successMsg: 'Сущность успешно сохранена.',
             errorMsg: 'Ошибка сохранения сущности.',
 
-            deleteMsg: 'Вы действительно хотите удалить эту тему?',
-            deletedMsg: 'Тема успешно удалена!',
+            deleteMsg: 'Вы действительно хотите удалить этот возраст?',
+            deletedMsg: 'Возраст успешно удален!',
 
-            add: '.addTheme',
-            edit: '.editTheme',
-            body: '.bodyTheme',
-            remove: '.removeTheme',
-            activate: '.activateTheme',
-            confirm: '.confirmTheme',
+            add: '.addAge',
+            edit: '.editAge',
+            remove: '.removeAge',
 
-            formWrap: '.themeForm',
+            formWrap: '.ageForm',
 
-            parentData: '.theme'
+            parentData: '.age'
         }
 	}, {
         init: function () {
             List.prototype.init.apply(this, arguments);
+            var self = this,
+                options = self.options;
 
-            var self = this;            
-
-            this.options.age_id.bind("change", function(ev, newVal, oldVal){
-                self.getData(newVal);
+            can.when(
+                self.module.attr(options.moduleName)
+            ).then(function () {
+                _.each(self.module.attr(options.moduleName), function(year) {
+                    year.attr('editable', false);
+                });
             });
         },
 
@@ -51,17 +52,9 @@ export default List.extend(
         resetObservables: function () {
             this.module.attr('addMode', false);
             this.module.attr('addName', '');
-            this.module.attr('addExisting', null);
-        },
-
-        getData: function (age_id) {
-            this.module.attr(this.options.moduleName, new this.options.Model.List({age_id}));
         },
 
 		'{add} click': function () {
-            if(!this.module.attr('age_id')) {
-                alert('Пожалуйста, сначала выберите возраст');
-            }
             this.module.attr('addMode', !this.module.attr('addMode'));
         },
 
@@ -71,6 +64,8 @@ export default List.extend(
 
             if (doc.attr('editable') === false) {
                 doc.attr('editable', true);
+
+                this.options.age_id(doc.attr('_id'));
             } else {
                 doc.attr('editable', false);
 
@@ -78,44 +73,43 @@ export default List.extend(
             }
         },
 
-        '{activate} click': function (el) {
+        '.activateAge click': function (el) {
             var doc = el.parents(this.options.parentData)
                        .data(this.options.moduleName);
 
             doc.save();
         },
 
-        '{confirm} click': function () {
+        '.confirmAge click': function () {
             var options = this.options,
                 self = this,
-                create = this.module.attr('addExisting') ? true : false;
+                value = 1;
 
-            var doc = create
-                ? this.saveExistingRef()
-                : this.createDocument();
-            return;
+            try {
+                value = parseInt(self.module.attr('addName'));
+            } catch (e) {}
+                
+
+            var doc = new options.Model({
+                active: true,
+                value
+            });
 
             doc.save()
                 .done(function (response) {
+                    if(response.err) {
+                        doc.destroy();
+                        self.processError(response.err)
+                    }
+
                     doc.attr('_id', response.data._id);
                     self.setNotification('success', options.successMsg);
-                    
-                    selfresetObservables();
+
+                    self.resetObservables();
                 })
                 .fail(function (doc) {
                     self.setNotification('error', options.errorMsg);
                 });
-        },
-
-        saveExistingRef: function () {
-
-        },
-
-        createDocument: function () {
-            doc = new options.Model({
-                active: true,
-                name: this.module.attr('addName')
-            });
         },
 
         setNotification: function (status, msg) {
@@ -123,6 +117,21 @@ export default List.extend(
                 status: status,
                 msg: msg
             });
+        },
+
+        processError: function (err) {
+            var msg;
+
+            if(err.errors && err.errors.title) {
+                msg = err.errors.title.message;
+            }
+
+            if(!msg) {
+                msg = err.message || err;
+            }
+            
+            alert(msg);
+            this.setNotification('error', msg);
         }
 	}
 );

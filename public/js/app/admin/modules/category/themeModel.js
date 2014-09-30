@@ -3,7 +3,7 @@ import can from 'can/'
 
 export default can.Model.extend({
     id: '_id',
-    resource: baseModel.chooseResource('/themes'),
+    resource: baseModel.chooseResource('/theme'),
     parseModel: baseModel.parseModel,
     parseModels: baseModel.parseModels
 }, {});

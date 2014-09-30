@@ -7,32 +7,35 @@ LibSchema = require '../lib/schema'
 schema = new mongoose.Schema
 	title:
 		type: String
-		required: true
 	icon:
-		type: String
-		required: false
-	level:
+		normal:
+			type: String
+		hover:
+			type: String
+	value:
 		type: Number
 		required: true
 	active:
 		type: Boolean
-		required: true
-		default: false
-	desc_title:
-		type: String
-		required: false
-	desc_text:
-		type: String
-		required: false
-	desc_image:
-		type: String
-		required: false
-	desc_subtitle:
-		type: String
-		required: false
+		default: true
+	position:
+		type: Number
+		default: 99
+	desc:
+		title:
+			type: String
+		subtitle:
+			type: String
+		text:
+			type: String
+		tagline:
+			type: String
+		image:
+			normal:
+				type: String
+			expanded:
+				type: String
 ,
 	collection: 'age'
-
-LibSchema.init schema, 'icon desc_image'
 
 module.exports = mongoose.model 'Age', schema

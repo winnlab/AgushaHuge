@@ -3,31 +3,64 @@
         <div class='panel-title'>
             Темы
         </div>
-        <button class='btn btn-primary addTheme'>
-        	<i class="fa fa-plus"></i>
-        	&nbsp;
-            <span>Добавить</span>
-        </button>
+        <div class='col-md-4'>
+            <button class='btn btn-primary addTheme'>
+                <i class="fa fa-plus"></i>
+                &nbsp;
+                <span>Добавить</span>
+            </button>
+        </div>
+        <div class='row {{#unless addMode}}hidden{{/unless}}'>
+            <div class='col-md-6'>
+                <select class='form-control' can-value='addExisting'>
+                    <option value="">&nbsp;-&nbsp;</option>
+                    {{#if theme.isResolved}}
+                        {{#if theme.length}}
+                            {{#sortedBy theme 'name'}}
+                                <option value="{{_id}}" {{data "theme"}}>{{name}}</option>
+                            {{/sortedBy}}
+                        {{/if}}
+                    {{/if}}
+                </select>
+            </div>
+            <div class='col-md-6'>
+                <span class='{{#unless addMode}}hidden{{/unless}}'>
+                    <div class='input-group'>
+                        <input type='text' class='form-control' can-value='addName' />
+                        <div class='input-group-btn'>
+                            <div class="btn btn-success confirmYears">
+                                <i class="fa fa-check-square-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
     </div>
     <div class='panel-body' id='themeList'>
-    	{{! {{#if themes.isResolved}}
-    		{{#if themes.length}}
-    			{{#sortedBy themes 'position'}}
-    				<div class='row theme' {{data "themes"}}>
-                        <div class='input-group'>
-        					<input type='text' class='form-control' readonly value='{{name}}' />
-                            <div class='input-group-btn'>
-                                <div class="btn btn-default editTheme">
-                                    <i class="fa fa-pencil"></i>
-                                </div>
-                                <div class="btn btn-danger removeTheme">
-                                    <i class="fa fa-trash-o"></i>
+    	{{#if theme.isResolved}}
+            {{#if theme.length}}
+                {{#arrContains theme 'age_id', age_id, true}}
+                    {{#sortedBy theme 'position'}}
+                        <div class='row theme' {{data "theme"}}>
+                            <div class='input-group'>
+                                <span class="input-group-addon">
+                                    <input class="activateTheme" type="checkbox" can-value='active'>
+                                </span>
+                                <input type='text' class='bodyTheme form-control' {{#unless editable}}disabled{{/unless}} can-value='name' />
+                                <div class='input-group-btn'>
+                                    <div class="btn btn-default editTheme">
+                                        <i class="fa fa-pencil"></i>
+                                    </div>
+                                    <div class="btn btn-danger removeTheme">
+                                        <i class="fa fa-trash-o"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-    				</div>
-    			{{/sortedBy}}
-    		{{/if}}
-    	{{! {{/if}}
+                    {{/sortedBy}}
+                {{/arrContains}}
+            {{/if}}
+        {{/if}}
     </div>
 </div>
