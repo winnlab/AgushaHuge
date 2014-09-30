@@ -305,6 +305,12 @@ h3 {
 						background-position: -111px -34px;
 					}
 				}
+				
+				.icon {
+					&:before {
+						background-color: #5bbae6;
+					}
+				}
 			}
 		}
 	}
