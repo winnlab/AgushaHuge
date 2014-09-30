@@ -74,7 +74,6 @@ h3 {
 	.left_content {
 		@include min_max_height;
 		display: table;
-		width: 100%;
 	}
 	
 	.close {
@@ -89,7 +88,6 @@ h3 {
 	}
 	
 	.top {
-		width: 100%;
 		height: 140px;
 		display: table-row;
 		
@@ -105,12 +103,24 @@ h3 {
 		}
 	}
 	
+	.small_logo {
+		@include transition(opacity 0.3s ease-in-out);
+		@include absolute_horizontal_centered;
+		top: 70px;
+		opacity: 0;
+		width: 57px;
+		left: 3px;
+		height: 25px;
+	}
+	
 	.logo {
+		@include transition(opacity 0.3s ease-in-out, width 0.3s ease-in-out);
 		width: 157px;
 		height: 77px;
 		position: absolute;
 		top: 42px;
 		left: 43px;
+		opacity: 1;
 	}
 	
 	.glow {
@@ -118,18 +128,24 @@ h3 {
 	}
 	
 	.counter {
+		@include transition(opacity 0.3s ease-in-out);
 		display: table-row;
 		height: 74px;
+		white-space: nowrap;
+		opacity: 1;
 	}
 	
 	.count {
+		@include transition(opacity 0.3s ease-in-out);
 		text-align: center;
+		opacity: 1;
 	}
 	
 	.number {
 		@include border_radius(5px);
 		@include box_shadow(0 1px 0 #2c98ca);
 		@include inline_block;
+		@include transition(width 0.3s ease-in-out);
 		background: url(/img/user/core/number_bg.png) center no-repeat;
 		position: relative;
 		width: 31px;
@@ -151,6 +167,7 @@ h3 {
 	
 	.line {
 		&:before {
+			@include transition(width 0.3s ease-in-out);
 			@include pseudo;
 			background-color: #5cd5f7;
 			bottom: 0;
@@ -168,12 +185,15 @@ h3 {
 	}
 	
 	.counter_label {
+		@include transition(letter-spacing 0.3s ease-in-out, opacity 0.3s ease-in-out);
 		margin-top: 8px;
 		text-align: center;
 		color: $lightbluefont;
 		font-size: 16px;
 		font-family: 'PT_Sans_Italic';
 		position: relative;
+		letter-spacing: 0;
+		opacity: 1;
 	}
 	
 	.center {
@@ -181,14 +201,65 @@ h3 {
 	}
 	
 	.item {
+		@include border_boxed;
 		position: relative;
 		margin: 18px 0;
 		text-transform: uppercase;
 		padding: 0 18px;
-		text-align: left;		
+		text-align: left;
+		line-height: 17px;
+		
+		&.encyclopedia {
+			.label {
+				&:before {
+					content: 'Энциклопедия';
+				}
+			}
+		}
+		
+		&.specialist {
+			.icon {
+				&:before {
+					background-position: -37px 0;
+				}
+			}
+			
+			.label {
+				&:before {
+					content: 'Узнать у специалиста';
+				}
+			}
+		}
+		
+		&.action {
+			.icon {
+				&:before {
+					background-position: -74px 0;
+				}
+			}
+			
+			.label {
+				&:before {
+					content: 'Акции';
+				}
+			}
+		}
+		
+		&.about {
+			.icon {
+				&:before {
+					background-position: -111px 0;
+				}
+			}
+			
+			.label {
+				&:before {
+					content: 'Про Агушу';
+				}
+			}
+		}
 		
 		&.adorable_table {
-			@include border_boxed;
 			height: auto;
 			cursor: pointer;
 			
@@ -211,26 +282,26 @@ h3 {
 					height: 50px;
 				}
 				
-				.encyclopedia {
-					&:before {
+				&.encyclopedia {
+					.icon:before {
 						background-position: 0 -34px;
 					}
 				}
 				
-				.specialist {
-					&:before {
+				&.specialist {
+					.icon:before {
 						background-position: -37px -34px;
 					}
 				}
 				
-				.action {
-					&:before {
+				&.action {
+					.icon:before {
 						background-position: -74px -34px;
 					}
 				}
 				
-				.about {
-					&:before {
+				&.about {
+					.icon:before {
 						background-position: -111px -34px;
 					}
 				}
@@ -251,48 +322,35 @@ h3 {
 		}
 	}
 	
-	.specialist {
-		&:before {
-			background-position: -37px 0;
-		}
-	}
-	
-	.action {
-		&:before {
-			background-position: -74px 0;
-		}
-	}
-	
-	.about {
-		&:before {
-			background-position: -111px 0;
-		}
-	}
-	
 	.label {
+		@include transition(letter-spacing 0.3s ease-in-out);
 		display: table-cell;
 		vertical-align: middle;
 		position: relative;
+		width: 144px;
+		letter-spacing: 0;
 	}
 	
 	.search_item {
+		height: 35px;
+		
 		&:before {
 			@include pseudo;
 			@include border_radius(5px);
+			@include transition(background-color 0.3s ease-in-out);
 			background: url('/img/user/core/search.png') center no-repeat;
 			background-color: $darkblue;
 			position: absolute;
 			top: 0;
 			left: 18px;
 			width: 35px;
-			height: 35px;
+			height: 100%;
 			z-index: 10;
 		}
 	}
 	
 	.bottom {
 		display: table-row;
-		width: 100%;
 		height: 130px;
 		background-color: $darkblue;
 	}
@@ -301,13 +359,14 @@ h3 {
 		@include border_boxed;
 		border-top: 1px solid $blackblue;
 		border-bottom: 1px solid $blackblue;
-		width: 100%;
 		height: 72px;
 		white-space: nowrap;
+		position: relative;
 	}
 	
 	.social_block {
 		@include inline_block;
+		@include transition(width 0.3s ease-in-out);
 		width: 76px;
 		height: 100%;
 		position: relative;
@@ -320,29 +379,145 @@ h3 {
 		&:after {
 			@include pseudo;
 			@include absolute_centered;
-			width: 15px;
+			width: 23px;
 			height: 21px;
 			background: url('/img/user/core/social.png') no-repeat;
 		}
 	}
 	
+	.small_social_block {
+		@include transition(opacity 0.3s ease-in-out);
+		background-color: $darkblue;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		
+		&:after {
+			@include pseudo;
+			@include absolute_centered;
+			width: 23px;
+			height: 21px;
+			background: url('/img/user/core/social.png') no-repeat;
+			background-position: -69px 0px;
+		}
+	}
+	
 	.vkontakte {
 		&:after {
-			background-position: -15px 0px;
+			background-position: -23px 0px;
 		}
 	}
 	
 	.odnoklassniki {
 		&:after {
-			background-position: -30px 0px;
+			background-position: -46px 0px;
 		}
 	}
 	
 	.copyright {
-		width: 100%;
 		height: 58px;
 		color: $darkbluefont;
 		font-size: 10.67px;
+		position: relative;
+		overflow: hidden;
+		
+		&:before {
+			@include pseudo;
+			@include absolute_centered;
+			content: '© 2014 Вимм-Билль-Данн' !important;
+			width: 129px;
+			height: 11px;
+		}
+	}
+	
+	&.small {
+		.small_logo {
+			opacity: 1;
+		}
+		
+		.logo {
+			width: 27px;
+			opacity: 0;
+		}
+		
+		.counter {
+			opacity: 0;
+		}
+		
+		.count {
+			opacity: 0;
+		}
+		
+		.counter_label {
+			opacity: 0;
+		}
+		
+		.number {
+			width: 14px;
+		}
+		
+		.line {
+			&:before {
+				width: 12px;
+			}
+		}
+		
+		.counter_label {
+			letter-spacing: -8px;
+		}
+		
+		.search_item {
+			&:before {
+				background-image: url('/img/user/core/search_small.png');
+				background-color: $blue;
+			}
+		}
+		
+		#search_input {
+			width: 0;
+			opacity: 0;
+			padding: 0 10px;
+		}
+		
+		.item {
+			width: 70px;
+			padding: 0 0 0 18px;
+			
+			.label {
+				width: 2px;
+				letter-spacing: -8px;
+				
+				&:before {
+					content: '\00a0'; /* &nbsp; */
+				}
+			}
+			
+			&.adorable_table {
+				&:hover, &.active {
+					&:before {
+						background: url('/img/user/core/small_item_bg.png');
+					}
+				}
+			}
+		}
+		
+		.social_block  {
+			width: 22px;
+		}
+		
+		.small_social_block {
+			opacity: 1;
+		}
+		
+		.copyright {
+			&:before {
+				content: '© 2014' !important;
+				width: 37px;
+			}
+		}
 	}
 }
 
@@ -357,6 +532,7 @@ h3 {
 }
 
 #search_input {
+	@include transition(width 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out);
 	width: 194px;
 	height: 35px;
 	background-color: $darkblue;
@@ -365,6 +541,7 @@ h3 {
 	font-size: 12px;
 	padding: 0 10px 0 35px;
 	position: relative;
+	opacity: 1;
 }
 
 #center_container {
