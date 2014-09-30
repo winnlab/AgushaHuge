@@ -33,7 +33,7 @@ export default can.Control.extend({
 		}
 		
 		can.ajax({
-			url: '/' + str,
+			url: '/' + str + '?ajax=true',
 			success: function(data) {
 				that.successRequest(data);
 			},
