@@ -76,6 +76,8 @@ configure = () ->
 		onFileUploadComplete: Image.doResize
 	}
 	
+	@use View.compiler {root: '/views', gzip: true}
+	
 	@use bodyParser()
 	@use cookieParser 'LmAK3VNuA6'
 	@use session sessionParams

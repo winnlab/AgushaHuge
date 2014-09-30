@@ -52,8 +52,13 @@ h3 {
 }
 
 .left_menu {
+	@include transition(width 0.3s ease-in-out);
 	display: table-cell;
 	width: 230px;
+	
+	&.small {
+		width: 70px;
+	}
 }
 
 #left_menu {
@@ -69,6 +74,7 @@ h3 {
 	.left_content {
 		@include min_max_height;
 		display: table;
+		width: 100%;
 	}
 	
 	.close {

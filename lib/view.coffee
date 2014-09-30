@@ -2,13 +2,18 @@ async = require 'async'
 _ = require 'underscore'
 moment = require 'moment'
 jade = require 'jade'
+fs = require 'fs'
+zlib = require 'zlib'
 
 Logger = require './logger'
 # Cache = require './cache'
 
+string = require '../utils/string'
+
 viewDirectory = "#{__dirname}/../views"
 
 compiledFiles = []
+compiledClients = []
 
 exports.render = render = (path, res, data) ->
 	data = data || {}
@@ -79,3 +84,64 @@ exports.globals = (req, res, next)->
 	res.locals.moment = moment
 	
 	next()
+
+loadClient = (name) ->
+	filename = "#{viewDirectory}/#{name}.jade"
+	
+	# if not compiledClients[name]?
+	templateCode = fs.readFileSync filename, "utf-8"
+	
+	options =
+		compileDebug: false
+		filename: filename
+		pretty: false
+	
+	compiled = jade.compileClient(templateCode, options).toString()
+	
+	compiledClients[name] =
+		source: compiled,
+		lastModified: (new Date).toUTCString(),
+		gzip: null
+	
+	compiledClients[name]
+
+exports.compiler = (options) ->
+	options = options or {}
+	options.root = options.root or "/"
+	options.root = "/" + options.root.replace(/^\//, "")
+	options.root = options.root.replace(/\/$/, "") + "/"
+	rootExp = new RegExp("^" + string.escape(options.root))
+	
+	(req, res, next) ->
+		if req.method isnt "GET" and req.method isnt "HEAD"
+			return next()
+		
+		if not options.root or req.url.substr(0, options.root.length) is options.root
+			template = req.url.replace(rootExp, "")
+			
+			try
+				# context = new TemplateContext
+				# container = context.load(template)
+				
+				container = loadClient template
+				
+				res.setHeader "Content-Type", "application/x-javascript; charset=utf-8"
+				res.setHeader "Last-Modified", container.lastModified
+				if options.gzip
+					res.setHeader "Content-Encoding", "gzip"
+					if container.gzip is null
+						zlib.gzip container.source, (err, buffer) ->
+							unless err
+								container.gzip = buffer
+								res.end container.gzip
+							else
+								next err
+					else
+						res.end container.gzip
+				else
+					res.setHeader "Content-Length", (if typeof Buffer isnt "undefined" then Buffer.byteLength(container.source, "utf8") else container.source.length)
+					res.end container.source
+			catch e
+				next e
+		else
+			next()
