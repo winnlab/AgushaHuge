@@ -1,8 +1,8 @@
 express = require 'express'
 
-CategoryEncyclopedia = require './admin/categoryEncyclopedia'
-
+Age = require './admin/age'
 Main = require './admin/main'
+Theme = require './admin/themes'
 
 Router = express.Router()
 
@@ -15,8 +15,8 @@ Router.get '/logout', Main.logout
 Router.post '/login', Main.doLogin
 # --------------------- #
 
-Router.get '/years', CategoryEncyclopedia.years
-Router.get '/themes', CategoryEncyclopedia.themes
+Router.use '/age/:id?', Age.rest
+Router.use '/theme/:id?', Theme.rest
 
 #########################
 

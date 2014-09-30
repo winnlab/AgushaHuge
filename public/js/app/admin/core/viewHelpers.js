@@ -123,3 +123,21 @@ can.mustache.registerHelper('wysihtml5', function (index) {
 		$(el).wysihtml5();
 	};
 });
+
+can.mustache.registerHelper('arrContains', function (collection, field, value, strict) {
+	strict = computedVal(strict);
+	value = computedVal(value)
+
+	if (strict && !value) {
+		return false;
+	}
+
+	collection = computedVal(collection);
+	field = computedVal(field);
+
+	if(!collection[field] || !_.isArray(collection[field])) {
+		return false;
+	}
+
+	return collection[field].indexOf(value) > -1;
+});

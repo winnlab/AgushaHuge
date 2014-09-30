@@ -4,13 +4,11 @@ import Edit from 'edit'
 export default Edit.extend({
     defaults: {
         viewpath: 'modules/category/views/',
-        viewName: 'themeItem.stache',
+        viewName: 'setAge.stache',
 
-        moduleName: 'theme',
+        moduleName: 'age',
 
-        successMsg: 'Тема успешно сохранена.',
-
-        form: '.setColor',
+        form: '.setAge',
         
         setRoute: false
     }
