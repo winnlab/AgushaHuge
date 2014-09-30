@@ -1,0 +1,47 @@
+<div class="box {{#if age._id}}box-warning{{/if}}">
+    <div class="box-header">
+        <h3 class="box-title">
+            Редактирование возраста
+        </h3>
+        <div class="box-tools pull-right">
+            <div class="btn btn-primary toList">
+                Назад
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <form class="form-horizontal setColor">
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="name">Название:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" value="{{age.title}}" name="name" placeholder="Наименование" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="name">Значение:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" value="{{age.value}}" name="name" placeholder="Возраст в месяцах" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="position">Позиция:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" value="{{age.position}}" name="position" placeholder="Позиция">
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-6">
+                    <button class="btn btn-primary" type="submit">
+                        Сохранить
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

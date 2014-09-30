@@ -3,6 +3,7 @@ import List from 'list'
 import _ from 'lodash'
 import appState from 'appState'
 
+import age from 'js/app/admin/modules/category/age'
 import ageModel from 'js/app/admin/modules/category/ageModel'
 
 export default List.extend(
