@@ -48,7 +48,6 @@
     "winston": "0.7.3",
     "gm": "1.16.0",
     "email-templates": "1.0.0",
-    "nodemailer": "0.6.5",
-	"zlib": "1.0.5"
+    "nodemailer": "0.6.5"
   }
 }
