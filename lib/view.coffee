@@ -9,6 +9,7 @@ Logger = require './logger'
 # Cache = require './cache'
 
 string = require '../utils/string'
+request = require '../utils/request'
 
 viewDirectory = "#{__dirname}/../views"
 
@@ -19,6 +20,9 @@ exports.render = render = (path, res, data) ->
 	data = data || {}
 	
 	_.extend data, res.locals
+	
+	if res.locals.is_ajax_request is true
+		return ajaxResponse res, null, data
 	
 	# if not compiledFiles[path]
 	options =
@@ -31,7 +35,7 @@ exports.render = render = (path, res, data) ->
 	
 	res.send html
 
-exports.ajaxResponse = (res, err, data) ->
+exports.ajaxResponse = ajaxResponse = (res, err, data) ->
 	data =
 		err: (if err then err else false)
 		data: (if data then data else null)
@@ -82,6 +86,7 @@ exports.globals = (req, res, next)->
 	res.locals.params = req.params
 	
 	res.locals.moment = moment
+	res.locals.is_ajax_request = request.is_ajax_request(req.headers)
 	
 	next()
 
