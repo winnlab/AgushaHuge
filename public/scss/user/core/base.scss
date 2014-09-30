@@ -319,6 +319,8 @@ h3 {
 			height: 100%;
 			width: 37px;
 			background: url('/img/user/core/menu_icons.png') no-repeat;
+			background-color: $blue;
+			z-index: 1;
 		}
 	}
 	
