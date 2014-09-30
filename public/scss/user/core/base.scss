@@ -1,9 +1,6 @@
 @import '../../normalize/normalize';
 @import '../dynamic/dynamic';
 
-$min-height: 622px;
-$max-height: 768px;
-
 @mixin number_pseudo {
 	@include pseudo;
 	background-color: #4d4d4d;
@@ -28,7 +25,7 @@ html, body {
 
 body {
 	font-size: 14px;
-	min-width: 1000px;
+	min-width: $min-width;
 	background-color: $bg;
 	color: $base;
 	font-family: 'PT_Sans_Regular';
@@ -55,8 +52,13 @@ h3 {
 }
 
 .left_menu {
+	@include transition(width 0.3s ease-in-out);
 	display: table-cell;
 	width: 230px;
+	
+	&.small {
+		width: 70px;
+	}
 }
 
 #left_menu {
@@ -72,6 +74,7 @@ h3 {
 	.left_content {
 		@include min_max_height;
 		display: table;
+		width: 100%;
 	}
 	
 	.close {
@@ -89,6 +92,17 @@ h3 {
 		width: 100%;
 		height: 140px;
 		display: table-row;
+		
+		&.active {
+			&:before {
+				@include pseudo;
+				top: 60px;
+				right: -10px;
+				width: 10px;
+				height: 45px;
+				background: url('/img/user/core/active_logo.png');
+			}
+		}
 	}
 	
 	.logo {
@@ -135,16 +149,18 @@ h3 {
 		}
 	}
 	
-	.line:before {
-		@include pseudo;
-		background-color: #5cd5f7;
-		bottom: 0;
-		height: 2px;
-		left: 0;
-		margin: auto;
-		right: 0;
-		top: 0;
-		width: 29px;
+	.line {
+		&:before {
+			@include pseudo;
+			background-color: #5cd5f7;
+			bottom: 0;
+			height: 2px;
+			left: 0;
+			margin: auto;
+			right: 0;
+			top: 0;
+			width: 29px;
+		}
 	}
 	
 	.symbol {
@@ -175,13 +191,57 @@ h3 {
 			@include border_boxed;
 			height: auto;
 			cursor: pointer;
+			
+			&:hover, &.active {
+				&:before {
+					@include pseudo;
+					background: url('/img/user/core/item_bg.png');
+					width: 100%;
+					height: 56px;
+					top: -8px;
+					left: 0;
+				}
+				
+				&:after {
+					@include pseudo;
+					background: url('/img/user/core/active_arrow.png');
+					right: -10px;
+					top: -8px;
+					width: 10px;
+					height: 50px;
+				}
+				
+				.encyclopedia {
+					&:before {
+						background-position: 0 -34px;
+					}
+				}
+				
+				.specialist {
+					&:before {
+						background-position: -37px -34px;
+					}
+				}
+				
+				.action {
+					&:before {
+						background-position: -74px -34px;
+					}
+				}
+				
+				.about {
+					&:before {
+						background-position: -111px -34px;
+					}
+				}
+			}
 		}
 	}
 	
 	.icon {
 		width: 50px;
 		display: table-cell;
-		height: 33px;
+		height: 34px;
 		
 		&:before {
 			@include pseudo;
@@ -212,6 +272,7 @@ h3 {
 	.label {
 		display: table-cell;
 		vertical-align: middle;
+		position: relative;
 	}
 	
 	.search_item {
@@ -332,7 +393,7 @@ h3 {
 	width: 175px;
 	height: 72px;
 	background: url('/img/user/core/register_bg.png');
-	z-index: 9;
+	z-index: 10;
 	
 	.lock {
 		position: absolute;
@@ -379,4 +440,14 @@ h3 {
 .top_label {
 	text-transform: uppercase;
 	font-size: 16px;
+}
+
+.column {
+	@include inline_block;
+	margin: 20px;
+	width: 280px;
+	
+	&.double {
+		width: 580px;
+	}
 }

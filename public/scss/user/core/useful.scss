@@ -89,7 +89,7 @@ textarea {
 }
 
 .rounded {
-	@include border_radius(99999em);
+	@include rounded;
 }
 
 .force_height {

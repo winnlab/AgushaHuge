@@ -1,6 +1,20 @@
 @import '../dynamic/dynamic';
 
+@media all, (min-width: $min-width) and (max-width: 1280px) {
+	#main {
+		width: 920px;
+	}
+}
+
+@media all and (min-width: 1281px) {
+	#main {
+		width: 1220px;
+	}
+}
+
 #main {
+	@include inline_block;
+	
 	&:before {
 		@include pseudo;
 		position: absolute;
@@ -35,10 +49,71 @@
 		}
 		
 		.banner_button {
+			@include box_shadow(0 2px 0 #b4daeb);
 			margin-top: 20px;
 			font-size: 18px;
-			padding: 10px 30px;
+			padding: 12px 30px;
 			color: $bluefont;
 		}
+	}
+	
+	.reg_box {
+		position: absolute;
+		right: 0;
+		top: 120px;
+		height: 374px;
+		background: url('/img/user/main/reg_box_bg.png');
+		color: $white;
+		
+		.adorable_cell {
+			padding: 39px;
+		}
+		
+		input {
+			width: 202px;
+			text-align: center;
+			margin-top: 20px;
+		}
+		
+		.done {
+			color: white;
+			background-color: $lightblue;
+			margin-top: 14px;
+		}
+	}
+	
+	.reg_top {
+		@include bold;
+		font-size: 15.25px;
+		color: $lightblue;
+		text-transform: uppercase;
+		
+		span {
+			padding: 0 2px;
+		}
+		
+		.active {
+			color: $white;
+		}
+	}
+	
+	.forgot {
+		font-size: 10px;
+		text-decoration: underline;
+		text-align: right;
+		padding-top: 5px;
+	}
+	
+	.social {
+		padding-top: 29px;
+	}
+	
+	.social_block {
+		@include inline_block;
+		@include rounded;
+		width: 40px;
+		height: 40px;
+		margin: 0 5px;
+		background-color: #a3d7f0;
 	}
 }
