@@ -21,7 +21,11 @@ schema = new mongoose.Schema
 	position:
 		type: Number
 		default: 99
+	image:
+		type: String
 ,
 	collection: 'theme'
+
+schema.set('versionKey', false);
 
 module.exports = mongoose.model 'Theme', schema

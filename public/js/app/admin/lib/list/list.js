@@ -103,8 +103,7 @@ export default can.Control.extend({
 		}
 
 		var options = this.options,
-			wrap = this.element.find(options.formWrap).html('<div class="right-side"></div>'),
-			area = wrap.children('div'),
+			wrap = this.element.find(options.formWrap),
 			doc = _.find(this.module.attr(options.moduleName), function (doc) {
 				return doc && doc.attr('_id') === id;
 			});
@@ -112,7 +111,7 @@ export default can.Control.extend({
 		this.module.attr('setEntity', can.compute(id));
 
 		this.initSetControl(
-			area,
+			wrap,
 			doc ? doc : new options.Model(),
 			this.module.attr('setEntity')
 		);
@@ -159,5 +158,25 @@ export default can.Control.extend({
 			docs = self.module.attr(self.options.moduleName);
 
 		docs.push(doc);
-	}
+	},
+
+    processError: function (err) {
+        var msg;
+
+        if(err.errors && err.errors.title) {
+            msg = err.errors.title.message;
+        }
+
+        if(!msg) {
+            msg = err.message || err;
+        }
+
+        this.setNotification('error', msg);
+    },
+
+    getDocHandle: function (el) {
+    	return el
+    		.parents(this.options.parentData)
+            .data(this.options.moduleName);
+    }
 });

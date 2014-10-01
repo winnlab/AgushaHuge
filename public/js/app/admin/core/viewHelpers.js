@@ -124,7 +124,7 @@ can.mustache.registerHelper('wysihtml5', function (index) {
 	};
 });
 
-can.mustache.registerHelper('arrContains', function (collection, field, value, strict) {
+can.mustache.registerHelper('arrContains', function (array, value, strict, reverse, options) {
 	strict = computedVal(strict);
 	value = computedVal(value)
 
@@ -132,12 +132,11 @@ can.mustache.registerHelper('arrContains', function (collection, field, value, s
 		return false;
 	}
 
-	collection = computedVal(collection);
-	field = computedVal(field);
+	array = computedVal(array);
 
-	if(!collection[field] || !_.isArray(collection[field])) {
+	if(!_.isObject(array) && array[0]) {
 		return false;
 	}
 
-	return collection[field].indexOf(value) > -1;
+	return (array.indexOf(value) > -1) ^ reverse ? options.fn() : false;
 });

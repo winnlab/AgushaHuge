@@ -5,7 +5,8 @@ path = require 'path'
 
 Logger = require './logger'
 
-uploadsPath = "#{process.cwd()}/public/img/uploads/"
+uploadsRoot = "public/img/uploads";
+uploadsPath = "#{process.cwd()}/#{uploadsRoot}/"
 
 #sizes = [100, 200, 350]
 sizes = [160, 220, 420]
@@ -47,7 +48,7 @@ resizeImageTo = (filename, width, callback) ->
 		.resize(width)
 		.noProfile()
 		.write "#{uploadsPath}x#{width}/#{filename}", (err) ->
-			filepath = "public/img/x#{width}/#{filename}"
+			filepath = "#{uploadsRoot}/x#{width}/#{filename}"
 			if err
 				console.log "Error occured while saving file to #{filepath}..."
 			else

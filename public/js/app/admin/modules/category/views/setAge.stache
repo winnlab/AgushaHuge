@@ -10,19 +10,19 @@
         </div>
     </div>
     <div class="box-footer">
-        <form class="form-horizontal setColor">
+        <form class="form-horizontal ageForm">
             <div class="form-group">
-                <label class="col-md-2 control-label" for="name">Название:</label>
+                <label class="col-md-2 control-label" for="title">Название:</label>
                 <div class="col-md-10">
-                    <input class="form-control" type="text" value="{{age.title}}" name="name" placeholder="Наименование" />
+                    <input class="form-control" type="text" value="{{age.title}}" name="title" placeholder="Наименование" />
                     <div class="help help-block"></div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-md-2 control-label" for="name">Значение:</label>
+                <label class="col-md-2 control-label" for="value">Значение:</label>
                 <div class="col-md-10">
-                    <input class="form-control" type="text" value="{{age.value}}" name="name" placeholder="Возраст в месяцах" />
+                    <input class="form-control" type="text" value="{{age.value}}" name="value" placeholder="Возраст в месяцах" />
                     <div class="help help-block"></div>
                 </div>
             </div>
@@ -32,6 +32,82 @@
                 <div class="col-md-10">
                     <input class="form-control" type="text" value="{{age.position}}" name="position" placeholder="Позиция">
                     <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Параметры описания:
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-2 control-label" for="desc.title"> Название:</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control" type="text" value="{{age.desc.title}}" name="desc.title" placeholder="Название описания" />
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-2 control-label" for="desc.subtitle">Подназвание:</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control" type="text" value="{{age.desc.subtitle}}" name="desc.subtitle" placeholder="Подназвание описания" />
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-2 control-label" for="desc.text">Текст:</label>
+                        </div>
+                        <div class="col-md-12">
+                            <textarea class="form-control" type="text" name="desc.text" placeholder="Само описание">
+                                {{age.desc.text}}
+                            </textarea>
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-2 control-label" for="desc.tagline">Таги:</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control" type="text" value="{{age.desc.tagline}}" name="desc.tagline" placeholder="Список тегов статьи (разделитель - пробел)" />
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Изоборажения
+                </div>
+                <div class="panel-body">
+                    <upload
+                        class="col-md-12"
+                        name="icon.normal"
+                        url="/admin/age/img"
+                        delete-url="/admin/age/img"
+                        entity="{age}"
+                        uploaded="{age.image.normal}"
+                        accept="image/*"
+                    >
+                        Загрузить изображение
+                    </upload>
+                    <upload
+                        class="col-md-12"
+                        name="icon.hover"
+                        url="/admin/age/img"
+                        delete-url="/admin/age/img"
+                        entity="{age}"
+                        uploaded="{age.image.hover}"
+                        accept="image/*"
+                    >
+                        Загрузить изображение при наведении
+                    </upload>
                 </div>
             </div>
 

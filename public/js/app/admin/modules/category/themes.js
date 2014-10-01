@@ -3,6 +3,7 @@ import List from 'list'
 import _ from 'lodash'
 import appState from 'appState'
 
+import Theme from 'js/app/admin/modules/category/theme'
 import themeModel from 'js/app/admin/modules/category/themeModel'
 
 export default List.extend(
@@ -13,7 +14,7 @@ export default List.extend(
             moduleName: 'theme',
             Model: themeModel,
 
-            Edit: null,
+            Edit: Theme,
 
             successMsg: 'Сущность успешно сохранена.',
             errorMsg: 'Ошибка сохранения сущности.',
@@ -22,11 +23,9 @@ export default List.extend(
             deletedMsg: 'Тема успешно удалена!',
 
             add: '.addTheme',
-            edit: '.editTheme',
-            body: '.bodyTheme',
+            edit: '.redactTheme',
             remove: '.removeTheme',
-            activate: '.activateTheme',
-            confirm: '.confirmTheme',
+            rename: '.editTheme',
 
             formWrap: '.themeForm',
 
@@ -34,12 +33,19 @@ export default List.extend(
         }
 	}, {
         init: function () {
-            List.prototype.init.apply(this, arguments);
+            var self = this,
+                options = self.options;
 
-            var self = this;            
+            List.prototype.init.apply(self, arguments);            
 
-            this.options.age_id.bind("change", function(ev, newVal, oldVal){
-                self.getData(newVal);
+            self.module.attr('ageData', self.options.ageData);
+
+            can.when(
+                self.module.attr(options.moduleName)
+            ).then(function () {
+                _.each(self.module.attr(options.moduleName), function(entity) {
+                    entity.attr('editable', false);
+                });
             });
         },
 
@@ -48,74 +54,135 @@ export default List.extend(
             List.prototype.loadView.call(this);
         },
 
-        resetObservables: function () {
+        resetObservables: function () {            
             this.module.attr('addMode', false);
             this.module.attr('addName', '');
             this.module.attr('addExisting', null);
         },
 
-        getData: function (age_id) {
-            this.module.attr(this.options.moduleName, new this.options.Model.List({age_id}));
-        },
-
 		'{add} click': function () {
-            if(!this.module.attr('age_id')) {
-                alert('Пожалуйста, сначала выберите возраст');
+            if(!this.module.attr('ageData.id')) {
+                return alert('Пожалуйста, сначала выберите возраст');
             }
+
             this.module.attr('addMode', !this.module.attr('addMode'));
         },
 
         '{edit} click': function (el) {
-            var doc = el.parents(this.options.parentData)
-                       .data(this.options.moduleName);
+            var id = this.getDocHandle(el).attr('_id');
+
+            this.setDocCallback(id);
+        },
+
+        '{rename} click': function (el) {
+            var doc = this.getDocHandle(el);
 
             if (doc.attr('editable') === false) {
                 doc.attr('editable', true);
+
+                this.options.ageData.attr('id', doc.attr('_id'));
             } else {
                 doc.attr('editable', false);
 
-                doc.save();
+                doc.save()
+                    .done(function (response) {
+                        if(response.err) {
+                            doc.attr('name', response.data.name);
+                            return self.processError(response.err);
+                        }
+
+                        self.setNotification('success', options.successMsg);
+                    })
+                    .fail(function (doc) {
+                        self.setNotification('error', options.errorMsg);
+                    });
             }
         },
 
-        '{activate} click': function (el) {
-            var doc = el.parents(this.options.parentData)
-                       .data(this.options.moduleName);
-
-            doc.save();
+        '.activateTheme click': function (el) {
+            this.getDocHandle(el).save();
         },
 
-        '{confirm} click': function () {
-            var options = this.options,
-                self = this,
-                create = this.module.attr('addExisting') ? true : false;
-
-            var doc = create
-                ? this.saveExistingRef()
-                : this.createDocument();
-            return;
+        '.unlinkTheme click': function (el) {
+            var self = this,
+                options = self.options,
+                doc = self.getDocHandle(el),
+                index = doc.attr('age_id').indexOf(self.options.ageData.attr('id')),
+                removed = doc.attr('age_id').splice(index, 1);
 
             doc.save()
                 .done(function (response) {
-                    doc.attr('_id', response.data._id);
+                    if(response.err) {
+                        doc.attr('age_id').push(removed);
+                        return self.processError(response.err);
+                    }
+
                     self.setNotification('success', options.successMsg);
-                    
-                    selfresetObservables();
                 })
-                .fail(function (doc) {
+                .fail(function () {
                     self.setNotification('error', options.errorMsg);
                 });
         },
 
-        saveExistingRef: function () {
+        '.confirmTheme click': function (el) {
+            var self = this,
+                options = self.options,
+                create = self.module.attr('addExisting') ? true : false;
+            console.log(self.module.attr('addExisting'))
+            create
+                ? self.saveExistingRef(el)
+                : self.createDocument();
+        },
 
+        saveExistingRef: function (el) {
+            var self = this,
+                options = self.options,
+                doc = $(el).parents('.row')
+                           .find('option:selected')
+                           .data(options.moduleName);
+
+            doc.attr('age_id').push(this.options.ageData.attr('id'))
+
+            doc.save()
+                .done(function (response) {
+                    if(response.err) {
+                        doc.attr('age_id').pop();
+                        return self.processError(response.err);
+                    }
+
+                    self.setNotification('success', options.successMsg);
+                    
+                    self.resetObservables();
+                })
+                .fail(function () {
+                    self.setNotification('error', options.errorMsg);
+                });
         },
 
         createDocument: function () {
-            doc = new options.Model({
-                active: true,
-                name: this.module.attr('addName')
-            });
+            var self = this,
+                options = self.options,
+                doc = new options.Model({
+                    active: true,
+                    name: this.module.attr('addName'),
+                    age_id: [ this.options.ageData.attr('id') ]
+                });
+
+            doc.save()
+                .done(function (response) {
+                    if(response.err) {
+                        doc.destroy();
+                        return self.processError(response.err);
+                    }
+
+                    doc.attr('_id', response.data._id);
+                    self.setNotification('success', options.successMsg);
+                    
+                    self.resetObservables();
+                })
+                .fail(function () {
+                    self.setNotification('error', options.errorMsg);
+                });
         },
 
         setNotification: function (status, msg) {

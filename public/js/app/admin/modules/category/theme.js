@@ -6,11 +6,11 @@ import 'js/app/admin/components/upload/'
 export default Edit.extend({
     defaults: {
         viewpath: '../js/app/admin/modules/category/views/',
-        viewName: 'setAge.stache',
+        viewName: 'setTheme.stache',
 
-        moduleName: 'age',
+        moduleName: 'theme',
 
-        form: '.ageForm',
+        form: '.themeForm',
         
         setRoute: false
     }

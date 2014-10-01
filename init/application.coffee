@@ -4,7 +4,6 @@ express = require 'express'
 async = require 'async'
 passport = require 'passport'
 roles = require 'roles'
-crypto = require 'crypto'
 _ = require 'underscore'
 
 cookieParser = require 'cookie-parser'
@@ -20,6 +19,8 @@ Image = require '../lib/image'
 Logger = require '../lib/logger'
 Model = require '../lib/model'
 View = require '../lib/view'
+
+crypto = require '../utils/crypto'
 
 adminController = require '../controllers/admin'
 userController = require '../controllers/user'
@@ -64,7 +65,6 @@ configure = () ->
 	
 	@use '/js', express.static "#{__dirname}/../public/js"
 	@use '/img', express.static "#{__dirname}/../public/img"
-	@use '/attachable', express.static "#{__dirname}/../public/img/admin/attachable"
 	@use '/css', express.static "#{__dirname}/../public/css"
 	@use '/fonts', express.static "#{__dirname}/../public/fonts"
 	@use '/robots.txt', (req, res)->
@@ -73,7 +73,9 @@ configure = () ->
 
 	@use multer {
 		dest: './public/img/uploads/'
-		onFileUploadComplete: Image.doResize
+		rename: (fieldname, filename) ->
+			return crypto.md5 filename + Date.now()
+		# onFileUploadComplete: Image.doResize
 	}
 	
 	@use View.compiler {root: '/views'}
