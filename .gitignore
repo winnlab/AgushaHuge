@@ -34,3 +34,4 @@ public/img/uploads
 
 # sass cache directory
 .sass-cache/
+/nbproject/private/
