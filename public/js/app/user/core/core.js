@@ -4,8 +4,6 @@ import helpers from 'helpers'
 
 import 'js/app/user/core/viewHelpers'
 
-new Router(document.body, config.router);
-
 var Core = can.Control.extend(
 	{
 		defaults: {
@@ -27,3 +25,5 @@ var Core = can.Control.extend(
 );
 
 new Core(document.body);
+
+new Router(document.body, config.router);

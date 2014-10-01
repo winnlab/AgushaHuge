@@ -9,13 +9,15 @@ export default can.Control.extend({
 	}
 }, {
 	init: function() {
-		this.options.viewpath = this.options.path.client + 'views/';
+		var server = $('#modules').find('.module.server');
+		
+		if(server.length) {
+			server.children().appendTo(this.element);
+			server.remove();
+			return this.after_request();
+		}
 		
 		this.request();
-		
-		// var view_name = this.options.viewpath + 'index';
-		
-		// this.element.html(can.view(view_name));
 	},
 	
 	request: function() {

@@ -1,7 +1,6 @@
 System.config({
 	baseURL: "/",
 	paths: {
-		"css-user/*": "css/user/*",
 		"jquery": "js/plugins/jquery/dist/jquery.min.js",
 		"can/*": "js/plugins/CanJS/*.js",
 		"underscore": "js/plugins/underscore/underscore-min.js",
@@ -20,7 +19,10 @@ System.config({
 	map: {
 		"can/util/util": "can/util/jquery/jquery",
 		"jquery/jquery": "jquery",
-		"$": "jquery"
+		"$": "jquery",
+		'*': {
+			'css': 'require-css/css'
+		}
 	},
 	ext: {
 		css: 'js/plugins/steal/css'
@@ -36,7 +38,7 @@ System.config({
 			deps: [
 				'jquery',
 				'can/',
-				'css-user/core/core.css!',
+				'css!css/user/core/core.css',
 				'router',
 				'rConfig',
 				'helpers'

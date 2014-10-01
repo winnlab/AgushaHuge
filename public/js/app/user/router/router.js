@@ -20,7 +20,7 @@ export default can.Control.extend({
 				}),
 				self = this;
 			
-			$(options.modulesContainer).html(html);
+			$(options.modulesContainer).prepend(html);
 			
 			can.route.bindings.pushstate.root = options.base;
 			can.route.ready();
