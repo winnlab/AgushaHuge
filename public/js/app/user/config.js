@@ -4,14 +4,12 @@ System.config({
 		"jquery": "js/plugins/jquery/dist/jquery.min.js",
 		"can/*": "js/plugins/CanJS/*.js",
 		"underscore": "js/plugins/underscore/underscore-min.js",
-		"lodash": "js/plugins/lodash/dist/lodash.min.js",
 		"jade": "js/plugins/jade/runtime.js",
 		
 		"router": 'js/app/user/router/router.js',
 		"placeholder": 'js/app/user/router/placeholder.js',
 		
 		"core": 'js/app/user/core/core.js',
-		"appState": 'js/app/user/core/appState.js',
 		"rConfig": 'js/app/user/core/config.js',
 		"helpers": 'js/app/user/helpers.js',
 		
@@ -35,7 +33,8 @@ System.config({
 				'can/',
 				'router',
 				'rConfig',
-				'helpers'
+				'helpers',
+				'controller'
 			]
 		},
 		"helpers": {

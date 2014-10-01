@@ -2,8 +2,6 @@ import Router from 'router'
 import config from 'rConfig'
 import helpers from 'helpers'
 
-import 'js/app/user/core/viewHelpers'
-
 var Core = can.Control.extend(
 	{
 		defaults: {
