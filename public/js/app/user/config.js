@@ -35,8 +35,12 @@ System.config({
 				'can/',
 				'router',
 				'rConfig',
-				'jade',
 				'helpers'
+			]
+		},
+		"helpers": {
+			deps: [
+				'jade'
 			]
 		}
 	}

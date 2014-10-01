@@ -7,15 +7,15 @@ import Placeholder from 'placeholder'
 
 export default can.Control.extend({
 		defaults: {
-			viewpath: '../js/app/user/router/views/'
+			
 		}
 	}, {
 		init: function (el, options) {
 			this.route = false;
 			
 			this.Placeholder = new Placeholder();
-
-			var html = can.view(this.options.viewpath + 'route.stache', {
+			
+			var html = can.view('#route_mustache', {
 					modules: this.Placeholder.attr('modules')
 				}),
 				self = this;

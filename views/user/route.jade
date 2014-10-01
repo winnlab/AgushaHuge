@@ -1,0 +1,4 @@
+script#route_mustache(type="text/mustache")
+	| {{#each modules}}
+	| <div class="module{{#if active}} active{{/if}}" id="{{id}}"></div>
+	| {{/each}}
