@@ -1,0 +1,58 @@
+@import '../dynamic/dynamic';
+
+.reg_box {
+	height: 374px;
+	background: url('/img/user/main/reg_box_bg.png');
+	color: $white;
+	
+	.adorable_cell {
+		padding: 39px;
+	}
+	
+	input {
+		width: 202px;
+		text-align: center;
+		margin-top: 20px;
+	}
+	
+	.done {
+		color: white;
+		background-color: $lightblue;
+		margin-top: 14px;
+	}
+	
+	.reg_top {
+		@include bold;
+		font-size: 15.25px;
+		color: $lightblue;
+		text-transform: uppercase;
+		
+		span, a {
+			padding: 0 2px;
+		}
+		
+		.active {
+			color: $white;
+		}
+	}
+
+	.forgot {
+		font-size: 10px;
+		text-decoration: underline;
+		text-align: right;
+		padding-top: 5px;
+	}
+
+	.social {
+		padding-top: 29px;
+	}
+
+	.social_block {
+		@include inline_block;
+		@include rounded;
+		width: 40px;
+		height: 40px;
+		margin: 0 5px;
+		background-color: #a3d7f0;
+	}
+}

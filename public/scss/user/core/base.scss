@@ -45,6 +45,10 @@ h3 {
 	margin-top: 0;
 }
 
+a {
+	color: inherit;
+}
+
 #main_container {
 	@include min_max_height;
 	display: table;
@@ -111,6 +115,12 @@ h3 {
 		width: 57px;
 		left: 3px;
 		height: 25px;
+		
+		.new_module {
+			display: block;
+			position: relative;
+			z-index: 1;
+		}
 	}
 	
 	.logo {
@@ -600,10 +610,9 @@ h3 {
 		color: $greyfont;
 	}
 	
-	.label {
-		span {
-			cursor: pointer;
-		}
+	a {
+		text-decoration: none;
+		text-transform: uppercase;
 	}
 }
 
@@ -616,9 +625,15 @@ h3 {
 }
 
 .module {
+	display: none;
+	
 	.content {
 		position: relative;
 		z-index: 10;
+	}
+	
+	&.active {
+		@include inline_block;
 	}
 }
 

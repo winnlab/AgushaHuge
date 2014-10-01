@@ -5,7 +5,7 @@ import 'can/map/define/'
 
 export default can.Control.extend({
 	defaults: {
-		
+		css_path: 'css/user/'
 	}
 }, {
 	init: function() {
@@ -17,7 +17,7 @@ export default can.Control.extend({
 			return this.after_request();
 		}
 		
-		this.request();
+		System.import(this.options.css_path + this.options.name + '/index.css!').then(this.request());
 	},
 	
 	request: function() {

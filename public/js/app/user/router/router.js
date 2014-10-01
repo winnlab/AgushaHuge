@@ -76,7 +76,7 @@ export default can.Control.extend({
 					
 					this.Placeholder.initModule(module);
 				} else {
-					throw new Error("There no '" + moduleName + "' module, please check your configuration file");
+					throw new Error("There is no '" + moduleName + "' module, please check your configuration file");
 				}
 			} catch (e) {
 				console.error(e);

@@ -5,6 +5,7 @@ System.config({
 		"can/*": "js/plugins/CanJS/*.js",
 		"underscore": "js/plugins/underscore/underscore-min.js",
 		"lodash": "js/plugins/lodash/dist/lodash.min.js",
+		"jade": "js/plugins/jade/runtime.js",
 		
 		"router": 'js/app/user/router/router.js',
 		"placeholder": 'js/app/user/router/placeholder.js',
@@ -19,13 +20,7 @@ System.config({
 	map: {
 		"can/util/util": "can/util/jquery/jquery",
 		"jquery/jquery": "jquery",
-		"$": "jquery",
-		'*': {
-			'css': 'require-css/css'
-		}
-	},
-	ext: {
-		css: 'js/plugins/steal/css'
+		"$": "jquery"
 	},
 	meta: {
 		"can/*": {
@@ -38,9 +33,9 @@ System.config({
 			deps: [
 				'jquery',
 				'can/',
-				'css!css/user/core/core.css',
 				'router',
 				'rConfig',
+				'jade',
 				'helpers'
 			]
 		}

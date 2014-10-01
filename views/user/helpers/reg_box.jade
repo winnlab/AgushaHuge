@@ -1,0 +1,23 @@
+.reg_box.column
+	.adorable_table
+		.adorable_cell
+			- var login = (path_name == '' || path_name == 'login' ? true : false)
+			- var registration = (path_name == 'registration' ? true : false)
+			
+			.reg_top
+				a.login(href="/login", class = (login ? 'active' : '')) Вход
+				span /
+				a.register(href="/registration", class = (registration ? 'active' : '')) Регистрация
+			
+			form.login_form
+				input.email(type="email", name="email", placeholder="E-Mail")
+				input.password(type="password", name="password", placeholder="Пароль")
+				
+				.forgot Забыли пароль?
+				
+				button.done Готово
+			
+			.social
+				.social_block.facebook
+				.social_block.twitter
+				.social_block.vkontakte
