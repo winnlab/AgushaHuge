@@ -9,6 +9,18 @@
 	
 	.reg_box {
 		margin: 0 0 30px;
+		background: url('/img/user/registration/reg_box_bg.png') no-repeat;
+		width: 580px;
+	}
+	
+	input {
+		margin: 20px 10px 0;
+	}
+	
+	.done {
+		background-color: #61D1FF;
+		color: #FFFFFF;
+		margin-top: 29px;
 	}
 	
 	.child {
