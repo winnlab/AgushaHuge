@@ -5,8 +5,10 @@
 	background: url('/img/user/main/reg_box_bg.png') no-repeat;
 	color: $white;
 	
-	.adorable_cell {
-		padding: 39px;
+	> .adorable_table {
+		> .adorable_cell {
+			padding: 39px;
+		}
 	}
 	
 	input {
@@ -46,13 +48,27 @@
 	.social {
 		padding-top: 29px;
 	}
-
-	.social_block {
+	
+	.social_text {
+		margin: 0 10px;
+		
+		.adorable_cell {
+			text-align: left;
+			font-family: 'PT_Sans_Italic';
+			font-size: 12px;
+			color: #a3d7f0;
+		}
+	}
+	
+	.social_inline {
 		@include inline_block;
+		height: 40px;
+	}
+	
+	.social_block {
 		@include rounded;
 		width: 40px;
-		height: 40px;
-		margin: 0 5px;
 		background-color: #a3d7f0;
+		margin: 0 5px;
 	}
 }

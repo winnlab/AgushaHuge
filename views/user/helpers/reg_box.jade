@@ -23,6 +23,14 @@
 				button.done Готово
 			
 			.social
-				.social_block.facebook
-				.social_block.twitter
-				.social_block.vkontakte
+				if registration
+					.social_text.social_inline
+						.adorable_table
+							.adorable_cell
+								| Быстрый вход через
+								br
+								| одну из соц сетей
+				
+				.social_block.social_inline.facebook
+				.social_block.social_inline.twitter
+				.social_block.social_inline.vkontakte
