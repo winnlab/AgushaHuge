@@ -11,7 +11,7 @@ class Crud
 
 	constructor: (options) ->
 		defaults =
-			uploadDir: './public/uploads/'
+			uploadDir: './public/img/uploads/'
 			files: []
 		@options = _.extend defaults, options
 		@options.filename = __filename

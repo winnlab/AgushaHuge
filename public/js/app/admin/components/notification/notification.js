@@ -70,4 +70,4 @@ var module = function () {
 	$(document.body).append(template());
 };
 
-export default module;
+module();

@@ -1,5 +1,5 @@
 import can from 'can/'
-import Years from 'js/app/admin/modules/category/ages'
+import Ages from 'js/app/admin/modules/category/ages'
 import Themes from 'js/app/admin/modules/category/themes'
 
 import 'css/admin/category.css!'
@@ -14,20 +14,23 @@ export default can.Control.extend(
 
             var self = this,
                 options = self.options,
-                age_id = can.compute();
+                ageData = new can.Map({
+                    id: null,
+                    name: ''
+                });
 
             self.element.html(
                 can.view(options.viewpath + 'index.stache', {})
             );
 
-            new Years(self.element.find('#ageWrap'), {
+            new Ages(self.element.find('#ageWrap'), {
                 viewpath: options.viewpath,
-                age_id
+                ageData
             });
 
             new Themes(self.element.find('#themeWrap'), {
                 viewpath: options.viewpath,
-                age_id
+                ageData
             });
 
         }

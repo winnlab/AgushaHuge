@@ -1,4 +1,4 @@
-<div class='panel panel-default'>
+<div class='panel panel-default {{#is display 'set'}}hidden{{/is}}'>
     <div class='panel-heading'>
         <div class='panel-title'>
             Возраста
@@ -36,16 +36,16 @@
                             </span>
                             <input type='text' class='bodyAge form-control' {{#unless editable}}disabled{{/unless}} can-value='value' />
                             <div class='input-group-btn'>
-                                <div class="btn btn-default editAge">
+                                <div class="btn btn-default editAge" title="Изменить название">
                                     <i class="fa fa-pencil"></i>
                                 </div>
-                                <div class="btn btn-default redactAge">
+                                <div class="btn btn-default redactAge" title="Редактировать">
                                     <i class="fa fa-edit"></i>
                                 </div>
-                                <div class="btn btn-success ageChildren">
+                                <div class="btn btn-success ageChildren" title="Отобразить категории">
                                     <i class="fa fa-list-alt"></i>
                                 </div>
-                                <div class="btn btn-danger removeAge">
+                                <div class="btn btn-danger removeAge" title="Удалить">
                                     <i class="fa fa-trash-o"></i>
                                 </div>
                             </div>
@@ -56,3 +56,5 @@
         {{/if}}
     </div>
 </div>
+
+<div class="ageForm {{#is display 'list'}}hidden{{/is}}"></div>

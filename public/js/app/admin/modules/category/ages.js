@@ -3,7 +3,7 @@ import List from 'list'
 import _ from 'lodash'
 import appState from 'appState'
 
-import age from 'js/app/admin/modules/category/age'
+import Age from 'js/app/admin/modules/category/age'
 import ageModel from 'js/app/admin/modules/category/ageModel'
 
 export default List.extend(
@@ -14,7 +14,7 @@ export default List.extend(
             moduleName: 'age',
             Model: ageModel,
 
-            Edit: null,
+            Edit: Age,
 
             successMsg: 'Сущность успешно сохранена.',
             errorMsg: 'Ошибка сохранения сущности.',
@@ -23,8 +23,9 @@ export default List.extend(
             deletedMsg: 'Возраст успешно удален!',
 
             add: '.addAge',
-            edit: '.editAge',
+            edit: '.redactAge',
             remove: '.removeAge',
+            rename: '.editAge',
 
             formWrap: '.ageForm',
 
@@ -39,8 +40,8 @@ export default List.extend(
             can.when(
                 self.module.attr(options.moduleName)
             ).then(function () {
-                _.each(self.module.attr(options.moduleName), function(year) {
-                    year.attr('editable', false);
+                _.each(self.module.attr(options.moduleName), function(entity) {
+                    entity.attr('editable', false);
                 });
             });
         },
@@ -55,30 +56,49 @@ export default List.extend(
             this.module.attr('addName', '');
         },
 
+        '{toList} click': function () {
+            this.toListCallback();
+        },
+
 		'{add} click': function () {
             this.module.attr('addMode', !this.module.attr('addMode'));
         },
 
         '{edit} click': function (el) {
+            var id = el.parents(this.options.parentData)
+                     .data(this.options.moduleName).attr('_id');
+
+            this.setDocCallback(id);
+        },
+
+        '{rename} click': function (el) {
             var doc = el.parents(this.options.parentData)
                        .data(this.options.moduleName);
 
             if (doc.attr('editable') === false) {
                 doc.attr('editable', true);
 
-                this.options.age_id(doc.attr('_id'));
+                this.options.ageData.attr('id', doc.attr('_id'));
             } else {
                 doc.attr('editable', false);
 
-                doc.save();
+                doc.save()
+                    .done(function (response) {
+                        if(response.err) {
+                            doc.attr('value', response.data.value);
+                            return self.processError(response.err);
+                        }
+
+                        self.setNotification('success', options.successMsg);
+                    })
+                    .fail(function (doc) {
+                        self.setNotification('error', options.errorMsg);
+                    });
             }
         },
 
         '.activateAge click': function (el) {
-            var doc = el.parents(this.options.parentData)
-                       .data(this.options.moduleName);
-
-            doc.save();
+            this.getDocHandle(el).save();
         },
 
         '.confirmAge click': function () {
@@ -100,7 +120,7 @@ export default List.extend(
                 .done(function (response) {
                     if(response.err) {
                         doc.destroy();
-                        self.processError(response.err)
+                        return self.processError(response.err);
                     }
 
                     doc.attr('_id', response.data._id);
@@ -113,26 +133,21 @@ export default List.extend(
                 });
         },
 
+        '.ageChildren click': function (el) {
+            var doc = el.parents(this.options.parentData)
+                       .data(this.options.moduleName);
+
+            this.options.ageData.attr({
+                id: doc.attr('_id'),
+                name: doc.attr('value')
+            });
+        },
+
         setNotification: function (status, msg) {
             appState.attr('notification', {
                 status: status,
                 msg: msg
             });
-        },
-
-        processError: function (err) {
-            var msg;
-
-            if(err.errors && err.errors.title) {
-                msg = err.errors.title.message;
-            }
-
-            if(!msg) {
-                msg = err.message || err;
-            }
-            
-            alert(msg);
-            this.setNotification('error', msg);
         }
 	}
 );

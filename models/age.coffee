@@ -7,6 +7,10 @@ LibSchema = require '../lib/schema'
 schema = new mongoose.Schema
 	title:
 		type: String
+	'icon.normal':
+		type: String
+	'icon.hover':
+		type: String
 	icon:
 		normal:
 			type: String
@@ -21,6 +25,10 @@ schema = new mongoose.Schema
 	position:
 		type: Number
 		default: 99
+	'desc.image.normal':
+		type: String
+	'desc.image.expanded':
+		type: String
 	desc:
 		title:
 			type: String

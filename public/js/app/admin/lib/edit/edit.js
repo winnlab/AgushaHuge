@@ -1,5 +1,5 @@
 import 'can/'
-import 'appState'
+import appState from 'appState'
 
 export default can.Control.extend({
 	defaults: {
