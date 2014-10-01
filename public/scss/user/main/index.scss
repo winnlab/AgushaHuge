@@ -18,8 +18,9 @@
 		@include pseudo;
 		@include absolute_horizontal_centered;
 		top: 0;
+		left: -1px;
 		background: url('/img/user/main/topper_background.jpg') center no-repeat;
-		width: 100%;
+		width: 100.3%;
 		height: 100%;
 		z-index: 5;
 	}
