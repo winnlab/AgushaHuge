@@ -1,0 +1,36 @@
+- var login = (path_name == '' || path_name == 'login' ? true : false)
+- var registration = (path_name == 'registration' ? true : false)
+
+.reg_box.column
+	.adorable_table
+		.adorable_cell
+			.reg_top
+				a.login(href="/login", class = (login ? 'active' : '')) Вход
+				span /
+				a.register(href="/registration", class = (registration ? 'active' : '')) Регистрация
+			
+			form(class=((login ? 'login' : 'registration') + '_form'))
+				if registration
+					input.first_name(type="text", name="first_name", placeholder="Имя")
+					input.last_name(type="text", name="last_name", placeholder="Фамилия")
+				
+				input.email(type="email", name="email", placeholder="E-Mail")
+				input.password(type="password", name="password", placeholder="Пароль")
+				
+				if login
+					.forgot Забыли пароль?
+				
+				button.done Готово
+			
+			.social
+				if registration
+					.social_text.social_inline
+						.adorable_table
+							.adorable_cell
+								| Быстрый вход через
+								br
+								| одну из соц сетей
+				
+				.social_block.social_inline.facebook
+				.social_block.social_inline.twitter
+				.social_block.social_inline.vkontakte

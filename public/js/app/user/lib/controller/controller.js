@@ -5,17 +5,19 @@ import 'can/map/define/'
 
 export default can.Control.extend({
 	defaults: {
-		
+		css_path: 'css/user/'
 	}
 }, {
 	init: function() {
-		this.options.viewpath = this.options.path.client + 'views/';
+		var server = $('#modules').find('.module.server');
 		
-		this.request();
+		if(server.length) {
+			server.children().appendTo(this.element);
+			server.remove();
+			return this.after_request();
+		}
 		
-		// var view_name = this.options.viewpath + 'index';
-		
-		// this.element.html(can.view(view_name));
+		System.import(this.options.css_path + this.options.name + '/index.css!').then(this.request());
 	},
 	
 	request: function() {
@@ -33,7 +35,7 @@ export default can.Control.extend({
 		}
 		
 		can.ajax({
-			url: '/' + str,
+			url: '/' + str + '?ajax=true',
 			success: function(data) {
 				that.successRequest(data);
 			},

@@ -7,20 +7,20 @@ import Placeholder from 'placeholder'
 
 export default can.Control.extend({
 		defaults: {
-			viewpath: '../js/app/user/router/views/'
+			
 		}
 	}, {
 		init: function (el, options) {
 			this.route = false;
 			
 			this.Placeholder = new Placeholder();
-
-			var html = can.view(this.options.viewpath + 'route.stache', {
+			
+			var html = can.view('#route_mustache', {
 					modules: this.Placeholder.attr('modules')
 				}),
 				self = this;
 			
-			$(options.modulesContainer).html(html);
+			$(options.modulesContainer).prepend(html);
 			
 			can.route.bindings.pushstate.root = options.base;
 			can.route.ready();
@@ -76,7 +76,7 @@ export default can.Control.extend({
 					
 					this.Placeholder.initModule(module);
 				} else {
-					throw new Error("There no '" + moduleName + "' module, please check your configuration file");
+					throw new Error("There is no '" + moduleName + "' module, please check your configuration file");
 				}
 			} catch (e) {
 				console.error(e);

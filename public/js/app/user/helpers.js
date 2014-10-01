@@ -5,7 +5,7 @@ function strip_tags(str){	// Strip HTML and PHP tags from a string
 	return str.replace(/<\/?[^>]+>/gi, '');
 }
 
-jadeTemplate = {
+window.jadeTemplate = {
 	viewPath: '/views/',
 	savedViewFuncs: [],
 	

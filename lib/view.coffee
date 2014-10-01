@@ -3,7 +3,6 @@ _ = require 'underscore'
 moment = require 'moment'
 jade = require 'jade'
 fs = require 'fs'
-zlib = require 'zlib'
 
 Logger = require './logger'
 # Cache = require './cache'
@@ -83,6 +82,7 @@ exports.globals = (req, res, next)->
 	
 	res.locals.base_url = base_url = 'http://' + req.headers.host
 	res.locals.current_url = base_url + req.originalUrl
+	res.locals.path_name = req._parsedUrl.pathname.split('/')[1]
 	res.locals.params = req.params
 	
 	res.locals.moment = moment
@@ -106,7 +106,6 @@ loadClient = (name) ->
 	compiledClients[name] =
 		source: compiled,
 		lastModified: (new Date).toUTCString(),
-		gzip: null
 	
 	compiledClients[name]
 
@@ -132,20 +131,8 @@ exports.compiler = (options) ->
 				
 				res.setHeader "Content-Type", "application/x-javascript; charset=utf-8"
 				res.setHeader "Last-Modified", container.lastModified
-				if options.gzip
-					res.setHeader "Content-Encoding", "gzip"
-					if container.gzip is null
-						zlib.gzip container.source, (err, buffer) ->
-							unless err
-								container.gzip = buffer
-								res.end container.gzip
-							else
-								next err
-					else
-						res.end container.gzip
-				else
-					res.setHeader "Content-Length", (if typeof Buffer isnt "undefined" then Buffer.byteLength(container.source, "utf8") else container.source.length)
-					res.end container.source
+				res.setHeader "Content-Length", (if typeof Buffer isnt "undefined" then Buffer.byteLength(container.source, "utf8") else container.source.length)
+				res.end container.source
 			catch e
 				next e
 		else

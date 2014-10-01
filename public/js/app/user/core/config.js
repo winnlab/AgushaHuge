@@ -9,6 +9,20 @@ var config = {
 					client: 'js/app/user/modules/main/',
 					server: ''
 				}
+			},
+			{
+				name: 'registration',
+				path: {
+					client: 'js/app/user/modules/registration/',
+					server: 'registration'
+				}
+			},
+			{
+				name: 'login',
+				path: {
+					client: 'js/app/user/modules/login/',
+					server: 'login'
+				}
 			}
 		],
 		defaultModule: 'main'

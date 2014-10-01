@@ -1,5 +1,6 @@
 import can from 'can/'
 import _ from 'js/plugins/underscore/'
+
 export default can.Map.extend({
     modules: [],
 

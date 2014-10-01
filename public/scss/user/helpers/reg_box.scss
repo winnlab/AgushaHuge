@@ -1,0 +1,74 @@
+@import '../dynamic/dynamic';
+
+.reg_box {
+	height: 374px;
+	background: url('/img/user/main/reg_box_bg.png') no-repeat;
+	color: $white;
+	
+	> .adorable_table {
+		> .adorable_cell {
+			padding: 39px;
+		}
+	}
+	
+	input {
+		width: 202px;
+		text-align: center;
+		margin-top: 20px;
+	}
+	
+	.done {
+		color: white;
+		background-color: $lightblue;
+		margin-top: 14px;
+	}
+	
+	.reg_top {
+		@include bold;
+		font-size: 15.25px;
+		color: $lightblue;
+		text-transform: uppercase;
+		
+		span, a {
+			padding: 0 2px;
+		}
+		
+		.active {
+			color: $white;
+		}
+	}
+
+	.forgot {
+		font-size: 10px;
+		text-decoration: underline;
+		text-align: right;
+		padding-top: 5px;
+	}
+
+	.social {
+		padding-top: 29px;
+	}
+	
+	.social_text {
+		margin: 0 10px;
+		
+		.adorable_cell {
+			text-align: left;
+			font-family: 'PT_Sans_Italic';
+			font-size: 12px;
+			color: #a3d7f0;
+		}
+	}
+	
+	.social_inline {
+		@include inline_block;
+		height: 40px;
+	}
+	
+	.social_block {
+		@include rounded;
+		width: 40px;
+		background-color: #a3d7f0;
+		margin: 0 5px;
+	}
+}

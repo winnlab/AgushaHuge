@@ -2,18 +2,22 @@
 
 ::-webkit-input-placeholder {
     opacity: 1 !important;
+	font-family: 'PT_Sans_Regular';
 }
 
 :-moz-placeholder {
     opacity: 1 !important;
+	font-family: 'PT_Sans_Regular';
 }
 
 ::-moz-placeholder {
     opacity: 1 !important;
+	font-family: 'PT_Sans_Regular';
 }
 
 :-ms-input-placeholder {  
    opacity: 1 !important;
+   font-family: 'PT_Sans_Regular';
 }
 
 button {
@@ -44,6 +48,7 @@ input {
 	outline-style: none;
 	padding: 0 10px;
 	color: #999999;
+	font-family: 'PT_Sans_Bold' !important;
 	
 	&.error {
 		@include box_shadow(inset 0 0 0 3px #fd7b6a !important);
