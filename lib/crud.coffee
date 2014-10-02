@@ -108,7 +108,11 @@ class Crud
 		next = (err, data) ->
 			cb err, _id: data?._id
 		DocModel = @DataEngine()
-		doc = new DocModel data
+		doc = new DocModel()
+
+		for own field, value of data
+			objUtils.handleProperty doc, field, value
+
 		doc.save next
 
 	update: (id, data, cb) ->
@@ -116,7 +120,8 @@ class Crud
 			(next) =>
 				@DataEngine 'findById', next, id
 			(doc, next) =>
-				_.extend doc, data
+				for own field, value of data
+					objUtils.handleProperty doc, field, value
 				doc.save cb
 		], cb
 
