@@ -2,14 +2,12 @@ async = require 'async'
 _ = require 'lodash'
 
 exports.handleProperty = (obj, property, value) ->
-	string = ''
-	parts = property.split '.'
+	elems = property.split '.'
+ 
+	if elems.length < 2
+		obj[elems[0]] = value if value isnt undefined
+		return obj[elems[0]]
 
-	for part in parts
-		string += "['#{part}']"
+	obj[elems[0]] = {} if not obj[elems[0]]
 
-	del = if typeof value is 'string' then "'" else ""
-	eval "obj#{string}=#{del}#{value}#{del};" if value isnt undefined
-
-	eval "var result = obj#{string};"
-	return result
+	exports.handleProperty obj[elems.shift()], elems.join("."), value
