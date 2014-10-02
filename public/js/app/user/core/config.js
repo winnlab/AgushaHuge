@@ -14,14 +14,14 @@ var config = {
 				name: 'registration',
 				path: {
 					client: 'js/app/user/modules/registration/',
-					server: 'registration'
+					server: ':name'
 				}
 			},
 			{
 				name: 'login',
 				path: {
 					client: 'js/app/user/modules/login/',
-					server: 'login'
+					server: ':name'
 				}
 			}
 		],
