@@ -127,11 +127,13 @@ export default List.extend(
         '.confirmTheme click': function (el) {
             var self = this,
                 options = self.options,
-                create = self.module.attr('addExisting') ? true : false;
-            console.log(self.module.attr('addExisting'))
-            create
-                ? self.saveExistingRef(el)
-                : self.createDocument();
+                link = self.module.attr('addExisting') ? true : false;
+
+            if (link) {
+                return self.saveExistingRef(el);
+            }
+            
+            self.createDocument();
         },
 
         saveExistingRef: function (el) {

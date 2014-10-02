@@ -256,7 +256,7 @@ class Crud
 				doc.save cb
 		], cb
 
-	_removeFiles: (files, cb) ->
+	_removeFiles: (files = [], cb) ->
 		async.each files, (file, proceed) =>
 			@removeFile file, proceed
 		, cb
