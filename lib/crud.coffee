@@ -7,6 +7,8 @@ View = require './view'
 Model = require './mongooseTransport'
 Logger = require './logger'
 
+objUtils = require '../utils/object.coffee'
+
 class Crud
 
 	constructor: (options) ->
@@ -200,7 +202,8 @@ class Crud
 			if fileOpts.parent
 				doc[fileOpts.parent][fileOpts.name] = file
 			else
-				doc[fileOpts.name] = file
+				objUtils.handleProperty doc, fileOpts.name, file
+				# doc[fileOpts.name] = file
 		else
 			target = @_getUploadedFile doc, fileOpts
 			unless typeof file is 'number'
@@ -217,7 +220,7 @@ class Crud
 			data[fileOpts.name] = file
 			cb null, data
 
-	# parse req and do stuff depends off fieldName
+	# parse req and do stuff depends of fieldName
 	_removeFile: (req, cb) ->
 		id = req.body.id or req.body._id
 		fieldName = req.body.name
@@ -231,7 +234,7 @@ class Crud
 				else
 					next 'Error. there are unknown "id" or "fieldName"'
 			(next) =>
-				Model @options.modelName, 'findById', next, id
+				@DataEngine 'findById', next, id
 			(doc, next) =>
 				fileName = fileName or @_getUploadedFile doc, fileOpts
 				unless typeof fileName is 'string'
@@ -241,7 +244,7 @@ class Crud
 				@removeFile fileName, proceed
 			(doc) =>
 				if fileOpts.type == 'string'
-					@_setDocFiles doc, undefined, fileOpts
+					@_setDocFiles doc, null, fileOpts
 				else
 					index = (@_getUploadedFile doc, fileOpts).indexOf fileName
 					@_setDocFiles doc, index, fileOpts
