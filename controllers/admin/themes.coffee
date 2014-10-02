@@ -1,20 +1,5 @@
 Crud = require '../../lib/crud'
 
-class themeCrud extends Crud
-	update: (id, data, cb) ->
-        async.waterfall [
-            (next) =>
-                @DataEngine 'findById', next, id
-            (doc, next) =>
-                unless doc
-                    return cb "Cannot find such tale #{id}"
-                if doc.age_id.length
-                    doc.age_id.splice(0)
-                delete data.__v
-                _.extend doc, data
-                doc.save cb
-        ], cb
-
 crud = new Crud
     modelName: 'Theme'
     files: [
