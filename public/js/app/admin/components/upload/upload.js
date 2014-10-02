@@ -206,7 +206,7 @@ can.Component.extend({
 				size = this.attr('size') || 'normal',
 				html;
 			if (accept.indexOf('image') !== -1) {
-				html = '<span class="uploaded ' + size + ' thumbnail" style="background-image: url(\'/uploads/' + source + '\')"></span>';
+				html = '<span class="uploaded ' + size + ' thumbnail" style="background-image: url(\'/img/uploads/' + source + '\')"></span>';
 			} else {
 				html = '<span>' + source + '</span>&nbsp;';
 			}
