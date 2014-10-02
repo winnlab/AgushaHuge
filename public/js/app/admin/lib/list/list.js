@@ -118,10 +118,17 @@ export default can.Control.extend({
 	},
 
 	initSetControl: function (area, doc, entity) {
-		new this.options.Edit(area, {
-			doc: doc,
-			entity: entity
-		});
+		if(this.options.EditHandle && this.options.EditHandle.destroy) {
+			this.options.EditHandle.init(area, {
+				doc,
+				entity
+			})
+		} else {
+			this.options.EditHandle = new this.options.Edit(area, {
+				doc: doc,
+				entity: entity
+			});
+		}
 	},
 
 	'{toList} click': function () {

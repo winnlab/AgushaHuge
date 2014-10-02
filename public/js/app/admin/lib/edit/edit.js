@@ -1,5 +1,6 @@
 import 'can/'
 import appState from 'appState'
+import _ from 'lodash'
 
 export default can.Control.extend({
 	defaults: {
@@ -14,13 +15,21 @@ export default can.Control.extend({
 		setRoute: true
 	}
 }, {
-	init: function () {
+	init: function (element, options) {
+		if(this.inited) {
+			_.extend(this.options, options);
+		}
+
 		var options = this.options,
 			data = {
 				langs: appState.attr('langs')
 			};
+
 		data[options.moduleName] = options.doc;
+
 		this.element.html(can.view(options.viewpath + options.viewName, data));
+
+		this.inited = true;
 	},
 
 	'{form} submit': function (el, ev) {
@@ -34,14 +43,14 @@ export default can.Control.extend({
 		doc.attr(data);
 
 		doc.save()
-			.done(function(doс) {
+			.done(function () {
 				options.entity(doc.attr('_id'));
 				if (options.setRoute) {
 					can.route.attr({'entity_id': doc.attr('_id')});
 				}
 				self.setNotification('success', options.successMsg);
 			})
-			.fail(function (doc) {
+			.fail(function () {
 				self.setNotification('error', options.errorMsg);
 			});
 

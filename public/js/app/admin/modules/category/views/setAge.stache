@@ -92,7 +92,7 @@
                         url="/admin/age/img"
                         delete-url="/admin/age/img"
                         entity="{age}"
-                        uploaded="{age.image.normal}"
+                        uploaded="{age.icon.normal}"
                         accept="image/*"
                     >
                         Загрузить изображение
@@ -103,10 +103,32 @@
                         url="/admin/age/img"
                         delete-url="/admin/age/img"
                         entity="{age}"
-                        uploaded="{age.image.hover}"
+                        uploaded="{age.icon.hover}"
                         accept="image/*"
                     >
                         Загрузить изображение при наведении
+                    </upload>
+                    <upload
+                        class="col-md-12"
+                        name="desc.image.normal"
+                        url="/admin/age/img"
+                        delete-url="/admin/age/img"
+                        entity="{age}"
+                        uploaded="{age.desc.image.normal}"
+                        accept="image/*"
+                    >
+                        Загрузить изображение описания
+                    </upload>
+                    <upload
+                        class="col-md-12"
+                        name="desc.image.expanded"
+                        url="/admin/age/img"
+                        delete-url="/admin/age/img"
+                        entity="{age}"
+                        uploaded="{age.desc.image.expanded}"
+                        accept="image/*"
+                    >
+                        Загрузить развернутое изображение описания
                     </upload>
                 </div>
             </div>

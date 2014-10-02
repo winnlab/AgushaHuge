@@ -75,12 +75,12 @@ export default List.extend(
         },
 
         '{rename} click': function (el) {
-            var doc = this.getDocHandle(el);
+            var self = this,
+                options = self.options,
+                doc = self.getDocHandle(el);
 
             if (doc.attr('editable') === false) {
                 doc.attr('editable', true);
-
-                this.options.ageData.attr('id', doc.attr('_id'));
             } else {
                 doc.attr('editable', false);
 
@@ -157,6 +157,10 @@ export default List.extend(
                 .fail(function () {
                     self.setNotification('error', options.errorMsg);
                 });
+        },
+
+        '{toList} click': function () {
+            this.toListCallback();
         },
 
         createDocument: function () {

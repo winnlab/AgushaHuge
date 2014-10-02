@@ -42,6 +42,17 @@ export default List.extend(
             ).then(function () {
                 _.each(self.module.attr(options.moduleName), function(entity) {
                     entity.attr('editable', false);
+                    if(!entity.attr('icon')) {
+                        entity.attr('icon', {})
+                    };
+
+                    if(!entity.attr('desc')) {
+                        entity.attr('desc', {});
+                    }
+
+                    if(!entity.attr('desc.image')) {
+                        entity.attr('desc.image', {});
+                    }
                 });
             });
         },
@@ -72,13 +83,12 @@ export default List.extend(
         },
 
         '{rename} click': function (el) {
-            var doc = el.parents(this.options.parentData)
-                       .data(this.options.moduleName);
+            var self = this,
+                options = self.options,
+                doc = self.getDocHandle(el);
 
             if (doc.attr('editable') === false) {
                 doc.attr('editable', true);
-
-                this.options.ageData.attr('id', doc.attr('_id'));
             } else {
                 doc.attr('editable', false);
 

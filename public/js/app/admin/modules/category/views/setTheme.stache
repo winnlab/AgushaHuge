@@ -39,7 +39,7 @@
                         url="/admin/theme/img"
                         delete-url="/admin/theme/img"
                         entity="{theme}"
-                        uploaded="{image}"
+                        uploaded="{theme.image}"
                         accept="image/*"
                     >
                         Загрузить изображение
