@@ -49,8 +49,6 @@
     "sprintf": "0.1.3",
     "underscore": "1.6.0",
     "underscore.string": "2.3.3",
-    "winston": "0.7.3",
-    "zlib": "1.0.5",
-    "gm": "1.16.0",
+    "winston": "0.7.3"
   }
 }

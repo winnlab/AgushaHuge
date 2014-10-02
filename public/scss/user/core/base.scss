@@ -65,6 +65,7 @@ table tr {
 	@include transition(width 0.3s ease-in-out);
 	display: table-cell;
 	width: 230px;
+	vertical-align: top;
 	
 	&.small {
 		width: 70px;
@@ -78,7 +79,6 @@ table tr {
 	left: 0;
 	background-color: $blue;
 	color: $white;
-	vertical-align: top;
 	z-index: 10;
 	
 	.left_content {
@@ -469,6 +469,7 @@ table tr {
 		
 		.counter {
 			opacity: 0;
+			cursor: default;
 		}
 		
 		.count {
@@ -490,7 +491,7 @@ table tr {
 		}
 		
 		.counter_label {
-			letter-spacing: -8px;
+			letter-spacing: -7px;
 		}
 		
 		.search_item {
