@@ -15,11 +15,11 @@ Router.get '/logout', Main.logout
 Router.post '/login', Main.doLogin
 # --------------------- #
 
-Router.use '/age/:id?', Age.rest
 Router.use '/age/img', Age.restFile
+Router.use '/age/:id?', Age.rest
 
-Router.use '/theme/:id?', Theme.rest
 Router.use '/theme/img', Theme.restFile
+Router.use '/theme/:id?', Theme.rest
 
 #########################
 
