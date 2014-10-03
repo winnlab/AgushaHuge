@@ -15,7 +15,7 @@ var paths = {
         './views/board/*.jade',
         './views/board/*/*.jade',
         './test/client/admin/*.js'],
-    sass: ['./public/scss/*.scss', './public/scss/*/*.scss']
+    sass: ['./public/scss/*.scss', './public/scss/**/*.scss']
 };
 
 gulp.task('coffee', function () {
