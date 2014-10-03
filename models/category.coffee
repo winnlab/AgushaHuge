@@ -6,6 +6,10 @@ schema = new mongoose.Schema
 	name:
 		type: String
 		required: true
+	url_label:
+		type: String
+		required: true
+		unique: true
 	active:
 		type: Boolean
 		required: true

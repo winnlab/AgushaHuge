@@ -8,26 +8,26 @@ schema = new mongoose.Schema
 		required: true
 	text:
 		type: String
-		required: false
 	image:
 		type: String
-		required: false
 	storage_life:
 		type: Number
-		required: true
+	storage_conditions:
+		type: String
 	composition:
 		type: String
-		required: false
 	volume:
 		type: Number
-		required: false
+	volumeType:
+		type: Number
+		required: true
+		default: 0
 	active:
 		type: Boolean
 		required: true
 		default: false
 	recommended:
 		type: String
-		required: false
 	age:
 		type: ObjectId
 		ref: "Age"
@@ -35,23 +35,42 @@ schema = new mongoose.Schema
 	certificate: [
 		type: ObjectId
 		ref: "Certificate"
-		required: false
 	]
 	category: [
 		type: ObjectId
 		ref: "Category"
-		required: false
 	]
 	age_level:
 		type: Number
-		required: false
 	main_page:
 		type: Number
-		required: false
 		default: 0
+	alias:
+		type: String
+		index: true
+		unique: true
 ,
 	collection: 'product'
 
+schema.methods.getFormattedVolume = () ->
+	volume = @volume
+	
+	switch @volumeType
+		when 1
+			postfix = 'г' 
+			type = 'вес'
+		else 
+			postfix = 'л' 
+			type = 'объем'
 
+	if parseInt(volume) < 1000
+		postfix = "м#{postfix}"
+
+	newVolume = Math.round(volume / 100) / 10
+
+	obj =
+		volume: volume
+		postfix: postfix
+		type: type
 
 module.exports = mongoose.model 'Product', schema

@@ -14,14 +14,14 @@ export default can.Map.extend({
                     self.activateModule(module.id);
                 } else {
                     msg = module.path.client
-                        ? 'Please check constructor of ' + module.path.client + '.js'
-                        : 'Please check existing of module "' + module.name + '"';
-
+                        ? 'Please check the constructor of ' + module.path.client + '.js'
+                        : 'Please check the existance of "' + module.name + '" module';
+					
                     throw new Error(msg);
                 }
             }).catch((e) => {
-                var msg = 'Error caught while executing module ' + module.name
-                        + ' from path "' + module.path.client + '": ';
+                var msg = 'Error caught while executing the ' + module.name
+                        + ' module from "' + module.path.client + '": ';
                 console.log(' --- ');
                 console.error(msg);
                 console.info(e);
@@ -57,5 +57,4 @@ export default can.Map.extend({
         });
         can.batch.stop();
     }
-
 });

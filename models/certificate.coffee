@@ -12,7 +12,7 @@ schema = new mongoose.Schema
 		type: String
 		required: true
 ,
-	collection: 'сertificate'
+	collection: 'certificate'
 
 LibSchema.init schema, 'image'
 
