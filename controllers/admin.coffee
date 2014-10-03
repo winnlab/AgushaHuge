@@ -1,6 +1,8 @@
 express = require 'express'
 
 Age = require './admin/age'
+Article = require './admin/article'
+ArticleType = require './admin/articleType'
 Main = require './admin/main'
 Theme = require './admin/themes'
 
@@ -20,6 +22,11 @@ Router.use '/age/:id?', Age.rest
 
 Router.use '/theme/img', Theme.restFile
 Router.use '/theme/:id?', Theme.rest
+
+Router.use '/articleType/:id?', ArticleType.rest
+
+# Router.use '/article/img', Article.restFile
+# Router.use '/article/:id?', Article.rest
 
 #########################
 
