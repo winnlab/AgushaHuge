@@ -1,0 +1,10 @@
+.breadcrumbs
+	a(href='/') Главная
+	if breadcrumbs
+		- var lastKey = breadcrumbs.length - 1
+		- each b, key in breadcrumbs
+			span &nbsp; / &nbsp;
+				if (key != lastKey && b.href)
+					a(href=b.href) #{strip_tags(b.title)}
+				else
+					| #{strip_tags(b.title)}

@@ -87,6 +87,7 @@ exports.globals = (req, res, next)->
 	
 	res.locals.moment = moment
 	res.locals.is_ajax_request = request.is_ajax_request(req.headers)
+	res.locals.strip_tags = string.strip_tags
 	
 	next()
 

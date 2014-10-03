@@ -23,6 +23,13 @@ var config = {
 					client: 'js/app/user/modules/login/',
 					server: ':name'
 				}
+			},
+			{
+				name: 'products',
+				path: {
+					client: 'js/app/user/modules/products/',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'
