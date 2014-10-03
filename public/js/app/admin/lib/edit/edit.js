@@ -27,9 +27,13 @@ export default can.Control.extend({
 
 		data[options.moduleName] = options.doc;
 
-		this.element.html(can.view(options.viewpath + options.viewName, data));
+		this.loadView(options.viewpath + options.viewName, data);
 
 		this.inited = true;
+	},
+
+	loadView: function (path, data) {
+		this.element.html(can.view(path, data));
 	},
 
 	'{form} submit': function (el, ev) {
@@ -43,11 +47,17 @@ export default can.Control.extend({
 		doc.attr(data);
 
 		doc.save()
-			.done(function () {
+			.done(function (response) {
+				if(response.err) {
+                    return self.processError(response.err);
+                }
+
 				options.entity(doc.attr('_id'));
+
 				if (options.setRoute) {
 					can.route.attr({'entity_id': doc.attr('_id')});
 				}
+
 				self.setNotification('success', options.successMsg);
 			})
 			.fail(function () {
@@ -65,5 +75,30 @@ export default can.Control.extend({
 			status: status,
 			msg: msg
 		});
-	}
+	},
+
+    processError: function (err) {
+        var msg;
+
+        if(err.errors) {
+        	if(err.errors.title) {
+            	msg = err.errors.title.message;
+        	} else if(_.isObject(err.errors)) {
+        		msg = '';
+        		for(var prop in err.errors) {
+        			if(err.errors.hasOwnProperty(prop) && prop[0] !== '_') {
+        				console.log(prop)
+        				msg += err.errors[prop].message + '\r\n';
+        			}
+        		}
+        	}
+        	
+        }
+
+        if(!msg) {
+            msg = err.message || err;
+        }
+
+        this.setNotification('error', msg);
+    }
 });

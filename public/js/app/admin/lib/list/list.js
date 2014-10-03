@@ -44,6 +44,8 @@ export default can.Control.extend({
 
 		self.module.attr(options.moduleName, new options.Model.List({}));
 
+		self.loadView();
+
 		if (route.entity_id && route.action) {
 			self.module.attr('display', 'set');
 			can.when(
@@ -53,7 +55,6 @@ export default can.Control.extend({
 			});
 		}
 
-		self.loadView();
 	},
 
 	loadView: function () {
@@ -118,7 +119,7 @@ export default can.Control.extend({
 	},
 
 	initSetControl: function (area, doc, entity) {
-		if(this.options.EditHandle && this.options.EditHandle.destroy) {
+		if(this.options.EditHandle) {
 			this.options.EditHandle.init(area, {
 				doc,
 				entity
@@ -185,5 +186,12 @@ export default can.Control.extend({
     	return el
     		.parents(this.options.parentData)
             .data(this.options.moduleName);
+    },
+
+    setNotification: function (status, msg) {
+        appState.attr('notification', {
+            status: status,
+            msg: msg
+        });
     }
 });

@@ -1,4 +1,3 @@
-_ = require 'underscore'
 moment = require 'moment'
 mongoose = require 'mongoose'
 
@@ -12,9 +11,6 @@ schema = new mongoose.Schema
 	updated:
 		type: Date
 		required: true
-	created:
-		type: Date
-		require: true
 		default: moment
 	title:
 		type: String
@@ -24,7 +20,7 @@ schema = new mongoose.Schema
 			type: String
 		text:
 			type: String
-		image: [
+		images: [
 			type: String
 		]
 	image: 
@@ -54,6 +50,8 @@ schema = new mongoose.Schema
 ,
 	collection: 'article'
 
-
+schema.pre 'save', (next) ->
+	this.updated = moment()
+	next()
 
 module.exports = mongoose.model 'Article', schema

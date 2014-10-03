@@ -65,4 +65,4 @@ schema.static 'findNews', (cb) ->
 		]
 	@find where, cb
 
-module.exports = mongoose.model 'Article', schema
+module.exports = mongoose.model 'oldArticle', schema
