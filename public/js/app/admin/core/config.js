@@ -8,16 +8,16 @@ var config = {
 				path: 'js/app/admin/modules/main/'
 			},
 			{
-				name: 'encyclopedia/category',
+				name: 'encyclopedia-category',
 				path: 'js/app/admin/modules/category/'
 			},
 			{
-				name: 'encyclopedia/article',
-				path: 'js/app/admin/modules/article/'
+				name: 'encyclopedia-article',
+				path: 'js/app/admin/modules/articles/'
 			},
 			{
-				name: 'encyclopedia/articleType',
-				path: 'js/app/admin/modules/articleType/'
+				name: 'encyclopedia-articleType',
+				path: 'js/app/admin/modules/articleTypes/'
 			}
 		]
 	}

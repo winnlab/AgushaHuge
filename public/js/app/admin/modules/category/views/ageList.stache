@@ -34,7 +34,7 @@
                             <span class="input-group-addon">
                                 <input class="activateAge" type="checkbox" can-value='active'>
                             </span>
-                            <input type='text' class='bodyAge form-control' {{#unless editable}}disabled{{/unless}} can-value='value' />
+                            <input type='text' class='form-control' {{#unless editable}}disabled{{/unless}} can-value='value' />
                             <div class='input-group-btn'>
                                 <div class="btn btn-default editAge" title="Изменить название">
                                     <i class="fa fa-pencil"></i>

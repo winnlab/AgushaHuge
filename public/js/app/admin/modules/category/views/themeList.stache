@@ -56,7 +56,7 @@
                                 <span class="input-group-addon">
                                     <input class="activateTheme" type="checkbox" can-value='active'>
                                 </span>
-                                <input type='text' class='bodyTheme form-control' {{#unless editable}}disabled{{/unless}} can-value='name' />
+                                <input type='text' class='form-control' {{#unless editable}}disabled{{/unless}} can-value='name' />
                                 <div class='input-group-btn'>
                                     <div class="btn btn-default editTheme" title="Переименовать">
                                         <i class="fa fa-pencil"></i>

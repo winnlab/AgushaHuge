@@ -3,7 +3,7 @@ import 'can/route/'
 import 'can/view/'
 import 'can/map/define/'
 import 'can/list/promise/'
-import 'appState'
+import appState from 'appState'
 
 export default can.Control.extend({
 	defaults: {

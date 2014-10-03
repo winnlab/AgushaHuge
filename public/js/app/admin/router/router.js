@@ -7,7 +7,7 @@ import Placeholder from 'placeholder'
 
 export default can.Control.extend({
 		defaults: {
-			viewpath: '../js/app/admin/router/views/'
+			viewpath: '/js/app/admin/router/views/'
 		}
 	}, {
 		init: function (el, options) {
@@ -48,13 +48,6 @@ export default can.Control.extend({
 		':module route': 'routeChanged',
 		':module/:id route': 'routeChanged',
 		':module/:action/:entity_id route': 'routeChanged',
-
-		':module/encyclopedia/:id route': 'routeChanged',
-		':module/encyclopedia/:action/:entity_id route': 'routeChanged',
-
-		':module/product/:id route': 'routeChanged',
-		':module/product/:action/:entity_id route': 'routeChanged',
-
 		':module/:id/:action/:entity_id route': 'routeChanged',
 
 		routeChanged: function (data) {				
