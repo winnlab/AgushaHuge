@@ -1,0 +1,66 @@
+<div class='panel panel-default {{#is display 'set'}}hidden{{/is}}'>
+    <div class='panel-heading'>
+        <div class='panel-title row'>
+            <div class="col-md-6">
+                Статьи
+            </div>
+            <div class='col-md-4'>
+                <button class='btn btn-primary addArticle'>
+                    <i class="fa fa-plus"></i>
+                    &nbsp;
+                    <span>Создать новую статью</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {{log 'message'}}
+    <div class='panel-body' id='articleList'>
+    	{{#if encyclopedia-article.isResolved}}
+    		{{#if encyclopedia-article.length}}
+    			{{#sortedBy encyclopedia-article '_id'}}
+    				<div class='article article-box editArticle' {{data "encyclopedia-article"}}>
+                        <div class="btn btn-success editArticle"><i class="fa fa-edit"></i></div>
+                        <div class="btn btn-danger removeArticle"><i class="fa fa-remove"></i></div>
+                        {{#if image}}
+                            <div class="article-top" style="background-image: url(/img/uploads/{{image}})"></div>
+                            <div class="article-bottom">
+                                
+                            </div>
+                        {{else}}
+                            <div class="article-top no-image">
+                                <div class="article-title">
+                                    {{title}}
+                                </div>
+                            </div>
+                            <div class="article-bottom">
+                                
+                            </div>
+                        {{/if}}
+                        <div class="article-cellar">
+                            <div>
+                                <i class="fa fa-eye"></i>
+                                <span>0</span>
+                            </div>
+                            <div>
+                                <i class="fa fa-cloud"></i>
+                                <span>1</span>
+                            </div>
+                            <div>
+                                <i class="fa fa-heart-o"></i>
+                                <span>2</span>
+                            </div>
+                        </div>
+    				</div>
+    			{{/sortedBy}}
+            {{else}}
+                <div class="alert alert-info">
+                    <i class="fa fa-info"></i>
+                    <b>Примечание! </b>
+                    Данных, соответствующих указанным параметрам, нет
+                </div>
+    		{{/if}}
+        {{/if}}
+    </div>
+</div>
+
+<div class="articleForm {{#is display 'list'}}hidden{{/is}}"></div>
