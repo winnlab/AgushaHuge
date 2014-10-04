@@ -126,11 +126,29 @@
 	margin: 20px 20px 0;
 	height: 140px;
 	position: relative;
-	background: url('/img/user/products/about_bg.jpg');
 	display: none;
+	background-color: $white;
 	
 	&.active {
 		display: block;
+	}
+	
+	&:before {
+		@include pseudo;
+		width: 50%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		background: url('/img/user/products/about_bg_left.jpg') no-repeat left;
+	}
+	
+	&:after {
+		@include pseudo;
+		width: 50%;
+		height: 100%;
+		top: 0;
+		right: 0;
+		background: url('/img/user/products/about_bg_right.jpg') no-repeat right;
 	}
 }
 
