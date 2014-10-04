@@ -1,19 +1,19 @@
 @import '../dynamic/dynamic';
 @import '../helpers/reg_box';
 
-@media all, (min-width: $min-width) and (max-width: 1280px) {
+@media all, (min-width: $min-width) and (max-width: $extend) {
 	#main {
 		width: 920px;
 	}
 }
 
-@media all and (min-width: 1281px) {
+@media all and (min-width: $extend_plus_one) {
 	#main {
 		width: 1220px;
 	}
 }
 
-#main {	
+#main {
 	&:before {
 		@include pseudo;
 		@include absolute_horizontal_centered;

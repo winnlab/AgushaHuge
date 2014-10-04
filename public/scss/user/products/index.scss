@@ -1,6 +1,290 @@
 @import '../dynamic/dynamic';
 @import '../helpers/breadcrumbs';
+@import 'CSS:../../../js/plugins/select2/select2';
+@import '../helpers/select2';
+
+@media all, (min-width: $min-width) and (max-width: $extend) {
+	#products {
+		width: 920px;
+	}
+}
+
+@media all and (min-width: $extend_plus_one) {
+	#products {
+		width: 1220px;
+	}
+}
 
 #products {
+	text-align: left;
 	
+	.topper {
+		margin: 0 20px;
+		height: 80px;
+		color: $titleblue;
+		font-size: 55px;
+		text-transform: uppercase;
+		font-family: 'PT_Sans_Narrow_Bold';
+		letter-spacing: 3px;
+	}
+	
+	.filters {
+		@include box_shadow(inset 0 0 0 1px $white);
+		margin: 0 20px;
+		height: 70px;
+	}
+	
+	.category_block {
+		margin: 0 3px;
+		display: inline-block;
+		vertical-align: top;
+		height: 100%;
+		position: relative;
+	}
+	
+	.choose_category {
+		cursor: pointer;
+		padding: 8px 27px;
+		
+		&:hover {
+			@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22));
+			background-color: $titleblue;
+			color: white;
+		}
+		
+		&.active {
+			@include box_shadow(inset 0 0 0 1px #cccccc);
+			
+			&:hover {
+				@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22));
+			}
+		}
+	}
+	
+	.about_block {
+		height: 100%;
+		width: 100%;
+		display: none;
+		font-family: 'PT_Sans_Italic';
+		font-size: 18px;
+		color: $darkgrey;
+		
+		&.active {
+			display: block;
+		}
+	}
+	
+	.about_text {
+		@include absolute_horizontal_centered;
+		width: 280px;
+		
+		.adorable_cell {
+			text-align: left;
+		}
+	}
+	
+	.show {
+		@include rounded;
+		@include border_boxed;
+		left: 26px;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		width: 120px;
+		height: 30px;
+		background-color: rgba(255, 255, 255, 0.5);
+		cursor: pointer;
+		padding: 0 9px;
+		font-size: 12px;
+		font-family: 'PT_Sans_Bold';
+		text-transform: uppercase;
+		
+		.adorable_cell {
+			text-align: left;
+		}
+		
+		img, span {
+			vertical-align: middle;
+		}
+		
+		img {
+			margin-right: 10px;
+		}
+	}
+	
+	.how_to_feed {
+		clear: both;
+		text-align: center;
+		height: 264px;
+		padding-top: 30px;
+	}
+}
+
+#about_ages {
+	@include border_boxed;
+	margin: 20px 20px 0;
+	height: 140px;
+	position: relative;
+	background: url('/img/user/products/about_bg.jpg');
+	display: none;
+	
+	&.active {
+		display: block;
+	}
+}
+
+.products_age_select {
+	width: 170px;
+	height: 100%;
+	margin-right: 27px !important;
+
+	&:before {
+		@include pseudo;
+		top: 0;
+		bottom: 0;
+		right: -10px;
+		width: 10px;
+		height: 45px;
+		background: url('/img/user/products/filter_arrow.png') no-repeat;
+		margin: auto;
+		z-index: 1;
+	}
+}
+
+.products_age_select, #select2-drop {
+	.part {
+		float: left;
+		height: 70px;
+	}
+	
+	.left {
+		width: 70px;
+		
+		img {
+			max-width: 100%;
+			max-height: 100%;
+		}
+	}
+	
+	.right {
+		width: 80px;
+		
+		.adorable_cell {
+			text-align: left;
+		}
+	}
+}
+
+#products_container {
+    padding: 10px;
+	overflow: visible;
+	
+	.product_block {
+		height: 465px;
+		float: left;
+		margin: 10px;
+		position: relative;
+		width: 280px;
+		cursor: pointer;
+		color: $grey;
+		background-color: $white;
+		display: block;
+		
+		.image {
+			@include absolute_horizontal_centered;
+			height: 225px;
+			width: 160px;
+			top: 0;
+			
+			img {
+				@include absolute_centered;
+				max-height: 100%;
+				max-width: 100%;
+			}
+		}
+		
+		.title {
+			position: absolute;
+			top: 225px;
+			background-color: $el_bg;
+			height: 80px;
+			padding: 0 10px;
+			
+			span {
+				color: $titleblue;
+				font-size: 15px;
+				text-transform: uppercase;
+				font-family: 'PT_Sans_Bold';
+			}
+		}
+		
+		.desc {
+			position: absolute;
+			top: 305px;
+			background-color: $el_bg;
+			height: 80px;
+			padding: 0 10px;
+			
+			span {
+				font-size: 13px;
+				vertical-align: top;
+			}
+		}
+		
+		.info {
+			width: 100%;
+			position: absolute;
+			top: 385px;
+			background-color: $el_bg;
+			height: 80px;
+			
+			.top {
+				font-size: 16px;
+				color: $titleblue;
+				font-family: 'PT_Sans_Bold';
+			}
+			
+			.bottom {
+				font-size: 13px;
+			}
+			
+			&:before {
+				@include pseudo;
+				@include absolute_centered;
+				height: 48px;
+				width: 1px;
+				background-color: $grey;
+			}
+		}
+		
+		&:hover {
+			@include box_shadow(0 0 0 20px $white, 0px 2px 6px 20px rgba(0, 0, 0, 0.22));
+			z-index: 1;
+			
+			.image {
+				top: 134px;
+				width: 225px;
+				left: 0;
+				
+				img {
+					max-height: 225px;
+					max-width: 225px;
+				}
+			}
+			
+			.title {
+				top: 0;
+				background-color: $white;
+			}
+			
+			.desc {
+				display: none;
+			}
+			
+			.info {
+				background: $white;
+			}
+		}
+	}
 }

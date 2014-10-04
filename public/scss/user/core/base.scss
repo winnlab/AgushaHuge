@@ -20,16 +20,15 @@
 
 html, body {
 	min-height: $min-height;
+	min-width: $min-width;
 	height: 100%;
 }
 
 body {
 	font-size: 14px;
-	min-width: $min-width;
 	background-color: $bg;
 	color: $base;
 	font-family: 'PT_Sans_Regular';
-	overflow-x: hidden;
 }
 
 ul {
@@ -79,7 +78,7 @@ table tr {
 	left: 0;
 	background-color: $blue;
 	color: $white;
-	z-index: 10;
+	z-index: 11;
 	
 	.left_content {
 		@include min_max_height;
@@ -134,7 +133,7 @@ table tr {
 		width: 157px;
 		height: 77px;
 		position: absolute;
-		top: 42px;
+		top: 45px;
 		left: 43px;
 		opacity: 1;
 	}
@@ -579,6 +578,7 @@ table tr {
 #modules {
 	height: 100%;
 	position: relative;
+	overflow: hidden;
 	
 	.module {
 		height: 100%;

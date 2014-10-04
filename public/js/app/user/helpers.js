@@ -1,4 +1,4 @@
-function strip_tags(str){	// Strip HTML and PHP tags from a string
+window.strip_tags = function(str) {	// Strip HTML and PHP tags from a string
 	// 
 	// +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
 	

@@ -88,6 +88,8 @@
 	@include border_radius(99999em);
 }
 
+/* base */
+
 @mixin bold {
 	font-family: 'PT_Sans_Bold';
 	letter-spacing: 0.5px;

@@ -1,2 +1,51 @@
+include helpers
+
+- var products = [{title:"Детский сок осветленный «Яблоко»",text:'Первый фрукт, давай дружить!',volume:200,age:"542034d1d0d4d9183548fee7",volumeType:0,alias:"detskiy_sok_osvetlennyy_yabloko_200_ml"},{title:"Детский сок осветленный «Яблоко»",text:'Первый фрукт, давай дружить!',volume:200,age:"542034d1d0d4d9183548fee7",volumeType:0,alias:"detskiy_sok_osvetlennyy_yabloko_200_ml"},{title:"Детский сок осветленный «Яблоко»",text:'Первый фрукт, давай дружить!',volume:200,age:"542034d1d0d4d9183548fee7",volumeType:0,alias:"detskiy_sok_osvetlennyy_yabloko_200_ml"},{title:"Детский сок осветленный «Яблоко»",text:'Первый фрукт, давай дружить!',volume:200,age:"542034d1d0d4d9183548fee7",volumeType:0,alias:"detskiy_sok_osvetlennyy_yabloko_200_ml"},{title:"Детский сок осветленный «Яблоко»",text:'Первый фрукт, давай дружить!',volume:200,age:"542034d1d0d4d9183548fee7",volumeType:0,alias:"detskiy_sok_osvetlennyy_yabloko_200_ml"},{title:"Детский сок осветленный «Яблоко»",text:'Первый фрукт, давай дружить!',volume:200,age:"542034d1d0d4d9183548fee7",volumeType:0,alias:"detskiy_sok_osvetlennyy_yabloko_200_ml"},{title:"Детский сок осветленный «Яблоко»",text:'Первый фрукт, давай дружить!',volume:200,age:"542034d1d0d4d9183548fee7",volumeType:0,alias:"detskiy_sok_osvetlennyy_yabloko_200_ml"},{title:"Детский сок осветленный «Яблоко»",text:'Первый фрукт, давай дружить!',volume:200,age:"542034d1d0d4d9183548fee7",volumeType:0,alias:"detskiy_sok_osvetlennyy_yabloko_200_ml"},{title:"Детский сок осветленный «Яблоко»",text:'Первый фрукт, давай дружить!',volume:200,age:"542034d1d0d4d9183548fee7",volumeType:0,alias:"detskiy_sok_osvetlennyy_yabloko_200_ml"},{title:"Детский сок осветленный «Яблоко»",text:'Первый фрукт, давай дружить!',volume:200,age:"542034d1d0d4d9183548fee7",volumeType:0,alias:"detskiy_sok_osvetlennyy_yabloko_200_ml"}]
+
+- var categories = [{name:"Молочные коктейли",url_label:"milkshake"},{name:"Пюре",url_label:"puree"},{name:"Соки",url_label:"juice"},{name:"Творожки",url_label:"curd"}]
+
+- var ages = [{title:"с 3",level:3,desc_title:"с первых месяцев жизни",desc_subtitle:"Грудное молоко<br />лучшая пища",desc_text:"<p>Грудное молоко – лучшая пища первых месяцев жизни крохи. Оно на 87% состоит из воды, поэтому заменяет и еду, и питье.</p><p>Но если ваш малыш родился и растет в теплое время года, то его периодически можно допаивать специальной детской водичкой, но ни в коем случае не кипяченой!</p><p>Наилучший вариант – питьевая артезианская вода. Также можете предлагать малышу детский осветленный яблочный сок.</p>"},{title:"с 3",level:36,desc_title:"детскую  и взрослую пищу",desc_subtitle:"В три годика успешно<br />совмещаем самую полезную",desc_text:"<p>Ребенок ведет активную и насыщенную жизнь: общение, прогулки, игры и первые друзья. Ему интересно все на свете!</p><p>Полноценный рацион включает все самые полезные «взрослые» продукты и блюда.</p><p>Тем не менее, детское молоко, сок и кисломолочные продукты должны ежедневно присутствовать в меню ребенка.</p>"},{title:"с 4",level:4,desc_title:'С ПЕРВЫМИ ФРУКТАМИ: <span class="small">грушей и яблочком</span>',desc_subtitle:"В четыре месяца знакомимся",desc_text:"<p>В этом возрасте ребенок становится более активным, учится переворачиваться и хватать предметы ручками.</p><p>Он уверенно прибавляет в весе и нуждается в более разнообразном питании.<br></p><p>Можно начинать прикорм для деток на смешанном или искусственном вскармливании: познакомить с детскими соками и пюре из груши и яблочка.</p>"},{title:"с 5",level:5,desc_title:"открываем новые вкусы",desc_subtitle:"В пять месяцев с<br />удовольствием",desc_text:"<p>Ваш малыш начинает лепетать, пробовать мир на ощупь и на вкус. Он настойчиво хватает, тянет, толкает и вертит предметы. </p><p>Для взрослой пищи он все еще слишком мал, но к уже знакомым сокам из яблочка и груши можно добавить новые вкусы – абрикос, персик, шиповник и вишню. </p><p>Ведь это так вкусно!<br></p>"},{title:"с 6",level:6,desc_title:"знакомство с пищей взрослых",desc_subtitle:"В шесть месяцев<br />начинается",desc_text:"<p>Полгодика – первый юбилей!</p><p>Кроха учится вставать, держась за опору, ползать и сидеть. Самое время знакомить с новой пищей малышей на естественном вскармливании.</p><p>Перед ними открывается настоящее разнообразие вкусов: не только фруктовые, но и овощные, и даже мясные пюре, соки, творожки и другие молочные продукты.<br></p>"},{title:"с 8",level:8,desc_title:"важны молочные продукты",desc_subtitle:"В восемь месяцев<br />особенно",desc_text:"<p>Как быстро летит время!<br></p><p>Ваш ребенок – уже настоящий Сам Самыч: самостоятельно встает, ходит у опоры, сидит, активно ползает и во всю лепечет.<br></p><p>Введите в его рацион новые интересные продукты: детское молоко, йогурт и кефир. Молочные продукты особенно важны, поскольку вовсю начинают резаться зубки.<br></p>"}]
+
 .content
 	include ../helpers/breadcrumbs
+	
+	.topper Каталог продукции
+	
+	.filters
+		select.products_age_select
+			- each a, key in ages
+				option(data-image = 'no_photo.png', value = a.level)
+					if a.level < 12
+						span #{a.title}-x месяцев
+					else
+						span c #{Math.floor(a.level/12)}-x лет
+		
+		.category_block
+			.adorable_table
+				.adorable_cell
+					span.choose_category.rounded.active Все
+		
+		- each c, key in categories
+			.category_block
+				.adorable_table
+					.adorable_cell
+						span.choose_category.rounded(data-category = c.url_label) #{c.name}
+	
+	#about_ages.active
+		.show
+			.adorable_table
+				.adorable_cell
+					img(src="/img/user/products/plus.png")
+					span Показать
+		
+		- each a, key in ages
+			.about_block(id = 'age_' + a.level, class=(key == 0 ? 'active' : ''))
+				.about_text.adorable_table
+					.adorable_cell !{a.desc_subtitle}
+	
+	#products_container
+		- each p, key in products
+			mixin product(p)
+	
+	.how_to_feed
+		img(src="/img/user/products/how_to_feed.png")

@@ -6,3 +6,13 @@ block append header
 block content
 	.module.server#products
 		include content
+
+block append scripts
+	script.
+		var app = {
+			products: !{JSON.stringify(products)}
+		};
+	script#product_mustache(type="text/mustache")
+		| {{#each products}}
+		mixin product()
+		| {{/each}}

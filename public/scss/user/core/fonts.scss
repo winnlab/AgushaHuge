@@ -50,6 +50,17 @@
 }
 
 @font-face {
+    font-family: 'PT_Sans_Narrow_Bold';
+    src: url('/css/fonts/pt_sans_narrow_bold.eot');
+    src: url('/css/fonts/pt_sans_narrow_bold.eot?#iefix') format('embedded-opentype'),
+         url('/css/fonts/pt_sans_narrow_bold.woff') format('woff'),
+         url('/css/fonts/pt_sans_narrow_bold.ttf') format('truetype'),
+         url('/css/fonts/pt_sans_narrow_bold.svg#pt_sans_narrow_bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'novito';
     src: url('/css/fonts/novito.eot');
     src: url('/css/fonts/novito.eot?#iefix') format('embedded-opentype'),
