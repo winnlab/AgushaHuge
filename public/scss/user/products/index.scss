@@ -77,6 +77,7 @@
 	.about_text {
 		@include absolute_horizontal_centered;
 		width: 280px;
+		z-index: 1;
 		
 		.adorable_cell {
 			text-align: left;
