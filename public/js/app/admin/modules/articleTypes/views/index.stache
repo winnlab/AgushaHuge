@@ -1,0 +1,49 @@
+<div class='panel panel-default {{#is display 'set'}}hidden{{/is}}'>
+    <div class='panel-heading'>
+        <div class='panel-title'>
+            Типы статей
+        </div>
+        <div class='row'>
+            <div class='col-md-4'>
+                <button class='btn btn-primary addArticleType'>
+                	<i class="fa fa-plus"></i>
+                	&nbsp;
+                    <span>Добавить</span>
+                </button>
+            </div>
+            <div class='col-md-8'>
+                <span class='{{#unless addMode}}hidden{{/unless}}'>
+                    <div class='input-group'>
+                        <input type='text' class='form-control' can-value='addName' />
+                        <div class='input-group-btn'>
+                            <div class="btn btn-success confirmArticleType">
+                                <i class="fa fa-check-square-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class='panel-body' id='articleTypeList'>
+    	{{#if articleType.isResolved}}
+    		{{#if articleType.length}}
+    			{{#sortedBy articleType 'name'}}
+    				<div class='row articleType' {{data "articleType"}}>
+    					<div class='input-group'>
+                            <input type='text' class='form-control' {{#unless editable}}disabled{{/unless}} can-value='name' />
+                            <div class='input-group-btn'>
+                                <div class="btn btn-default editArticleType" title="Изменить название">
+                                    <i class="fa fa-pencil"></i>
+                                </div>
+                                <div class="btn btn-danger removeArticleType" title="Удалить">
+                                    <i class="fa fa-trash-o"></i>
+                                </div>
+                            </div>
+                        </div>
+    				</div>
+    			{{/sortedBy}}
+    		{{/if}}
+        {{/if}}
+    </div>
+</div>

@@ -10,6 +10,14 @@ var config = {
 			{
 				name: 'encyclopedia-category',
 				path: 'js/app/admin/modules/category/'
+			},
+			{
+				name: 'encyclopedia-article',
+				path: 'js/app/admin/modules/articles/'
+			},
+			{
+				name: 'encyclopedia-articleType',
+				path: 'js/app/admin/modules/articleTypes/'
 			}
 		]
 	}

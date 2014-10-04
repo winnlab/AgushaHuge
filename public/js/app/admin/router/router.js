@@ -7,7 +7,7 @@ import Placeholder from 'placeholder'
 
 export default can.Control.extend({
 		defaults: {
-			viewpath: '../js/app/admin/router/views/'
+			viewpath: '/js/app/admin/router/views/'
 		}
 	}, {
 		init: function (el, options) {

@@ -12,9 +12,10 @@ System.config({
 		"velocity-ui": "js/plugins/velocity/velocity.ui.min.js",
 		"underscore": "js/plugins/underscore/underscore-min.js",
 		"lodash": "js/plugins/lodash/dist/lodash.min.js",
+		"bootstrap-wysihtml5": "js/plugins/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.min.js",
+		"wysihtml5": "js/plugins/wysihtml5/dist/wysihtml5-0.3.0.min.js",
 
 		"adminlte-css/*": "js/plugins/adminlte/css/*css",
-		"bootstrap-wysihtml-css": "js/plugins/adminlte/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
 
 		"router": 'js/app/admin/router/router.js',
 		"placeholder": 'js/app/admin/router/placeholder.js',
@@ -30,12 +31,25 @@ System.config({
 	map: {
 		"can/util/util": "can/util/jquery/jquery",
 		"jquery/jquery": "jquery",
-		"$": "jquery"
+		"$": "jquery",
+		"wysi": "wysihtml5"
 	},
 	ext: {
 		css: 'js/plugins/steal/css'
 	},
 	meta: {
+		"wysihtml5": {
+			exports: "wysihtml5",
+			format: 'global',
+		},
+		"bootstrap-wysihtml5": {
+			format: "global",
+			deps: [
+				'jquery',
+				'bootstrap',
+				'wysihtml5'
+			]
+		},
 		"can/*": {
 			deps: [
 				'jquery',
@@ -53,9 +67,11 @@ System.config({
 			]
 		},
 		slimscroll: {
+			format: "global",
 			deps: ["jquery"]
 		},
 		bootstrap: {
+			format: "global",
 			deps: ["jquery"]
 		},
 		adminlte: {

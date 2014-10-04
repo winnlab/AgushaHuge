@@ -1,0 +1,133 @@
+<div class="box {{#if article._id}}box-warning{{/if}}">
+    <div class="box-header">
+        <h3 class="box-title">
+            {{#if article._id}}Редактирование{{else}}Добавление{{/if}} статьи
+        </h3>
+        <div class="box-tools pull-right">
+            <div class="btn btn-primary toList">
+                Назад
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <form class="form-horizontal setArticle">
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="title">Название:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" value="{{article.title}}" name="title" placeholder="Наименование" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 checkbox">
+                    <label class="col-md-4">
+                        <input name="active" type="checkbox" {{#if article.active}}checked{{/if}} /> Активна?
+                    </label>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 checkbox">
+                    <label class="col-md-4">
+                        <input name="recommended" type="checkbox" {{#if article.recommended}}checked{{/if}} /> Рекомендована?
+                    </label>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            {{#if ages.length}}
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="title">Возраст статьи:</label>
+                    <div class="col-md-10">
+                        <select class="form-control" name="age.age_id">
+                            {{#sortedBy ages 'title'}}
+                                <option {{#is article.age.age_id _id}}selected{{/if}} value={{_id}}>{{value}}</option>
+                            {{/sortedBy}}
+                        </select>
+                    </div>
+                </div>
+            {{/if}}
+
+            {{#if themes.length}}
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="theme.age_id">Тема статьи:</label>
+                    <div class="col-md-10">
+                        <select class="form-control" name="theme.age_id">
+                            {{#sortedBy themes 'name'}}
+                                <option {{#is article.theme.theme_id _id}}selected{{/if}} value={{_id}}>{{name}}</option>
+                            {{/sortedBy}}
+                        </select>
+                    </div>
+                </div>
+            {{/if}}
+
+            {{#if types.length}}
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="type.name">Тип статьи:</label>
+                    <div class="col-md-10">
+                        <select class="form-control" name="type.name">
+                            {{#sortedBy types 'name'}}
+                                <option {{#is article.theme.type.name name}}selected{{/if}} value={{name}}>{{name}}</option>
+                            {{/sortedBy}}
+                        </select>
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Параметры описания:
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="desc.title">Краткое описание:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" value="{{article.desc.shorttext}}" name="desc.shorttext" placeholder="Краткое описание" />
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="desc.subtitle">Описание:</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" type="text" {{wysihtml5}} name="desc.text">
+                                {{article.desc.text}}
+                            </textarea>
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{#if article._id}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Изоборажения
+                    </div>
+                    <div class="panel-body">
+                        <upload
+                            class="col-md-12"
+                            name="image"
+                            url="/admin/article/img"
+                            delete-url="/admin/article/img"
+                            entity="{article}"
+                            uploaded="{article.image}"
+                            accept="image/*"
+                        >
+                            Загрузить изображение
+                        </upload>
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-6">
+                    <button class="btn btn-primary" type="submit">
+                        Сохранить
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
