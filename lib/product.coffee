@@ -10,15 +10,18 @@ exports.makeSearchOptions = makeSearchOptions = (category, age, callback) ->
 	searchOptions =
 		active: true
 	
+	sortOptions =
+		lean: true
+	
 	async.parallel
 		category: (next) ->
 			if category
-				return Model 'Category', 'findOne', next, {url_label: category}, '_id'
+				return Model 'Category', 'findOne', next, {url_label: category}, '_id', sortOptions
 			
 			next null
 		age: (next) ->
 			if age
-				return Model 'Age', 'findOne', next, {value: age}, '_id'
+				return Model 'Age', 'findOne', next, {value: age}, '_id', sortOptions
 			
 			next null
 	, (err, results) ->
