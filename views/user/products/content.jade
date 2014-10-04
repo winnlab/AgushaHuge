@@ -7,6 +7,8 @@ include helpers
 	
 	.filters
 		select.products_age_select
+			option(data-icon.normal = '/img/user/products/products.png', data-icon.hover = '/img/user/products/products_hover.png', value = 0) Все продукты
+			
 			- each a, key in ages
 				option(data-icon.normal = (a.icon.normal ? '/img/uploads/' + a.icon.normal : 'no_photo.png'), data-icon.hover = (a.icon.hover ? '/img/uploads/' + a.icon.hover : 'no_photo.png'), value = a.value)
 					if a.value < 12
@@ -25,7 +27,7 @@ include helpers
 					.adorable_cell
 						span.choose_category.rounded(data-category = c.url_label) #{c.name}
 	
-	#about_ages.active
+	#about_ages
 		.show
 			.adorable_table
 				.adorable_cell
