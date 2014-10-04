@@ -119,7 +119,7 @@ export default Controller.extend(
 		},
 		
 		'.products_age_select change': function(el, ev) {
-			var val = ev.val != 0 ? ev.val : null;
+			var val = +ev.val || null;
 			
 			this.data.attr('age', val);
 			
