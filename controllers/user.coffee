@@ -22,6 +22,7 @@ Router.get '/login', Login.index
 #
 
 Router.get '/products', Products.index
+Router.post '/products/findAll', Products.findAll
 
 #
 

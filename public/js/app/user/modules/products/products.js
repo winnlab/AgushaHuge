@@ -69,9 +69,9 @@ export default Controller.extend(
 			can.view.mustache('product', html);
 			
 			$('#products_container').html(can.view('product', this.data, {
-				ageLevel: function(options) {
+				ageValue: function(options) {
 					if(options.context.age) {
-						return options.context.age.level < 12 ? options.fn() : options.inverse();
+						return options.context.age.value < 12 ? options.fn() : options.inverse();
 					}
 					
 					return options.fn();
