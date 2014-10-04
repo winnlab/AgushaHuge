@@ -34,7 +34,7 @@ mixin product(p)
 					.adorable_cell
 						.top=(p ? p.age.title : '{{age.title}}')
 						if p
-							if p.age.level < 12
+							if p.age.value < 12
 								- var age = 'месяцев'
 							else
 								- var age = 'лет'

@@ -103,9 +103,11 @@ export default Controller.extend(
 		
 		format: function(state) {
 			var	el = $(state.element),
-				image = el.data('image'),
+				normal = el.data('icon.normal'),
+				hover = el.data('icon.hover'),
 				html = 	'<div class="part left">' +
-							'<img src="/img/no_photo.png" />' +
+							'<img class="icon normal" src="' + normal + '" />' +
+							'<img class="icon hover" src="' + hover + '" />' +
 						'</div>' +
 						'<div class="part right adorable_table">' +
 							'<div class="adorable_cell">' +

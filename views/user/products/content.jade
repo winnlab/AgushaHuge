@@ -8,7 +8,7 @@ include helpers
 	.filters
 		select.products_age_select
 			- each a, key in ages
-				option(data-image = 'no_photo.png', value = a.value)
+				option(data-icon.normal = (a.icon.normal ? '/img/uploads/' + a.icon.normal : 'no_photo.png'), data-icon.hover = (a.icon.hover ? '/img/uploads/' + a.icon.hover : 'no_photo.png'), value = a.value)
 					if a.value < 12
 						span #{a.title}-x месяцев
 					else
@@ -34,8 +34,12 @@ include helpers
 		
 		- each a, key in ages
 			.about_block(id = 'age_' + a.value, class=(key == 0 ? 'active' : ''))
+				//.about_bg
+					img.left(src = (a.desc.image ? '/img/uploads/' + a.desc.image : ''))
+					img.right(src = (a.desc.image ? '/img/uploads/' + a.desc.image : ''))
+				
 				.about_text.adorable_table
-					.adorable_cell !{a.desc_subtitle}
+					.adorable_cell !{a.desc.subtitle}
 	
 	#products_container
 		- each p, key in products
