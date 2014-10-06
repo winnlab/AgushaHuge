@@ -16,6 +16,7 @@
 
 .module.product {
 	text-align: left;
+	color: $grey;
 	
 	.topper {
 		height: 125px;
@@ -25,11 +26,53 @@
 		margin: 35px 20px 0;
 		height: 510px;
 		background-color: $white;
+		position: relative;
+	}
+	
+	.gallery_footer {
+		@include absolute_horizontal_centered;
+		height: 90px;
+		bottom: 0;
+		width: 280px;
+		
+		&:before {
+			@include pseudo;
+			@include absolute_centered;
+			height: 48px;
+			width: 1px;
+			background-color: #000000;
+		}
+		
+		.top {
+			font-size: 16px;
+			color: #45b4e8;
+			font-family: 'PT_Sans_Bold';
+		}
+		
+		.bottom {
+			font-size: 13px;
+		}
+		
+		.half {
+			&.left {
+				.adorable_cell {
+					padding-left: 20px;
+				}
+			}
+			
+			&.right {
+				.adorable_cell {
+					padding-right: 20px;
+				}
+			}
+		}
 	}
 	
 	.info {
+		@include border_boxed;
 		margin: 0 20px 80px;
-		height: 510px;
+		height: 590px;
+		padding: 40px 70px;
 		background-color: $el_bg;
 	}
 }

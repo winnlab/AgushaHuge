@@ -4,5 +4,21 @@
 	.topper #{product.title}
 	
 	.gallery
+		.gallery_footer
+			.half.left
+				.adorable_table
+					.adorable_cell
+						.top #{product.volume.volume} #{product.volume.postfix}
+						.bottom #{product.volume.type}
+			
+			.half.right
+				.adorable_table
+					.adorable_cell
+						.top #{product.age.title}
+						if product.age.level < 12
+							- var age = 'месяцев'
+						else
+							- var age = 'лет'
+						.bottom #{age}
 	
 	.info

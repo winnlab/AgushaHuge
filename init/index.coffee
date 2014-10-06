@@ -10,6 +10,7 @@ AuthStartegies = require './auth'
 ModelPreloader = require './mpload'
 Notifier = require '../lib/notifier'
 Image = require '../lib/image'
+Product = require '../lib/product'
 
 config = require '../config.json'
 
@@ -33,6 +34,10 @@ async.waterfall [
 		Image.checkDirectories next
 	(next) ->
 		Logger.log 'info', 'Image directories are checked'
+		
+		Product.makeAliases next
+	(next) ->
+		Logger.log 'info', 'Product aliases are recreated'
 		
 		Application.init next
 	(next) ->
