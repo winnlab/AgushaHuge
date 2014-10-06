@@ -81,22 +81,19 @@ export default List.extend({
     },
 
     doFilter: function (data) {
-        var self = this;
-
-        console.log(data.age)
-        self.module.attr(
-            self.options.moduleName, 
-            new self.options.Model.List({
-                age: {
-                    age_id: data.age
-                },
-                theme: {
-                    theme_id: data.theme
-                },
-                type: {
-                    name: data.type
-                }
-            })
-        );
+        var moduleList = this.module.attr(this.options.moduleName);
+        // moduleList.findAll({
+        //     age: {
+        //         age_id: data.attr('age')
+        //     },
+        //     theme: {
+        //         theme_id: data.attr('theme')
+        //     },
+        //     type: {
+        //         name: data.attr('type')
+        //     }
+        // }, function() {
+        //     console.log(arguments)
+        // });
     }
 });
