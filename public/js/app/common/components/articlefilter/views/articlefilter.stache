@@ -1,0 +1,60 @@
+<div class="af-wrap{{#if visible}} visible{{/if}}">
+	<div class="af-header">
+		<div class="t-reset-all">
+			<div class="circle">
+				<i class="fa fa-refresh"></i>
+			</div>
+			<span>Сбросить все</span>
+		</div>
+		<div class="afh-title">
+			(НЕ)УДОБНЫЙ ФИЛЬТР
+		</div>
+		<div class="t-af-close"><i class="fa fa-close"></i></div>
+	</div>
+	<div class="af-ages">
+		<div class="af-title">
+			ВОЗРАСТА
+		</div>
+		<div class="af-body">
+			{{#if ages.length}}
+				{{#sortedBy ages 'value'}}
+					<div class="af-item age" data-id="{{_id}}" {{data "ages"}}>
+						<div class="af-image" style="background-image: url(/img/uploads/{{icon.normal}})"></div>
+						<div class="af-title">{{title}}</div>
+					</div>
+				{{/sortedBy}}
+			{{/if}}
+		</div>
+	</div>
+	<div class="af-themes">
+		<div class="af-title">
+			ТЕМЫ
+		</div>
+		<div class="af-body">
+			{{#if themes.length}}
+				{{#sortedBy themes 'name'}}
+					<div class="af-item theme" data-id="{{_id}}" {{data "themes"}}>
+						<div class="af-image" style="background-image: url(/img/uploads/{{image}})"></div>
+						<div class="af-title">{{name}}</div>
+					</div>
+				{{/sortedBy}}
+			{{/if}}
+		</div>
+	</div>
+	<div class="af-types">
+		<div class="af-title">
+			ТИПЫ СТАТЕЙ
+		</div>
+		<div class="af-body">
+			{{#if types.length}}
+				{{#sortedBy types 'value'}}
+					<div class="af-item type" data-id="{{_id}}" {{data "types"}}>
+						<div class="af-image" style="background-image: url(/img/no-image.png)"></div>
+						<div class="af-title">{{name}}</div>
+					</div>
+				{{/sortedBy}}
+			{{/if}}
+		</div>
+	</div>
+</div>
+<div class="af-label t-af-expand">Фильтр</div>

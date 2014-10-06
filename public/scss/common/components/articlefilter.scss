@@ -1,0 +1,108 @@
+@import "../../../js/plugins/bourbon/dist/_bourbon.scss";
+@import "../../customMixins.scss";
+
+.af-wrap {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	@include transform(translateY(-100%));
+	left: 0;
+	overflow: hidden;
+	@include transition(all 0.5s ease-out);
+	.visible {
+		@include transform(translateY(0));
+	}
+}
+
+.af-header {
+	height: 5%;
+	.circle {
+		padding: 5px;
+		background: #ffffff;
+		border-radius: 50%;
+		display: inline-block;
+	}
+}
+
+.t-reset-all {
+	position: absolute;
+	left: 2%;
+}
+
+.t-af-close {
+	position: absolute;
+	right: 2%;
+}
+
+.afh-title {
+	text-align: center;
+	@include vertical-align;
+	font-size: 20px;
+}
+
+.af-title {
+	height: 2%;
+	text-align: center;
+	@include vertical-align;
+	background-color: #aaaaaa;
+}
+
+.af-body {
+	margin: 0.5% 5%;
+	text-align: center;
+	background-color: #999999;
+}
+
+.af-item {
+	display: inline-block;
+	width: 8%;
+	margin: 0 1%;
+	position: relative;
+
+	&.selected:after {
+		position: absolute;
+		right: 0;
+		top: 0;
+		background: red;
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		font-family: FontAwesome;
+		line-height: 1;
+		content: "\f00c";
+	}
+
+	&.age {
+		height: 7%;
+	}
+
+	&.theme {
+		height: 9%;
+	}
+
+	&.type {
+		height: 7%;
+	}
+}
+
+.af-image {
+	height: 80%;
+}
+
+.af-title {
+	height: 20%;
+}
+
+.af-label {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	@include border-right-radius(50%);
+	font-size: 16px;
+	text-align: center;
+	width: 30px;
+	cursor: pointer;
+	&:hover {
+		font-weight: bold;
+	}
+}
