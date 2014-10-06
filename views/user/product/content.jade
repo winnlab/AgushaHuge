@@ -1,7 +1,7 @@
 .content
 	include ../helpers/breadcrumbs
 	
-	.topper #{product.title}
+	.topper_title #{product.title}
 	
 	.gallery
 		.gallery_footer
@@ -22,3 +22,23 @@
 						.bottom #{age}
 	
 	.info
+		.product_content
+			.text !{product.text}
+			.text_label Состав:
+			.text #{product.composition}
+			.text_label Условия хранения:
+			.text #{product.storage_conditions}
+			.text_label Рекомендации к употреблению:
+			.text #{product.recommended}
+		if product.certificate
+			.certificates_container
+				- each c, key in product.certificate
+					.certificate.adorable_table
+						.adorable_cell
+							img(src = '/img/uploads/' + c.image, title = c.name)
+			
+		.catalog_button
+			.adorable_table
+				.adorable_cell
+					a(href='/products')
+							button.middle_button.darkblue.uppercase Вернуться в каталог
