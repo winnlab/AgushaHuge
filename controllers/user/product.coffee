@@ -18,7 +18,7 @@ exports.index = (req, res) ->
 			product = Model 'Product', 'findOne', null, alias: req.params.alias
 			
 			product.populate('age certificate').exec next
-		(doc) ->
+		(doc, next) ->
 			volume = doc.getFormattedVolume()
 			
 			doc = doc.toObject()
@@ -31,7 +31,11 @@ exports.index = (req, res) ->
 				parent_id: 'products'
 				title: data.product.title
 			
-			View.render 'user/product/index', res, data, req.path
+			Product.getAdjacents doc, next
+		(docs) ->
+			data.adjacents = docs
+			
+			View.render 'user/product/index', res, data
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/product/index: #{error}"

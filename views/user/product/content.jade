@@ -4,6 +4,25 @@
 	.topper_title #{product.title}
 	
 	.gallery
+		- var product_left = adjacents[0] || false
+		- var product_right = adjacents[1] || product_left
+		
+		.product_image
+			img(src = (product.image ? '/img/uploads/x420/' + product.image : '/img/no_photo.png'))
+		
+		.adjacents
+			if product_left
+				a.new_module(href = '/product/' + (product_left.alias ? product_left.alias : product_left._id))
+					.adjacent.left.half
+						img(src = (product_left.image ? '/img/uploads/x420/' + product_left.image : '/img/no_photo.png'))
+						.arrow.left
+			
+			if product_right
+				a.new_module(href = '/product/' + (product_right.alias ? product_right.alias : product_right._id))
+					.adjacent.right.half
+						img(src = (product_right.image ? '/img/uploads/x420/' + product_right.image : '/img/no_photo.png'))
+						.arrow.right
+		
 		.gallery_footer
 			.half.left
 				.adorable_table
@@ -15,7 +34,7 @@
 				.adorable_table
 					.adorable_cell
 						.top #{product.age.title}
-						if product.age.level < 12
+						if product.age.value < 12
 							- var age = 'месяцев'
 						else
 							- var age = 'лет'

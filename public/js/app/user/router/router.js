@@ -32,7 +32,7 @@ export default can.Control.extend({
 			ev.preventDefault();
 			
 			var options = this.options,
-				href = el.attr('href').split(options.base)[1],
+				href = el.attr('href').split(options.base).slice(1).join('/'),
 				routeObj = can.route.deparam(href);
 			
 			try {

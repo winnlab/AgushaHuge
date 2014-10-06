@@ -65,6 +65,45 @@ exports.getAgesAndCategories = (callback) ->
 			Model 'Category', 'find', next, {active: true}, null, options
 	}, callback
 
+exports.getAdjacents = (doc, callback) ->
+	result = []
+	
+	async.waterfall [
+		(next) ->
+			Model 'Product', 'find', next, age: doc.age._id, 'alias image', lean: true
+		(docs) ->
+			docsLength = docs.length
+			while docsLength--
+				product = docs[docsLength]
+				if product._id + '' == doc._id + '' # found our product
+					index = docsLength
+			
+			lastIndex = docs.length - 1
+			
+			if index == 0
+				if docs[lastIndex]
+					result.push docs[lastIndex]
+				
+				if docs[index + 1]
+					result.push docs[index + 1]
+			
+			else if index == lastIndex
+				if docs[index - 1]
+					result.push docs[index - 1]
+				
+				if docs[0]
+					result.push docs[0]
+			
+			else
+				if docs[index - 1]
+					result.push docs[index - 1]
+				
+				if docs[index + 1]
+					result.push docs[index + 1]
+			
+			callback(null, result)
+	], callback
+
 exports.makeAlias = makeAlias = (item, callback) ->
 	volume = item.getFormattedVolume()
 	string = item.title + ' ' + volume.volume + ' ' + volume.postfix
