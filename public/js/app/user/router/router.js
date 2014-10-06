@@ -73,6 +73,7 @@ export default can.Control.extend({
 			try {
 				if(module) {
 					module.id = id;
+					module.entity_id = data.id;
 					
 					this.Placeholder.initModule(module);
 				} else {

@@ -30,6 +30,13 @@ var config = {
 					client: 'js/app/user/modules/products/',
 					server: ':name'
 				}
+			},
+			{
+				name: 'product',
+				path: {
+					client: 'js/app/user/modules/product/',
+					server: ':name/:entity_id'
+				}
 			}
 		],
 		defaultModule: 'main'

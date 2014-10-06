@@ -22,7 +22,7 @@ export default can.Control.extend({
 	
 	request: function() {
 		var	str = this.options.path.server,
-			params = ['name', 'id'],
+			params = ['name', 'entity_id'],
 			param,
 			that = this,
 			reg,

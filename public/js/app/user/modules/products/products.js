@@ -1,6 +1,6 @@
-import select2 from 'select2'
-
 import Controller from 'controller'
+
+import select2 from 'select2'
 
 var Product = can.Model.extend({
 	findAll: 'POST /products/findAll',

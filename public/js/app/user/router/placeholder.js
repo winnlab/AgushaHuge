@@ -9,7 +9,7 @@ export default can.Map.extend({
         if (!self.checkModule(module.id)) {
             System.import(module.path.client).then((Module) => {
                 if (Module) {
-                    self.addModule(module.id);
+                    self.addModule(module);
                     new Module.default('#' + module.id, module);
                     self.activateModule(module.id);
                 } else {
@@ -43,9 +43,10 @@ export default can.Map.extend({
         return exist;
     },
 
-    addModule: function (id) {
+    addModule: function (module) {
         this.modules.push({
-            id: id,
+            id: module.id,
+			name: module.name,
             active: false
         });
     },
