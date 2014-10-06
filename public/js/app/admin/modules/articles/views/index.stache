@@ -65,6 +65,6 @@
     </div>
 </div>
 
-<articlefilter ages="{ages}" themes="{themes}" types="{types}" ></articlefilter>
+<articlefilter ages="{ages}" themes="{themes}" types="{types}" fn="{doFilter}" ></articlefilter>
 
 <div class="articleForm {{#is display 'list'}}hidden{{/is}}"></div>

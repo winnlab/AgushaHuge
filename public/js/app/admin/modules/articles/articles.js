@@ -38,6 +38,9 @@ export default List.extend({
 
         List.prototype.init.call(self);
 
+        self.module.attr('doFilter', new can.Map({exec: self.doFilter.bind(self)})
+        );
+
         self.module.attr('ages', new can.List);
         self.module.attr('themes', new can.List);
         self.module.attr('types', new can.List);
@@ -75,5 +78,25 @@ export default List.extend({
         }
         
         this.options.EditHandle = new this.options.Edit(area, params);
+    },
+
+    doFilter: function (data) {
+        var self = this;
+
+        console.log(data.age)
+        self.module.attr(
+            self.options.moduleName, 
+            new self.options.Model.List({
+                age: {
+                    age_id: data.age
+                },
+                theme: {
+                    theme_id: data.theme
+                },
+                type: {
+                    name: data.type
+                }
+            })
+        );
     }
 });

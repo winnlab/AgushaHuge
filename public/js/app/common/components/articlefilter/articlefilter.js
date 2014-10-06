@@ -36,9 +36,20 @@ can.Component.extend({
 		'.af-item click': function (el) {
 			var name = el.data('name'),
 				attrName = "currents." + name,
-				newVal = el.data(name + 's').attr('_id');
+				newVal = el.data(name + 's').attr(el.data('id'));
+
 			this.scope.attr(attrName, newVal);
-			console.log(attrName, newVal);
+		},
+
+		'.t-submit click': function () {
+			var results = this.scope.attr('currents');
+
+			// try {
+			    this.scope.attr("visible", false);
+			    this.scope.attr('fn').exec(results);
+			// } catch(e) {
+			//     throw new Error("`articlefilter` component did not get callback arguemnt (fn)");
+			// }
 		}
 	}
 });

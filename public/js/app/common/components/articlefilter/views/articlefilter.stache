@@ -19,7 +19,7 @@
 			<div class="af-body panel-body">
 				{{#if ages.length}}
 					{{#sortedBy ages 'value'}}
-						<div data-name="age" style="height: {{height}}px;" class="af-item age col-md-2 {{#is _id currents.age}}current{{/is}}" data-id="{{_id}}" {{data "ages"}}>
+						<div data-name="age" style="height: {{height}}px;" class="af-item age col-md-2 {{#is _id currents.age}}current{{/is}}" data-id="_id" {{data "ages"}}>
 							<div class="af-image" {{#if icon.normal}}style="background-image: url(/img/uploads/{{icon.normal}})"{{/if}}></div>
 							<div class="af-title">{{value}}</div>
 						</div>
@@ -36,7 +36,7 @@
 					{{#if currents.age}}
 						{{#sortedBy themes 'name'}}
 							{{#arrContains age_id currents.age true false}}
-								<div data-name="theme" style="height: {{height}}px;" class="af-item theme col-md-2 {{#is _id currents.theme}}current{{/is}}" data-id="{{_id}}" {{data "themes"}}>
+								<div data-name="theme" style="height: {{height}}px;" class="af-item theme col-md-2 {{#is _id currents.theme}}current{{/is}}" data-id="_id" {{data "themes"}}>
 									<div class="af-image" {{#if image}}style="background-image: url(/img/uploads/{{image}})"{{/if}}></div>
 									<div class="af-title">{{name}}</div>
 								</div>
@@ -58,7 +58,7 @@
 				{{#if currents.theme}}
 					{{#if types.length}}
 						{{#sortedBy types 'value'}}
-							<div data-name="type" style="height: {{height}}px;" class="af-item type col-md-2 {{#is _id currents.type}}current{{/is}}" data-id="{{_id}}" {{data "types"}}>
+							<div data-name="type" style="height: {{height}}px;" class="af-item type col-md-2 {{#is name currents.type}}current{{/is}}" data-id="name" {{data "types"}}>
 								<div class="af-image" {{#if 1}}style="background-image: url(/img/no_photo.png)"{{/if}}></div>
 								<div class="af-title">{{name}}</div>
 							</div>
