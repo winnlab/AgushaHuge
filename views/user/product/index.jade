@@ -4,7 +4,7 @@ block append header
 	link(href="/css/user/product/product.css" rel="stylesheet")
 
 block content
-	.module.server
+	.module.server.product(id = 'product-' + (product.alias ? product.alias : product._id))
 		include content
 
 block append scripts

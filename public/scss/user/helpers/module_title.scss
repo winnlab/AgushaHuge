@@ -1,0 +1,13 @@
+@import '../dynamic/dynamic';
+
+.module .topper {
+	@include border_boxed;
+	padding-top: 10px;
+	margin: 0 20px;
+	color: $titleblue;
+	font-size: 55px;
+	line-height: 55px;
+	text-transform: uppercase;
+	font-family: 'PT_Sans_Narrow_Bold';
+	letter-spacing: 3px;
+}

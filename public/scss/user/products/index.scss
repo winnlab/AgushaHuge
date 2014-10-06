@@ -1,5 +1,6 @@
 @import '../dynamic/dynamic';
 @import '../helpers/breadcrumbs';
+@import '../helpers/module_title';
 @import 'CSS:../../../js/plugins/select2/select2';
 @import '../helpers/select2';
 
@@ -19,16 +20,7 @@
 	text-align: left;
 	
 	.topper {
-		@include border_boxed;
-		padding-top: 10px;
-		margin: 0 20px;
 		height: 80px;
-		color: $titleblue;
-		font-size: 55px;
-		line-height: 55px;
-		text-transform: uppercase;
-		font-family: 'PT_Sans_Narrow_Bold';
-		letter-spacing: 3px;
 	}
 	
 	.filters {
