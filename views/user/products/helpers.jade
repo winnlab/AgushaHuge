@@ -1,5 +1,5 @@
 mixin product(p)
-	a.product_block(href = '/product/' + (p ? p.alias : '{{alias}}'))
+	a.product_block.new_module(href = '/product/' + (p ? p.alias : '{{alias}}'))
 		.image
 			if p
 				if p.image
