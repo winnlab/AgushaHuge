@@ -25,6 +25,17 @@
 		position: relative;
 	}
 	
+	.product_image {
+		height: 420px;
+		position: relative;
+		
+		img {
+			@include absolute_horizontal_centered;
+			max-height: 420px;
+			max-width: 420px;
+		}
+	}
+	
 	.gallery_footer {
 		@include absolute_horizontal_centered;
 		height: 90px;

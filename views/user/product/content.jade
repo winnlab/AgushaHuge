@@ -4,6 +4,9 @@
 	.topper_title #{product.title}
 	
 	.gallery
+		.product_image
+			img(src = (product.image ? '/img/uploads/x420/' + product.image : '/img/no_photo.png'))
+		
 		.gallery_footer
 			.half.left
 				.adorable_table
