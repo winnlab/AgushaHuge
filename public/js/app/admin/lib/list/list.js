@@ -82,8 +82,8 @@ export default can.Control.extend({
 	},
 
 	'{edit} click': function (el) {
-		var options = this.options,
-			doc = el.parents(options.parentData).data(options.moduleName);
+		var doc = this.getDocHandle(el);
+
 		this.setDoc(doc.attr('_id'));
 	},
 

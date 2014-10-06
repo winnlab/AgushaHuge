@@ -51,7 +51,12 @@ export default Edit.extend({
 	},
 
 	loadView: function (path, data) {
-		this.module.attr(this.moduleName, data[this.moduleName]);
+		for(var prop in data) {
+			if(data.hasOwnProperty(prop)) {
+				this.module.attr(prop, data[prop]);
+			}
+		}
+
 		this.element.html(can.view(path, this.module));
 	}
 
