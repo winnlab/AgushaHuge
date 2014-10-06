@@ -88,7 +88,7 @@ export default List.extend(
         '.confirmArticleType click': function () {
             var options = this.options,
                 self = this,
-                name = parseInt(self.module.attr('addName'))
+                name = self.module.attr('addName');
 
             var doc = new options.Model({
                 name

@@ -42,28 +42,28 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <label class="col-md-2 control-label" for="desc.title"> Название:</label>
+                            <label class="col-md-2 control-label" for="desc[title]"> Название:</label>
                         </div>
                         <div class="col-md-12">
-                            <input class="form-control" type="text" value="{{age.desc.title}}" name="desc.title" placeholder="Название описания" />
+                            <input class="form-control" type="text" value="{{age.desc.title}}" name="desc[title]" placeholder="Название описания" />
                             <div class="help help-block"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <label class="col-md-2 control-label" for="desc.subtitle">Подназвание:</label>
+                            <label class="col-md-2 control-label" for="desc[subtitle]">Подназвание:</label>
                         </div>
                         <div class="col-md-12">
-                            <input class="form-control" type="text" value="{{age.desc.subtitle}}" name="desc.subtitle" placeholder="Подназвание описания" />
+                            <input class="form-control" type="text" value="{{age.desc.subtitle}}" name="desc[subtitle]" placeholder="Подназвание описания" />
                             <div class="help help-block"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <label class="col-md-2 control-label" for="desc.text">Текст:</label>
+                            <label class="col-md-2 control-label" for="desc[text]">Текст:</label>
                         </div>
                         <div class="col-md-12">
-                            <textarea class="form-control" type="text" name="desc.text" placeholder="Само описание">
+                            <textarea class="form-control" type="text" name="desc[text]" placeholder="Само описание">
                                 {{age.desc.text}}
                             </textarea>
                             <div class="help help-block"></div>
@@ -71,10 +71,10 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <label class="col-md-2 control-label" for="desc.tagline">Таги:</label>
+                            <label class="col-md-2 control-label" for="desc[tagline]">Таги:</label>
                         </div>
                         <div class="col-md-12">
-                            <input class="form-control" type="text" value="{{age.desc.tagline}}" name="desc.tagline" placeholder="Список тегов статьи (разделитель - пробел)" />
+                            <input class="form-control" type="text" value="{{age.desc.tagline}}" name="desc[tagline]" placeholder="Список тегов статьи (разделитель - пробел)" />
                             <div class="help help-block"></div>
                         </div>
                     </div>

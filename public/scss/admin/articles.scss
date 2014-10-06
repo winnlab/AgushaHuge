@@ -1,12 +1,5 @@
 @import "../../js/plugins/bourbon/dist/_bourbon.scss";
-
-@mixin vertical-align {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
+@import "../customMixins.scss";
 
 #encyclopedia-article .panel-body {
 	background-color: #f2eeeb;

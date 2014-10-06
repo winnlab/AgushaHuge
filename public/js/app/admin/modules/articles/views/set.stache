@@ -41,9 +41,9 @@
 
             {{#if ages.length}}
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="title">Возраст статьи:</label>
+                    <label class="col-md-2 control-label" for="age[age_id]">Возраст статьи:</label>
                     <div class="col-md-10">
-                        <select class="form-control" name="age.age_id">
+                        <select class="form-control" name="age[age_id]">
                             {{#sortedBy ages 'title'}}
                                 <option {{#is article.age.age_id _id}}selected{{/if}} value="{{_id}}">{{value}}</option>
                             {{/sortedBy}}
@@ -54,9 +54,9 @@
 
             {{#if themes.length}}
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="theme.theme_id">Тема статьи:</label>
+                    <label class="col-md-2 control-label" for="theme[theme_id]">Тема статьи:</label>
                     <div class="col-md-10">
-                        <select class="form-control" name="theme.theme_id">
+                        <select class="form-control" name="theme[theme_id]">
                             {{#sortedBy themes 'name'}}
                                 <option {{#is article.theme.theme_id _id}}selected{{/if}} value="{{_id}}">{{name}}</option>
                             {{/sortedBy}}
@@ -67,9 +67,9 @@
 
             {{#if types.length}}
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="type.name">Тип статьи:</label>
+                    <label class="col-md-2 control-label" for="type[name]">Тип статьи:</label>
                     <div class="col-md-10">
-                        <select class="form-control" name="type.name">
+                        <select class="form-control" name="type[name]">
                             {{#sortedBy types 'name'}}
                                 <option {{#is article.type.name name}}selected{{/if}} value="{{name}}">{{name}}</option>
                             {{/sortedBy}}
@@ -84,16 +84,16 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-md-2 control-label" for="desc.title">Краткое описание:</label>
+                        <label class="col-md-2 control-label" for="desc[shorttext]">Краткое описание:</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="text" value="{{article.desc.shorttext}}" name="desc.shorttext" placeholder="Краткое описание" />
+                            <input class="form-control" type="text" value="{{article.desc.shorttext}}" name="desc[shorttext]" placeholder="Краткое описание" />
                             <div class="help help-block"></div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label" for="desc.subtitle">Описание:</label>
+                        <label class="col-md-2 control-label" for="desc[text]">Описание:</label>
                         <div class="col-md-10">
-                            <textarea class="form-control" type="text" {{wysihtml5}} name="desc.text">
+                            <textarea class="form-control" type="text" {{wysihtml5}} name="desc[text]">
                                 {{article.desc.text}}
                             </textarea>
                             <div class="help help-block"></div>
