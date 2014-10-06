@@ -7,6 +7,8 @@ import 'jquery'
 import 'js/app/admin/core/viewHelpers'
 import 'js/app/admin/components/notification/'
 
+import 'css/admin/global.css!'
+
 
 // Alert!! Benachrichtigung!! Alerte!! //
 

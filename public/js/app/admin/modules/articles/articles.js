@@ -6,7 +6,7 @@ import ArticleModel from 'js/app/admin/modules/articles/articleModel'
 
 import 'css/admin/articles.css!'
 
-// import 'js/app/common/components/articlefilter/'
+import 'js/app/common/components/articlefilter/'
 
 import AgeModel from 'js/app/admin/modules/category/ageModel'
 import ArticleTypeModel from 'js/app/admin/modules/articleTypes/articleTypeModel'
