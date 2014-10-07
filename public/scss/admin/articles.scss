@@ -28,7 +28,7 @@
 	display: inline-block;
 	background-color: white;
 	cursor: pointer;
-	@include transition(box-shadow .3s ease-in 0s);
+	@include transition(box-shadow .3s ease-out 0s);
 	&:hover {
 		box-shadow:0px 0px 15px 5px #0066cc;
 		.editArticle, .removeArticle {
@@ -43,6 +43,7 @@
 	width: 100%;
 	height: 43%;
 	text-align: center;
+	background-size: cover;
 }
 
 .article-top {

@@ -119,16 +119,18 @@ export default can.Control.extend({
 	},
 
 	initSetControl: function (area, doc, entity) {
+		area.html('');
+
 		var params = {
 			doc,
 			entity
 		};
 
 		if (this.options.EditHandle) {
-			return this.options.EditHandle.init(area, params);
-		}
-
-		this.options.EditHandle = new this.options.Edit(area, params);
+            this.options.EditHandle.destroy();
+        }
+        
+        this.options.EditHandle = new this.options.Edit(area, params);
 	},
 
 	'{toList} click': function () {
@@ -150,6 +152,7 @@ export default can.Control.extend({
 
 		if (confirm(options.deleteMsg)) {
 			doc.destroy().always(function (doc, status, def) {
+				console.log('remove click', arguments)
 				appState.attr('notification', {
 					status: status,
 					msg: status === 'success'

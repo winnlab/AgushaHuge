@@ -2,6 +2,7 @@ import 'can/'
 import Edit from 'edit'
 import 'js/app/admin/components/upload/'
 import appState from 'appState'
+import _ from 'lodash'
 
 import 'js/plugins/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css!'
 import 'bootstrap-wysihtml5'
@@ -19,33 +20,62 @@ export default Edit.extend({
     }
 }, {
 
-	init: function() {
-		if(this.inited) {
-			_.extend(this.options, options);
-		}
+	init: function(element, options) {
+		_.extend(this.options, options);
 
 		var options = this.options,
 			data = {
 				langs: appState.attr('langs')
 			};
 
+		this.ensureObject(options.doc, 'age');
+		this.ensureObject(options.doc, 'desc');
+		this.ensureObject(options.doc, 'theme');
+		this.ensureObject(options.doc, 'type');
+		
 		data[options.moduleName] = options.doc;
 
 		data['ages'] = options.ages;
 		data['themes'] = options.themes;
 		data['types'] = options.types;
 
-		this.currentAge = can.compute(options.doc.age.age_id);
-		data['currentAge'] = this.currentAge;
+		this.ageValue = can.compute(null);
+		this.themeName = can.compute(null);
+
+		if (options.doc) {
+			if (options.doc.age) {
+				this.ageValue(options.doc.age.value);
+			}
+			if (options.doc.theme) {
+				this.themeName(options.doc.theme.name);
+			}
+		}
+
+		data['ageValue'] = this.ageValue;
+		data['themeName'] = this.themeName;
+
+		if(!options.doc.attr('_id')) {
+			options.doc.attr('active', "true");
+		}
 
 		this.loadView(options.viewpath + options.viewName, data);
+	},
 
-		this.inited = true;
+	ensureObject: function(obj, key) {
+		var exists = _.isObject(obj.attr(key));
+		if (!exists) {
+			obj.attr(key, {});
+		}
 	},
 
 	'.currentAgeSelect change': function (el) {
-		console.log(el.val())
-		this.currentAge(el.val());
+		var newVal = el.find('option:selected').data('ages').attr('value');
+		this.ageValue(newVal);
+	},
+
+	'.currentThemeSelect change': function (el) {
+		var newVal = el.find('option:selected').data('themes').attr('name');
+		this.themeName(newVal);
 	}
 
 });

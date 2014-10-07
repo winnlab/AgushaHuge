@@ -1,3 +1,4 @@
+{{log message}}
 <div class="box {{#if article._id}}box-warning{{/if}}">
     <div class="box-header">
         <h3 class="box-title">
@@ -14,7 +15,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label" for="title">Название:</label>
                 <div class="col-md-10">
-                    <input class="form-control" type="text" value="{{article.title}}" name="title" placeholder="Наименование" />
+                    <input class="form-control" type="text" can-value="article.title" name="title" placeholder="Наименование" />
                     <div class="help help-block"></div>
                 </div>
             </div>
@@ -23,7 +24,7 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10 checkbox">
                         <label class="col-md-4">
-                            <input name="active" type="checkbox" {{#if article.active}}checked{{/if}} /> Активна?
+                            <input name="active" type="checkbox" can-true-value="true" can-value="article.active" /> Активна?
                         </label>
                         <div class="help help-block"></div>
                     </div>
@@ -33,7 +34,7 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10 checkbox">
                     <label class="col-md-4">
-                        <input name="recommended" type="checkbox" {{#if article.recommended}}checked{{/if}} /> Рекомендована?
+                        <input name="recommended" type="checkbox" can-true-value="true" can-value="article.recommended" /> Рекомендована?
                     </label>
                     <div class="help help-block"></div>
                 </div>
@@ -43,26 +44,28 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="age[age_id]">Возраст статьи:</label>
                     <div class="col-md-10">
-                        <select class="currentAgeSelect form-control" name="age[age_id]">
+                        <select can-value="article.age.age_id" class="currentAgeSelect form-control" name="age[age_id]">
                             {{#sortedBy ages 'title'}}
-                                <option {{#is article.age.age_id _id}}selected{{/if}} value="{{_id}}">{{value}}</option>
+                                <option {{data "ages"}} value="{{_id}}">{{value}}</option>
                             {{/sortedBy}}
                         </select>
+                        <input type="hidden" name="age[value]" can-value="ageValue" />
                     </div>
                 </div>
             {{/if}}
-            {{#if currentAge}}
+            {{#if article.age.age_id}}
                 {{#if themes.length}}
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="theme[theme_id]">Тема статьи:</label>
                         <div class="col-md-10">
-                            <select class="form-control" name="theme[theme_id]">
+                            <select can-value="article.theme.theme_id" class="currentThemeSelect form-control" name="theme[theme_id]">
                                 {{#sortedBy themes 'name'}}
-                                    {{#arrContains age_id currentAge true false}}
-                                        <option {{#is article.theme.theme_id _id}}selected{{/if}} value="{{_id}}">{{name}}</option>
+                                    {{#arrContains age_id article.age.age_id true false}}
+                                        <option {{data "themes"}} value="{{_id}}">{{name}}</option>
                                     {{/arrContains}}
                                 {{/sortedBy}}
                             </select>
+                            <input class="themeName" type="hidden" name="theme[name]" can-value="themeName" />
                         </div>
                     </div>
                 {{/if}}
@@ -72,9 +75,9 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="type[name]">Тип статьи:</label>
                     <div class="col-md-10">
-                        <select class="form-control" name="type[name]">
+                        <select can-value="article.type.name" class="form-control" name="type[name]">
                             {{#sortedBy types 'name'}}
-                                <option {{#is article.type.name name}}selected{{/if}} value="{{name}}">{{name}}</option>
+                                <option value="{{name}}">{{name}}</option>
                             {{/sortedBy}}
                         </select>
                     </div>
@@ -89,14 +92,14 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="desc[shorttext]">Краткое описание:</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="text" value="{{article.desc.shorttext}}" name="desc[shorttext]" placeholder="Краткое описание" />
+                            <input class="form-control" type="text" can-value="article.desc.shorttext" name="desc[shorttext]" placeholder="Краткое описание" />
                             <div class="help help-block"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="desc[text]">Описание:</label>
                         <div class="col-md-10">
-                            <textarea class="form-control" type="text" {{wysihtml5}} name="desc[text]">
+                            <textarea class="form-control" type="text" {{wysihtml5}} name="desc[text]" can-value="article.desc.text">
                                 {{article.desc.text}}
                             </textarea>
                             <div class="help help-block"></div>

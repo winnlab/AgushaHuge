@@ -65,6 +65,8 @@ export default List.extend({
     },
 
     initSetControl: function (area, doc, entity) {
+        area.html('');
+
         var params = {
                 ages: this.module.attr('ages'),
                 themes: this.module.attr('themes'),
@@ -74,26 +76,22 @@ export default List.extend({
             };
 
         if (this.options.EditHandle) {
-            return this.options.EditHandle.init(area, params);
+            this.options.EditHandle.destroy();
         }
         
         this.options.EditHandle = new this.options.Edit(area, params);
     },
 
     doFilter: function (data) {
-        var moduleList = this.module.attr(this.options.moduleName);
-        // moduleList.findAll({
-        //     age: {
-        //         age_id: data.attr('age')
-        //     },
-        //     theme: {
-        //         theme_id: data.attr('theme')
-        //     },
-        //     type: {
-        //         name: data.attr('type')
-        //     }
-        // }, function() {
-        //     console.log(arguments)
-        // });
+        var moduleList = this.module.attr(this.options.moduleName),
+            filter = {};
+
+        if (data) {
+            filter['age.age_id'] = data.attr('age');
+            filter['theme.theme_id'] = data.attr('theme');
+            filter['type.name'] = data.attr('type');
+        }
+
+        this.module.attr(this.options.moduleName, new this.options.Model.List(filter));
     }
 });

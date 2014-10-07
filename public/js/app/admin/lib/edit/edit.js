@@ -16,9 +16,7 @@ export default can.Control.extend({
 	}
 }, {
 	init: function (element, options) {
-		if(this.inited) {
-			_.extend(this.options, options);
-		}
+		_.extend(this.options, options);
 
 		var options = this.options,
 			data = {
@@ -28,8 +26,6 @@ export default can.Control.extend({
 		data[options.moduleName] = options.doc;
 
 		this.loadView(options.viewpath + options.viewName, data);
-
-		this.inited = true;
 	},
 
 	loadView: function (path, data) {
@@ -51,6 +47,9 @@ export default can.Control.extend({
 				if(response.err) {
                     return self.processError(response.err);
                 }
+
+                options.doc.attr('_id', response.data._id);
+                console.log('!!!', options.doc.attr('recommended'))
 
 				options.entity(doc.attr('_id'));
 
