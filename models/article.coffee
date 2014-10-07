@@ -8,6 +8,7 @@ schema = new mongoose.Schema
 		name:
 			type: String
 			required: true
+			index: true
 	updated:
 		type: Date
 		required: true
