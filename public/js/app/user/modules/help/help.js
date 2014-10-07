@@ -8,6 +8,7 @@ export default Controller.extend(
     }, {
 		variables: function() {
 			this.search_timeout = false;
+			this.search_query = '';
 			this.faq_blocks = this.element.find('.faq_block');
 		},
 		
@@ -33,7 +34,14 @@ export default Controller.extend(
 		
 		search: function(val) {
 			val = val.trim();
+			val = val.replace(/ +(?= )/g,''); // remove double spaces
 			val = escape(val).toLowerCase();
+			
+			if(this.search_query == val) {
+				return;
+			}
+			
+			this.search_query = val;
 			
 			var filtered =  _.filter(this.faq, function(faq) {
 				if(faq.title.toLowerCase().match(val) || faq.text.toLowerCase().match(val)) {
