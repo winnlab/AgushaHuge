@@ -5,6 +5,7 @@ Registration = require './user/registration'
 Login = require './user/login'
 Products = require './user/products'
 Product = require './user/product'
+Help = require './user/help'
 
 Router = express.Router()
 
@@ -28,6 +29,10 @@ Router.post '/products/findAll', Products.findAll
 #
 
 Router.get '/product/:alias', Product.index
+
+#
+
+Router.get '/help', Help.index
 
 #
 

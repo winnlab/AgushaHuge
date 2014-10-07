@@ -37,6 +37,13 @@ var config = {
 					client: 'js/app/user/modules/product/',
 					server: ':name/:entity_id'
 				}
+			},
+			{
+				name: 'help',
+				path: {
+					client: 'js/app/user/modules/help/',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'

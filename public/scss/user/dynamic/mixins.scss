@@ -88,6 +88,19 @@
 	@include border_radius(99999em);
 }
 
+@mixin reverse {
+	display: inline-flexbox;
+	display: -moz-inline-box;
+	display: -webkit-inline-box;
+	display: -moz-inline-flex;
+	display: -webkit-inline-flex;
+	flex-direction: row-reverse;
+	-moz-box-direction: reverse;
+	-webkit-box-direction: reverse;
+	-moz-flex-direction: row-reverse;
+	-webkit-flex-direction: row-reverse;
+}
+
 /* base */
 
 @mixin bold {
