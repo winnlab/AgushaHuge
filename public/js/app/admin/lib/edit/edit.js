@@ -49,7 +49,6 @@ export default can.Control.extend({
                 }
 
                 options.doc.attr('_id', response.data._id);
-                console.log('!!!', options.doc.attr('recommended'))
 
 				options.entity(doc.attr('_id'));
 

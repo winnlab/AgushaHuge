@@ -21,7 +21,7 @@ class ThemeCrud extends Crud
                 if oldVal isnt newVal
                     Model 'Article', 'update', {'theme.theme_id': doc._id}, {'theme.name': newVal}, {multi: true}, cb
                 else
-                    cb()
+                    cb null, doc
         ], cb
 
 crud = new ThemeCrud

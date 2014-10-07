@@ -21,7 +21,7 @@ class AgeCrud extends Crud
                 if oldVal isnt newVal
                     Model 'Article', 'update', {'age.age_id': doc._id}, {'age.value': newVal}, {multi: true}, cb
                 else
-                    cb()
+                    cb null, doc
         ], cb
 
 crud = new AgeCrud
