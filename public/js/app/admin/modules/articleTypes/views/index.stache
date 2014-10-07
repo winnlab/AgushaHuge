@@ -28,7 +28,7 @@
     <div class='panel-body' id='articleTypeList'>
     	{{#if articleType.isResolved}}
     		{{#if articleType.length}}
-    			{{#sortedBy articleType 'name'}}
+    			{{#sortedBy articleType '_id'}}
     				<div class='row articleType' {{data "articleType"}}>
     					<div class='input-group'>
                             <input type='text' class='form-control' {{#unless editable}}disabled{{/unless}} can-value='name' />
