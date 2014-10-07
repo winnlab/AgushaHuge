@@ -1,9 +1,30 @@
 async = require 'async'
 _ = require 'lodash'
+Model = require '../../lib/mongooseTransport'
 
 Crud = require '../../lib/crud'
+objUtils = require '../../utils/object'
 
-crud = new Crud
+class AgeCrud extends Crud
+    update: (id, data, cb) ->
+        oldVal = null
+        async.waterfall [
+            (next) =>
+                @DataEngine 'findById', next, id
+            (doc, next) =>
+                oldVal = doc.value
+                for own field, value of data
+                    objUtils.handleProperty doc, field, value
+                doc.save next
+            (doc) ->
+                newVal = doc.value
+                if oldVal isnt newVal
+                    Model 'Article', 'update', {'age.age_id': doc._id}, {'age.value': newVal}, {multi: true}, cb
+                else
+                    cb()
+        ], cb
+
+crud = new AgeCrud
     modelName: 'Age'
     files: [
         name: 'icon.normal'

@@ -38,15 +38,17 @@ schema = new mongoose.Schema
 		age_id:
 			type: ObjectId
 			ref: "Age"
+			index: true
 		value:
 			type: Number
 			require: true
 	theme:
-		name:
-			type: String
 		theme_id:
 			type: ObjectId
 			ref: "Theme"
+			index: true
+		name:
+			type: String
 ,
 	collection: 'article'
 
