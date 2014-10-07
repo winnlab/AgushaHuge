@@ -121,6 +121,10 @@
 			
 			.text {
 				display: block;
+				
+				&:before {
+					top: 0;
+				}
 			}
 		}
 		
@@ -147,6 +151,17 @@
 		
 		.text {
 			padding: 30px 70px 45px;
+			position: relative;
+			
+			&:before {
+				@include pseudo;
+				@include transition(top 0.3s ease-in-out);
+				top: -17px;
+				left: 50px;
+				width: 46px;
+				height: 17px;
+				background: url('/img/user/help/shadow1.png') no-repeat;
+			}
 			
 			a {
 				color: #2ca7e0;
