@@ -86,9 +86,11 @@ export default List.extend({
         var moduleList = this.module.attr(this.options.moduleName),
             filter = {};
 
-        filter['age.age_id'] = data.attr('age');
-        filter['theme.theme_id'] = data.attr('theme');
-        filter['type.name'] = data.attr('type');
+        if (data) {
+            filter['age.age_id'] = data.attr('age');
+            filter['theme.theme_id'] = data.attr('theme');
+            filter['type.name'] = data.attr('type');
+        }
 
         this.module.attr(this.options.moduleName, new this.options.Model.List(filter));
     }

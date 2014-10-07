@@ -1,9 +1,7 @@
 <div class="af-wrap{{#if visible}} visible{{/if}}">
 	<div class="af-header">
-		<div class="t-reset-all">
-			<div class="circle">
-				<i class="fa fa-refresh"></i>
-			</div>
+		<div class="t-reset-all btn btn-primary">
+			<i class="fa fa-refresh"></i>
 			<span>Сбросить все</span>
 		</div>
 		<div class="afh-title">

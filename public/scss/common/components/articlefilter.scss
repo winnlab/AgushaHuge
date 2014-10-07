@@ -14,6 +14,7 @@
 	@include transition(all 0.5s ease-out);
 
 	&.visible {
+		overflow: visible !important;
 		top: 0 !important;
 		// @include transform(translateY(0));
 
@@ -51,28 +52,25 @@
 
 .af-header {
 	height: 12%;
-	.circle {
-		padding: 5px;
-		background: #ffffff;
-		border-radius: 50%;
-		display: inline-block;
-	}
 }
 
 .t-reset-all {
+	cursor: pointer;
 	position: absolute;
-	top: 0;
+	top: 4%;
 	left: 2%;
 }
 
 .t-af-close {
 	position: absolute;
-	top: 0;
+	top: 4.5%;
 	right: 2%;
 	cursor: pointer;
 }
 
 .afh-title {
+	width: 60%;
+	margin-left: 20%;
 	text-align: center;
 	@include vertical-align;
 	font-size: 20px;

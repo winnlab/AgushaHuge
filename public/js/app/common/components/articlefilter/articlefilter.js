@@ -41,15 +41,22 @@ can.Component.extend({
 			this.scope.attr(attrName, newVal);
 		},
 
-		'.t-submit click': function () {
-			var results = this.scope.attr('currents');
+		'.t-reset-all click': function () {
+			this.giveAwayData();
+		},
 
-			// try {
+		'.t-submit click': function () {
+			this.giveAwayData(this.scope.attr('currents'));
+		},
+
+		giveAwayData: function (results = false) {
+			try {
 			    this.scope.attr("visible", false);
 			    this.scope.attr('fn').exec(results);
-			// } catch(e) {
-			//     throw new Error("`articlefilter` component did not get callback arguemnt (fn)");
-			// }
+			} catch(e) {
+				console.error(e);
+				console.error("`articlefilter` component seems do not have callback argument (fn) or it has no function in `exec` property");
+			}
 		}
 	}
 });
