@@ -83,19 +83,13 @@ export default List.extend({
     },
 
     doFilter: function (data) {
-        var moduleList = this.module.attr(this.options.moduleName);
-        // moduleList({
-        //     age: {
-        //         age_id: data.attr('age')
-        //     },
-        //     theme: {
-        //         theme_id: data.attr('theme')
-        //     },
-        //     type: {
-        //         name: data.attr('type')
-        //     }
-        // }, function() {
-        //     console.log(arguments)
-        // });
+        var moduleList = this.module.attr(this.options.moduleName),
+            filter = {};
+
+        filter['age.age_id'] = data.attr('age');
+        filter['theme.theme_id'] = data.attr('theme');
+        filter['type.name'] = data.attr('type');
+
+        this.module.attr(this.options.moduleName, new this.options.Model.List(filter));
     }
 });
