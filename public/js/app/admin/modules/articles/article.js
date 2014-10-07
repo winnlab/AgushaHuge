@@ -31,15 +31,21 @@ export default Edit.extend({
 
 		data[options.moduleName] = options.doc;
 
-		console.log(options.doc)
-
 		data['ages'] = options.ages;
 		data['themes'] = options.themes;
 		data['types'] = options.types;
 
+		this.currentAge = can.compute(options.doc.age.age_id);
+		data['currentAge'] = this.currentAge;
+
 		this.loadView(options.viewpath + options.viewName, data);
 
 		this.inited = true;
+	},
+
+	'.currentAgeSelect change': function (el) {
+		console.log(el.val())
+		this.currentAge(el.val());
 	}
 
 });

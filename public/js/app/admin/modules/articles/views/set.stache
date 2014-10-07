@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="age[age_id]">Возраст статьи:</label>
                     <div class="col-md-10">
-                        <select class="form-control" name="age[age_id]">
+                        <select class="currentAgeSelect form-control" name="age[age_id]">
                             {{#sortedBy ages 'title'}}
                                 <option {{#is article.age.age_id _id}}selected{{/if}} value="{{_id}}">{{value}}</option>
                             {{/sortedBy}}
@@ -51,18 +51,21 @@
                     </div>
                 </div>
             {{/if}}
-
-            {{#if themes.length}}
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="theme[theme_id]">Тема статьи:</label>
-                    <div class="col-md-10">
-                        <select class="form-control" name="theme[theme_id]">
-                            {{#sortedBy themes 'name'}}
-                                <option {{#is article.theme.theme_id _id}}selected{{/if}} value="{{_id}}">{{name}}</option>
-                            {{/sortedBy}}
-                        </select>
+            {{#if currentAge}}
+                {{#if themes.length}}
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="theme[theme_id]">Тема статьи:</label>
+                        <div class="col-md-10">
+                            <select class="form-control" name="theme[theme_id]">
+                                {{#sortedBy themes 'name'}}
+                                    {{#arrContains age_id currentAge true false}}
+                                        <option {{#is article.theme.theme_id _id}}selected{{/if}} value="{{_id}}">{{name}}</option>
+                                    {{/arrContains}}
+                                {{/sortedBy}}
+                            </select>
+                        </div>
                     </div>
-                </div>
+                {{/if}}
             {{/if}}
 
             {{#if types.length}}
