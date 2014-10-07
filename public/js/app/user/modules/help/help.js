@@ -32,6 +32,7 @@ export default Controller.extend(
 		},
 		
 		search: function(val) {
+			val = val.trim();
 			val = escape(val).toLowerCase();
 			
 			var filtered =  _.filter(this.faq, function(faq) {
