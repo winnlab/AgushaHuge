@@ -44,8 +44,14 @@ export default Edit.extend({
 	},
 
 	'.currentAgeSelect change': function (el) {
-		console.log(el.val())
 		this.currentAge(el.val());
+		var newVal = el.find('option:selected').data('ages').attr('value');
+		$('.ageValue').val(newVal);
+	},
+
+	'.currentThemeSelect change': function (el) {
+		var newVal = el.find('option:selected').data('themes').attr('name');
+		$('.themeName').val(newVal);
 	}
 
 });

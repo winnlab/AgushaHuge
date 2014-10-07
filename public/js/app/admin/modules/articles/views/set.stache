@@ -45,9 +45,10 @@
                     <div class="col-md-10">
                         <select class="currentAgeSelect form-control" name="age[age_id]">
                             {{#sortedBy ages 'title'}}
-                                <option {{#is article.age.age_id _id}}selected{{/if}} value="{{_id}}">{{value}}</option>
+                                <option {{data "ages"}} {{#is article.age.age_id _id}}selected{{/if}} value="{{_id}}">{{value}}</option>
                             {{/sortedBy}}
                         </select>
+                        <input class="ageValue" type="hidden" name="age[value]" value="{{article.age.value}}" />
                     </div>
                 </div>
             {{/if}}
@@ -56,13 +57,14 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="theme[theme_id]">Тема статьи:</label>
                         <div class="col-md-10">
-                            <select class="form-control" name="theme[theme_id]">
+                            <select class="currentThemeSelect form-control" name="theme[theme_id]">
                                 {{#sortedBy themes 'name'}}
                                     {{#arrContains age_id currentAge true false}}
-                                        <option {{#is article.theme.theme_id _id}}selected{{/if}} value="{{_id}}">{{name}}</option>
+                                        <option {{data "themes"}} {{#is article.theme.theme_id _id}}selected{{/if}} value="{{_id}}">{{name}}</option>
                                     {{/arrContains}}
                                 {{/sortedBy}}
                             </select>
+                            <input class="themeName" type="hidden" name="theme[name]" value="{{article.theme.name}}" />
                         </div>
                     </div>
                 {{/if}}
