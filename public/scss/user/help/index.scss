@@ -1,0 +1,84 @@
+@import '../dynamic/dynamic';
+@import '../helpers/breadcrumbs';
+@import '../helpers/topper_title';
+
+@media all, (min-width: $min-width) and (max-width: $extend) {
+	#help {
+		width: 920px;
+	}
+}
+
+@media all and (min-width: $extend_plus_one) {
+	#help {
+		width: 1220px;
+	}
+}
+
+#help {
+	text-align: left;
+	
+	&:before {
+		@include pseudo;
+		@include absolute_horizontal_centered;
+		top: 0;
+		left: -1px;
+		background: url('/img/user/help/topper_background.jpg') top no-repeat;
+		width: 100.3%;
+		height: 100%;
+		z-index: 5;
+	}
+	
+	.topper_title {
+		color: $blue;
+		height: 80px;
+	}
+	
+	.tabs {
+		margin: 0 20px;
+		height: 75px;
+		background: black;
+		position: relative;
+		
+		.adorable_cell {
+			vertical-align: bottom;
+			text-align: left;
+		}
+	}
+	
+	.tabs_flex {
+		@include reverse;
+		position: relative;
+		top: 25px;
+		height: 50px;
+	}
+	
+	.tab {
+		@include bold;
+		font-size: 18px;
+		text-transform: uppercase;
+		display: inline-block;
+		vertical-align: bottom;
+		position: relative;
+		background-color: $blue;
+		color: $white;
+		padding: 15px 50px 10px;
+		border-top-left-radius: 35px;
+		border-top-right-radius: 35px;
+		cursor: pointer;
+		
+		&:not(:last-child) {
+			margin-left: -10px;
+		}
+		
+		&.active {
+			background-color: $bg;
+			color: #b2a8a1;
+			z-index: 1;
+		}
+	}
+	
+	.tab_contents {
+		margin: 20px 0;
+		padding: 20px;
+	}
+}
