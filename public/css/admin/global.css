@@ -1,2 +1,4 @@
-body {
-  background: red; }
+.moduleWrap {
+	position: relative;
+	min-height: 400px;
+}

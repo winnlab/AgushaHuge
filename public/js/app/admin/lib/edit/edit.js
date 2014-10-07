@@ -87,7 +87,6 @@ export default can.Control.extend({
         		msg = '';
         		for(var prop in err.errors) {
         			if(err.errors.hasOwnProperty(prop) && prop[0] !== '_') {
-        				console.log(prop)
         				msg += err.errors[prop].message + '\r\n';
         			}
         		}

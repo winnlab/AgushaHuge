@@ -1,0 +1,90 @@
+<div class="af-wrap{{#if visible}} visible{{/if}}">
+	<div class="af-header">
+		<div class="t-reset-all">
+			<div class="circle">
+				<i class="fa fa-refresh"></i>
+			</div>
+			<span>Сбросить все</span>
+		</div>
+		<div class="afh-title">
+			(НЕ)УДОБНЫЙ ФИЛЬТР
+		</div>
+		<div class="t-af-close"><i class="fa fa-times"></i></div>
+	</div>
+	<div class="af-container">
+		<div class="af-ages panel panel-info">
+			<div class="panel-heading">
+				ВОЗРАСТА
+			</div>
+			<div class="af-body panel-body">
+				{{#if ages.length}}
+					{{#sortedBy ages 'value'}}
+						<div data-name="age" style="height: {{height}}px;" class="af-item age col-md-2 {{#is _id currents.age}}current{{/is}}" data-id="_id" {{data "ages"}}>
+							<div class="af-image" {{#if icon.normal}}style="background-image: url(/img/uploads/{{icon.normal}})"{{/if}}></div>
+							<div class="af-title">{{value}}</div>
+						</div>
+					{{/sortedBy}}
+				{{/if}}
+			</div>
+		</div>
+		<div class="af-themes panel panel-info">
+			<div class="panel-heading">
+				ТЕМЫ
+			</div>
+			<div class="af-body panel-body">
+				{{#if themes.length}}
+					{{#if currents.age}}
+						{{#sortedBy themes 'name'}}
+							{{#arrContains age_id currents.age true false}}
+								<div data-name="theme" style="height: {{height}}px;" class="af-item theme col-md-2 {{#is _id currents.theme}}current{{/is}}" data-id="_id" {{data "themes"}}>
+									<div class="af-image" {{#if image}}style="background-image: url(/img/uploads/{{image}})"{{/if}}></div>
+									<div class="af-title">{{name}}</div>
+								</div>
+							{{/arrContains}}
+						{{/sortedBy}}
+					{{else}}
+						<div class="alert alert-info" role="alert">
+							Сначала выберите возраст!
+						</div>
+					{{/iа}}
+				{{/if}}
+			</div>
+		</div>
+		<div class="af-types panel panel-info">
+			<div class="panel-heading">
+				ТИПЫ СТАТЕЙ
+			</div>
+			<div class="af-body panel-body">
+				{{#if currents.theme}}
+					{{#if types.length}}
+						{{#sortedBy types 'value'}}
+							<div data-name="type" style="height: {{height}}px;" class="af-item type col-md-2 {{#is name currents.type}}current{{/is}}" data-id="name" {{data "types"}}>
+								<div class="af-image" {{#if 1}}style="background-image: url(/img/no_photo.png)"{{/if}}></div>
+								<div class="af-title">{{name}}</div>
+							</div>
+						{{/sortedBy}}
+					{{else}}
+						<div class="alert alert-danger" role="alert">
+							Упс! В базе нет ни одного типа или произошла ошибка!
+						</div>
+					{{/if}}
+				{{else}}
+					<div class="alert alert-info" role="alert">
+						Сначала выберите тему!
+					</div>
+				{{/if}}
+			</div>
+		</div>
+		{{#if currents.type}}
+			<div class="panel panel-info">
+				<div class="panel-body well">
+					<button class="btn btn-primary pull-right t-submit">
+						<i class="fa fa-check"></i>
+						<span>Фильтровать</span>
+					</button>
+				</div>
+			</div>
+		{{/if}}
+	</div>
+	<div class="af-label t-af-expand">Фильтр</div>
+</div>

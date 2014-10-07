@@ -82,8 +82,8 @@ export default can.Control.extend({
 	},
 
 	'{edit} click': function (el) {
-		var options = this.options,
-			doc = el.parents(options.parentData).data(options.moduleName);
+		var doc = this.getDocHandle(el);
+
 		this.setDoc(doc.attr('_id'));
 	},
 
@@ -119,17 +119,16 @@ export default can.Control.extend({
 	},
 
 	initSetControl: function (area, doc, entity) {
-		if(this.options.EditHandle) {
-			this.options.EditHandle.init(area, {
-				doc,
-				entity
-			})
-		} else {
-			this.options.EditHandle = new this.options.Edit(area, {
-				doc: doc,
-				entity: entity
-			});
+		var params = {
+			doc,
+			entity
+		};
+
+		if (this.options.EditHandle) {
+			return this.options.EditHandle.init(area, params);
 		}
+
+		this.options.EditHandle = new this.options.Edit(area, params);
 	},
 
 	'{toList} click': function () {
