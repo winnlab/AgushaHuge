@@ -5,6 +5,10 @@ window.strip_tags = function(str) {	// Strip HTML and PHP tags from a string
 	return str.replace(/<\/?[^>]+>/gi, '');
 }
 
+window.escape = function(text) {
+	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+};
+
 window.jadeTemplate = {
 	viewPath: '/views/',
 	savedViewFuncs: [],
