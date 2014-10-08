@@ -1,7 +1,8 @@
 import 'can/'
 import Edit from 'edit'
 
-import 'js/plugins/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css!'
+import 'js/plugins/bootstrap3-wysiwyg/dist/bootstrap3-wysihtml5.min.css!'
+// import Handlebars from 'js/plugins/handlebars/handlebars.runtime.js'
 import 'bootstrap-wysihtml5'
 
 export default Edit.extend({
