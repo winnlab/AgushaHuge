@@ -44,6 +44,13 @@ var config = {
 					client: 'js/app/user/modules/help/',
 					server: ':name'
 				}
+			},
+			{
+				name: 'encyclopedia',
+				path: {
+					client: 'js/app/user/modules/encyclopedia/',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'

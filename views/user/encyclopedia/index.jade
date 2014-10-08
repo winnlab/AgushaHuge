@@ -1,0 +1,14 @@
+extends ../layout
+
+block append header
+	link(href="/css/user/encyclopedia/encyclopedia.css" rel="stylesheet")
+
+block content
+	.module.server.encyclopedia#encyclopedia
+		include content
+
+block append scripts
+	script.
+		var app = {
+			//faq: !{JSON.stringify(faq)}
+		};

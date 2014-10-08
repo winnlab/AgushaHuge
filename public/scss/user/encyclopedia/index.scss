@@ -1,0 +1,24 @@
+@import '../dynamic/dynamic';
+@import '../helpers/breadcrumbs';
+@import '../helpers/topper_title';
+
+@media all, (min-width: $min-width) and (max-width: $extend) {
+	#encyclopedia {
+		width: 920px;
+	}
+}
+
+@media all and (min-width: $extend_plus_one) {
+	#encyclopedia {
+		width: 1220px;
+	}
+}
+
+#encyclopedia {
+	text-align: left;
+	
+	.topper_title {
+		color: $blue;
+		height: 80px;
+	}
+}

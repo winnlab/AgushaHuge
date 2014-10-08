@@ -6,6 +6,7 @@ Login = require './user/login'
 Products = require './user/products'
 Product = require './user/product'
 Help = require './user/help'
+Encyclopedia = require './user/encyclopedia'
 
 Router = express.Router()
 
@@ -33,6 +34,10 @@ Router.get '/product/:alias', Product.index
 #
 
 Router.get '/help', Help.index
+
+#
+
+Router.get '/encyclopedia', Encyclopedia.index
 
 #
 

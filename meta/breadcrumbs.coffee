@@ -6,4 +6,8 @@ module.exports = [
 	id: 'help'
 	title: 'Помощь'
 	href: '/help'
+,
+	id: 'encyclopedia'
+	title: 'Энциклопедия'
+	href: '/encyclopedia'
 ]

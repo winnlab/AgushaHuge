@@ -120,6 +120,6 @@ export default Controller.extend(
 			text.stop(true, false)[func](300);
 			
 			faq_block.toggleClass(classname);
-		},
+		}
     }
 );
