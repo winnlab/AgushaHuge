@@ -33,22 +33,43 @@ export default Controller.extend(
 		},
 		
 		search: function(val) {
+			var words, i, word, escaped_val;
+			
 			val = val.trim();
 			val = val.replace(/ +(?= )/g,''); // remove double spaces
-			val = escape(val).toLowerCase();
 			
-			if(this.search_query == val) {
+			escaped_val = escape(val).toLowerCase();
+			
+			if(this.search_query == escaped_val) {
 				return;
 			}
 			
-			this.search_query = val;
+			this.search_query = escaped_val;
+			
+			words = val.split(' ');
+			
+			for(i = words.length; i--;) {
+				word = words[i];
+				
+				word = escape(word).toLowerCase();
+			}
 			
 			var filtered =  _.filter(this.faq, function(faq) {
-				if(faq.title.toLowerCase().match(val) || faq.text.toLowerCase().match(val)) {
-					return true;
+				var title = faq.title.toLowerCase(),
+					text = faq.text.toLowerCase(),
+					match = false;
+				
+				for(i = words.length; i--;) {
+					word = words[i];
+					
+					match = (title.match(word) || text.match(word));
+					
+					if(!match) {
+						break;
+					}
 				}
 				
-				return false;
+				return match;
 			});
 			
 			this.show_filtered(filtered);
