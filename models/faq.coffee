@@ -5,6 +5,13 @@ schema = new mongoose.Schema
 		type: String
 	text:
 		type: String
+	position:
+		type: Number
+		default: 99
+	active:
+		type: Boolean
+		required: true
+		default: true
 ,
 	collection: 'faqs'
 

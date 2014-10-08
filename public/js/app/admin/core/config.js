@@ -18,6 +18,10 @@ var config = {
 			{
 				name: 'encyclopedia-articleType',
 				path: 'js/app/admin/modules/articleTypes/'
+			},
+			{
+				name: 'faq',
+				path: 'js/app/admin/modules/faqs/'
 			}
 		]
 	}

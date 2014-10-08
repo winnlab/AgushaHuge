@@ -1,0 +1,58 @@
+<div class="box {{#if faq._id}}box-warning{{/if}}">
+    <div class="box-header">
+        <h3 class="box-title">
+            {{#if faq._id}}Редактирование{{else}}Добавление{{/if}} статьи
+        </h3>
+        <div class="box-tools pull-right">
+            <div class="btn btn-primary toList">
+                Назад
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <form class="form-horizontal setFaq">
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="title">Название:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="faq.title" name="title" placeholder="Наименование" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            {{#if faq._id}}
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 checkbox">
+                        <label class="col-md-4">
+                            <input name="active" type="checkbox" can-true-value="true" can-value="faq.active" /> Активна?
+                        </label>
+                        <div class="help help-block"></div>
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="position">Позиция:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="faq.position" name="position" placeholder="Относительный номер по порядку" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="text">Текст вопроса:</label>
+                <div class="col-md-10">
+                    <textarea class="form-control" type="text" {{wysihtml5}} name="text" can-value="faq.text"></textarea>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-6">
+                    <button class="btn btn-primary" type="submit">
+                        Сохранить
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

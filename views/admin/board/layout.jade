@@ -51,7 +51,7 @@ html(lang="ru")
 				section.sidebar
 					ul.sidebar-menu
 						li(class= (currentHref=='dashboard'?"active":""))
-							a(href="dashboard")
+							a(href="/admin/dashboard")
 								i.fa.fa-dashboard
 								span= "Главная"
 						li.treeview
@@ -72,6 +72,10 @@ html(lang="ru")
 									a(href="/admin/encyclopedia-articleType")
 										i.fa.fa-angle-double-right
 										span= "Типы статей"
+						li(class= (currentHref=='faq'?"active":""))
+							a(href="/admin/faq")
+								i.fa.fa-question-circle
+								span= "FAQ"
 						
 			aside.right-side#moduleContent
 				block content
