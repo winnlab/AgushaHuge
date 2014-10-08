@@ -21,7 +21,7 @@ export default Edit.extend({
 		Edit.prototype.init.call(this);
 
 		if(!this.options.doc.attr('_id')) {
-            this.options.doc.attr('active', "true");
+            this.options.doc.attr('active', true);
 			this.options.doc.attr('position', 99);
 		}
 	}
