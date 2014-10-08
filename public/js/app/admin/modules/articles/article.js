@@ -75,6 +75,11 @@ export default Edit.extend({
 	'.currentThemeSelect change': function (el) {
 		var newVal = el.find('option:selected').data('themes').attr('name');
 		this.themeName(newVal);
+	},
+
+	'.addQuestion click': function (el) {
+		var answers = this.options.doc.attr('answer');
+		answers.push({text: '', score: 0});
 	}
 
 });
