@@ -30,5 +30,5 @@ public/img/uploads
 .sass-cache/
 *.css.map
 
-#netbeans project data
+# netbeans project data
 /nbproject/private/
