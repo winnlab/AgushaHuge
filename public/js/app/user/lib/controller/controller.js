@@ -22,7 +22,7 @@ export default can.Control.extend({
 	
 	request: function() {
 		var	str = this.options.path.server,
-			params = ['name', 'entity_id'],
+			params = ['name', 'entity_id', 'param2'],
 			param,
 			that = this,
 			reg,
@@ -31,8 +31,10 @@ export default can.Control.extend({
 		for(i = params.length; i--;) {
 			param = params[i];
 			reg = new RegExp(':' + param, 'g');
-			str = str.replace(reg, this.options[param]);
+			str = str.replace(reg, (this.options[param] ? this.options[param] : ''));
 		}
+		
+		str = str.replace(/\/+(?=\/)/g,''); // remove multiple slashes
 		
 		can.ajax({
 			url: '/' + str + '?ajax=true',

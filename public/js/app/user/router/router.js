@@ -49,31 +49,36 @@ export default can.Control.extend({
 		'/ route': 'routeChanged',
 		':module route': 'routeChanged',
 		':module/:id route': 'routeChanged',
+		':module/:id/:param2 route': 'routeChanged',
 		
 		routeChanged: function (data) {
-			var route = data.module + '/' + data.id;
-			
-			if(this.route === route) {
-				return;
-			}
-			
-			this.route = route;
+			var moduleName,
+				id,
+				module;
 			
 			if(!data.module) {
 				data.module = this.options.defaultModule;
 			}
 			
-			var modules = this.options.modules,
-				moduleName = data.module,
-				id = moduleName + (data.id ? '-' + data.id : '');
-				module = _.find(modules, function (module) {
-					return module.name === moduleName
-				});
+			moduleName = data.module;
+			
+			id = moduleName + (data.id ? '-' + data.id : '') + (data.param2 ? '-' + data.param2 : '');
+			
+			if(this.route === id) {
+				return;
+			}
+			
+			this.route = id;
+			
+			module = _.find(this.options.modules, function (module) {
+				return module.name === moduleName
+			});
 			
 			try {
 				if(module) {
 					module.id = id;
 					module.entity_id = data.id;
+					module.param2 = data.param2;
 					
 					this.Placeholder.initModule(module);
 				} else {

@@ -49,7 +49,7 @@ var config = {
 				name: 'encyclopedia',
 				path: {
 					client: 'js/app/user/modules/encyclopedia/',
-					server: ':name'
+					server: ':name/:entity_id/:param2'
 				}
 			}
 		],
