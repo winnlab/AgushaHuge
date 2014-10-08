@@ -2,20 +2,27 @@
 @import '../helpers/breadcrumbs';
 @import '../helpers/topper_title';
 
-@media all, (min-width: $min-width) and (max-width: $extend) {
-	#encyclopedia {
-		width: 920px;
-	}
-}
-
-@media all and (min-width: $extend_plus_one) {
-	#encyclopedia {
-		width: 1220px;
-	}
-}
-
 #encyclopedia {
 	text-align: left;
+	width: 100%;
+	
+	.age_filter {
+		float: left;
+		width: 160px;
+		height: 100%;
+		background-color: #2384b;
+	}
+	
+	.center {
+		text-align: center;
+	}
+	
+	.content {
+		@include inline_block;
+		width: 920px;
+		height: auto;
+		text-align: left;
+	}
 	
 	.topper_title {
 		color: $blue;
