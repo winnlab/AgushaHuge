@@ -116,6 +116,7 @@ class Crud
 		doc.save next
 
 	update: (id, data, cb) ->
+		console.log 'crud update data', data
 		async.waterfall [
 			(next) =>
 				@DataEngine 'findById', next, id
