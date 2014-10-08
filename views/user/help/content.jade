@@ -19,8 +19,9 @@
 			
 			- each f, key in faq
 				.tab_block.faq_block(id = 'faq_block_' + f.id, class = (f.active ? 'active' : ''))
-					.title.adorable_table
-						.adorable_cell #{f.title}
+					.title
+						.adorable_table
+							.adorable_cell #{f.title}
 					.text !{f.text}
 		
 		.tab_content.rules

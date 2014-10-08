@@ -117,14 +117,14 @@
 			
 			.title {
 				@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22));
+				
+				&:before {
+					bottom: -17px;
+				}
 			}
 			
 			.text {
 				display: block;
-				
-				&:before {
-					top: 0;
-				}
 			}
 		}
 		
@@ -133,35 +133,46 @@
 			@include box_shadow(0 0 0 0 rgba(0, 0, 0, 0.22));
 			@include transition(box-shadow 0.3s ease-in-out, -moz-box-shadow 0.3s ease-in-out, -webkit-box-shadow 0.3s ease-in-out);
 			height: 70px;
-			padding: 0 70px;
 			font-family: 'PT_Sans_Narrow_Bold';
 			font-size: 18px;
 			text-transform: uppercase;
 			color: #4c4c4c;
 			cursor: pointer;
+			position: relative;
 			
 			&:hover {
-				background-color: #fafafa;
+				.adorable_table {
+					background-color: #fafafa;
+				}
+				
+				&:before {
+					background-position: -46px 0;
+				}
+			}
+			
+			&:before {
+				@include pseudo;
+				@include transition(bottom 0.3s ease-in-out);
+				bottom: -0;
+				left: 50px;
+				width: 46px;
+				height: 17px;
+				background: url('/img/user/help/title_arrow.png') no-repeat;
+			}
+			
+			.adorable_table {
+				background-color: $white;
+				z-index: 1;
 			}
 			
 			.adorable_cell {
+				padding: 0 70px;
 				text-align: left;
 			}
 		}
 		
 		.text {
 			padding: 30px 70px 45px;
-			position: relative;
-			
-			&:before {
-				@include pseudo;
-				@include transition(top 0.3s ease-in-out);
-				top: -17px;
-				left: 50px;
-				width: 46px;
-				height: 17px;
-				background: url('/img/user/help/title_arrow.png') no-repeat;
-			}
 			
 			a {
 				color: #2ca7e0;
