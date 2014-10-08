@@ -4,7 +4,6 @@ import 'js/app/admin/components/upload/'
 import appState from 'appState'
 import _ from 'lodash'
 
-import 'js/plugins/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css!'
 import 'bootstrap-wysihtml5'
 
 export default Edit.extend({

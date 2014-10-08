@@ -13,7 +13,6 @@ System.config({
 		"underscore": "js/plugins/underscore/underscore-min.js",
 		"lodash": "js/plugins/lodash/dist/lodash.min.js",
 		"bootstrap-wysihtml5": "js/plugins/bootstrap3-wysiwyg/dist/bootstrap3-wysihtml5.all.min.js",
-		"bootstrap-wysihtml5-css": "js/plugins/bootstrap3-wysiwyg/dist/bootstrap3-wysihtml5.min.css",
 
 		"adminlte-css/*": "js/plugins/adminlte/css/*css",
 
@@ -41,7 +40,8 @@ System.config({
 			format: "global",
 			deps: [
 				'jquery',
-				'bootstrap'
+				'bootstrap',
+				"js/plugins/bootstrap3-wysiwyg/dist/bootstrap3-wysihtml5.min.css!"
 			]
 		},
 		"can/*": {
