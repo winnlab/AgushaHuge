@@ -124,6 +124,7 @@
 		background-color: $blue;
 		color: $white;
 		display: table;
+		overflow: hidden;
 		
 		.topper {
 			display: table-row;
@@ -151,19 +152,56 @@
 			}
 			
 			.book {
-				@include border_boxed;
 				color: #595959;
 				text-transform: uppercase;
 				width: 421px;
-				padding: 0 80px 0 15px;
 				font-size: 18px;
 				font-family: 'PT_Sans_Narrow_Bold';
 				letter-spacing: 1px;
 				position: relative;
 				cursor: pointer;
 				
+				&:after {
+					@include pseudo;
+					width: 35px;
+					height: 100%;
+					top: 0;
+					right: 0;
+					background-color: #2b9ed5;
+				}
+				
 				&.active {
 					z-index: 10;
+					
+					.cover {
+						&:after {
+							@include pseudo;
+							top: 0;
+							bottom: 0;
+							margin: auto;
+							right: 19px;
+							width: 22px;
+							height: 22px;
+							background: url('/img/user/encyclopedia/active.png') no-repeat;
+						}
+					}
+				}
+				
+				&:first-child {
+					.cover {
+						&:before {
+							@include pseudo;
+							width: 35px;
+							height: 45px;
+							bottom: 0;
+							right: -35px;
+							background: url('/img/user/encyclopedia/top_book_shadow.png') no-repeat;
+						}
+					}
+				}
+				
+				&:not(:first-child) {
+					@include box_shadow(35px 0 0 0 #2b9ed5);
 				}
 				
 				.title {
@@ -216,7 +254,10 @@
 				&:last-child, &:nth-last-child(10n+4) {
 					height: 53px;
 					margin-left: 24px;
-					background: url('/img/user/encyclopedia/book_last_child.png') no-repeat;
+					
+					.cover {
+						background: url('/img/user/encyclopedia/book_last_child.png') no-repeat;
+					}
 				}
 				
 				/* -4, -14, -24, ... */
@@ -229,8 +270,11 @@
 				/* -2, -7, -12, ... */ /* -3, -8, -13, ... */
 				&:nth-last-child(5n+2), &:nth-last-child(5n+3) {
 					margin-left: 34px;
-					background: url('/img/user/encyclopedia/book_nth_last_child_5n_2.png') no-repeat;
 					height: 45px;
+					
+					.cover {
+						background: url('/img/user/encyclopedia/book_nth_last_child_5n_2.png') no-repeat;
+					}
 				}
 				
 				/* -2, -7, -12, ... */
@@ -244,8 +288,11 @@
 				/* -5, -10, -15, ... */ /* -9, -14, -19, ... */
 				&:nth-last-child(5n+5), &:nth-last-child(5n+9)  {
 					margin-left: 24px;
-					background: url('/img/user/encyclopedia/book_nth_last_child_5n_5.png') no-repeat;
 					height: 53px;
+					
+					.cover {
+						background: url('/img/user/encyclopedia/book_nth_last_child_5n_5.png') no-repeat;
+					}
 				}
 				
 				/* -5, -10, -15, ... */
@@ -266,13 +313,24 @@
 				/* -6, -11, -16, ... */
 				&:nth-last-child(5n+6)  {
 					margin-left: 24px;
-					background: url('/img/user/encyclopedia/book_nth_last_child_5n_2.png') no-repeat;
 					height: 45px;
 					
 					&:before {
 						@include book_shadow_left;
 					}
+					
+					.cover {
+						background: url('/img/user/encyclopedia/book_nth_last_child_5n_2.png') no-repeat;
+					}
 				}
+			}
+			
+			.cover {
+				@include border_boxed;
+				height: 100%;
+				padding: 0 80px 0 15px;
+				position: relative;
+				z-index: 1;
 			}
 		}
 		
