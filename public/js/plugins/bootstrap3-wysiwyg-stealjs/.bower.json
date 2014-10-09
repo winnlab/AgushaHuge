@@ -1,0 +1,50 @@
+{
+  "name": "bootstrap3-wysiwyg-stealjs",
+  "version": "0.3.4",
+  "main": [
+    "dist/bootstrap3-wysihtml5.min.css",
+    "dist/bootstrap3-wysihtml5.min.js"
+  ],
+  "dependencies": {
+    "bootstrap": ">=3",
+    "jquery": ">=2.1"
+  },
+  "homepage": "https://github.com/mshekera/bootstrap3-wysiwyg",
+  "authors": [
+    "Christian Sterzl <christian.sterzl@gmail.com>"
+  ],
+  "description": "Bootstrap 3 compatible wysiwyg editor (stealjs version)",
+  "keywords": [
+    "bootstrap",
+    "wysiwyg"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "components",
+    "test",
+    "tests",
+    "Gruntfile.js",
+    "package.json",
+    "src"
+  ],
+  "devDependencies": {
+    "wysihtml5x": "0.4.15",
+    "components-font-awesome": ">=4",
+    "handlebars": "~1.3.0",
+    "requirejs": "~2.1.15",
+    "requirejs-domready": "~2.0.1"
+  },
+  "_release": "0.3.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.3.4",
+    "commit": "71a35cb68d6f55b8cfd8d361f5c641782b5d07a0"
+  },
+  "_source": "https://github.com/mshekera/bootstrap3-wysiwyg.git",
+  "_target": "0.3.4",
+  "_originalSource": "https://github.com/mshekera/bootstrap3-wysiwyg.git",
+  "_direct": true
+}
