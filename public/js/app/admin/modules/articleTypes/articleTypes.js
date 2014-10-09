@@ -101,7 +101,7 @@ export default List.extend(
                         return self.processError(response.err);
                     }
 
-                    doc.attr('_id', response.data._id);
+                    doc.attr('editable', false);
                     self.setNotification('success', options.successMsg);
 
                     self.resetObservables();

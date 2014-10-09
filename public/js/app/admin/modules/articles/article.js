@@ -15,6 +15,8 @@ export default Edit.extend({
         successMsg: 'Статья успешно сохранена.',
         errorMsg: 'Ошибка сохранения статьи.',
 
+        removeAnswerMsg: 'Удалить ответ?',
+
         form: '.setArticle'
     }
 }, {
@@ -67,7 +69,35 @@ export default Edit.extend({
 		}
 	},
 
-	'.currentAgeSelect change': function (el) {
+	'{form} submit': function (el, ev) {
+		ev.preventDefault();
+
+		var self = this,
+			options = self.options,
+			data = this.getDocData(el),
+			doc = options.doc;
+
+		doc.attr(data);
+
+		doc.save()
+			.done(function (response) {
+				if (response.err) {
+                    return self.processError(response.err);
+                }
+
+				options.entity(doc.attr('_id'));
+
+				if (options.setRoute) {
+					can.route.attr({'entity_id': doc.attr('_id')});
+				}
+
+				self.setNotification('success', options.successMsg);
+			})
+			.fail(function () {
+				self.setNotification('error', options.errorMsg);
+			});
+
+	},'.currentAgeSelect change': function (el) {
 		var newVal = el.find('option:selected').data('ages').attr('value');
 		this.ageValue(newVal);
 	},
@@ -77,9 +107,25 @@ export default Edit.extend({
 		this.themeName(newVal);
 	},
 
-	'.addQuestion click': function (el) {
+	'.addAnswer click': function (el) {
 		var answers = this.options.doc.attr('answer');
+		if(!answers) {
+			this.options.doc.attr('answer', new can.List);
+			answers = this.options.doc.attr('answer');
+		}
 		answers.push({text: '', score: 0});
+	},
+
+	'.removeAnswer click': function (el) {
+		if (confirm(this.options.removeAnswerMsg)) {
+			var item = $(el).parents('.answer').data('answer'),
+				answ = this.options.doc.attr('answer'),
+				index = answ.indexOf(item);
+
+			if(index > -1) {
+				answ.splice(index, 1);
+			}
+		}
 	}
 
 });

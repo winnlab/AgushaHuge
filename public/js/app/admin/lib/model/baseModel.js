@@ -5,10 +5,7 @@ var baseModel = {
             : resource;
     },
     parseModel: function (data) {
-        if (data.success) {
-            data = data.data;
-        }
-        return data;
+        return data.data && !data.err ? data.data : data;
     },
     parseModels: function (data) {
         return data.data ? data.data : [];
