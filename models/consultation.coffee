@@ -56,7 +56,7 @@ schema = new mongoose.Schema
 			required: true
 		parent:
 			type: ObjectId
-			ref: Name
+			ref: 'Name'
 	]
 ,
 	collection: 'consultation'
