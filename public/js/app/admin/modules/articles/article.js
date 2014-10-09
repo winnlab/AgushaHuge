@@ -4,7 +4,6 @@ import 'js/app/admin/components/upload/'
 import appState from 'appState'
 import _ from 'lodash'
 
-import 'js/plugins/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css!'
 import 'bootstrap-wysihtml5'
 
 export default Edit.extend({
@@ -76,6 +75,11 @@ export default Edit.extend({
 	'.currentThemeSelect change': function (el) {
 		var newVal = el.find('option:selected').data('themes').attr('name');
 		this.themeName(newVal);
+	},
+
+	'.addQuestion click': function (el) {
+		var answers = this.options.doc.attr('answer');
+		answers.push({text: '', score: 0});
 	}
 
 });

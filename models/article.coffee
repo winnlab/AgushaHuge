@@ -50,6 +50,21 @@ schema = new mongoose.Schema
 			index: true
 		name:
 			type: String
+	is_quiz:
+		type: Boolean
+		default: false
+	answer: [
+		_id:
+			type: ObjectId
+			default: mongoose.Types.ObjectId
+		text:
+			type: String
+		position:
+			type: Number
+		score:
+			type: Number
+			default: 0
+	]
 ,
 	collection: 'article'
 

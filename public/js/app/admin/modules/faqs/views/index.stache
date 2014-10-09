@@ -1,0 +1,42 @@
+<div class='panel panel-default {{#is display 'set'}}hidden{{/is}}'>
+    <div class='panel-heading'>
+        <div class='panel-title'>
+            Часто задаваемые вопросы (FAQ)
+        </div>
+        <div class='row'>
+            <div class='col-md-4'>
+                <button class='btn btn-primary addFaq'>
+                    <i class="fa fa-plus"></i>
+                    &nbsp;
+                    <span>Добавить</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class='panel-body' id='faqList'>
+        {{#if faq.isResolved}}
+            {{#if faq.length}}
+                {{#sortedBy faq 'position'}}
+                    <div class='row faq' {{data "faq"}}>
+                        <div class='input-group'>
+                            <span class="input-group-addon">
+                                <input class="activateAge" type="checkbox" can-value='active'>
+                            </span>
+                            <input type='text' class='form-control' disabled can-value='title' />
+                            <div class='input-group-btn'>
+                                <div class="btn btn-default editFaq" title="Редактировать">
+                                    <i class="fa fa-edit"></i>
+                                </div>
+                                <div class="btn btn-danger removeFaq" title="Удалить">
+                                    <i class="fa fa-trash-o"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/sortedBy}}
+            {{/if}}
+        {{/if}}
+    </div>
+</div>
+
+<div class="faqForm {{#is display 'list'}}hidden{{/is}}"></div>

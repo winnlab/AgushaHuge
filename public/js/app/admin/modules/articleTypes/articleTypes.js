@@ -109,13 +109,6 @@ export default List.extend(
                 .fail(function (doc) {
                     self.setNotification('error', options.errorMsg);
                 });
-        },
-
-        setNotification: function (status, msg) {
-            appState.attr('notification', {
-                status: status,
-                msg: msg
-            });
         }
 	}
 );
