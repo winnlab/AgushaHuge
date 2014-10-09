@@ -22,6 +22,10 @@ var config = {
 			{
 				name: 'faq',
 				path: 'js/app/admin/modules/faqs/'
+			},
+			{
+				name: 'consultations',
+				path: 'js/app/admin/modules/consultations/'
 			}
 		]
 	}

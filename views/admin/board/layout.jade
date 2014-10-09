@@ -76,6 +76,10 @@ html(lang="ru")
 							a(href="/admin/faq")
 								i.fa.fa-question-circle
 								span= "FAQ"
+						li(class= (currentHref=='consultations'?"active":""))
+							a(href="/admin/consultations")
+								i.fa.fa-comments-o
+								span= "Консультации"
 						
 			aside.right-side#moduleContent
 				block content

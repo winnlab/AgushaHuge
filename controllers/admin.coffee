@@ -3,6 +3,7 @@ express = require 'express'
 Age = require './admin/age'
 Article = require './admin/article'
 ArticleType = require './admin/articleType'
+Consultation = require './admin/сonsultation'
 FAQ = require './admin/faq'
 Main = require './admin/main'
 Theme = require './admin/themes'
@@ -30,6 +31,8 @@ Router.use '/article/img', Article.restFile
 Router.use '/article/:id?', Article.rest
 
 Router.use '/faq/:id?', FAQ.rest
+
+Router.use '/consultations/:id?', Consultation.rest
 
 #########################
 
