@@ -166,7 +166,7 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="answer[text][]">Вариант ответа:</label>
                                     <div class="col-md-10">
-                                        <textarea class="form-control" type="text" {{wysihtml5}} placeholder="Текст вариант ответа" can-value="text">
+                                        <textarea class="form-control" type="text" {{! {{wysihtml5}} }} placeholder="Текст вариант ответа" can-value="text">
                                         </textarea>
                                         <div class="help help-block"></div>
                                     </div>
@@ -187,4 +187,3 @@
         </form>
     </div>
 </div>
-{{log message}}
