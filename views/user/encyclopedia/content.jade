@@ -121,5 +121,23 @@
 .center
 	.content
 		include ../helpers/breadcrumbs
+		
+		.topper_title Title
+		
+		.items_filter
+			select.author_select
+				option(data-count = 0, value = 0) Все авторы
 			
-		.topper_title f
+			select.order_select
+				option(value = 'date') Сначала новые
+				option(value = '-date') Сначала старые
+			
+			.subscribe
+				.adorable_table
+					.adorable_cell
+						button
+							img(src="/img/user/encyclopedia/pencil.png")
+							span Подписаться на тему
+		
+		.items_container
+			
