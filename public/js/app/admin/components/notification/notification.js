@@ -6,7 +6,10 @@ import appState from 'appState'
 import 'css/admin/components/notification.css!'
 
 var Notification = can.Map.extend({
-	notification: {},
+	notification: {
+		className: '',
+		iconName: ''
+	},
 	visible: false,
 	hide: function () {
 		var self = this,
@@ -26,9 +29,15 @@ var Notification = can.Map.extend({
 
 var notification = new Notification();		
 
-appState.delegate('notification', 'set', function() {			
+appState.delegate('notification', 'set', function() {		
+	var state = appState.attr('notification');
+
 	notification.attr({
-		'notification': appState.attr('notification'),
+		'notification': {
+			className: state.status === 'success' ? 'alert-success' : 'alert-danger',
+			iconName: state.status === 'success' ? 'fa-check' : 'fa-ban',
+			msg: state.msg
+		},
 		'visible': true
 	});
 	
@@ -39,25 +48,13 @@ can.Component.extend({
 	tag: 'notification',
 	template: 
 		'{{#if visible}}'+
-			'<div id="appNotification" class="alert {{getClass}} alert-dismissable">' + 
-				'<i class="fa {{getIcon}}"></i>' +
+			'<div id="appNotification" class="alert {{notification.className}} alert-dismissable">' + 
+				'<i class="fa {{notification.iconName}}"></i>' +
 				'<b>Внимание:&nbsp;</b>' +
 				'{{notification.msg}}' +
 			'</div>' + 				
 		'{{/if}}',
 	scope: notification,
-	helpers: {
-		getClass: function () {
-			var status = this.attr('notification.status'),
-				className = status === 'success' ? 'alert-success' : 'alert-danger';
-			return className;
-		},
-		getIcon: function () {
-			var status = this.attr('notification.status'),
-				iconName = status === 'success' ? 'fa-check' : 'fa-ban';
-			return iconName;
-		}
-	},
 	events: {
 		click: function () {
 			this.scope.attr("visible", false);

@@ -48,7 +48,7 @@ export default can.Control.extend({
                     return self.processError(response.err);
                 }
 
-                options.doc.attr('_id', response.data._id);
+                // options.doc.attr('_id', response.data._id);
 
 				options.entity(doc.attr('_id'));
 

@@ -152,7 +152,6 @@ export default can.Control.extend({
 
 		if (confirm(options.deleteMsg)) {
 			doc.destroy().always(function (doc, status, def) {
-				console.log('remove click', arguments)
 				appState.attr('notification', {
 					status: status,
 					msg: status === 'success'

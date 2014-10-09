@@ -143,7 +143,8 @@ export default List.extend(
                            .find('option:selected')
                            .data(options.moduleName);
 
-            doc.attr('age_id').push(this.options.ageData.attr('id'))
+            doc.attr('age_id').push(this.options.ageData.attr('id'));
+            doc.attr('editable', false);
 
             doc.save()
                 .done(function (response) {
@@ -159,10 +160,6 @@ export default List.extend(
                 .fail(function () {
                     self.setNotification('error', options.errorMsg);
                 });
-        },
-
-        '{toList} click': function () {
-            this.toListCallback();
         },
 
         createDocument: function () {
@@ -181,7 +178,8 @@ export default List.extend(
                         return self.processError(response.err);
                     }
 
-                    doc.attr('_id', response.data._id);
+                    doc.attr('editable', false);
+                    // doc.attr('_id', response.data._id);
                     self.setNotification('success', options.successMsg);
                     
                     self.resetObservables();
@@ -189,6 +187,11 @@ export default List.extend(
                 .fail(function () {
                     self.setNotification('error', options.errorMsg);
                 });
+        },
+
+
+        '{toList} click': function () {
+            this.toListCallback();
         },
 
         setNotification: function (status, msg) {

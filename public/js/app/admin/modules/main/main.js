@@ -3,7 +3,8 @@ import List from 'list'
 export default List.extend(
 	{
         defaults: {
-            viewpath: 'js/admin/app/modules/tales/views/'
+            viewpath: '/js/app/admin/modules/main/views/',
+            viewName: ''
         }
     }, {
         init: function (element, options) {
