@@ -25,9 +25,9 @@ class ThemeCrud extends Crud
                     async.waterfall [
                         (next) ->
                             Model 'Article', 'update', where, what, opts, next
-                        (next) ->
+                        (affected, raw, next) ->
                             Model 'Consultation', 'update', where, what, opts, next
-                        (next) ->
+                        () ->
                             cb null, doc
                     ], cb
                 else
