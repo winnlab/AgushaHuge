@@ -11,8 +11,11 @@ schema = new mongoose.Schema
 		type: String
 		required: true
 	author:
-		type: ObjectId
-		ref: 'Client'
+		author_id:
+			type: ObjectId
+			ref: 'Client'
+		name:
+			type: String
 	specialist:
 		type: ObjectId
 		ref: 'User'
@@ -37,14 +40,17 @@ schema = new mongoose.Schema
 			type: String
 		theme_id:
 			type: ObjectId
-			ref: "theme"
+			ref: "Theme"
 	answer: [
 		_id:
 			type: ObjectId
 			unique: true
 		author:
-			type: ObjectId
-			ref: 'Client'
+			author_id:
+				type: ObjectId
+				ref: 'Client'
+			name:
+				type: String
 		specialist:
 			type: ObjectId
 			ref: 'User'
@@ -56,7 +62,6 @@ schema = new mongoose.Schema
 			required: true
 		parent:
 			type: ObjectId
-			ref: 'Name'
 	]
 ,
 	collection: 'consultation'
