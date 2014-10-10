@@ -19,7 +19,17 @@ class AgeCrud extends Crud
             (doc) ->
                 newVal = doc.value
                 if oldVal isnt newVal
-                    Model 'Article', 'update', {'age.age_id': doc._id}, {'age.value': newVal}, {multi: true}, cb
+                    where = 'age.age_id': doc._id
+                    what = 'age.value': newVal
+                    opts = multi: true
+                    async.waterfall [
+                        (next) ->
+                            Model 'Article', 'update', where, what, opts, next
+                        (next) ->
+                            Model 'Consultation', 'update', where, what, opts, next
+                        (next) ->
+                            cb null, doc
+                    ], cb
                 else
                     cb null, doc
         ], cb

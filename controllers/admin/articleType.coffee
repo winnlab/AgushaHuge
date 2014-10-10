@@ -19,7 +19,17 @@ class TypeCrud extends Crud
             (doc) ->
                 newVal = doc.name
                 if oldVal isnt newVal
-                    Model 'Article', 'update', {'type.name': oldVal}, {'type.name': newVal}, {multi: true}, cb
+                    where = 'type.name': oldVal
+                    what = 'type.name': newVal
+                    opts = multi: true
+                    async.waterfall [
+                        (next) ->
+                            Model 'Article', 'update', where, what, opts, next
+                        (next) ->
+                            Model 'Consultation', 'update', where, what, opts, next
+                        (next) ->
+                            cb null, doc
+                    ], cb
                 else
                     cb null, doc
         ], cb
