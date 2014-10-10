@@ -1,3 +1,4 @@
 [submodule "public/js/app"]
 	path = public/js/app
-	url = git@github.com:winnlab/agusha-frontend.git
+	url = https://github.com/winnlab/agusha-frontend
+	branch = master
