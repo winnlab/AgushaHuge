@@ -32,3 +32,6 @@ public/img/uploads
 
 # netbeans project data
 /nbproject/private/
+
+#my own directory with some garbage!
+random/
