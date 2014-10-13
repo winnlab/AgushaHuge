@@ -6,10 +6,13 @@ Validate = require '../utils/validate'
 schema = new mongoose.Schema
 	email:
 		type: String
-		required: true
 		trim: true
 		unique: true
+		sparse: true
 		validate: Validate.email
+	active:
+		type: Boolean
+		default: false
 	password:
 		type: String
 	profile:
@@ -21,19 +24,14 @@ schema = new mongoose.Schema
 		last_name:
 			type: String
 			trim: true
-	pic:
-		big:
-			type: String
-		medium:
-			type: String
-		small:
-			type: String
+	image:
+		type: String
 	social:
 		vk:
 			id:
 				type: String
 				unique: true
-				required: true
+				sparse: true
 			access_token:
 				type: String
 			refresh_token:
@@ -42,7 +40,7 @@ schema = new mongoose.Schema
 			id:
 				type: String
 				unique: true
-				required: true
+				sparse: true
 			access_token:
 				type: String
 			refresh_token:
@@ -51,7 +49,7 @@ schema = new mongoose.Schema
 			id:
 				type: String
 				unique: true
-				required: true
+				sparse: true
 			access_token:
 				type: String
 			refresh_token:
