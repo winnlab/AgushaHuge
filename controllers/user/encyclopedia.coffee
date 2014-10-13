@@ -22,7 +22,7 @@ exports.index = (req, res) ->
 					value: 1
 				limit: 6
 			
-			Model 'Age', 'find', next, searchOptions, 'title icon desc', sortOptions
+			Model 'Age', 'find', next, searchOptions, 'title value icon desc', sortOptions
 		(docs, next) ->
 			data.ages = docs
 			

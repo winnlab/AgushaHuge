@@ -7,6 +7,9 @@ Products = require './user/products'
 Product = require './user/product'
 Help = require './user/help'
 Encyclopedia = require './user/encyclopedia'
+Article = require './user/article'
+
+Theme = require '../lib/theme'
 
 Router = express.Router()
 
@@ -38,6 +41,8 @@ Router.get '/help', Help.index
 #
 
 Router.get '/encyclopedia', Encyclopedia.index
+Router.post '/themes/findAll', Theme.findAll
+Router.post '/articles/findAll', Article.findAll
 
 #
 
