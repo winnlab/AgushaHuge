@@ -1,41 +1,45 @@
 async = require 'async'
 _ = require 'underscore'
 moment = require 'moment'
+jade = require 'jade'
+fs = require 'fs'
 
 Logger = require './logger'
-Cache = require './cache'
+# Cache = require './cache'
 
-exports.render = render = (name, res, data, cacheId) ->
-	data or= {}
+string = require '../utils/string'
+request = require '../utils/request'
 
-	async.parallel [
-		(next) -> # cache
-			if not cacheId
-				return next()
+viewDirectory = "#{__dirname}/../public/views"
 
-			Cache.put name, data, cacheId, res.locals, next
-		(next) -> # view
-			res.render name, data, next
-	], (err, results)->
-		if err
-			Logger.log 'error', 'Error in View.render:', err
-			res.send '404_OR_500_PAGE_SHOULD_BE_HERE_SOMETIMES_LATER'
+compiledFiles = []
+compiledClients = []
 
-			node_env = process.env.NODE_ENV || 'development'
-			if node_env is 'development'
-				console.log err
-				throw err
-		else
-			res.send results[1]
-
-exports.renderWithSession = (req, res, path, data) ->
+exports.render = render = (path, res, data) ->
 	data = data || {}
 	
-	if req.session.err?
-		data.err = req.session.err
-		delete req.session.err
+	_.extend data, res.locals
 	
-	render path, res, data
+	if res.locals.is_ajax_request is true
+		return ajaxResponse res, null, data
+	
+	# if not compiledFiles[path]
+	options =
+		compileDebug: false
+		pretty: false
+	
+	compiledFiles[path] = jade.compileFile "#{viewDirectory}/#{path}.jade", options
+	
+	html = compiledFiles[path] data
+	
+	res.send html
+
+exports.ajaxResponse = ajaxResponse = (res, err, data) ->
+	data =
+		err: (if err then err else false)
+		data: (if data then data else null)
+	
+	res.send data
 
 exports.message = message = (success, message, res) ->
 	data = {
@@ -56,7 +60,6 @@ exports.clientError = (err, res) ->
 
 	render 'user/main/error/index', res, data
 
-
 exports.clientSuccess = (data, res)->
 	data =
 		success: true
@@ -74,13 +77,64 @@ exports.clientFail = (err, res)->
 	res.send data
 
 exports.globals = (req, res, next)->
-	res.locals.defLang = 'ru'
-	res.locals.lang = req.lang
-
 	if req.user
-		res.locals.euser = req.user
 		res.locals.user = req.user
-
+	
+	res.locals.base_url = base_url = 'http://' + req.headers.host
+	res.locals.current_url = base_url + req.originalUrl
+	res.locals.path_name = req._parsedUrl.pathname.split('/')[1]
+	res.locals.params = req.params
+	
 	res.locals.moment = moment
-
+	res.locals.is_ajax_request = request.is_ajax_request(req.headers)
+	res.locals.strip_tags = string.strip_tags
+	
 	next()
+
+loadClient = (name) ->
+	filename = "#{viewDirectory}/#{name}.jade"
+	
+	# if not compiledClients[name]?
+	templateCode = fs.readFileSync filename, "utf-8"
+	
+	options =
+		compileDebug: false
+		filename: filename
+		pretty: false
+	
+	compiled = jade.compileClient(templateCode, options).toString()
+	
+	compiledClients[name] =
+		source: compiled,
+		lastModified: (new Date).toUTCString(),
+	
+	compiledClients[name]
+
+exports.compiler = (options) ->
+	options = options or {}
+	options.root = options.root or "/"
+	options.root = "/" + options.root.replace(/^\//, "")
+	options.root = options.root.replace(/\/$/, "") + "/"
+	rootExp = new RegExp("^" + string.escape(options.root))
+	
+	(req, res, next) ->
+		if req.method isnt "GET" and req.method isnt "HEAD"
+			return next()
+		
+		if not options.root or req.url.substr(0, options.root.length) is options.root
+			template = req.url.replace(rootExp, "")
+			
+			try
+				# context = new TemplateContext
+				# container = context.load(template)
+				
+				container = loadClient template
+				
+				res.setHeader "Content-Type", "application/x-javascript; charset=utf-8"
+				res.setHeader "Last-Modified", container.lastModified
+				res.setHeader "Content-Length", (if typeof Buffer isnt "undefined" then Buffer.byteLength(container.source, "utf8") else container.source.length)
+				res.end container.source
+			catch e
+				next e
+		else
+			next()

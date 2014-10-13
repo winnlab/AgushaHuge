@@ -1,68 +1,75 @@
-mongoose = require 'mongoose'
 moment = require 'moment'
+mongoose = require 'mongoose'
 
 ObjectId = mongoose.Schema.Types.ObjectId
-Mixed = mongoose.Schema.Types.Mixed
-
-getArticleType = (type) ->
-	switch type
-		when 0 then msg = "Новости"
-		when 1 then msg = "Акции"
-		when 2 then msg = "Кормление"
-		when 3 then msg = "От специалиста"
-		else throw new Error "Incorrect type index in Article model: #{type}"
-
-	return {
-		id: type
-		msg: msg
-	}
-
-setUpdateDate = () ->
-	return moment()
 
 schema = new mongoose.Schema
-	type: # 0 - news, 1 - sales, 2 - feeding, 3 -from spec
-		type: Number
-		required: true
-		get: getArticleType
-	date:
+	type:
+		name:
+			type: String
+			required: true
+			index: true
+	updated:
 		type: Date
-		required: false
-		set: setUpdateDate
-	desc_image: [
-		type: String
-		required: false
-	]
-	desc_title:
+		required: true
+		default: moment
+	title:
 		type: String
 		required: true
-	desc_shorttext:
-		type: String
-		required: false
-	desc_text:
+	desc:
+		shorttext:
+			type: String
+		text:
+			type: String
+		images: [
+			type: String
+		]
+	image: 
 		type: String
 		required: false
 	active:
 		type: Boolean
 		required: true
+		default: true
+	recommended:
+		type: Boolean
+		required: true
 		default: false
+	age:
+		age_id:
+			type: ObjectId
+			ref: "Age"
+			index: true
+		value:
+			type: Number
+			require: true
+	theme:
+		theme_id:
+			type: ObjectId
+			ref: "Theme"
+			index: true
+		name:
+			type: String
+	is_quiz:
+		type: Boolean
+		default: false
+	answer: [
+		_id:
+			type: ObjectId
+			default: mongoose.Types.ObjectId
+		text:
+			type: String
+		position:
+			type: Number
+		score:
+			type: Number
+			default: 0
+	]
 ,
 	collection: 'article'
 
-schema.static 'findArticles', (cb) ->
-	where = 
-		"$or": [
-			{type: 2}
-			{type: 3}
-		]
-	@find where, cb
-
-schema.static 'findNews', (cb) ->
-	where = 
-		"$or": [
-			{type: 0}
-			{type: 1}
-		]
-	@find where, cb
+schema.pre 'save', (next) ->
+	this.updated = moment()
+	next()
 
 module.exports = mongoose.model 'Article', schema

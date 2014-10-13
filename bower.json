@@ -1,0 +1,33 @@
+{
+  "name": "AgushaHuge",
+  "version": "2.0.0",
+  "homepage": "https://github.com/winnlab/AgushaHuge",
+  "authors": [
+    "mshekera <max.shekera@gmail.com>"
+  ],
+  "main": "init/index.coffee",
+  "moduleType": [
+    "es6",
+    "steal",
+    "AMD",
+    "node"
+  ],
+  "keywords": [
+    "agusha"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "steal": "~0.3.0",
+    "adminlte": "~1.2.1",
+    "velocity": "~1.1.0",
+    "coffeescript": "~1.8.0",
+    "CanJS": "git://github.com/bitovi/canjs.git#minor",
+    "underscore": "~1.7.0",
+    "lodash": "~2.4.1",
+    "select2": "3.5.1",
+    "wysihtml5": "~0.3.0",
+    "bourbon": "~4.0.2",
+    "bootstrap3-wysiwyg-stealjs": "https://github.com/mshekera/bootstrap3-wysiwyg.git#0.3.4"
+  }
+}
