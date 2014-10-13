@@ -10,7 +10,7 @@ Logger = require './logger'
 string = require '../utils/string'
 request = require '../utils/request'
 
-viewDirectory = "#{__dirname}/../views"
+viewDirectory = "#{__dirname}/../public/views"
 
 compiledFiles = []
 compiledClients = []
