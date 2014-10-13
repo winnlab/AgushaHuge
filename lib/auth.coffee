@@ -2,10 +2,12 @@ url = require 'url'
 
 passport = require 'passport'
 
+config = require '../config.json'
+
 params =
 	admin:
 		failureRedirect: '/admin/login'
-		successRedirect: '/admin/dashboard'
+		successRedirect: "/admin/#{config.adminRootPath}"
 		session: true
 	user:
 		failureRedirect: '/account/signin'

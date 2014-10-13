@@ -3,11 +3,13 @@ async = require 'async'
 View = require '../../lib/view'
 Auth = require '../../lib/auth'
 
+config = require '../../config.json'
+
 exports.index = (req, res) ->
 	unless req.user
 		res.redirect 'admin/login'
 	else
-		res.redirect 'admin/dashboard'
+		res.redirect "admin/#{config.adminRootPath}"
 
 exports.login = (req, res)->
 	View.render 'admin/auth/index', res
