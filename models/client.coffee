@@ -1,55 +1,76 @@
 mongoose = require 'mongoose'
 
 ObjectId = mongoose.Schema.Types.ObjectId
-Mixed = mongoose.Schema.Types.Mixed
 Validate = require '../utils/validate'
-Time = require '../utils/time'
-
-getType = (val) ->
-	switch val
-		when 0
-			return 'Direct'
-		when 1
-			return 'Friend'
 
 schema = new mongoose.Schema
-	created_at:
-		type: Date
-		default: Date.now
-		get: Time.getDate
-	login:
-		type: String
-		required: true
 	email:
 		type: String
 		required: true
 		trim: true
 		unique: true
-		index: true
 		validate: Validate.email
-	type: # 0 - direct, 1 - friend
-		type: Number
-		default: 0
-		get: getType
-	invited_by:
-		type: ObjectId
-		ref: 'Client'
-	status: # 0 - common, 1 - specialist
-		type: Number
-		required: true
-		default: 0
-	firstName:
+	password:
 		type: String
-		trim: true
-		default: ""
-	lastName:
-		type: String
-		trim: true
-		default: ""
+	profile:
+		filling:
+			type: Number
+		first_name:
+			type: String
+			trim: true
+		last_name:
+			type: String
+			trim: true
+	pic:
+		big:
+			type: String
+		medium:
+			type: String
+		small:
+			type: String
+	social:
+		vk:
+			id:
+				type: String
+				unique: true
+				required: true
+			access_token:
+				type: String
+			refresh_token:
+				type: String
+		fb:
+			id:
+				type: String
+				unique: true
+				required: true
+			access_token:
+				type: String
+			refresh_token:
+				type: String
+		ok:
+			id:
+				type: String
+				unique: true
+				required: true
+			access_token:
+				type: String
+			refresh_token:
+				type: String
+	children: [
+		child_id:
+			type: ObjectId
+			ref: 'Children'
+		photo:
+			type: String
+		name:
+			type: String
+		birth_date:
+			type: Date
+	]
 ,
 	collection: 'client'
 
 schema.methods.name = () ->
-	"#{@firstName} #{@lastName}"
+	"#{@first_name} #{@last_name}"
 
 module.exports = mongoose.model 'Client', schema
