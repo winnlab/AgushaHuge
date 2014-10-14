@@ -10,6 +10,11 @@ schema = new mongoose.Schema
 		unique: true
 		sparse: true
 		validate: Validate.email
+	created_at:
+		type: Date
+		default: Date.now
+	activated_at:
+		type: Date
 	active:
 		type: Boolean
 		default: false
