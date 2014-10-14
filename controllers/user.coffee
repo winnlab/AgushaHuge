@@ -40,7 +40,7 @@ Router.get '/help', Help.index
 
 #
 
-Router.get '/encyclopedia', Encyclopedia.index
+Router.get '/encyclopedia/:age?/:theme?', Encyclopedia.index
 Router.post '/themes/findAll', Theme.findAll
 Router.post '/articles/findAll', Article.findAll
 

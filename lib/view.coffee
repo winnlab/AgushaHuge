@@ -83,7 +83,6 @@ exports.globals = (req, res, next)->
 	res.locals.base_url = base_url = 'http://' + req.headers.host
 	res.locals.current_url = base_url + req.originalUrl
 	res.locals.path_name = req._parsedUrl.pathname.split('/')[1]
-	res.locals.params = req.params
 	
 	res.locals.moment = moment
 	res.locals.is_ajax_request = request.is_ajax_request(req.headers)
