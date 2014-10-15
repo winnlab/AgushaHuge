@@ -10,4 +10,12 @@ module.exports = [
 	id: 'encyclopedia'
 	title: 'Энциклопедия'
 	href: '/encyclopedia'
+,
+	id: 'about'
+	title: 'Про агушу'
+,
+	id: 'production'
+	title: 'О производстве'
+	href: '/production'
+	parent_id: 'about'
 ]
