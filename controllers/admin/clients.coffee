@@ -4,7 +4,7 @@ Crud = require '../../lib/crud'
 
 class ClientCrud extends Crud
 	_findAll: (req, cb) ->
-		query = req.query		
+		query = req.query
 		fields = @_parseFields req.query
 		options = @_parseOptions req.query
 
@@ -21,6 +21,11 @@ class ClientCrud extends Crud
 		res =
 			count: 0
 			data: []
+
+		if query.$or
+			for item in query.$or
+				for own prop of item
+					item[prop] = new RegExp '.*' + item[prop] + '.*', 'g'
 		###
 		`#Govnokod` ahead cause of mongoose issues #1950 (fixed in 
 		currently unstable 3.9.3) and #2374
