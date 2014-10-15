@@ -1,3 +1,4 @@
+moment = require 'moment'
 mongoose = require 'mongoose'
 
 ObjectId = mongoose.Schema.Types.ObjectId
@@ -12,8 +13,10 @@ schema = new mongoose.Schema
 		validate: Validate.email
 	created_at:
 		type: Date
-		default: Date.now
+		default: moment
 	activated_at:
+		type: Date
+	last_activity_at:
 		type: Date
 	active:
 		type: Boolean
