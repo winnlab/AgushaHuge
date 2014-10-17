@@ -5,6 +5,7 @@ Article = require './admin/article'
 ArticleType = require './admin/articleType'
 Client = require './admin/clients'
 Consultation = require './admin/consultation'
+Gallery = require './admin/gallery'
 FAQ = require './admin/faq'
 Main = require './admin/main'
 Theme = require './admin/themes'
@@ -37,6 +38,9 @@ Router.use '/consultations/:id?', Consultation.rest
 
 Router.use '/client/img', Client.restFile
 Router.use '/client/:id?', Client.rest
+
+Router.use '/gallery/img', Gallery.restFile
+Router.use '/gallery/:id?', Gallery.rest
 
 #########################
 
