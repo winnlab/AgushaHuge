@@ -65,6 +65,10 @@ schema = new mongoose.Schema
 			type: Number
 			default: 0
 	]
+	gallery: [
+		type: ObjectId
+		ref: "Gallery"
+	]
 ,
 	collection: 'article'
 
