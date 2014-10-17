@@ -29,6 +29,7 @@
     "bourbon": "~4.0.2",
     "bootstrap3-wysiwyg-stealjs": "https://github.com/mshekera/bootstrap3-wysiwyg.git#0.3.4",
     "moment": "~2.8.3",
-    "sweetalert": "~0.2.0"
+    "sweetalert": "~0.2.0",
+    "summernote": "~0.5.10"
   }
 }
