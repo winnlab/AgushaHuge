@@ -168,15 +168,15 @@ class Crud
 
 	_getFileOpts: (fieldName) ->
 		return _.find @options.files, (file) ->
-			return file.name == fieldName
+			return file.name is fieldName
 
 	_upload: (req, cb) ->
 		id = req.body.id or req.body._id
-		fieldName = req.body.name
+		fieldName = req.body.name.replace /[\[\]]/g, ''
 		fileOpts = @_getFileOpts fieldName
 
 		if not fileOpts
-			return cb 'Ошибка неизвестное название свойства документа'
+			return cb 'Ошибка: неизвестное название свойства документа'
 
 		if fileOpts.type is 'string'
 			file = req.files?[fieldName]?.name
@@ -200,7 +200,7 @@ class Crud
 			], cb
 
 		else
-			cb 'Error. there are unknown "id" or "fieldName"'
+			cb 'Ошибка. Не передано поле "id" или "fieldName"'
 
 	_setDocFiles: (doc, file, fileOpts) ->
 		if fileOpts.type is 'string'
