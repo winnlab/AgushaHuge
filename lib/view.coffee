@@ -39,6 +39,8 @@ exports.ajaxResponse = ajaxResponse = (res, err, data) ->
 		err: (if err then err else false)
 		data: (if data then data else null)
 	
+	res.status if err then 500 else 200
+	
 	res.send data
 
 exports.message = message = (success, message, res) ->
