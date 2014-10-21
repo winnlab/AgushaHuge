@@ -21,15 +21,12 @@
     "steal": "~0.3.0",
     "adminlte": "~1.2.1",
     "velocity": "~1.1.0",
-    "coffeescript": "~1.8.0",
     "CanJS": "git://github.com/bitovi/canjs.git#minor",
     "underscore": "~1.7.0",
     "lodash": "~2.4.1",
-    "wysihtml5": "~0.3.0",
     "bourbon": "~4.0.2",
-    "bootstrap3-wysiwyg-stealjs": "https://github.com/mshekera/bootstrap3-wysiwyg.git#0.3.4",
     "moment": "~2.8.3",
     "sweetalert": "~0.2.0",
-    "summernote": "~0.5.10"
+    "html5sortable": "*"
   }
 }
