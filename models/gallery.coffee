@@ -8,9 +8,10 @@ schema = new mongoose.Schema
 		required: true
 	images:
 		type: Array
-    article:
-        type: ObjectId
-        ref: "Article"
+	article_id:
+		type: ObjectId
+		ref: "Article"
+		required: true
 ,
 	collection: 'gallery'
 
