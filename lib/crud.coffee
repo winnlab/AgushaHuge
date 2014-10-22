@@ -212,8 +212,11 @@ class Crud
 		else
 			target = @_getUploadedFile doc, fileOpts
 			unless typeof file is 'number'
-				_.each file, (f) ->
-					target.push f.name
+				if _.isArray file
+					_.each file, (f) ->
+						target.push f.name if f.name
+				else
+					target.push file.name if file.name
 			else
 				target.splice file, 1
 
