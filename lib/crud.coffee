@@ -223,9 +223,14 @@ class Crud
 	upload: (doc, file, fileOpts, cb) ->
 		@_setDocFiles doc, file, fileOpts
 
-		doc.save () ->
+		doc.save (err, doc) ->
+			cb err if err
 			data = {}
 			data[fileOpts.name] = file
+
+			if doc.__v
+				data['__v'] = doc.__v
+
 			cb null, data
 
 	# parse req and do stuff depends of fieldName
