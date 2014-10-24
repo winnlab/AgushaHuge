@@ -14,6 +14,8 @@ exports.index = (req, res) ->
 	
 	alias: req.params.alias
 	
+	res.locals.params = req.params # req.params is not accessable in middlewares -_- 
+	
 	async.waterfall [
 		(next) ->
 			# product = Model 'Product', 'findOne', null, alias: alias

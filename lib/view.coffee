@@ -83,7 +83,7 @@ exports.globals = (req, res, next)->
 		res.locals.user = req.user
 	
 	res.locals.base_url = base_url = 'http://' + req.headers.host
-	res.locals.current_url = base_url + req.originalUrl
+	res.locals.current_url = base_url + req._parsedUrl.pathname
 	res.locals.path_name = req._parsedUrl.pathname.split('/')[1]
 	
 	res.locals.moment = moment
