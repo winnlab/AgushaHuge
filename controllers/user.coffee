@@ -10,6 +10,7 @@ Encyclopedia = require './user/encyclopedia'
 Article = require './user/article'
 Poll = require './user/poll'
 Production = require './user/production'
+Cards = require './user/cards'
 
 Theme = require '../lib/theme'
 
@@ -53,6 +54,10 @@ Router.post '/articles/findAll', Article.findAll
 #
 
 Router.get '/production', Production.index
+
+#
+
+Router.get '/cards', Cards.index
 
 #
 
