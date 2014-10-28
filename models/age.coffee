@@ -7,6 +7,7 @@ LibSchema = require '../lib/schema'
 schema = new mongoose.Schema
 	title:
 		type: String
+		required: true
 	icon:
 		normal:
 			type: String
@@ -14,7 +15,6 @@ schema = new mongoose.Schema
 			type: String
 	value:
 		type: Number
-		required: true
 	active:
 		type: Boolean
 		default: true
