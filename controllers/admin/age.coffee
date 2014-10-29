@@ -12,15 +12,15 @@ class AgeCrud extends Crud
             (next) =>
                 @DataEngine 'findById', next, id
             (doc, next) =>
-                oldVal = doc.value
+                oldVal = doc.title
                 for own field, value of data
                     objUtils.handleProperty doc, field, value
                 doc.save next
             (doc) ->
-                newVal = doc.value
+                newVal = doc.title
                 if oldVal isnt newVal
                     where = 'age.age_id': doc._id
-                    what = 'age.value': newVal
+                    what = 'age.title': newVal
                     opts = multi: true
                     async.waterfall [
                         (next) ->
