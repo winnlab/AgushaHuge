@@ -8,6 +8,8 @@ Consultation = require './admin/consultation'
 Gallery = require './admin/gallery'
 FAQ = require './admin/faq'
 Main = require './admin/main'
+Product = require './admin/product'
+ProductAge = require './admin/productAge'
 Theme = require './admin/themes'
 
 Router = express.Router()
@@ -41,6 +43,12 @@ Router.use '/client/:id?', Client.rest
 
 Router.use '/gallery/img', Gallery.restFile
 Router.use '/gallery/:id?', Gallery.rest
+
+Router.use '/product/img', Product.restFile
+Router.use '/product/:id?', Product.rest
+
+Router.use '/productAge/img', ProductAge.restFile
+Router.use '/productAge/:id?', ProductAge.rest
 
 #########################
 

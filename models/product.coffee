@@ -30,7 +30,7 @@ schema = new mongoose.Schema
 		type: String
 	age:
 		type: ObjectId
-		ref: "Age"
+		ref: "ProductAge"
 		required: true
 	certificate: [
 		type: ObjectId
