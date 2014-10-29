@@ -11,6 +11,7 @@ Article = require './user/article'
 Poll = require './user/poll'
 Production = require './user/production'
 Cards = require './user/cards'
+Specialist = require './user/specialist'
 
 Theme = require '../lib/theme'
 
@@ -58,6 +59,10 @@ Router.get '/production', Production.index
 #
 
 Router.get '/cards', Cards.index
+
+#
+
+Router.get '/specialist', Specialist.index
 
 #
 
