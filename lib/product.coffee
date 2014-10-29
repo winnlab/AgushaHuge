@@ -21,7 +21,7 @@ exports.makeSearchOptions = makeSearchOptions = (category, age, callback) ->
 			next null
 		age: (next) ->
 			if age
-				return Model 'Age', 'findOne', next, {value: age}, '_id', sortOptions
+				return Model 'ProductAge', 'findOne', next, {value: age}, '_id', sortOptions
 			
 			next null
 	, (err, results) ->
@@ -57,7 +57,7 @@ exports.getAgesAndCategories = (callback) ->
 					value: 1
 				lean: true
 			
-			Model 'Age', 'find', next, {active: true}, null, options
+			Model 'ProductAge', 'find', next, {active: true}, null, options
 		categories: (next) ->
 			options =
 				lean: true
