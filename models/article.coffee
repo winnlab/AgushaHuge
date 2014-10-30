@@ -35,21 +35,22 @@ schema = new mongoose.Schema
 		type: Boolean
 		required: true
 		default: false
-	age:
-		age_id:
+	age: [
+		_id:
 			type: ObjectId
 			ref: "Age"
 			index: true
-		value:
-			type: Number
-			require: true
-	theme:
-		theme_id:
+		title:
+			type: String
+	]
+	theme: [
+		_id:
 			type: ObjectId
 			ref: "Theme"
 			index: true
 		name:
 			type: String
+	]
 	is_quiz:
 		type: Boolean
 		default: false
