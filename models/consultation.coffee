@@ -30,11 +30,13 @@ schema = new mongoose.Schema
 		name: 
 			type: String
 	age:
-		value:
+		title:
 			type: String
 		age_id:
 			type: ObjectId
 			ref: "Age"
+		fixture:
+			type: String
 	theme:
 		name:
 			type: String
