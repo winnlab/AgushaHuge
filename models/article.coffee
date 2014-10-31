@@ -39,7 +39,7 @@ schema = new mongoose.Schema
 		_id:
 			type: ObjectId
 			ref: "Age"
-			index: true
+			sparse: true
 		title:
 			type: String
 	]
@@ -47,7 +47,7 @@ schema = new mongoose.Schema
 		_id:
 			type: ObjectId
 			ref: "Theme"
-			index: true
+			sparse: true
 		name:
 			type: String
 	]
