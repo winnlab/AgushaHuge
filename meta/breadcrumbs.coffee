@@ -22,4 +22,8 @@ module.exports = [
 	id: 'search'
 	title: 'Результаты поиска'
 	href: '/search'
+,
+	id: 'moneybox'
+	title: 'Копилка'
+	href: '/moneybox'
 ]

@@ -14,6 +14,7 @@ Cards = require './user/cards'
 Specialist = require './user/specialist'
 Question = require './user/question'
 Search = require './user/search'
+Moneybox = require './user/moneybox'
 
 Theme = require '../lib/theme'
 
@@ -73,6 +74,10 @@ Router.get '/question', Question.index
 #
 
 Router.get '/search/:phrase', Search.index
+
+#
+
+Router.get '/moneybox', Moneybox.index
 
 #
 
