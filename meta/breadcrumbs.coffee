@@ -18,4 +18,8 @@ module.exports = [
 	title: 'О производстве'
 	href: '/production'
 	parent_id: 'about'
+,
+	id: 'search'
+	title: 'Результаты поиска'
+	href: '/search'
 ]
