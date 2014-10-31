@@ -176,7 +176,7 @@ class Crud
 		fileOpts = @_getFileOpts fieldName
 
 		if not fileOpts
-			return cb 'Ошибка: неизвестное название свойства документа'
+			return cb 'Ошибка: файл для загрузки не передан или попытка загрузить изображение в не разрешенное свойство документа.'
 
 		if fileOpts.type is 'string'
 			file = req.files?[fieldName]?.name
@@ -224,7 +224,8 @@ class Crud
 		@_setDocFiles doc, file, fileOpts
 
 		doc.save (err, doc) ->
-			cb err if err
+			return cb err if err
+
 			data = {}
 			data[fileOpts.name] = file
 
