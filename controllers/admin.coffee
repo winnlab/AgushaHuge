@@ -11,6 +11,7 @@ Main = require './admin/main'
 Product = require './admin/product'
 ProductAge = require './admin/productAge'
 Theme = require './admin/themes'
+User = require './admin/user'
 
 Router = express.Router()
 
@@ -49,6 +50,8 @@ Router.use '/product/:id?', Product.rest
 
 Router.use '/productAge/img', ProductAge.restFile
 Router.use '/productAge/:id?', ProductAge.rest
+
+Router.get '/user', User.get
 
 #########################
 
