@@ -19,13 +19,15 @@ class ThemeCrud extends Crud
             (doc) ->
                 newVal = doc.name
                 if oldVal isnt newVal
-                    where = 'theme.theme_id': doc._id
-                    what = 'theme.name': newVal
                     opts = multi: true
                     async.waterfall [
                         (next) ->
+                            where = 'theme._id': doc._id.toString()
+                            what = 'theme.$.name': newVal
                             Model 'Article', 'update', where, what, opts, next
                         (affected, raw, next) ->
+                            where = 'theme.theme_id': doc._id
+                            what = 'theme.name': newVal
                             Model 'Consultation', 'update', where, what, opts, next
                         () ->
                             cb null, doc

@@ -24,9 +24,16 @@ schema = new mongoose.Schema
 		images: [
 			type: String
 		]
-	image: 
-		type: String
-		required: false
+	image:
+		background:
+			type: String
+		S:
+			type: String
+		L:
+			type: String
+		XL:
+			type: String
+
 	active:
 		type: Boolean
 		required: true
@@ -35,21 +42,24 @@ schema = new mongoose.Schema
 		type: Boolean
 		required: true
 		default: false
-	age:
-		age_id:
+	age: [
+		_id:
 			type: ObjectId
 			ref: "Age"
-			index: true
-		value:
-			type: Number
-			require: true
-	theme:
-		theme_id:
+			set: mongoose.Types.ObjectId
+			sparse: true
+		title:
+			type: String
+	]
+	theme: [
+		_id:
 			type: ObjectId
 			ref: "Theme"
-			index: true
+			set: mongoose.Types.ObjectId
+			sparse: true
 		name:
 			type: String
+	]
 	is_quiz:
 		type: Boolean
 		default: false
@@ -65,6 +75,16 @@ schema = new mongoose.Schema
 			type: Number
 			default: 0
 	]
+	counter:
+		like:
+			type: Number
+			default: 0
+		comment:
+			type: Number
+			default: 0
+		view:
+			type: Number
+			default: 0
 ,
 	collection: 'article'
 

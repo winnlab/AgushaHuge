@@ -1,5 +1,7 @@
 async = require 'async'
+mongoose = require 'mongoose'
 _ = require 'lodash'
+
 Model = require '../../lib/mongooseTransport'
 
 Crud = require '../../lib/crud'
@@ -19,13 +21,15 @@ class AgeCrud extends Crud
             (doc) ->
                 newVal = doc.title
                 if oldVal isnt newVal
-                    where = 'age.age_id': doc._id
-                    what = 'age.title': newVal
                     opts = multi: true
                     async.waterfall [
                         (next) ->
+                            where = 'age._id': doc._id
+                            what = 'age.$.title': newVal
                             Model 'Article', 'update', where, what, opts, next
                         (affected, raw, next) ->
+                            where = 'age.age_id': doc._id
+                            what = 'age.title': newVal
                             Model 'Consultation', 'update', where, what, opts, next
                         () ->
                             cb null, doc
