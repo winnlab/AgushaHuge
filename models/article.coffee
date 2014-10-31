@@ -24,9 +24,16 @@ schema = new mongoose.Schema
 		images: [
 			type: String
 		]
-	image: 
-		type: String
-		required: false
+	image:
+		background:
+			type: String
+		S:
+			type: String
+		L:
+			type: String
+		XL:
+			type: String
+
 	active:
 		type: Boolean
 		required: true
@@ -39,6 +46,7 @@ schema = new mongoose.Schema
 		_id:
 			type: ObjectId
 			ref: "Age"
+			set: mongoose.Types.ObjectId
 			sparse: true
 		title:
 			type: String
@@ -47,6 +55,7 @@ schema = new mongoose.Schema
 		_id:
 			type: ObjectId
 			ref: "Theme"
+			set: mongoose.Types.ObjectId
 			sparse: true
 		name:
 			type: String
@@ -66,6 +75,16 @@ schema = new mongoose.Schema
 			type: Number
 			default: 0
 	]
+	counter:
+		like:
+			type: Number
+			default: 0
+		comment:
+			type: Number
+			default: 0
+		view:
+			type: Number
+			default: 0
 ,
 	collection: 'article'
 
