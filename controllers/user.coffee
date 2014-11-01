@@ -14,6 +14,7 @@ Cards = require './user/cards'
 Specialist = require './user/specialist'
 Question = require './user/question'
 Search = require './user/search'
+Profile = require './user/profile'
 
 Middleware = require './helper/middleware'
 
@@ -30,9 +31,13 @@ Router.get '/', Main.index
 
 #
 
-Router.get '/registration', Middleware.auth.isAuth()
+# Router.get '/registration', Middleware.auth.isAuth()
 
 Router.use '/registration', Registration
+
+Router.use '/login', Login 
+
+Router.use '/profile', Profile.router
 
 #
 
