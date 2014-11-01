@@ -27,6 +27,7 @@
     "bourbon": "~4.0.2",
     "moment": "~2.8.3",
     "sweetalert": "~0.2.0",
-    "html5sortable": "*"
+    "html5sortable": "*",
+    "malihu-custom-scrollbar-plugin": "~3.0.5"
   }
 }

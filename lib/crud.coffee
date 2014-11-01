@@ -48,6 +48,7 @@ class Crud
 		@options = _.extend defaults, options
 		@options.filename = __filename
 
+		@_checkFileSettings()
 		@_checkDenormalizedSettings()
 		@_checkDenormalizedFilesSettings()
 
@@ -205,11 +206,8 @@ class Crud
 				cb 'Error: #{req.method} is not allowed!'
 
 	# return file name if it is string, or link to the document array
-	_getUploadedFile: (doc, opt) ->
-		if opt.parent
-			return doc[opt.parent][opt.name]
-		else
-			return doc[opt.name]
+	_getUploadedFile: (doc, name) ->
+		hprop doc, name
 
 	_getFileOpts: (fieldName) ->
 		return _.find @options.files, (file) ->
@@ -217,6 +215,8 @@ class Crud
 
 	_upload: (req, cb) ->
 		id = req.body.id or req.body._id
+		nestedId = req.body.nestedId
+
 		fieldName = req.body.name.replace /[\[\]]/g, ''
 		fileOpts = @_getFileOpts fieldName
 
@@ -233,7 +233,7 @@ class Crud
 				(next) =>
 					@findOne id, next
 				(doc, next) =>
-					uploadedFile = @_getUploadedFile doc, fileOpts
+					uploadedFile = @_getUploadedFile doc, fileOpts.name
 
 					if fileOpts.replace and uploadedFile
 						@removeFile uploadedFile, (err) ->
@@ -241,37 +241,59 @@ class Crud
 					else
 						next null, doc
 				(doc) =>
-					@upload doc, file, fileOpts, cb
+					@upload doc, file, fileOpts, nestedId, cb
 			], cb
 
 		else
 			cb 'Ошибка. Не передано поле "id" или "fieldName"'
 
-	_setDocFiles: (doc, file, fileOpts) ->
-		if fileOpts.type is 'string'
-			if fileOpts.parent
-				doc[fileOpts.parent][fileOpts.name] = file
-			else
-				hprop doc, fileOpts.name, file
-				# doc[fileOpts.name] = file
-		else
-			target = @_getUploadedFile doc, fileOpts
-			unless typeof file is 'number'
-				if _.isArray file
-					_.each file, (f) ->
-						target.push f.name if f.name
-				else
-					target.push file.name if file.name
-			else
-				target.splice file, 1
+	_setDocFiles: (doc, file, fileOpts, propId) ->
+		if fileOpts.nested
 
-	upload: (doc, file, fileOpts, cb) ->
-		@_setDocFiles doc, file, fileOpts
+			if not propId
+				throw new Error "Received no property ID while trying to update nested image #{fileOpts.type} '#{fileOpts.name}'"
+			
+			nameBefore = fileOpts.name.split('.$.')[0]
+
+			if not nameBefore
+				throw new Error "File '#{fileOpts.name}' is set to be nested but it does not contain dot notation array link in it`s name ('.$.')"
+
+			prop = hprop fileOpts.name nameBefore
+			index = _.findIndex prop, (item) ->
+				return item[fileOpts.nestedId] is propId
+
+			unless _.isNumber(index) or index >= 0
+				throw new Error "Found no nested #{fileOpts.name} with ID(#{fileOpts.nestedID}) #{propId}"
+
+			propName = fileOpts.name.replace /\$/, index
+		else
+			propName = fileOpts.name
+
+		if fileOpts.type is 'string'
+			return hprop doc, propName, file
+		
+		target = @_getUploadedFile doc, propName
+		unless typeof file is 'number'
+			if _.isArray file
+				_.each file, (f) ->
+					target.push f.name if f.name
+			else
+				target.push file.name if file.name
+		else
+			target.splice file, 1
+
+	upload: (doc, file, fileOpts, nestedId, cb) ->
+		if not cb and typeof nestedId is 'function'
+			cb = nestedId
+			nestedId = null
+
+		@_setDocFiles doc, file, fileOpts, nestedId
 
 		oldVals = []
-		for item in fileOpts.denormalizedIn
-			value = hprop doc, item.property
-			hprop oldVals, item.property, value
+		if fileOpts.denormalizedIn
+			for item in fileOpts.denormalizedIn
+				value = hprop doc, item.property
+				hprop oldVals, item.property, value
 
 		doc.save (err, doc) =>
 			return cb err if err
@@ -305,7 +327,7 @@ class Crud
 					return next 'Ошибка: неизвестно поле "id" или "fieldName" файла.'
 				@DataEngine 'findById', next, id
 			(doc, next) =>
-				fileName = fileName or @_getUploadedFile doc, fileOpts
+				fileName = fileName or @_getUploadedFile doc, fileOpts.name
 				unless typeof fileName is 'string'
 					next 'Ошибка: попытка удалить неизвестный файл'
 
@@ -315,7 +337,7 @@ class Crud
 				if fileOpts.type == 'string'
 					@_setDocFiles doc, null, fileOpts
 				else
-					index = (@_getUploadedFile doc, fileOpts).indexOf fileName
+					index = (@_getUploadedFile doc, fileOpts.name).indexOf fileName
 					@_setDocFiles doc, index, fileOpts
 
 				doc.save cb
@@ -338,7 +360,7 @@ class Crud
 	# remove all document files
 	_removeDocFiles: (doc, cb) ->
 		async.each @options.files, (fileOpts, proceed) =>
-			uploadedFile = @_getUploadedFile doc, fileOpts
+			uploadedFile = @_getUploadedFile doc, fileOpts.name
 			if typeof uploadedFile is 'string'
 				@removeFile uploadedFile, proceed
 			else
@@ -350,6 +372,15 @@ class Crud
 	###
 	result: (err, data, res) ->
 		View.ajaxResponse res, err, data
+
+	###
+		Checking file settings for consistency
+	###
+
+	_checkFileSettings: ->
+		for opt in @options.files
+			if opt.nested is true
+				@_ensureValue opt, 'nestedId', '_id'
 
 	###
 		Denormalization processing
@@ -402,12 +433,12 @@ class Crud
 		for item in @options.denormalized
 			@_checkString item.property, errorMsg.noProperty
 			@_checkArray item.denormalizedIn, errorMsg.noTargets
-			@_ensureString item, '_id', '_id'
+			@_ensureValue item, '_id', '_id'
 			for target in item.denormalizedIn
 				@_checkString target.model, errorMsg.noModelName
-				@_ensureString target, 'path', ''
-				@_ensureString target, 'property', item.property
-				@_ensureString target, '_id', item._id
+				@_ensureValue target, 'path', ''
+				@_ensureValue target, 'property', item.property
+				@_ensureValue target, '_id', item._id
 
 	_checkDenormalizedFilesSettings: () ->
 		@options.denormalizedFiles = _.filter @options.files, (item) ->
@@ -415,13 +446,17 @@ class Crud
 
 		for item in @options.denormalizedFiles
 			@_checkString item.name, errorMsg.noFileName
-			@_ensureString item, 'property', item.name
-			@_ensureString item, '_id', '_id'
+			@_ensureValue item, 'property', item.name
+			@_ensureValue item, '_id', '_id'
 			for target in item.denormalizedIn
 				@_checkString target.model, errorMsg.noModelName
-				@_ensureString target, 'path', ''
-				@_ensureString target, 'property', item.property
-				@_ensureString target, '_id', item._id
+				@_ensureValue target, 'path', ''
+				@_ensureValue target, 'property', item.property
+				@_ensureValue target, '_id', item._id
+
+	###
+		Variables value ensurance functions
+	###
 
 	_checkString: (val, msg) ->
 		res = typeof val is 'string' and val.length isnt 0
@@ -430,7 +465,7 @@ class Crud
 
 		return res
 
-	_ensureString: (obj, prop, value) ->
+	_ensureValue: (obj, prop, value) ->
 		obj[prop] = value unless @_checkString obj[prop]
 
 	_checkArray: (val, msg) ->
