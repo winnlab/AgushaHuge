@@ -30,11 +30,13 @@ schema = new mongoose.Schema
 		name: 
 			type: String
 	age:
-		value:
+		title:
 			type: String
 		age_id:
 			type: ObjectId
 			ref: "Age"
+		fixture:
+			type: String
 	theme:
 		name:
 			type: String
@@ -45,6 +47,8 @@ schema = new mongoose.Schema
 		_id:
 			type: ObjectId
 			unique: true
+			required: true
+			default: mongoose.Types.ObjectId
 		author:
 			author_id:
 				type: ObjectId
@@ -52,8 +56,11 @@ schema = new mongoose.Schema
 			name:
 				type: String
 		specialist:
-			type: ObjectId
-			ref: 'User'
+			_id:
+				type: ObjectId
+				ref: 'User'
+			name:
+				type: String
 		date:
 			type: Date
 			default: moment

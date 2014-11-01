@@ -14,7 +14,11 @@ Cards = require './user/cards'
 Specialist = require './user/specialist'
 Question = require './user/question'
 Search = require './user/search'
+
 Middleware = require './helper/middleware'
+
+Moneybox = require './user/moneybox'
+
 
 Theme = require '../lib/theme'
 
@@ -79,6 +83,9 @@ Router.get '/search/:phrase', Search.index
 
 #
 
+
 # Router.get '/login',
+
+Router.get '/moneybox', Moneybox.index
 
 exports.Router = Router

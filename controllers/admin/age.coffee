@@ -1,41 +1,20 @@
-async = require 'async'
-_ = require 'lodash'
-Model = require '../../lib/mongooseTransport'
-
 Crud = require '../../lib/crud'
-objUtils = require '../../utils/object'
 
-class AgeCrud extends Crud
-    update: (id, data, cb) ->
-        oldVal = null
-        async.waterfall [
-            (next) =>
-                @DataEngine 'findById', next, id
-            (doc, next) =>
-                oldVal = doc.title
-                for own field, value of data
-                    objUtils.handleProperty doc, field, value
-                doc.save next
-            (doc) ->
-                newVal = doc.title
-                if oldVal isnt newVal
-                    where = 'age.age_id': doc._id
-                    what = 'age.title': newVal
-                    opts = multi: true
-                    async.waterfall [
-                        (next) ->
-                            Model 'Article', 'update', where, what, opts, next
-                        (affected, raw, next) ->
-                            Model 'Consultation', 'update', where, what, opts, next
-                        () ->
-                            cb null, doc
-                    ], cb
-                else
-                    cb null, doc
-        ], cb
-
-crud = new AgeCrud
+crud = new Crud
     modelName: 'Age'
+    denormalized: [
+        property: 'title'
+        denormalizedIn: [
+            model: 'Article'
+            path: 'age'
+            multiple: true
+        ,
+            model: 'Consultation'
+            path: 'age'
+            multiple: false
+            _id: 'age_id'
+        ]
+    ]
     files: [
         name: 'icon.normal'
         replace: true
@@ -44,6 +23,22 @@ crud = new AgeCrud
         name: 'icon.hover'
         replace: true
         type: 'string'
+    ,
+        name: 'icon.fixture'
+        replace: true
+        type: 'string'
+        denormalizedIn: [
+            model: 'Article'
+            multiple: true
+            path: 'age'
+            property: 'fixture'
+        ,
+            model: 'Consultation'
+            multiple: false
+            path: 'age'
+            property: 'fixture'
+            _id: 'age_id'
+        ]
     ,
         name: 'desc.image.normal'
         replace: true
