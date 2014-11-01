@@ -9,6 +9,7 @@ crud = new Crud
         ,
             name: 'prize.$.image'
             nested: true
+            nestedId: '_id'
             replace: false
             type: 'array'
     ]
