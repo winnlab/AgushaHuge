@@ -1,6 +1,7 @@
 
 async = require 'async'
 moment = require 'moment'
+passport = require 'passport'
 
 router = require('express').Router()
 
@@ -21,9 +22,26 @@ activateEmail = (user, callback) ->
 
 	Email.send 'registration', emailMeta, callback
 
-
 router.get '/', (req, res, next) ->
 	View.render 'user/registration/index', res
+
+router.get '/fb', passport.authenticate 'facebook',
+	scope: ['email', 'user_birthday']
+
+router.get '/vk/', passport.authenticate 'vkontakte',
+	successRedirect: '/profile'
+	failureRedirect: '/login'
+
+router.get '/fb/callback', passport.authenticate 'facebook',
+	successRedirect: '/profile'
+	failureRedirect: '/login'
+
+router.get '/registration/ok', passport.authenticate 'vkontakte',
+	scope: ['email', 'friends']
+
+router.get '/vk/callback', passport.authenticate 'vkontakte',
+	successRedirect: '/profile'
+	failureRedirect: '/login'
 
 router.get '/activate/:id', (req, res, next) ->
 	id = req.params.id

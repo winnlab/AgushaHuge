@@ -24,7 +24,10 @@
     "phantom": "^0.6.5",
     "should": "4.0.4",
     "steal-tools": "^0.4.0",
-    "gulp-sass": "~1.0.0"
+    "gulp-sass": "~1.0.0",
+    "passport-facebook": "~1.0.3",
+    "passport-vkontakte": "~0.3.0",
+    "passport-odnoklassniki": "~0.1.5"
   },
   "dependencies": {
     "async": "0.9.0",
@@ -50,6 +53,6 @@
     "underscore": "1.6.0",
     "underscore.string": "2.3.3",
     "winston": "0.7.3",
-	"translit": "0.0.1"
+    "translit": "0.0.1"
   }
 }

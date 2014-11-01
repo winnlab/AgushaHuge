@@ -1,8 +1,13 @@
+crypto = require 'crypto'
+
 moment = require 'moment'
 mongoose = require 'mongoose'
 
 ObjectId = mongoose.Schema.Types.ObjectId
 Validate = require '../utils/validate'
+
+cryptoUtil = require '../utils/crypto'
+validator = require '../utils/validate'
 
 schema = new mongoose.Schema
 	email:
@@ -23,6 +28,8 @@ schema = new mongoose.Schema
 		default: false
 	password:
 		type: String
+		set: cryptoUtil.password
+		validate: validator.password
 	profile:
 		filling:
 			type: Number
@@ -78,5 +85,10 @@ schema = new mongoose.Schema
 
 schema.methods.name = () ->
 	"#{@first_name} #{@last_name}"
+
+schema.methods.validPassword = (password) ->
+	md5pass = crypto.createHash('md5').update(password).digest 'hex'
+
+	isValid = if md5pass == @password then true else false
 
 module.exports = mongoose.model 'Client', schema

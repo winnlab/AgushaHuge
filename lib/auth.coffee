@@ -1,5 +1,7 @@
+
 url = require 'url'
 
+_ = require 'underscore'
 passport = require 'passport'
 
 config = require '../config.json'
@@ -10,8 +12,8 @@ params =
 		successRedirect: "/admin/#{config.adminRootPath}"
 		session: true
 	user:
-		failureRedirect: '/account/signin'
-		successRedirect: '/account'
+		failureRedirect: '/login'
+		successRedirect: '/profile'
 		session: true
 
 exports.isAuth = (req, res, next)->
@@ -25,5 +27,7 @@ exports.isAuth = (req, res, next)->
 
 	next()
 
-exports.authenticate = (strategy) ->
+exports.authenticate = (strategy, params = {}) ->
+	stratParams = _.extend params, params[strategy]
+
 	passport.authenticate strategy, params[strategy]
