@@ -55,7 +55,8 @@ Router.get '/help', Help.index
 
 Router.get '/encyclopedia/:age?/:theme?', Encyclopedia.index
 
-Router.get '/article/:alias?', Article.index
+Router.get '/article/:id', Article.findOne
+# Router.get '/article/:alias?', Article.index
 Router.get '/poll/:alias?', Poll.index
 
 Router.post '/themes/findAll', Theme.findAll
