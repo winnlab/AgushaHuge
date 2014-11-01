@@ -10,6 +10,10 @@ schema = new mongoose.Schema
 	text:
 		type: String
 		required: true
+	updated:
+		type: Date
+		required: true
+		default: moment
 	author:
 		author_id:
 			type: ObjectId
@@ -17,13 +21,19 @@ schema = new mongoose.Schema
 		name:
 			type: String
 	specialist:
-		type: ObjectId
-		ref: 'User'
+		specialist_id:
+			type: ObjectId
+			ref: 'User'
+		name:
+			type: String
 	active:
 		type: Boolean
 		required: true
 		default: true
 	closed:
+		type: Boolean
+		default: false
+	encyclopedia:
 		type: Boolean
 		default: false
 	type:
@@ -72,5 +82,9 @@ schema = new mongoose.Schema
 	]
 ,
 	collection: 'consultation'
+
+schema.pre 'save', (next) ->
+	this.updated = moment()
+	next()
 
 module.exports = mongoose.model 'Consultation', schema
