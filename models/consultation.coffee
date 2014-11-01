@@ -79,6 +79,9 @@ schema = new mongoose.Schema
 			required: true
 		parent:
 			type: ObjectId
+		counter:
+			type: Number
+			default: 0
 	]
 ,
 	collection: 'consultation'
