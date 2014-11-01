@@ -14,6 +14,7 @@ Cards = require './user/cards'
 Specialist = require './user/specialist'
 Question = require './user/question'
 Search = require './user/search'
+QuizAnswer = require './user/quizAnswer'
 
 Middleware = require './helper/middleware'
 
@@ -83,6 +84,8 @@ Router.get '/question', Question.index
 Router.get '/search/:phrase', Search.index
 
 #
+
+Router.post '/pollVote', QuizAnswer.saveAnswer
 
 
 # Router.get '/login',
