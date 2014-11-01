@@ -13,6 +13,8 @@ schema = new mongoose.Schema
 			type: String
 		hover:
 			type: String
+		fixture:
+			type: String
 	value:
 		type: Number
 	active:

@@ -50,6 +50,8 @@ schema = new mongoose.Schema
 			sparse: true
 		title:
 			type: String
+		fixture:
+			type: String
 	]
 	theme: [
 		_id:

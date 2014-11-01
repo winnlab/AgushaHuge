@@ -1,4 +1,4 @@
-_ = require 'underscore'
+_ = require 'lodash'
 fs = require 'fs'
 async = require 'async'
 mongoose = require 'mongoose'
@@ -8,6 +8,13 @@ Model = require './mongooseTransport'
 Logger = require './logger'
 
 objUtils = require '../utils/object.coffee'
+hprop = objUtils.handleProperty
+
+errorMsg =
+	noProperty: 'Denormalized object property `property` should be non-empty string'
+	noTargets: 'Denormalized object should have array of denormalizedIn'
+	noModelName: 'Denormalized object target should have non-empty string as `model` property'
+	noFileName: 'File with denormalizedIn array have no name.'
 
 class Crud
 
@@ -15,8 +22,34 @@ class Crud
 		defaults =
 			uploadDir: './public/img/uploads/'
 			files: []
+			###
+				`denormalized` structure:
+				[
+					property: String - Property which should be saved in denormalizedIn
+					denormalizedIn: Array - Array of denormalizedIn data
+					_id: String - OPTIONAL - Property which will be considered as ID.
+											 Could be equal to `property` (to use it as ID)
+								  DEFAULT: '_id'
+					[
+						model: String - Name of denormalizedIn model (for mongoose)
+						path: String - Path to object or array where denormalized data stored.
+									   Could be empty string.
+						multiple: Boolean - If true - CRUD will condider that denormalized data is
+											is stored in array of objects (and add .$. to update queries)
+						property: String - OPTIONAL - Name under which property will be stored in target object
+										   DEFAULT: Equals to parent's object `property`
+						_id: String - OPTIONAL - Target property which will be used for find objects to update.
+									  DEFAULT: - equals to parent's object `_id`
+					]
+				]
+
+			###
+			denormalized: []
 		@options = _.extend defaults, options
 		@options.filename = __filename
+
+		@_checkDenormalizedSettings()
+		@_checkDenormalizedFilesSettings()
 
 	# The name of query options field
 	queryOptions: 'queryOptions'
@@ -106,23 +139,35 @@ class Crud
 
 	add: (data, cb) ->
 		next = (err, data) ->
-			cb err, _id: data?._id
+			# cb err, _id: data?._id
+			cb err, data
 		DocModel = @DataEngine()
 		doc = new DocModel()
 
 		for own field, value of data
-			objUtils.handleProperty doc, field, value
+			hprop doc, field, value
 
 		doc.save next
 
 	update: (id, data, cb) ->
+		oldVals = []
+		for item in @options.denormalized
+			oldVals[item.property] = null
+
 		async.waterfall [
 			(next) =>
 				@DataEngine 'findById', next, id
 			(doc, next) =>
+				for item in @options.denormalized
+					value = hprop doc, item.property
+					hprop oldVals, item.property, value
+
 				for own field, value of data
-					objUtils.handleProperty doc, field, value
-				doc.save cb
+					hprop doc, field, value
+
+				doc.save if @options.denormalized.length then next else cb
+			(doc) =>
+				@_updateDenormalized oldVals, doc, cb
 		], cb
 
 
@@ -160,11 +205,8 @@ class Crud
 				cb 'Error: #{req.method} is not allowed!'
 
 	# return file name if it is string, or link to the document array
-	_getUploadedFile: (doc, opt) ->
-		if opt.parent
-			return doc[opt.parent][opt.name]
-		else
-			return doc[opt.name]
+	_getUploadedFile: (doc, name) ->
+		hprop doc, name
 
 	_getFileOpts: (fieldName) ->
 		return _.find @options.files, (file) ->
@@ -172,6 +214,8 @@ class Crud
 
 	_upload: (req, cb) ->
 		id = req.body.id or req.body._id
+		nestedId = req.body.nestedId
+
 		fieldName = req.body.name.replace /[\[\]]/g, ''
 		fileOpts = @_getFileOpts fieldName
 
@@ -188,7 +232,10 @@ class Crud
 				(next) =>
 					@findOne id, next
 				(doc, next) =>
-					uploadedFile = @_getUploadedFile doc, fileOpts
+					uploadedFile = @_getUploadedFile doc, fileOpts.name
+
+					if prop and propId
+						
 
 					if fileOpts.replace and uploadedFile
 						@removeFile uploadedFile, (err) ->
@@ -196,21 +243,24 @@ class Crud
 					else
 						next null, doc
 				(doc) =>
-					@upload doc, file, fileOpts, cb
+					@upload doc, file, fileOpts, nestedId, cb
 			], cb
 
 		else
 			cb 'Ошибка. Не передано поле "id" или "fieldName"'
 
-	_setDocFiles: (doc, file, fileOpts) ->
-		if fileOpts.type is 'string'
-			if fileOpts.parent
-				doc[fileOpts.parent][fileOpts.name] = file
-			else
-				objUtils.handleProperty doc, fileOpts.name, file
-				# doc[fileOpts.name] = file
+	_setDocFiles: (doc, file, fileOpts, propId) ->
+		if fileOpts.nested
+			if not propId
+				throw new Error("Received no property ID while trying ti update nested image #{fileOpts.type} '#{fileOpts.name}'")
+				propName = fileOpts.replace /$/, propId
 		else
-			target = @_getUploadedFile doc, fileOpts
+			propName = fileOpts.name
+
+		if fileOpts.type is 'string'
+			hprop doc, propName, file
+		else
+			target = @_getUploadedFile doc, propName
 			unless typeof file is 'number'
 				if _.isArray file
 					_.each file, (f) ->
@@ -220,10 +270,19 @@ class Crud
 			else
 				target.splice file, 1
 
-	upload: (doc, file, fileOpts, cb) ->
+	upload: (doc, file, fileOpts, nestedId, cb) ->
+		if not cb and typeof nestedId is 'function'
+			cb = nestedId
+			nestedId = null
+
 		@_setDocFiles doc, file, fileOpts
 
-		doc.save (err, doc) ->
+		oldVals = []
+		for item in fileOpts.denormalizedIn
+			value = hprop doc, item.property
+			hprop oldVals, item.property, value
+
+		doc.save (err, doc) =>
 			return cb err if err
 
 			data = {}
@@ -231,6 +290,9 @@ class Crud
 
 			if doc.__v
 				data['__v'] = doc.__v
+
+			if @options.denormalizedFiles.length
+				return @_updateDenormalizedFiles oldVals, doc, data, cb
 
 			cb null, data
 
@@ -246,22 +308,25 @@ class Crud
 				if id and fileOpts
 					next null
 				else
-					next 'Error. there are unknown "id" or "fieldName"'
+					
 			(next) =>
+				if not id or not fileOpts
+					return next 'Ошибка: неизвестно поле "id" или "fieldName" файла.'
 				@DataEngine 'findById', next, id
 			(doc, next) =>
-				fileName = fileName or @_getUploadedFile doc, fileOpts
+				fileName = fileName or @_getUploadedFile doc, fileOpts.name
 				unless typeof fileName is 'string'
-					next 'Error. You try remove unknown filename'
-				proceed = (err) ->
+					next 'Ошибка: попытка удалить неизвестный файл'
+
+				@removeFile fileName, (err) ->
 					next err, doc
-				@removeFile fileName, proceed
 			(doc) =>
 				if fileOpts.type == 'string'
 					@_setDocFiles doc, null, fileOpts
 				else
-					index = (@_getUploadedFile doc, fileOpts).indexOf fileName
+					index = (@_getUploadedFile doc, fileOpts.name).indexOf fileName
 					@_setDocFiles doc, index, fileOpts
+
 				doc.save cb
 		], cb
 
@@ -282,7 +347,7 @@ class Crud
 	# remove all document files
 	_removeDocFiles: (doc, cb) ->
 		async.each @options.files, (fileOpts, proceed) =>
-			uploadedFile = @_getUploadedFile doc, fileOpts
+			uploadedFile = @_getUploadedFile doc, fileOpts.name
 			if typeof uploadedFile is 'string'
 				@removeFile uploadedFile, proceed
 			else
@@ -294,5 +359,91 @@ class Crud
 	###
 	result: (err, data, res) ->
 		View.ajaxResponse res, err, data
+
+	###
+		Denormalization processing
+	###
+	_updateDenormalizedFiles: (olds, doc, arg, cb) ->
+		@_processDenormalizedArray 'denormalizedFiles', olds, doc, arg, cb
+
+	_updateDenormalized: (olds, doc, cb) ->
+		@_processDenormalizedArray 'denormalized', olds, doc, cb
+
+	_processDenormalizedArray: (name, olds, doc, arg..., cb) ->
+		news = []
+		for item in @options[name]
+			value = hprop doc, item.property
+			hprop news, item.property, value
+
+		ifChanged = (item, next) =>
+			if hprop(olds, item.property) isnt hprop(news, item.property)
+				@_processDenormalization item, doc, next
+			else
+				next()
+
+		async.each @options[name], ifChanged, (err) ->
+			cb err, arg[0] or doc
+
+	_processDenormalization: (item, doc, next) ->
+		processTarget = (target, next) ->
+			whereProp = ''
+			whatProp = ''
+
+			if target.path
+				whereProp = whatProp = "#{target.path}."
+				if target.multiple
+					whatProp += '$.'
+
+			whereProp += target._id
+			whatProp += target.property
+
+			where = {}
+			what = {}
+			where[whereProp] = hprop doc, item._id
+
+			what[whatProp] = hprop doc, item.property
+
+			Model target.model, 'update', where, what, multi: true, next
+
+		async.each item.denormalizedIn, processTarget, next
+
+	_checkDenormalizedSettings: () ->
+		for item in @options.denormalized
+			@_checkString item.property, errorMsg.noProperty
+			@_checkArray item.denormalizedIn, errorMsg.noTargets
+			@_ensureString item, '_id', '_id'
+			for target in item.denormalizedIn
+				@_checkString target.model, errorMsg.noModelName
+				@_ensureString target, 'path', ''
+				@_ensureString target, 'property', item.property
+				@_ensureString target, '_id', item._id
+
+	_checkDenormalizedFilesSettings: () ->
+		@options.denormalizedFiles = _.filter @options.files, (item) ->
+			_.isArray item.denormalizedIn
+
+		for item in @options.denormalizedFiles
+			@_checkString item.name, errorMsg.noFileName
+			@_ensureString item, 'property', item.name
+			@_ensureString item, '_id', '_id'
+			for target in item.denormalizedIn
+				@_checkString target.model, errorMsg.noModelName
+				@_ensureString target, 'path', ''
+				@_ensureString target, 'property', item.property
+				@_ensureString target, '_id', item._id
+
+	_checkString: (val, msg) ->
+		res = typeof val is 'string' and val.length isnt 0
+
+		throw new Error msg if msg and not res
+
+		return res
+
+	_ensureString: (obj, prop, value) ->
+		obj[prop] = value unless @_checkString obj[prop]
+
+	_checkArray: (val, msg) ->
+		unless _.isArray(val) and val.length isnt 0
+			throw new Error msg
 
 module.exports = Crud
