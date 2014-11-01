@@ -19,7 +19,6 @@ schema = new mongoose.Schema
 			default: mongoose.Types.ObjectId
 		name:
 			type: String
-			required: true
 		position:
 			type: Number
 			default: 99
