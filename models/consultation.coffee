@@ -33,6 +33,9 @@ schema = new mongoose.Schema
 	closed:
 		type: Boolean
 		default: false
+	recommended:
+		type: Boolean
+		default: false
 	encyclopedia:
 		type: Boolean
 		default: false
