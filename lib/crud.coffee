@@ -204,11 +204,8 @@ class Crud
 				cb 'Error: #{req.method} is not allowed!'
 
 	# return file name if it is string, or link to the document array
-	_getUploadedFile: (doc, opt) ->
-		if opt.parent
-			return doc[opt.parent][opt.name]
-		else
-			return doc[opt.name]
+	_getUploadedFile: (doc, name) ->
+		hprop doc, name
 
 	_getFileOpts: (fieldName) ->
 		return _.find @options.files, (file) ->
@@ -216,6 +213,8 @@ class Crud
 
 	_upload: (req, cb) ->
 		id = req.body.id or req.body._id
+		nestedId = req.body.nestedId
+
 		fieldName = req.body.name.replace /[\[\]]/g, ''
 		fileOpts = @_getFileOpts fieldName
 
@@ -232,7 +231,10 @@ class Crud
 				(next) =>
 					@findOne id, next
 				(doc, next) =>
-					uploadedFile = @_getUploadedFile doc, fileOpts
+					uploadedFile = @_getUploadedFile doc, fileOpts.name
+
+					if prop and propId
+						
 
 					if fileOpts.replace and uploadedFile
 						@removeFile uploadedFile, (err) ->
@@ -240,21 +242,24 @@ class Crud
 					else
 						next null, doc
 				(doc) =>
-					@upload doc, file, fileOpts, cb
+					@upload doc, file, fileOpts, nestedId, cb
 			], cb
 
 		else
 			cb 'Ошибка. Не передано поле "id" или "fieldName"'
 
-	_setDocFiles: (doc, file, fileOpts) ->
-		if fileOpts.type is 'string'
-			if fileOpts.parent
-				doc[fileOpts.parent][fileOpts.name] = file
-			else
-				hprop doc, fileOpts.name, file
-				# doc[fileOpts.name] = file
+	_setDocFiles: (doc, file, fileOpts, propId) ->
+		if fileOpts.nested
+			if not propId
+				throw new Error("Received no property ID while trying ti update nested image #{fileOpts.type} '#{fileOpts.name}'")
+				propName = fileOpts.replace /$/, propId
 		else
-			target = @_getUploadedFile doc, fileOpts
+			propName = fileOpts.name
+
+		if fileOpts.type is 'string'
+			hprop doc, propName, file
+		else
+			target = @_getUploadedFile doc, propName
 			unless typeof file is 'number'
 				if _.isArray file
 					_.each file, (f) ->
@@ -264,7 +269,11 @@ class Crud
 			else
 				target.splice file, 1
 
-	upload: (doc, file, fileOpts, cb) ->
+	upload: (doc, file, fileOpts, nestedId, cb) ->
+		if not cb and typeof nestedId is 'function'
+			cb = nestedId
+			nestedId = null
+
 		@_setDocFiles doc, file, fileOpts
 
 		oldVals = []
@@ -304,7 +313,7 @@ class Crud
 					return next 'Ошибка: неизвестно поле "id" или "fieldName" файла.'
 				@DataEngine 'findById', next, id
 			(doc, next) =>
-				fileName = fileName or @_getUploadedFile doc, fileOpts
+				fileName = fileName or @_getUploadedFile doc, fileOpts.name
 				unless typeof fileName is 'string'
 					next 'Ошибка: попытка удалить неизвестный файл'
 
@@ -314,7 +323,7 @@ class Crud
 				if fileOpts.type == 'string'
 					@_setDocFiles doc, null, fileOpts
 				else
-					index = (@_getUploadedFile doc, fileOpts).indexOf fileName
+					index = (@_getUploadedFile doc, fileOpts.name).indexOf fileName
 					@_setDocFiles doc, index, fileOpts
 
 				doc.save cb
@@ -337,7 +346,7 @@ class Crud
 	# remove all document files
 	_removeDocFiles: (doc, cb) ->
 		async.each @options.files, (fileOpts, proceed) =>
-			uploadedFile = @_getUploadedFile doc, fileOpts
+			uploadedFile = @_getUploadedFile doc, fileOpts.name
 			if typeof uploadedFile is 'string'
 				@removeFile uploadedFile, proceed
 			else
