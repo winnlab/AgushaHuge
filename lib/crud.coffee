@@ -290,9 +290,10 @@ class Crud
 		@_setDocFiles doc, file, fileOpts, nestedId
 
 		oldVals = []
-		for item in fileOpts.denormalizedIn
-			value = hprop doc, item.property
-			hprop oldVals, item.property, value
+		if fileOpts.denormalizedIn
+			for item in fileOpts.denormalizedIn
+				value = hprop doc, item.property
+				hprop oldVals, item.property, value
 
 		doc.save (err, doc) =>
 			return cb err if err
@@ -379,7 +380,7 @@ class Crud
 	_checkFileSettings: ->
 		for opt in @options.files
 			if opt.nested is true
-				@_ensureString opt, 'nestedId', '_id'
+				@_ensureValue opt, 'nestedId', '_id'
 
 	###
 		Denormalization processing
@@ -432,12 +433,12 @@ class Crud
 		for item in @options.denormalized
 			@_checkString item.property, errorMsg.noProperty
 			@_checkArray item.denormalizedIn, errorMsg.noTargets
-			@_ensureString item, '_id', '_id'
+			@_ensureValue item, '_id', '_id'
 			for target in item.denormalizedIn
 				@_checkString target.model, errorMsg.noModelName
-				@_ensureString target, 'path', ''
-				@_ensureString target, 'property', item.property
-				@_ensureString target, '_id', item._id
+				@_ensureValue target, 'path', ''
+				@_ensureValue target, 'property', item.property
+				@_ensureValue target, '_id', item._id
 
 	_checkDenormalizedFilesSettings: () ->
 		@options.denormalizedFiles = _.filter @options.files, (item) ->
@@ -445,13 +446,13 @@ class Crud
 
 		for item in @options.denormalizedFiles
 			@_checkString item.name, errorMsg.noFileName
-			@_ensureString item, 'property', item.name
-			@_ensureString item, '_id', '_id'
+			@_ensureValue item, 'property', item.name
+			@_ensureValue item, '_id', '_id'
 			for target in item.denormalizedIn
 				@_checkString target.model, errorMsg.noModelName
-				@_ensureString target, 'path', ''
-				@_ensureString target, 'property', item.property
-				@_ensureString target, '_id', item._id
+				@_ensureValue target, 'path', ''
+				@_ensureValue target, 'property', item.property
+				@_ensureValue target, '_id', item._id
 
 	###
 		Variables value ensurance functions
@@ -464,7 +465,7 @@ class Crud
 
 		return res
 
-	_ensureString: (obj, prop, value) ->
+	_ensureValue: (obj, prop, value) ->
 		obj[prop] = value unless @_checkString obj[prop]
 
 	_checkArray: (val, msg) ->
