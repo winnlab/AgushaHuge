@@ -3,7 +3,7 @@ ObjectId = mongoose.Schema.Types.ObjectId
 
 schema = new mongoose.Schema 
 	name:
-		name: String
+		type: String
 		required: true
 	points:
 		type: Number
@@ -15,7 +15,7 @@ schema = new mongoose.Schema
 			type: ObjectId
 			default: mongoose.Types.ObjectId
 		name:
-			name: String
+			type: String
 			required: true
 		position:
 			type: Number

@@ -235,9 +235,6 @@ class Crud
 				(doc, next) =>
 					uploadedFile = @_getUploadedFile doc, fileOpts.name
 
-					if prop and propId
-						
-
 					if fileOpts.replace and uploadedFile
 						@removeFile uploadedFile, (err) ->
 							next err, doc
@@ -382,7 +379,7 @@ class Crud
 	_checkFileSettings: ->
 		for opt in @options.files
 			if opt.nested is true
-				@_ensureString opt 'nestedId', '_id'
+				@_ensureString opt, 'nestedId', '_id'
 
 	###
 		Denormalization processing
