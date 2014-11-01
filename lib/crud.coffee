@@ -48,6 +48,7 @@ class Crud
 		@options = _.extend defaults, options
 		@options.filename = __filename
 
+		@_checkFileSettings()
 		@_checkDenormalizedSettings()
 		@_checkDenormalizedFilesSettings()
 
@@ -251,31 +252,45 @@ class Crud
 
 	_setDocFiles: (doc, file, fileOpts, propId) ->
 		if fileOpts.nested
+
 			if not propId
-				throw new Error("Received no property ID while trying ti update nested image #{fileOpts.type} '#{fileOpts.name}'")
-				propName = fileOpts.replace /$/, propId
+				throw new Error "Received no property ID while trying to update nested image #{fileOpts.type} '#{fileOpts.name}'"
+			
+			nameBefore = fileOpts.name.split('.$.')[0]
+
+			if not nameBefore
+				throw new Error "File '#{fileOpts.name}' is set to be nested but it does not contain dot notation array link in it`s name ('.$.')"
+
+			prop = hprop fileOpts.name nameBefore
+			index = _.findIndex prop, (item) ->
+				return item[fileOpts.nestedId] is propId
+
+			unless _.isNumber(index) or index >= 0
+				throw new Error "Found no nested #{fileOpts.name} with ID(#{fileOpts.nestedID}) #{propId}"
+
+			propName = fileOpts.name.replace /\$/, index
 		else
 			propName = fileOpts.name
 
 		if fileOpts.type is 'string'
-			hprop doc, propName, file
-		else
-			target = @_getUploadedFile doc, propName
-			unless typeof file is 'number'
-				if _.isArray file
-					_.each file, (f) ->
-						target.push f.name if f.name
-				else
-					target.push file.name if file.name
+			return hprop doc, propName, file
+		
+		target = @_getUploadedFile doc, propName
+		unless typeof file is 'number'
+			if _.isArray file
+				_.each file, (f) ->
+					target.push f.name if f.name
 			else
-				target.splice file, 1
+				target.push file.name if file.name
+		else
+			target.splice file, 1
 
 	upload: (doc, file, fileOpts, nestedId, cb) ->
 		if not cb and typeof nestedId is 'function'
 			cb = nestedId
 			nestedId = null
 
-		@_setDocFiles doc, file, fileOpts
+		@_setDocFiles doc, file, fileOpts, nestedId
 
 		oldVals = []
 		for item in fileOpts.denormalizedIn
@@ -361,6 +376,15 @@ class Crud
 		View.ajaxResponse res, err, data
 
 	###
+		Checking file settings for consistency
+	###
+
+	_checkFileSettings: ->
+		for opt in @options.files
+			if opt.nested is true
+				@_ensureString opt 'nestedId', '_id'
+
+	###
 		Denormalization processing
 	###
 	_updateDenormalizedFiles: (olds, doc, arg, cb) ->
@@ -431,6 +455,10 @@ class Crud
 				@_ensureString target, 'path', ''
 				@_ensureString target, 'property', item.property
 				@_ensureString target, '_id', item._id
+
+	###
+		Variables value ensurance functions
+	###
 
 	_checkString: (val, msg) ->
 		res = typeof val is 'string' and val.length isnt 0
