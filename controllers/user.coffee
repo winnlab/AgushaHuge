@@ -12,6 +12,13 @@ Poll = require './user/poll'
 Production = require './user/production'
 Cards = require './user/cards'
 Specialist = require './user/specialist'
+Question = require './user/question'
+Search = require './user/search'
+
+Middleware = require './helper/middleware'
+
+Moneybox = require './user/moneybox'
+
 
 Theme = require '../lib/theme'
 
@@ -23,11 +30,13 @@ Router.get '/', Main.index
 
 #
 
-Router.get '/registration', Registration.index
+Router.get '/registration', Middleware.auth.isAuth()
+
+Router.use '/registration', Registration
 
 #
 
-Router.get '/login', Login.index
+# Router.get '/login', Middleware.auth.isAuth(), Login.index
 
 #
 
@@ -66,5 +75,18 @@ Router.get '/cards', Cards.index
 Router.get '/specialist', Specialist.index
 
 #
+
+Router.get '/question', Question.index
+
+#
+
+Router.get '/search/:phrase', Search.index
+
+#
+
+
+# Router.get '/login',
+
+Router.get '/moneybox', Moneybox.index
 
 exports.Router = Router
