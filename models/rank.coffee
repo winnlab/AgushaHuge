@@ -2,7 +2,7 @@ mongoose = require 'mongoose'
 ObjectId = mongoose.Schema.Types.ObjectId
 
 schema = new mongoose.Schema 
-	title:
+	name:
 		name: String
 		required: true
 	points:
@@ -11,7 +11,10 @@ schema = new mongoose.Schema
 	image:
 		type: String
 	prize: [
-		title:
+		_id:
+			type: ObjectId
+			default: mongoose.Types.ObjectId
+		name:
 			name: String
 			required: true
 		position:
