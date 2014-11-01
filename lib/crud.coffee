@@ -233,7 +233,9 @@ class Crud
 				(next) =>
 					@findOne id, next
 				(doc, next) =>
-					uploadedFile = @_getUploadedFile doc, fileOpts.name
+					filename = if fileOpts.nested then @_injectPropId doc, fileOpts, nestedId else fileOpts.name
+
+					uploadedFile = @_getUploadedFile doc, filename
 
 					if fileOpts.replace and uploadedFile
 						@removeFile uploadedFile, (err) ->
@@ -247,31 +249,38 @@ class Crud
 		else
 			cb 'Ошибка. Не передано поле "id" или "fieldName"'
 
+	_findPropIndex: (doc, fileOpts, propId) ->
+		nameBefore = fileOpts.name.split('.$.')[0]
+
+		if not nameBefore
+			throw new Error "File '#{fileOpts.name}' is set to be nested but it does not contain dot notation array link in it`s name ('.$.')"
+
+		prop = hprop doc, nameBefore
+
+		return _.findIndex prop, (item) ->
+			return item[fileOpts.nestedId].toString?() is propId
+
+	_injectPropId: (doc, fileOpts, propId) ->
+		if not propId
+			throw new Error "Received no property ID while trying to update nested image #{fileOpts.type} '#{fileOpts.name}'"
+		
+		index = @_findPropIndex doc, fileOpts, propId
+
+		unless _.isNumber(index) or index >= 0
+			throw new Error "Found no nested #{fileOpts.name} with ID(#{fileOpts.nestedId}) #{propId}"
+
+		fileOpts.name.replace /\$/, index
+
 	_setDocFiles: (doc, file, fileOpts, propId) ->
 		if fileOpts.nested
-
-			if not propId
-				throw new Error "Received no property ID while trying to update nested image #{fileOpts.type} '#{fileOpts.name}'"
-			
-			nameBefore = fileOpts.name.split('.$.')[0]
-
-			if not nameBefore
-				throw new Error "File '#{fileOpts.name}' is set to be nested but it does not contain dot notation array link in it`s name ('.$.')"
-
-			prop = hprop fileOpts.name nameBefore
-			index = _.findIndex prop, (item) ->
-				return item[fileOpts.nestedId] is propId
-
-			unless _.isNumber(index) or index >= 0
-				throw new Error "Found no nested #{fileOpts.name} with ID(#{fileOpts.nestedID}) #{propId}"
-
-			propName = fileOpts.name.replace /\$/, index
+			propName = @_injectPropId doc, fileOpts, propId
 		else
 			propName = fileOpts.name
 
 		if fileOpts.type is 'string'
-			return hprop doc, propName, file
-		
+			hprop doc, propName, file
+			return propName
+
 		target = @_getUploadedFile doc, propName
 		unless typeof file is 'number'
 			if _.isArray file
@@ -282,12 +291,14 @@ class Crud
 		else
 			target.splice file, 1
 
+		return propName
+
 	upload: (doc, file, fileOpts, nestedId, cb) ->
 		if not cb and typeof nestedId is 'function'
 			cb = nestedId
 			nestedId = null
 
-		@_setDocFiles doc, file, fileOpts, nestedId
+		realFileName = @_setDocFiles doc, file, fileOpts, nestedId
 
 		oldVals = []
 		if fileOpts.denormalizedIn
@@ -299,7 +310,8 @@ class Crud
 			return cb err if err
 
 			data = {}
-			data[fileOpts.name] = file
+			data[realFileName] = file
+			data.fileName = realFileName
 
 			if doc.__v
 				data['__v'] = doc.__v
@@ -312,35 +324,49 @@ class Crud
 	# parse req and do stuff depends of fieldName
 	_removeFile: (req, cb) ->
 		id = req.body.id or req.body._id
+		nestedId = req.body.nestedId
 		fieldName = req.body.name
 		fileName = req.body.sourceName
+
 		fileOpts = @_getFileOpts fieldName
+
+		nestedPath = false
 
 		async.waterfall [
 			(next) ->
-				if id and fileOpts
-					next null
-				else
-					
+				unless id or fileOpts
+					err = 'Ошибка: неизвестно поле "id" или "fieldName" файла.'
+				
+				next err
 			(next) =>
-				if not id or not fileOpts
-					return next 'Ошибка: неизвестно поле "id" или "fieldName" файла.'
 				@DataEngine 'findById', next, id
 			(doc, next) =>
 				fileName = fileName or @_getUploadedFile doc, fileOpts.name
+
 				unless typeof fileName is 'string'
-					next 'Ошибка: попытка удалить неизвестный файл'
+					return next 'Ошибка: попытка удалить неизвестный файл'
 
 				@removeFile fileName, (err) ->
 					next err, doc
-			(doc) =>
+			(doc, next) =>
 				if fileOpts.type == 'string'
 					@_setDocFiles doc, null, fileOpts
 				else
-					index = (@_getUploadedFile doc, fileOpts.name).indexOf fileName
-					@_setDocFiles doc, index, fileOpts
+					if fileOpts.nested
+						path = nestedPath = @_injectPropId doc, fileOpts, nestedId
+					else
+						path = fileOpts.name
+					index = (@_getUploadedFile doc, path).indexOf fileName
+					@_setDocFiles doc, index, fileOpts, nestedId
 
-				doc.save cb
+				doc.save next
+			(doc) ->
+				data =
+					doc: doc
+					name: nestedPath or fileOpts.name
+
+				cb null, data
+
 		], cb
 
 	_removeFiles: (files = [], cb) ->
@@ -349,13 +375,13 @@ class Crud
 		, cb
 
 	removeFile: (file, cb) ->
-		if not file
-			return cb null
+		return cb null if not file
+
 		fs.unlink "#{@options.uploadDir}#{file}", (err) ->
 			if err is null or err.code is 'ENOENT'
-				cb null
-			else
-				cb err
+				err = null
+
+			cb err
 
 	# remove all document files
 	_removeDocFiles: (doc, cb) ->
