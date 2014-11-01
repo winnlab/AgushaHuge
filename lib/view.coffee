@@ -1,6 +1,6 @@
+
 async = require 'async'
 _ = require 'underscore'
-moment = require 'moment'
 jade = require 'jade'
 fs = require 'fs'
 
@@ -86,7 +86,6 @@ exports.globals = (req, res, next)->
 	res.locals.current_url = base_url + req._parsedUrl.pathname
 	res.locals.path_name = req._parsedUrl.pathname.split('/')[1]
 	
-	res.locals.moment = moment
 	res.locals.is_ajax_request = request.is_ajax_request(req.headers)
 	res.locals.strip_tags = string.strip_tags
 	

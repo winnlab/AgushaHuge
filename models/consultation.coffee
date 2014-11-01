@@ -10,6 +10,10 @@ schema = new mongoose.Schema
 	text:
 		type: String
 		required: true
+	updated:
+		type: Date
+		required: true
+		default: moment
 	author:
 		author_id:
 			type: ObjectId
@@ -17,8 +21,11 @@ schema = new mongoose.Schema
 		name:
 			type: String
 	specialist:
-		type: ObjectId
-		ref: 'User'
+		specialist_id:
+			type: ObjectId
+			ref: 'User'
+		name:
+			type: String
 	active:
 		type: Boolean
 		required: true
@@ -26,15 +33,23 @@ schema = new mongoose.Schema
 	closed:
 		type: Boolean
 		default: false
+	recommended:
+		type: Boolean
+		default: false
+	encyclopedia:
+		type: Boolean
+		default: false
 	type:
 		name: 
 			type: String
 	age:
-		value:
+		title:
 			type: String
 		age_id:
 			type: ObjectId
 			ref: "Age"
+		fixture:
+			type: String
 	theme:
 		name:
 			type: String
@@ -45,6 +60,8 @@ schema = new mongoose.Schema
 		_id:
 			type: ObjectId
 			unique: true
+			required: true
+			default: mongoose.Types.ObjectId
 		author:
 			author_id:
 				type: ObjectId
@@ -52,8 +69,11 @@ schema = new mongoose.Schema
 			name:
 				type: String
 		specialist:
-			type: ObjectId
-			ref: 'User'
+			_id:
+				type: ObjectId
+				ref: 'User'
+			name:
+				type: String
 		date:
 			type: Date
 			default: moment
@@ -62,8 +82,15 @@ schema = new mongoose.Schema
 			required: true
 		parent:
 			type: ObjectId
+		counter:
+			type: Number
+			default: 0
 	]
 ,
 	collection: 'consultation'
+
+schema.pre 'save', (next) ->
+	this.updated = moment()
+	next()
 
 module.exports = mongoose.model 'Consultation', schema

@@ -25,6 +25,8 @@ crypto = require '../utils/crypto'
 adminController = require '../controllers/admin'
 userController = require '../controllers/user'
 
+locals = require './locals'
+
 jadeOptions =
 	layout: false
 
@@ -37,32 +39,10 @@ routes = () ->
 	@use '/admin', adminController.Router
 
 configure = () ->
-	# @use (req, res, next) ->
-		# async.parallel
-		# 	consSpec: (callback) ->
-		# 		Model 'Consultation', 'find', callback, 
-		# 			type: 0
-		# 			closed: false
-		# 			active: true
-		# 	consComm: (callback) ->
-		# 		Model 'Consultation', 'find', callback, 
-		# 			type: 1
-		# 			closed: false
-		# 			active: true
-		# 			'answers': 
-		# 				'$size': 0
-		# , (err, results) ->
-		# 	Logger.log 'info', err if err
-
-		# 	res.locals.consSpec = if results.consSpec is undefined then 'N/A' else results.consSpec.length
-		# 	res.locals.consComm = if results.consComm is undefined then 'N/A' else results.consComm.length
-
-		# 	next()
-	
 	@set 'views', "#{__dirname}/../views"
 	@set 'view engine', 'jade'
 	@set 'view options', jadeOptions
-	
+
 	@use '/js', express.static "#{__dirname}/../public/js"
 	@use '/img', express.static "#{__dirname}/../public/img"
 	@use '/css', express.static "#{__dirname}/../public/css"
@@ -95,6 +75,8 @@ configure = () ->
 exports.init = (callback) ->
 	exports.express = app = express()
 	exports.server = http.Server app
+
+	app.locals = locals
 
 	configure.apply app
 	routes.apply app

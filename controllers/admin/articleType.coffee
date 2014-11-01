@@ -36,5 +36,20 @@ class TypeCrud extends Crud
 
 crud = new TypeCrud
     modelName: 'ArticleType'
+    denormalized: [
+        property: 'name'
+        _id: 'name'
+        denormalizedIn: [
+            model: 'Article'
+            path: 'type'
+            _id: 'name'
+            multiple: false
+        ,
+            model: 'Consultation'
+            path: 'type'
+            _id: 'name'
+            multiple: false
+        ]
+    ]
 
 module.exports.rest = crud.request.bind crud

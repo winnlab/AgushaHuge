@@ -14,7 +14,12 @@ Cards = require './user/cards'
 Specialist = require './user/specialist'
 Question = require './user/question'
 Search = require './user/search'
+Profile = require './user/profile'
+
+Middleware = require './helper/middleware'
+
 Moneybox = require './user/moneybox'
+
 
 Theme = require '../lib/theme'
 
@@ -26,11 +31,17 @@ Router.get '/', Main.index
 
 #
 
-Router.get '/registration', Registration.index
+# Router.get '/registration', Middleware.auth.isAuth()
+
+Router.use '/registration', Registration
+
+Router.use '/login', Login 
+
+Router.use '/profile', Profile.router
 
 #
 
-Router.get '/login', Login.index
+# Router.get '/login', Middleware.auth.isAuth(), Login.index
 
 #
 
@@ -49,7 +60,8 @@ Router.get '/help', Help.index
 
 Router.get '/encyclopedia/:age?/:theme?', Encyclopedia.index
 
-Router.get '/article/:alias?', Article.index
+Router.get '/article/:id', Article.findOne
+# Router.get '/article/:alias?', Article.index
 Router.get '/poll/:alias?', Poll.index
 
 Router.post '/themes/findAll', Theme.findAll
@@ -77,8 +89,9 @@ Router.get '/search/:phrase', Search.index
 
 #
 
-Router.get '/moneybox', Moneybox.index
 
-#
+# Router.get '/login',
+
+Router.get '/moneybox', Moneybox.index
 
 exports.Router = Router
