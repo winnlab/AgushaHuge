@@ -89,16 +89,6 @@ router.post '/', (req, res, next) ->
 	if not user.password
 		return next new Error 'Password not exist'
 
-	if not user.firstname
-		return next new Error "Firstname not exist"
-
-	if not user.lastname
-		return next new Error "Lastname not exist"
-
-	user.profile =
-		first_name: user.firstname
-		last_name: user.lastname
-
 	crud.add user, (err, suser) ->
 		if err
 			return next new Error 'User not created. Please try again later'
