@@ -1,22 +1,14 @@
 async = require 'async'
+_ = require 'lodash'
 
 View = require '../../lib/view'
 Model = require '../../lib/model'
 Logger = require '../../lib/logger'
+Article = require '../../lib/article'
 
 tree = require '../../utils/tree'
 
 breadcrumbs = require '../../meta/breadcrumbs'
-
-exports.index = (req, res) ->
-	data =
-		breadcrumbs: tree.findWithParents breadcrumbs, 'encyclopedia'
-	
-	alias: req.params.alias
-	
-	res.locals.params = req.params # req.params is not accessable in middlewares -_- 
-	
-	View.render 'user/question/index', res, data
 
 
 
@@ -32,9 +24,7 @@ exports.findOne = (req, res) ->
 	
 	async.waterfall [
 		(next) ->
-			consultation = Model 'Consultation', 'findOne', null, _id: id
-
-			consultation.populate('author').exec next
+			Model 'Consultation', 'findOne', next, _id: id,
 		(doc, next) ->
 			if doc
 				data.consultation = doc
@@ -46,8 +36,8 @@ exports.findOne = (req, res) ->
 			if docs
 				data.similarArticles = docs
 
-			View.render 'user/question/index', res, data
+			View.render 'user/consultation/index', res, data
 	], (err) ->
 		error = err.message or err
-		Logger.log 'info', "Error in controllers/user/question/index: #{error}"
+		Logger.log 'info', "Error in controllers/user/consultation/index: #{error}"
 		res.send error
