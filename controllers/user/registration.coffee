@@ -23,6 +23,9 @@ activateEmail = (user, callback) ->
 	Email.send 'registration', emailMeta, callback
 
 router.get '/', (req, res, next) ->
+	if req.user
+		return res.redirect '/profile'
+
 	View.render 'user/registration/index', res
 
 router.get '/fb', passport.authenticate 'facebook',
@@ -78,6 +81,9 @@ router.get '/success', (req, res, next) ->
 	View.render 'user/registration/success', res, message: 'Спасибо за регистрацию'
 
 router.post '/', (req, res, next) ->
+	if req.user
+		return res.redirect '/profile'
+
 	user = req.body
 
 	if not user.password
