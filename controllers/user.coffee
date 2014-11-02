@@ -16,6 +16,7 @@ Question = require './user/question'
 Search = require './user/search'
 QuizAnswer = require './user/quizAnswer'
 Consultation = require './user/consultation'
+Profile = require './user/profile'
 
 Middleware = require './helper/middleware'
 
@@ -29,12 +30,17 @@ Router = express.Router()
 #
 
 Router.get '/', Main.index
+Router.get '/registered', Main.registered
 
 #
 
-Router.get '/registration', Middleware.auth.isAuth()
+# Router.get '/registration', Middleware.auth.isAuth()
 
 Router.use '/registration', Registration
+
+Router.use '/login', Login 
+
+Router.use '/profile', Profile.router
 
 #
 

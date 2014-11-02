@@ -10,13 +10,15 @@ schema = new mongoose.Schema
 		required: true
 	image:
 		type: String
+	active:
+		type: Boolean
+		default: true
 	prize: [
 		_id:
 			type: ObjectId
 			default: mongoose.Types.ObjectId
 		name:
 			type: String
-			required: true
 		position:
 			type: Number
 			default: 99

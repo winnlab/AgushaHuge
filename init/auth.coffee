@@ -3,6 +3,9 @@ async = require 'async'
 passport = require 'passport'
 localStrategy = require('passport-local').Strategy
 
+fbStartegy = require './strategies/fb'
+vkStartegy = require './strategies/vk'
+
 mongoose = require 'mongoose'
 
 Model = require '../lib/model'
@@ -11,17 +14,24 @@ parameters =
 	usernameField: 'username'
 	passwordField: 'password'
 
+parameters2 =
+	usernameField: 'email'
+	passwordField: 'password'
+
 passport.serializeUser (user, done) ->
 	done null, user.id
 
 passport.deserializeUser (id, done) ->
+	async.parallel
+		client: (next) ->
+			Model 'Client', 'findOne', next, _id : id
+		user: (next) ->
+			Model 'User', 'findOne', next, _id : id
+	, (err, results) ->
+		if err
+			return done err
 
-	async.waterfall [
-		(next)->
-			Model 'User', 'findOne', next, {_id : id}
-		(user, next) ->
-			done null, user
-	], done
+		done null, results.client || results.user
 
 callbackToValidation = (username, password, done, err, user) ->
 	validation err, user, password, done
@@ -40,13 +50,13 @@ adminStrategy = (username, password, done) ->
 	Model 'User', 'findOne', 
 		async.apply(callbackToValidation, arguments...), {username : username}
 
-userStrategy = (username, password, done) ->
+userStrategy = (email, password, done) ->
 	Model 'Client', 'findOne',
-		async.apply(callbackToValidation, arguments...), {username : username}
+		async.apply(callbackToValidation, arguments...), {email : email}
 
 exports.init = (callback) ->
 	adminAuth = new localStrategy adminStrategy
-	clientAuth = new localStrategy userStrategy
+	clientAuth = new localStrategy parameters2, userStrategy
 
 	passport.use 'admin', adminAuth
 	passport.use 'user', clientAuth
