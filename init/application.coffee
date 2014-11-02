@@ -11,6 +11,7 @@ bodyParser = require 'body-parser'
 session = require 'express-session'
 methodOverride = require 'method-override' 
 multer = require 'multer'
+MongoStore = require('connect-mongo') session
 
 Admin = require '../lib/admin'
 Ajax = require '../lib/ajax'
@@ -32,6 +33,8 @@ jadeOptions =
 
 sessionParams =
 	secret: '4159J3v6V4rX6y1O6BN3ASuG2aDN7q'
+	store: new MongoStore
+		db: 'AgushaHuge'
 
 routes = () ->
 	@use userController.Router
