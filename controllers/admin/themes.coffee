@@ -11,8 +11,7 @@ crud = new Crud
         ,
             model: 'Consultation'
             path: 'theme'
-            multiple: false
-            _id: 'theme_id'
+            multiple: true
         ]
     ]
     files: [
