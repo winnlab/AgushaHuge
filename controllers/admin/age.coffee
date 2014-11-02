@@ -11,8 +11,7 @@ crud = new Crud
         ,
             model: 'Consultation'
             path: 'age'
-            multiple: false
-            _id: 'age_id'
+            multiple: true
         ]
     ]
     files: [
@@ -29,15 +28,14 @@ crud = new Crud
         type: 'string'
         denormalizedIn: [
             model: 'Article'
-            multiple: true
             path: 'age'
             property: 'fixture'
+            multiple: true
         ,
             model: 'Consultation'
-            multiple: false
             path: 'age'
             property: 'fixture'
-            _id: 'age_id'
+            multiple: true
         ]
     ,
         name: 'desc.image.normal'
