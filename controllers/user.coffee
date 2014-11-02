@@ -14,6 +14,8 @@ Cards = require './user/cards'
 Specialist = require './user/specialist'
 Question = require './user/question'
 Search = require './user/search'
+QuizAnswer = require './user/quizAnswer'
+Consultation = require './user/consultation'
 Profile = require './user/profile'
 
 Middleware = require './helper/middleware'
@@ -64,6 +66,7 @@ Router.get '/encyclopedia/:age?/:theme?', Encyclopedia.index
 Router.get '/article/:id', Article.findOne
 # Router.get '/article/:alias?', Article.index
 Router.get '/poll/:alias?', Poll.index
+Router.post '/pollVote', Article.saveAnswer
 
 Router.post '/themes/findAll', Theme.findAll
 Router.post '/articles/findAll', Article.findAll
@@ -82,6 +85,7 @@ Router.get '/specialist', Specialist.index
 
 #
 
+Router.get '/question/:id', Question.findOne
 Router.get '/question', Question.index
 
 #
@@ -89,6 +93,8 @@ Router.get '/question', Question.index
 Router.get '/search/:phrase', Search.index
 
 #
+
+
 
 
 # Router.get '/login',
