@@ -7,12 +7,17 @@ Model = require '../../lib/model'
 
 router.use (req, res, next) ->
     if not req.user
-        return next new Error 'User not exist'
+        return res.redirect '/login'
 
     next()
 
 router.get '/', (req, res, next) ->
 	View.render 'user/profile/index',res, user: req.user
+
+router.get '/logout', (req, res, next) ->
+    req.logout()
+
+    return res.redirect '/'
 
 crud = new Crud
     modelName: 'Client'

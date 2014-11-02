@@ -40,7 +40,7 @@ schema = new mongoose.Schema
 		type: Boolean
 		default: false
 	type:
-		name: 
+		name:
 			type: String
 	age: [
 		_id:
