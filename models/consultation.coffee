@@ -1,5 +1,6 @@
 mongoose = require 'mongoose'
 moment = require 'moment'
+translit = require 'transliteration.cyr'
 
 ObjectId = mongoose.Schema.Types.ObjectId
 
@@ -7,6 +8,8 @@ schema = new mongoose.Schema
 	name:
 		type: String
 		required: true
+	transliterated:
+		type: String
 	text:
 		type: String
 		required: true
@@ -91,6 +94,8 @@ schema = new mongoose.Schema
 
 schema.pre 'save', (next) ->
 	this.updated = moment()
+	this.transliterated = translit this.title
+
 	next()
 
 module.exports = mongoose.model 'Consultation', schema
