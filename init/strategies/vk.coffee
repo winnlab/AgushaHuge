@@ -20,52 +20,61 @@ passport.use 'vkontakte', new VkontakteStrategy
 	profileFields: ['photo_400_orig', 'bdate', 'photo_max', 'city']
 	passReqToCallback: true
 , (req, accessToken, refreshToken, params, profile, done) ->
-	params.email = params.email.toLowerCase().toString()
+	callbackWrap = (err, user) ->
+		email = params.email.toLowerCase().toString()
+	
+		if req.user
+			if user and req.user._id isnt user._id
+				return next new Error 'This fb profile already exist'
 
-	profile.birthday = profile.birthday.split '-'
+			email = req.user.email
 
-	dates =
-		day: profile.birthday[2]
-		month: profile.birthday[1]
-		year: profile.birthday[0]
+		profile.birthday = profile.birthday.split '-'
 
-	callback = (err, user) ->
-		if err
-			return done err
+		dates =
+			day: profile.birthday[2]
+			month: profile.birthday[1]
+			year: profile.birthday[0]
 
-		if user
-			user.auth_from = 'vk'
-			if not user.social.vk
-				user.vk =
-					id: profile.id
-					access_token: accessToken
-					refresh_token: refreshToken
-				return user.save done
-
-			return user.save done
-
-		User.create
-			email: params.email.toLowerCase()
-			active: true
-			image: profile['_json'].photo_max
-			profile:
-				first_name: profile.name.givenName
-				last_name: profile.name.familyName
-				gender: profile['_json'].sex
-				birth_date: dates
-			social:
-				reg_from: 'vk'
-				vk:
-					id: profile.id
-					access_token: accessToken
-					refresh_token: refreshToken
-		, (err, user) ->
+		callback = (err, user) ->
 			if err
 				return done err
 
-			return done null, user
+			if user
+				user.auth_from = 'vk'
+				if not user.social.vk
+					user.vk =
+						id: profile.id
+						access_token: accessToken
+						refresh_token: refreshToken
+					return user.save done
 
-	User.DataEngine 'findOne', callback, 'email': params.email, 
+				return user.save done
+
+			User.create
+				email: params.email.toLowerCase()
+				active: true
+				image: profile['_json'].photo_max
+				profile:
+					first_name: profile.name.givenName
+					last_name: profile.name.familyName
+					gender: profile['_json'].sex
+					birth_date: dates
+				social:
+					reg_from: 'vk'
+					vk:
+						id: profile.id
+						access_token: accessToken
+						refresh_token: refreshToken
+			, (err, user) ->
+				if err
+					return done err
+
+				return done null, user
+
+		User.DataEngine 'findOne', callback, 'email': params.email
+
+	User.DataEngine 'findOne', callbackWrap, 'social.fb': profile.id
 
 module.exports = exports = {};
 
