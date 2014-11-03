@@ -26,4 +26,9 @@ module.exports = [
 	id: 'moneybox'
 	title: 'Копилка'
 	href: '/moneybox'
+,
+	id: 'messages'
+	title: 'Сообщения'
+	href: '/messages'
+	parent_id: 'profile'
 ]

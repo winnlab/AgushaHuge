@@ -17,6 +17,7 @@ Search = require './user/search'
 QuizAnswer = require './user/quizAnswer'
 Consultation = require './user/consultation'
 Profile = require './user/profile'
+Messages = require './user/messages'
 
 Middleware = require './helper/middleware'
 
@@ -98,11 +99,16 @@ Router.get '/search/:phrase', Search.index
 
 #
 
-
-
-
 # Router.get '/login',
 
+#
+
 Router.get '/moneybox', Moneybox.index
+
+#
+
+Router.get '/messages', Messages.index
+
+#
 
 exports.Router = Router
