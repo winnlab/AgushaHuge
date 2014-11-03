@@ -45,8 +45,6 @@ schema = new mongoose.Schema
 		vk:
 			id:
 				type: String
-				unique: true
-				sparse: true
 			access_token:
 				type: String
 			refresh_token:
@@ -54,8 +52,6 @@ schema = new mongoose.Schema
 		fb:
 			id:
 				type: String
-				unique: true
-				sparse: true
 			access_token:
 				type: String
 			refresh_token:
@@ -63,8 +59,6 @@ schema = new mongoose.Schema
 		ok:
 			id:
 				type: String
-				unique: true
-				sparse: true
 			access_token:
 				type: String
 			refresh_token:

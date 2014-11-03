@@ -43,22 +43,28 @@ schema = new mongoose.Schema
 		type: Boolean
 		default: false
 	type:
-		name: 
-			type: String
-	age:
-		title:
-			type: String
-		age_id:
-			type: ObjectId
-			ref: "Age"
-		fixture:
-			type: String
-	theme:
 		name:
 			type: String
-		theme_id:
+	age: [
+		_id:
+			type: ObjectId
+			ref: "Age"
+			set: mongoose.Types.ObjectId
+			sparse: true
+		title:
+			type: String
+		fixture:
+			type: String
+	]
+	theme: [
+		_id:
 			type: ObjectId
 			ref: "Theme"
+			set: mongoose.Types.ObjectId
+			sparse: true
+		name:
+			type: String
+	]
 	answer: [
 		_id:
 			type: ObjectId

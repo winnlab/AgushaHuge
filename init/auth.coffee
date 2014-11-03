@@ -37,7 +37,6 @@ callbackToValidation = (username, password, done, err, user) ->
 	validation err, user, password, done
 
 validation = (err, user, password, done) ->
-	console.log user
 	if err
 		return done err
 	if not user
