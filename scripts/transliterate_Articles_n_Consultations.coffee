@@ -1,26 +1,40 @@
 require '../init/database'
 
+async = require 'async'
 mongoose = require 'mongoose'
 translit = require 'transliteration.cyr'
 
 Article = require '../models/article'
 Consultation = require '../models/consultation'
 
-Article.find {}, (err, docs) ->
-	console.log docs.length
+async.parallel
+	article: (cb) ->
+		Article.find {}, (err, docs) ->
+			if err
+				return cb err
+
+			if docs.length
+				iterate = (item, cb2) ->
+					item.transliterated = translit.transliterate item.title
+					item.save cb2
+				async.each docs, iterate, (err) ->
+					console.log "Processed #{docs.length} articles..."
+					cb err
+	consultation: (cb) ->
+		Consultation.find {}, (err, docs) ->
+			if err
+				return cb err
+
+			if docs.length
+				iterate = (item, cb2) ->
+					item.transliterated = translit.transliterate item.name
+					item.save cb2
+				async.each docs, iterate, (err) ->
+					console.log "Processed #{docs.length} consultations..."
+					cb err
+, (err, results) ->
 	if err
-		return console.log 'Error in Article find: ', err
+		return console.error err
 
-	if docs.length
-		for article in docs
-			article.transliterated = translit.transliterate article.title
-			article.save()
-
-Consultation.find {}, (err, docs) ->
-	if err
-		return console.log 'Error in Consultation find: ', err
-
-	if docs.length
-		for cons in docs
-			cons.transliterated = translit.transliterate cons.name
-			cons.save()
+	console.log 'Processing completed without errors! Exiting...'
+	process.exit()
