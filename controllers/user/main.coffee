@@ -7,9 +7,9 @@ View = require '../../lib/view'
 exports.index = (req, res) ->
 	data =
 		breadcrumbs: [
-			title: if req.user then req.user.profile.first_name else ''
+			title: if (req.user && req.user.profile)  then req.user.profile.first_name else ''
 		]
-
+	
 	async.waterfall [
 		(next) ->
 			Model 'Article', 'find', {}, null, { sort: { updated: 1 } }, next
