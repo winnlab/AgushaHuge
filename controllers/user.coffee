@@ -38,7 +38,7 @@ Router.get '/registered', Main.registered
 
 Router.use '/registration', Registration
 
-Router.use '/login', Login 
+Router.use '/login', Login
 
 Router.use '/profile', Profile.router
 
@@ -78,6 +78,10 @@ Router.get '/production', Production.index
 #
 
 Router.get '/cards', Cards.index
+
+#
+
+Router.post '/consultation', Consultation.setConsultation
 
 #
 
