@@ -363,6 +363,7 @@ class Crud
 			(doc) ->
 				data =
 					doc: doc
+					__v: doc.__v
 					name: nestedPath or fileOpts.name
 
 				cb null, data
