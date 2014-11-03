@@ -95,7 +95,7 @@ schema = new mongoose.Schema
 
 schema.pre 'save', (next) ->
 	this.updated = moment()
-	this.transliterated = translit this.title
+	this.transliterated = translit.transliterate this.title
 
 	next()
 
