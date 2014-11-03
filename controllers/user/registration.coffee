@@ -9,6 +9,7 @@ Crud = require '../../lib/crud'
 View = require '../../lib/view'
 Model = require '../../lib/model'
 Email = require '../../lib/mail'
+Auth = require '../../lib/auth'
 
 crud = new Crud
 	modelName: 'Client'
@@ -66,13 +67,32 @@ router.get '/activate/:id', (req, res, next) ->
 		user.activated_at = moment()
 
 		user.save (err, user) ->
+			if err
+				return next new Error 'User has not been activate'
+
+			if not user
+				return next new Error 'User not exist'
+
 			data =
 				user: user
 				activated: true
 
 			console.log "User #{user._id}, has been activated"
 
-			View.render 'user/registration/success', res, data
+			req.login user, (err) ->
+				return next err if err
+				temp = req.session.passport
+
+				req.session.regenerate (err) ->
+					return next err if err
+
+					req.session.passport = temp
+					req.session.save (err) ->
+						return next err if err
+
+						res.redirect '/profile'
+
+			# View.render 'user/registration/success', res, data
 
 router.get '/already-active', (req, res, next) ->
 	View.render 'user/registration/already-active', res
