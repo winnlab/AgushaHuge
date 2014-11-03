@@ -50,6 +50,9 @@ getDenormalizedData = (obj, cb) ->
 			Model 'Theme', 'findOne', {_id: obj.theme_id}, '_id  name', proceed
 	, (err, data) ->
 		result =
+			author:
+				author_id: obj?.user?._id
+				name: obj?.user?.profile?.first_name + ' ' + obj?.user?.profile?.last_name
 			age:
 				age_id: obj.age_id
 				title: data.age.title
