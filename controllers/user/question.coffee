@@ -40,7 +40,9 @@ exports.findOne = (req, res) ->
 				data.consultation = doc
 
 				Model 'Article', 'find', next, {
-					'theme.theme_id': doc.theme.theme_id
+					'theme._id': {
+						$in: _.pluck doc.theme, '_id'
+					}
 				}
 		(docs, next) ->
 			if docs
