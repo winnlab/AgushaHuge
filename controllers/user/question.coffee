@@ -28,7 +28,7 @@ exports.findOne = (req, res) ->
 
 	id = req.params.id
 	
-	res.locals.params = req.params # req.params is not accessable in middlewares -_- 
+	res.locals.params = req.params # req.params is not accessible in middlewares -_-
 	
 	async.waterfall [
 		(next) ->

@@ -1,5 +1,6 @@
 moment = require 'moment'
 mongoose = require 'mongoose'
+translit = require 'transliteration.cyr'
 
 ObjectId = mongoose.Schema.Types.ObjectId
 
@@ -16,6 +17,8 @@ schema = new mongoose.Schema
 	title:
 		type: String
 		required: true
+	transliterated:
+		type: String
 	desc:
 		shorttext:
 			type: String
@@ -62,6 +65,14 @@ schema = new mongoose.Schema
 		name:
 			type: String
 	]
+	likes: [
+		_id:
+			type: ObjectId
+			default: mongoose.Types.ObjectId
+		client:
+			type: ObjectId
+			ref: 'Client'
+	]
 	is_quiz:
 		type: Boolean
 		default: false
@@ -92,6 +103,8 @@ schema = new mongoose.Schema
 
 schema.pre 'save', (next) ->
 	this.updated = moment()
+	this.transliterated = translit.transliterate this.title
+
 	next()
 
 module.exports = mongoose.model 'Article', schema
