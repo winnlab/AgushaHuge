@@ -19,7 +19,6 @@ Consultation = require './user/consultation'
 Profile = require './user/profile'
 Messages = require './user/messages'
 Subscription = require './user/subscription'
-Subscriptions = require './user/subscriptions'
 
 Middleware = require './helper/middleware'
 
@@ -113,8 +112,7 @@ Router.get '/messages', Messages.index
 
 #
 
-Router.get '/subscriptions', Subscriptions.index
-
+Router.get '/subscriptions', Subscription.get
 Router.post '/subscribe', Subscription.save
 Router.delete '/subscribe', Subscription.remove
 
