@@ -66,6 +66,11 @@ schema = new mongoose.Schema
 		name:
 			type: String
 	]
+	likes: [
+		client:
+			type: ObjectId
+			ref: 'Client'
+	]
 	is_quiz:
 		type: Boolean
 		default: false

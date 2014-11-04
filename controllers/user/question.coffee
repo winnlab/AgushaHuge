@@ -1,4 +1,5 @@
 async = require 'async'
+_ = require 'lodash'
 
 View = require '../../lib/view'
 Model = require '../../lib/model'
@@ -7,16 +8,6 @@ Logger = require '../../lib/logger'
 tree = require '../../utils/tree'
 
 breadcrumbs = require '../../meta/breadcrumbs'
-
-exports.index = (req, res) ->
-	data =
-		breadcrumbs: tree.findWithParents breadcrumbs, 'encyclopedia'
-	
-	alias: req.params.alias
-	
-	res.locals.params = req.params # req.params is not accessable in middlewares -_- 
-	
-	View.render 'user/question/index', res, data
 
 
 
@@ -28,7 +19,7 @@ exports.findOne = (req, res) ->
 
 	id = req.params.id
 	
-	res.locals.params = req.params # req.params is not accessable in middlewares -_- 
+	res.locals.params = req.params # req.params is not accessible in middlewares -_-
 	
 	async.waterfall [
 		(next) ->

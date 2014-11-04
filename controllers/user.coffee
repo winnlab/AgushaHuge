@@ -18,6 +18,8 @@ QuizAnswer = require './user/quizAnswer'
 Consultation = require './user/consultation'
 Profile = require './user/profile'
 Messages = require './user/messages'
+Like = require './user/like'
+Subscription = require './user/subscription'
 
 Middleware = require './helper/middleware'
 
@@ -91,7 +93,6 @@ Router.get '/specialist', Specialist.index
 #
 
 Router.get '/question/:id', Question.findOne
-Router.get '/question', Question.index
 
 #
 
@@ -108,6 +109,14 @@ Router.get '/moneybox', Moneybox.index
 #
 
 Router.get '/messages', Messages.index
+
+#
+
+Router.post '/like/toggleLike', Like.toggleLike
+
+Router.get '/subscriptions', Subscription.get
+Router.post '/subscribe', Subscription.save
+Router.delete '/subscribe', Subscription.remove
 
 #
 

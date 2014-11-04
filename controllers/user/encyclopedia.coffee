@@ -35,6 +35,13 @@ findAgesThemesArticles = (age, theme, callback) ->
 			Article.findAll age, theme, next
 	, callback
 
+getSubscription = (user, theme, cb) ->
+	if user?._id and theme
+		return Model 'Subscription', 'findOne', { client_id: user._id, theme_id: theme }, (err, doc) ->
+			cb err, { subscription: doc }
+
+	cb null, { subscription: false }
+
 exports.index = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'encyclopedia'
@@ -47,6 +54,9 @@ exports.index = (req, res) ->
 	async.waterfall [
 		(next) ->
 			findAgesThemesArticles age, theme, next
+		(results, next) ->
+			_.extend data, results
+			getSubscription req.user, theme, next
 		(results) ->
 			_.extend data, results
 			View.render 'user/encyclopedia/index', res, data
