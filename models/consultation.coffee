@@ -69,8 +69,6 @@ schema = new mongoose.Schema
 	answer: [
 		_id:
 			type: ObjectId
-			unique: true
-			required: true
 			default: mongoose.Types.ObjectId
 		author:
 			author_id:
