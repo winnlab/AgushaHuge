@@ -46,6 +46,12 @@ schema = new mongoose.Schema
 		type: Boolean
 		required: true
 		default: false
+	position:
+		type: Number
+		default: 0
+	hasBigView:
+		type: Boolean
+		default: false
 	age: [
 		_id:
 			type: ObjectId
@@ -65,6 +71,12 @@ schema = new mongoose.Schema
 			sparse: true
 		name:
 			type: String
+		position:
+			type: Number
+			default: 0
+		hasBigView:
+			type: Boolean
+			default: false
 	]
 	likes: [
 		client:
