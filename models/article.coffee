@@ -66,9 +66,6 @@ schema = new mongoose.Schema
 			type: String
 	]
 	likes: [
-		_id:
-			type: ObjectId
-			default: mongoose.Types.ObjectId
 		client:
 			type: ObjectId
 			ref: 'Client'
