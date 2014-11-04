@@ -23,12 +23,12 @@ exports.render = render = (path, res, data) ->
 	if res.locals.is_ajax_request is true
 		return ajaxResponse res, null, data
 	
-	# if not compiledFiles[path]
-	options =
-		compileDebug: false
-		pretty: false
-	
-	compiledFiles[path] = jade.compileFile "#{viewDirectory}/#{path}.jade", options
+	if not compiledFiles[path]
+		options =
+			compileDebug: false
+			pretty: false
+		
+		compiledFiles[path] = jade.compileFile "#{viewDirectory}/#{path}.jade", options
 	
 	html = compiledFiles[path] data
 	
@@ -94,19 +94,19 @@ exports.globals = (req, res, next)->
 loadClient = (name) ->
 	filename = "#{viewDirectory}/#{name}.jade"
 	
-	# if not compiledClients[name]?
-	templateCode = fs.readFileSync filename, "utf-8"
-	
-	options =
-		compileDebug: false
-		filename: filename
-		pretty: false
-	
-	compiled = jade.compileClient(templateCode, options).toString()
-	
-	compiledClients[name] =
-		source: compiled,
-		lastModified: (new Date).toUTCString(),
+	if not compiledClients[name]?
+		templateCode = fs.readFileSync filename, "utf-8"
+		
+		options =
+			compileDebug: false
+			filename: filename
+			pretty: false
+		
+		compiled = jade.compileClient(templateCode, options).toString()
+		
+		compiledClients[name] =
+			source: compiled,
+			lastModified: (new Date).toUTCString()
 	
 	compiledClients[name]
 
