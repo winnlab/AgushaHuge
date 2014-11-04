@@ -10,6 +10,7 @@ schema = new mongoose.Schema
 		required: true
 	transliterated:
 		type: String
+		unique: true
 	text:
 		type: String
 		required: true

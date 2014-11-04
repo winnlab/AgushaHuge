@@ -19,6 +19,7 @@ schema = new mongoose.Schema
 		required: true
 	transliterated:
 		type: String
+		unique: true
 	desc:
 		shorttext:
 			type: String
