@@ -18,11 +18,8 @@ QuizAnswer = require './user/quizAnswer'
 Consultation = require './user/consultation'
 Profile = require './user/profile'
 Messages = require './user/messages'
-<<<<<<< HEAD
 Like = require './user/like'
-=======
 Subscription = require './user/subscription'
->>>>>>> b21e7c88b24b5a24d597b9590d19f43c47827048
 
 Middleware = require './helper/middleware'
 
