@@ -18,6 +18,7 @@ QuizAnswer = require './user/quizAnswer'
 Consultation = require './user/consultation'
 Profile = require './user/profile'
 Messages = require './user/messages'
+Subscription = require './user/subscription'
 
 Middleware = require './helper/middleware'
 
@@ -108,6 +109,11 @@ Router.get '/moneybox', Moneybox.index
 #
 
 Router.get '/messages', Messages.index
+
+#
+
+Router.post '/subscribe', Subscription.save
+Router.delete '/subscribe', Subscription.remove
 
 #
 
