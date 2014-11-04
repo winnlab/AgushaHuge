@@ -94,6 +94,8 @@ schema = new mongoose.Schema
 ,
 	collection: 'article'
 
+schema.methods.name = -> @title
+
 schema.pre 'save', (next) ->
 	this.updated = moment()
 	this.transliterated = translit.transliterate this.title
