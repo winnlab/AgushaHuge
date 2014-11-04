@@ -18,6 +18,7 @@ QuizAnswer = require './user/quizAnswer'
 Consultation = require './user/consultation'
 Profile = require './user/profile'
 Messages = require './user/messages'
+Like = require './user/like'
 
 Middleware = require './helper/middleware'
 
@@ -91,7 +92,6 @@ Router.get '/specialist', Specialist.index
 #
 
 Router.get '/question/:id', Question.findOne
-Router.get '/question', Question.index
 
 #
 
@@ -110,5 +110,7 @@ Router.get '/moneybox', Moneybox.index
 Router.get '/messages', Messages.index
 
 #
+
+Router.post '/like/toggleLike', Like.toggleLike
 
 exports.Router = Router
