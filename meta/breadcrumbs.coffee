@@ -31,4 +31,8 @@ module.exports = [
 	title: 'Сообщения'
 	href: '/messages'
 	parent_id: 'profile'
+,
+	id: 'subscriptions'
+	title: 'Подписки'
+	href: '/subscriptions'
 ]
