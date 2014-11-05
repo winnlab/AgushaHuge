@@ -83,6 +83,26 @@ schema = new mongoose.Schema
 			type: ObjectId
 			ref: 'Client'
 	]
+	commentaries: [
+		client:
+			type: ObjectId
+			ref: 'Client'
+		content:
+			type: String
+			default: ''
+		date:
+			type: Date
+			required: true
+			default: moment
+		image:
+			type: String
+			default: ''
+		likes: [
+			client:
+				type: ObjectId
+				ref: 'Client'
+		]
+	]
 	is_quiz:
 		type: Boolean
 		default: false
