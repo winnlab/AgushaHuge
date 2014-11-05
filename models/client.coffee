@@ -74,6 +74,9 @@ schema = new mongoose.Schema
 		birth_date:
 			type: Date
 	]
+	points:
+		type: Number
+		default: 0
 ,
 	collection: 'client'
 
