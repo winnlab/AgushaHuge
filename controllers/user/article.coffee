@@ -60,7 +60,6 @@ exports.findOne = (req, res) ->
 	async.waterfall [
 		(next) ->
 			Model 'Article', 'findOne', next, _id: id, null, {lean: true}
-
 		(doc, next) ->
 			if doc.is_quiz
 				countStatistics doc, next
