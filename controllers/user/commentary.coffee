@@ -7,7 +7,7 @@ Logger = require '../../lib/logger'
 
 
 
-exports.addCommentary = (req, res) ->
+exports.add = (req, res) ->
 
 	res.locals.params = req.params # req.params is not accessible in middlewares -_-
 
@@ -55,4 +55,4 @@ exports.addCommentary = (req, res) ->
 
 
 
-exports.deleteCommentary = (req, res) ->
+exports.delete = (req, res) ->
