@@ -1,9 +1,11 @@
 async = require 'async'
 mongoose = require 'mongoose'
+router = require('express').Router()
 _ = require 'lodash'
 
 Crud = require '../../lib/crud'
 Model = require '../../lib/mongooseTransport'
+View = require '../../lib/view'
 
 objUtils = require '../../utils/object.coffee'
 hprop = objUtils.handleProperty
@@ -149,5 +151,11 @@ crud = new ArticleCrud
         }
     ]
 
-module.exports.rest = crud.request.bind crud
-module.exports.restFile = crud.fileRequest.bind crud
+getMaxPosition = (req, res) ->
+    res.send 'Not yet implemented'
+
+router.use '/maxpos', getMaxPosition
+router.use '/img', crud.fileRequest.bind crud
+router.use '/:id?', crud.request.bind crud
+
+module.exports = router

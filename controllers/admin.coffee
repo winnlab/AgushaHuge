@@ -34,8 +34,7 @@ Router.use '/theme', Theme
 
 Router.use '/articleType/:id?', ArticleType.rest
 
-Router.use '/article/img', Article.restFile
-Router.use '/article/:id?', Article.rest
+Router.use '/article', Article
 
 Router.use '/faq/:id?', FAQ.rest
 

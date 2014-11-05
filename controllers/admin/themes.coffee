@@ -5,6 +5,8 @@ _ = require 'lodash'
 Crud = require '../../lib/crud'
 Model = require '../../lib/mongooseTransport'
 View = require '../../lib/view'
+Logger = require '../../lib/logger'
+getMaxFieldValue = require('../../lib/mongoHelpers').getMaxFieldValue
 
 crud = new Crud
     modelName: 'Theme'
@@ -30,50 +32,69 @@ crud = new Crud
 
 getMaxPosition = (req, res) ->
     id = req.params.id
-        
-    query = [
-        $group:
-            _id: '$_id'
-            position:
-                $max: '$theme.position'
-    ,
-        $unwind: '$position'
-    ,
-        $group:
-            _id: null
-            maxPosition:
-                $max: '$position'
-    ,
-        $project:
-            _id: 0
-            max: '$maxPosition'
+
+    options = [
+            model: 'Article'
+            field: 'theme.position'
+            findQuery: {}
+        ,
+            model: 'Consultation'
+            field: 'theme.position'
+            findQuery:
+                encyclopedia: true
     ]
 
     if id
-        q0 =
-            $match:
-                'theme._id': id
-        query = [q0].concat query
+        options[0].findQuery['theme._id'] = id
+        options[1].findQuery['theme._id'] = id
 
-    async.parallel
-        article: (cb) ->
-            Model 'Article', 'aggregate', query, cb
-        consultation: (cb) ->
-            q0 =
-                $match:
-                    encyclopedia: true
-            if id
-                query[0] = _.extend query[0], q0
-            else
-                query = [q0].concat query
+    getMaxFieldValue options, (err, max) ->
+        Logger.log err if err
+        View.ajaxResponse res, null, max: if _.isNumber max then max else 0
+    
+    # query = [
+    #     $group:
+    #         _id: '$_id'
+    #         position:
+    #             $max: '$theme.position'
+    # ,
+    #     $unwind: '$position'
+    # ,
+    #     $group:
+    #         _id: null
+    #         maxPosition:
+    #             $max: '$position'
+    # ,
+    #     $project:
+    #         _id: 0
+    #         max: '$maxPosition'
+    # ]
 
-            Model 'Consultation', 'aggregate', query, cb
-    , (err, results) ->
-        aMax = results.article[0]?.max or 0
-        cMax = results.consultation[0]?.max or 0
-        max = Math.max aMax, cMax
+    # if id
+    #     q0 =
+    #         $match:
+    #             'theme._id': id
+    #     query = [q0].concat query
 
-        View.ajaxResponse res, err, max: max
+    # async.parallel
+    #     article: (cb) ->
+    #         Model 'Article', 'aggregate', query, cb
+    #     consultation: (cb) ->
+    #         q0 =
+    #             $match:
+    #                 encyclopedia: true
+    #         if id
+    #             query[0] = _.extend query[0], q0
+    #         else
+    #             query = [q0].concat query
+
+    #         Model 'Consultation', 'aggregate', query, cb
+    # , (err, results) ->
+    #     aMax = results.article[0]?.max or 0
+    #     cMax = results.consultation[0]?.max or 0
+    #     max = Math.max aMax, cMax
+
+    #     View.ajaxResponse res, err, max: max
 
 router.get '/maxpos/:id?', getMaxPosition
 router.use '/img', crud.fileRequest.bind crud
