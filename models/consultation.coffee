@@ -10,6 +10,7 @@ schema = new mongoose.Schema
 		required: true
 	transliterated:
 		type: String
+		unique: true
 	text:
 		type: String
 		required: true
@@ -67,7 +68,7 @@ schema = new mongoose.Schema
 	]
 	answer: [
 		_id:
-			type: ObjectId			
+			type: ObjectId
 			default: mongoose.Types.ObjectId
 		author:
 			author_id:
