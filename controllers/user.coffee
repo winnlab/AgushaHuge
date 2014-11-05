@@ -21,6 +21,8 @@ Messages = require './user/messages'
 Like = require './user/like'
 Subscription = require './user/subscription'
 Commentary = require './user/commentary'
+Rating = require './user/rating'
+
 
 Middleware = require './helper/middleware'
 
@@ -122,7 +124,7 @@ Router.delete '/subscribe', Subscription.remove
 #
 
 Router.post '/commentaries/addCommentary', Commentary.add
-Router.delete '/commentaries/deleteCommentary', Commentary.delete
+Router.post '/commentaries/ratings/toggleRating', Rating.toggleRating
 
 #
 

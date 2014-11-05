@@ -85,8 +85,15 @@ schema = new mongoose.Schema
 	]
 	commentaries: [
 		client:
-			type: ObjectId
-			ref: 'Client'
+			client_id:
+				type: ObjectId
+				ref: 'Client'
+			profile:
+				type: Object
+				default: {}
+			image:
+				type: String
+
 		content:
 			type: String
 			default: ''
@@ -97,10 +104,12 @@ schema = new mongoose.Schema
 		image:
 			type: String
 			default: ''
-		likes: [
+		rating: [
 			client:
 				type: ObjectId
 				ref: 'Client'
+			value:
+				type: Number
 		]
 	]
 	is_quiz:
