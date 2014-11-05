@@ -76,7 +76,7 @@ getMaxPosition = (req, res) ->
         View.ajaxResponse res, err, max: max
 
 router.get '/maxpos/:id?', getMaxPosition
-router.get '/img', crud.fileRequest.bind crud
-router.get '/:id?', crud.request.bind crud
+router.use '/img', crud.fileRequest.bind crud
+router.use '/:id?', crud.request.bind crud
 
 module.exports = router
