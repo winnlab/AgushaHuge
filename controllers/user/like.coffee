@@ -11,7 +11,7 @@ breadcrumbs = require '../../meta/breadcrumbs'
 
 exports.toggleLike = (req, res) ->
 	_id = req.body._id
-	userId = req.body.userId
+	userId = req?.user?._id
 	model = req.body.model
 	toggleResult = null
 
@@ -31,7 +31,7 @@ exports.toggleLike = (req, res) ->
 					if doc.likes
 
 						likeIndex = _.findIndex doc.likes, (element) ->
-							return element.client.toString() == userId
+							return element.client.toString() == userId.toString()
 
 						if likeIndex isnt -1
 							doc.likes.splice likeIndex, 1
@@ -43,7 +43,7 @@ exports.toggleLike = (req, res) ->
 						doc.save next
 
 					else
-						doc.likes.push = {client: userId}
+						doc.likes.push {client: userId}
 						toggleResult = 1
 						doc.save next
 				else

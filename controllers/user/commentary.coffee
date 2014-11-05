@@ -8,10 +8,16 @@ Logger = require '../../lib/logger'
 
 
 exports.add = (req, res) ->
+	userId = req.user?._id
+	_id = req.body?._id
+	model = req.body?.model
+	content = req.body?.content
+	addData = {}
+	commentariesLength = 0
 
 	res.locals.params = req.params # req.params is not accessible in middlewares -_-
 
-	if _id and userId and model
+	if userId and model and _id and content
 
 		async.waterfall [
 			(next) ->
@@ -22,28 +28,29 @@ exports.add = (req, res) ->
 
 				if doc
 
-					if doc.likes
+					addData = {
+						client: {
+							client_id: userId,
+							profile: req.user.profile,
+							image: req.user.image
+						},
+						content: content
+					}
 
-						likeIndex = _.findIndex doc.likes, (element) ->
-							return element.client.toString() == userId
+					commentariesLength = doc.commentaries.push addData
 
-						if likeIndex isnt -1
-							doc.likes.splice likeIndex, 1
-							toggleResult = 0
-						else
-							doc.likes.push {client: userId}
-
-						doc.save next
-
-					else
-						doc.likes.push = {client: userId}
-						doc.save next
+					doc.save next
 				else
 					next "Error in controllers/user/article/index: No document was found in #{model} model with _id: #{_id}"
 
 			(doc, next) ->
+				addData.model = model
 
-				View.ajaxResponse res, null, {doc: doc}
+				if commentariesLength isnt 0
+					addData.commentaryId = doc.commentaries[commentariesLength-1]._id
+					addData.commentaryDate = doc.commentaries[commentariesLength-1].date
+
+				View.ajaxResponse res, null, {doc: doc, addData: addData}
 
 		], (err) ->
 			error = err.message or err
@@ -52,7 +59,3 @@ exports.add = (req, res) ->
 	else
 		Logger.log 'info', "Error in controllers/user/article/index: Not all of the variables were received"
 		res.send "Error in controllers/user/article/index: Not all of the variables were received"
-
-
-
-exports.delete = (req, res) ->

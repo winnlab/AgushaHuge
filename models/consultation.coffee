@@ -43,6 +43,12 @@ schema = new mongoose.Schema
 	encyclopedia:
 		type: Boolean
 		default: false
+	position:
+		type: Number
+		default: 0
+	hasBigView:
+		type: Boolean
+		default: false
 	type:
 		name:
 			type: String
@@ -65,6 +71,12 @@ schema = new mongoose.Schema
 			sparse: true
 		name:
 			type: String
+		position:
+			type: Number
+			default: 0
+		hasBigView:
+			type: Boolean
+			default: false
 	]
 	likes: [
 		client:
