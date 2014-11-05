@@ -66,6 +66,11 @@ schema = new mongoose.Schema
 		name:
 			type: String
 	]
+	likes: [
+		client:
+			type: ObjectId
+			ref: 'Client'
+	]
 	answer: [
 		_id:
 			type: ObjectId

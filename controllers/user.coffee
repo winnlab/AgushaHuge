@@ -20,6 +20,7 @@ Profile = require './user/profile'
 Messages = require './user/messages'
 Like = require './user/like'
 Subscription = require './user/subscription'
+Commentary = require './user/commentary'
 
 Middleware = require './helper/middleware'
 
@@ -117,6 +118,11 @@ Router.post '/like/toggleLike', Like.toggleLike
 Router.get '/subscriptions', Subscription.get
 Router.post '/subscribe', Subscription.save
 Router.delete '/subscribe', Subscription.remove
+
+#
+
+Router.post '/commentaries/addCommentary', Commentary.add
+Router.delete '/commentaries/deleteCommentary', Commentary.delete
 
 #
 
