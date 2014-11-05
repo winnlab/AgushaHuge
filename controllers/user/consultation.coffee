@@ -42,7 +42,7 @@ exports.findOne = (req, res) ->
 		Logger.log 'info', "Error in controllers/user/consultation/index: #{error}"
 		res.send error
 
-getDenormalizedData = (obj, cb) ->
+getDenormalizedData = (obj, user, cb) ->
 	async.parallel
 		age: (proceed) ->
 			Model 'Age', 'findOne', {_id: obj.age_id}, '_id  title', proceed
@@ -51,8 +51,8 @@ getDenormalizedData = (obj, cb) ->
 	, (err, data) ->
 		result =
 			author:
-				author_id: obj?.user?._id
-				name: obj?.user?.profile?.first_name + ' ' + obj?.user?.profile?.last_name
+				author_id: user?._id
+				name: (user?.profile?.first_name or '') + ' ' + (user?.profile?.last_name or '')
 			age:
 				age_id: obj.age_id
 				title: data.age.title
@@ -65,13 +65,12 @@ getDenormalizedData = (obj, cb) ->
 			encyclopedia: false
 			closed: false
 			active: true
-			answer: []
 		cb err, result
 
 exports.setConsultation = (req, res) ->
 	async.waterfall [
 		(next) ->
-			getDenormalizedData req.body, next
+			getDenormalizedData req.body, req.user, next
 		(data, next) ->
 			data.name = req.body.name
 			data.text = req.body.text

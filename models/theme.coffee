@@ -23,9 +23,13 @@ schema = new mongoose.Schema
 		default: 99
 	image:
 		type: String
+	counter:
+		article:
+			type: Number
+			default: 0
 ,
 	collection: 'theme'
 
-schema.set('versionKey', false);
+schema.set 'versionKey', false
 
 module.exports = mongoose.model 'Theme', schema
