@@ -152,7 +152,28 @@ crud = new ArticleCrud
     ]
 
 getMaxPosition = (req, res) ->
-    res.send 'Not yet implemented'
+    id = req.params.id
+
+    options = [
+            model: 'Article'
+            field: 'position'
+            findQuery:
+                active: true
+        ,
+            model: 'Consultation'
+            field: 'position'
+            findQuery:
+                encyclopedia: true
+                active: true
+    ]
+
+    if id
+        options[0].findQuery['theme._id'] = id
+        options[1].findQuery['theme._id'] = id
+
+    getMaxFieldValue options, (err, max) ->
+        Logger.log err if err
+        View.ajaxResponse res, null, max: if _.isNumber max then max else 0
 
 router.use '/maxpos', getMaxPosition
 router.use '/img', crud.fileRequest.bind crud
