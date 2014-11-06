@@ -61,10 +61,13 @@ exports.findOne = (req, res) ->
 		(next) ->
 			Model 'Article', 'findOne', next, _id: id, null, {lean: true}
 		(doc, next) ->
-			if doc.is_quiz
-				countStatistics doc, next
+			if doc
+				if doc.is_quiz
+					countStatistics doc, next
+				else
+					next null, doc
 			else
-				next null, doc
+				next 404
 		(doc, next) ->
 			if doc
 				data.article = doc

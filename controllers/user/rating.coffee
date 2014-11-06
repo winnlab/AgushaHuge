@@ -41,7 +41,7 @@ exports.toggleRating = (req, res) ->
 										return ratingItem.client.toString() == userId.toString()
 
 									if ratingIndex isnt -1
-										if doc.commentaries[commentaryIndex].rating[commentaryIndex].value isnt ratingValue
+										if doc.commentaries[commentaryIndex].rating[ratingIndex].value isnt ratingValue
 											if ratingValue is 1
 												doc.commentaries[commentaryIndex].scoreInc += 1
 												doc.commentaries[commentaryIndex].scoreDec -= 1
@@ -49,7 +49,7 @@ exports.toggleRating = (req, res) ->
 												doc.commentaries[commentaryIndex].scoreInc -= 1
 												doc.commentaries[commentaryIndex].scoreDec += 1
 
-										doc.commentaries[commentaryIndex].rating[commentaryIndex].value = ratingValue
+										doc.commentaries[commentaryIndex].rating[ratingIndex].value = ratingValue
 									else
 										if ratingValue is 1
 											doc.commentaries[commentaryIndex].scoreInc += 1
