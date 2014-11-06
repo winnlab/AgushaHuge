@@ -25,6 +25,8 @@ Middleware = require './helper/middleware'
 
 Moneybox = require './user/moneybox'
 
+User = require './user/user'
+
 
 Theme = require '../lib/theme'
 
@@ -101,7 +103,7 @@ Router.get '/search/:phrase', Search.index
 
 #
 
-# Router.get '/login',
+Router.use '/user', User
 
 #
 
