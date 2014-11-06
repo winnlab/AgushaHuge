@@ -1,8 +1,28 @@
-Database = require '../../init/database'
-ModelPreloader = require '../../init/mpload'
+mongoose = require 'mongoose'
+
+opts =
+    server: { auto_reconnect: true, primary:null, poolSize: 50 },
+    host: 'localhost'
+    port: '27017'
+    database: 'test'
+    primary: null
+
+connString = 'mongodb://'+opts.host+":"+opts.port+"/"+opts.database+"?auto_reconnect=true"
+
+mongoose.connect connString, opts
+
+mongoose.connection.on 'error', (err) ->
+    console.log 'MongoDB connection error:', err
+
+# Require models
+
+Client = require '../../models/client'
+MoneyboxModel = require '../../models/moneybox'
+MoneyboxRuleModel = require '../../models/moneyboxRule'
 
 async = require 'async'
 should = require 'should'
+Migrate = require '../../init/migrate'
 Moneybox = require '../../lib/moneybox'
 Model = require '../../lib/mongooseTransport'
 
@@ -12,7 +32,15 @@ clientId = '545728cc246da5ed0ed38908'
 describe 'Moneybox', ->
 
     before (done) ->
-        ModelPreloader "#{process.cwd()}/models/", done
+        async.waterfall [
+            (next) ->
+                Migrate.init next
+            (next) ->
+                client =  new Client
+                    _id: '545728cc246da5ed0ed38908'
+                    points: 0
+                client.save next
+        ], done
 
     beforeEach (done) ->
         async.waterfall [
