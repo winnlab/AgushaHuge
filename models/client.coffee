@@ -80,6 +80,12 @@ schema = new mongoose.Schema
 schema.methods.name = () ->
 	"#{@first_name} #{@last_name}"
 
+schema.methods.fillingProfile = () ->
+	return 0
+
+schema.methods.getImage = (type) ->
+	return ''
+
 schema.methods.validPassword = (password) ->
 	md5pass = crypto.createHash('md5').update(password).digest 'hex'
 
