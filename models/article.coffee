@@ -111,6 +111,12 @@ schema = new mongoose.Schema
 			value:
 				type: Number
 		]
+		scoreInc:
+			type: Number
+			default: 0
+		scoreDec:
+			type: Number
+			default: 0
 	]
 	is_quiz:
 		type: Boolean
