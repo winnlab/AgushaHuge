@@ -91,6 +91,12 @@ schema.methods.lvl = () ->
 	  when @points < 800 then 'Эксперт'
 	  else 'Профи'
 
+schema.methods.fillingProfile = () ->
+	return 0
+
+schema.methods.getImage = (type) ->
+	return ''
+
 schema.methods.validPassword = (password) ->
 	md5pass = crypto.createHash('md5').update(password).digest 'hex'
 

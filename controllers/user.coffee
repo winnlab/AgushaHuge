@@ -28,6 +28,8 @@ Middleware = require './helper/middleware'
 
 Moneybox = require './user/moneybox'
 
+User = require './user/user'
+
 
 Theme = require '../lib/theme'
 
@@ -40,17 +42,12 @@ Router.get '/registered', Main.registered
 
 #
 
-# Router.get '/registration', Middleware.auth.isAuth()
-
 Router.use '/registration', Registration
 
 Router.use '/login', Login
 
 Router.use '/profile', Profile.router
 
-#
-
-# Router.get '/login', Middleware.auth.isAuth(), Login.index
 
 #
 
@@ -103,7 +100,7 @@ Router.get '/search/:phrase', Search.index
 
 #
 
-# Router.get '/login',
+Router.use '/user', User
 
 #
 

@@ -79,6 +79,12 @@ exports.findOne = (req, res) ->
 			if docs
 				data.similarArticles = docs
 
+			if req.user?._id
+				data.user = {
+					_id: req.user._id,
+					profile: req.user.profile
+				}
+
 			View.render 'user/article/index', res, data
 	], (err) ->
 		error = err.message or err
