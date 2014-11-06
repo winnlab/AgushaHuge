@@ -36,10 +36,14 @@ describe 'Moneybox', ->
             (next) ->
                 Migrate.init next
             (next) ->
-                client =  new Client
-                    _id: '545728cc246da5ed0ed38908'
-                    points: 0
-                client.save next
+                Model 'Client', 'findOne', _id: clientId, next
+            (doc, next) ->
+                unless doc
+                    client =  new Client
+                        _id: '545728cc246da5ed0ed38908'
+                        points: 0
+                    return client.save next
+                next null
         ], done
 
     beforeEach (done) ->
@@ -59,9 +63,9 @@ describe 'Moneybox', ->
         async.waterfall [
             (next) ->
                 Moneybox.registration clientId, next
-            (next) ->
+            (client, next) ->
                 Moneybox.registration clientId, next
-            (next) ->
+            (client, next) ->
                 checkPoins 25, next
         ], done
 
@@ -69,9 +73,9 @@ describe 'Moneybox', ->
         async.waterfall [
             (next) ->
                 Moneybox.like clientId, next
-            (next) ->
+            (client, next) ->
                 Moneybox.like clientId, next
-            (next) ->
+            (client, next) ->
                 checkPoins 2, next
         ], done
 
@@ -79,12 +83,12 @@ describe 'Moneybox', ->
         async.waterfall [
             (next) ->
                 Moneybox.comment clientId, next
-            (next) ->
+            (client, next) ->
                 Moneybox.comment clientId, next
-            (next) ->
+            (client, next) ->
                 Moneybox.comment clientId, next
-            (next) ->
+            (client, next) ->
                 Moneybox.comment clientId, next
-            (next) ->
+            (client, next) ->
                 checkPoins 3, next
         ], done
