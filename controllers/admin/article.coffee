@@ -6,6 +6,7 @@ _ = require 'lodash'
 Crud = require '../../lib/crud'
 Model = require '../../lib/mongooseTransport'
 View = require '../../lib/view'
+getMaxFieldValue = require('../../lib/mongoHelpers').getMaxFieldValue
 
 objUtils = require '../../utils/object.coffee'
 hprop = objUtils.handleProperty
