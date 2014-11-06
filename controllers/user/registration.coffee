@@ -32,7 +32,7 @@ router.get '/', (req, res, next) ->
 router.get '/fb', passport.authenticate 'facebook',
 	scope: ['email', 'user_birthday']
 
-router.get '/vk/', passport.authenticate 'vkontakte',
+router.get '/vk', passport.authenticate 'vkontakte',
 	successRedirect: '/profile'
 	failureRedirect: '/login'
 
