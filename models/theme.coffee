@@ -18,14 +18,21 @@ schema = new mongoose.Schema
 		type: Boolean
 		required: true
 		default: true
+	isFirstCardXL:
+		type: Boolean
+		default: false
 	position:
 		type: Number
 		default: 99
 	image:
 		type: String
+	counter:
+		article:
+			type: Number
+			default: 0
 ,
 	collection: 'theme'
 
-schema.set('versionKey', false);
+schema.set 'versionKey', false
 
 module.exports = mongoose.model 'Theme', schema

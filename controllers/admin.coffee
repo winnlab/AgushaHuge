@@ -28,13 +28,13 @@ Router.post '/login', Main.doLogin
 Router.use '/age/img', Age.restFile
 Router.use '/age/:id?', Age.rest
 
-Router.use '/theme/img', Theme.restFile
-Router.use '/theme/:id?', Theme.rest
+# Router.use '/theme/img', Theme.restFile
+# Router.use '/theme/:id?', Theme.rest
+Router.use '/theme', Theme
 
 Router.use '/articleType/:id?', ArticleType.rest
 
-Router.use '/article/img', Article.restFile
-Router.use '/article/:id?', Article.rest
+Router.use '/article', Article
 
 Router.use '/faq/:id?', FAQ.rest
 
@@ -55,6 +55,7 @@ Router.use '/productAge/:id?', ProductAge.rest
 Router.use '/rank/img', Rank.restFile
 Router.use '/rank/:id?', Rank.rest
 
+# Random data getter without REST wrapper
 Router.get '/user', User.get
 
 #########################

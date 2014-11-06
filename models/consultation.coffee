@@ -10,6 +10,7 @@ schema = new mongoose.Schema
 		required: true
 	transliterated:
 		type: String
+		unique: true
 	text:
 		type: String
 		required: true
@@ -42,6 +43,12 @@ schema = new mongoose.Schema
 	encyclopedia:
 		type: Boolean
 		default: false
+	position:
+		type: Number
+		default: 0
+	hasBigView:
+		type: Boolean
+		default: false
 	type:
 		name:
 			type: String
@@ -64,12 +71,21 @@ schema = new mongoose.Schema
 			sparse: true
 		name:
 			type: String
+		position:
+			type: Number
+			default: 0
+		hasBigView:
+			type: Boolean
+			default: false
+	]
+	likes: [
+		client:
+			type: ObjectId
+			ref: 'Client'
 	]
 	answer: [
 		_id:
 			type: ObjectId
-			unique: true
-			required: true
 			default: mongoose.Types.ObjectId
 		author:
 			author_id:

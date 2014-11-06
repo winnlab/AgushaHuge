@@ -1,6 +1,138 @@
-Crud = require '../../lib/crud'
+async = require 'async'
+mongoose = require 'mongoose'
+_ = require 'lodash'
 
-crud = new Crud
-    modelName: 'Consultation'
+Crud = require '../../lib/crud'
+Model = require '../../lib/mongooseTransport'
+
+objUtils = require '../../utils/object.coffee'
+hprop = objUtils.handleProperty
+
+class ConsultationCrud extends Crud
+	add: (data, cb) ->
+		DocModel = @DataEngine()
+		doc = new DocModel()
+
+		for own field, value of data
+			hprop doc, field, value
+
+		async.waterfall [
+			(next) ->
+				doc.save next
+			(doc, numberAffected, next) ->
+				unless doc.theme or doc.theme.length isnt 0 or doc.encyclopedia
+					return do next
+
+				where =
+                    _id:
+                        $in: _.pluck doc.theme, '_id'
+                what =
+                    $inc:
+                        'counter.article': 1
+
+                Model 'Theme', 'update', where, what, {multi: true}, next
+		], (err) ->
+			cb err, data
+
+	update: (id, data, cb) ->
+		oldVals = []
+		for item in @options.denormalized
+			oldVals[item.property] = null
+
+		oldThemes = []
+		oldEncyc = undefined
+		async.waterfall [
+			(next) =>
+				@DataEngine 'findById', next, id
+			(doc, next) =>
+				for item in @options.denormalized
+					value = hprop doc, item.property
+					hprop oldVals, item.property, value
+
+				oldEncyc = doc.encyclopedia
+				oldThemes = _.pluck doc.theme, '_id'
+				oldThemes = _.map oldThemes, (v) -> v?.toString?()
+
+				for own field, value of data
+					hprop doc, field, value
+
+				doc.save next
+			(doc, numberAffected, next) =>
+				newEncyc = doc.encyclopedia
+				if newEncyc
+					newThemes = _.pluck doc.theme, '_id'
+					newThemes = _.map newThemes, (v) -> v?.toString()
+
+				if newEncyc and oldEncyc
+					toIncrease = _.difference newThemes, oldThemes
+					toDecrease = _.difference oldThemes, newThemes
+				else if newEncyc and not oldEncyc
+					toIncrease = newThemes
+				else if not newEncyc and oldEncyc
+					toDecrease = oldThemes
+
+				async.parallel
+					decrease: (next) ->
+						toDecrease = _.map toDecrease, (v) -> mongoose.Types.ObjectId v
+
+						return do next unless toDecrease.length
+
+						where =
+							_id:
+								$in: toDecrease
+						what =
+							$inc:
+								'counter.article': -1
+
+						Model 'Theme', 'update', where, what, {multi: true}, next
+					increase: (next) ->
+						toIncrease = _.map toIncrease, (v) -> mongoose.Types.ObjectId v
+
+						return do next unless toIncrease.length
+
+						where =
+							_id:
+								$in: toIncrease
+						what =
+							$inc:
+								'counter.article': 1
+
+						Model 'Theme', 'update', where, what, {multi: true}, next
+				, (err, results) => 
+					if @options.denormalized.length
+						return next err, doc
+
+					cb err, doc
+			(doc) =>
+				@_updateDenormalized oldVals, doc, cb
+		], cb
+
+	remove: (id, cb) ->
+		async.waterfall [
+			(next) =>
+				@DataEngine 'findById', next, id
+			(doc, next) =>
+				@_removeDocFiles doc, (err) ->
+					next err, doc
+			(doc, next) ->
+				doc.remove (err) ->
+					next err, doc
+			(doc, next)  ->
+				unless doc.encyclopedia
+					return cb null, doc
+
+				where = 
+                    _id:
+                        $in: _.pluck doc.theme, '_id'
+                what =
+                    $inc:
+                        'counter.article': -1
+
+                Model 'Theme', 'update', where, what, {multi: true}, (err) ->
+                    cb err, doc
+		], cb
+
+crud = new ConsultationCrud
+	modelName: 'Consultation'
 
 module.exports.rest = crud.request.bind crud

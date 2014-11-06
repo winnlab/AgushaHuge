@@ -19,6 +19,7 @@ schema = new mongoose.Schema
 		required: true
 	transliterated:
 		type: String
+		unique: true
 	desc:
 		shorttext:
 			type: String
@@ -45,6 +46,12 @@ schema = new mongoose.Schema
 		type: Boolean
 		required: true
 		default: false
+	position:
+		type: Number
+		default: 0
+	hasBigView:
+		type: Boolean
+		default: false
 	age: [
 		_id:
 			type: ObjectId
@@ -64,14 +71,46 @@ schema = new mongoose.Schema
 			sparse: true
 		name:
 			type: String
+		position:
+			type: Number
+			default: 0
+		hasBigView:
+			type: Boolean
+			default: false
 	]
 	likes: [
-		_id:
-			type: ObjectId
-			default: mongoose.Types.ObjectId
 		client:
 			type: ObjectId
 			ref: 'Client'
+	]
+	commentaries: [
+		client:
+			client_id:
+				type: ObjectId
+				ref: 'Client'
+			profile:
+				type: Object
+				default: {}
+			image:
+				type: String
+
+		content:
+			type: String
+			default: ''
+		date:
+			type: Date
+			required: true
+			default: moment
+		image:
+			type: String
+			default: ''
+		rating: [
+			client:
+				type: ObjectId
+				ref: 'Client'
+			value:
+				type: Number
+		]
 	]
 	is_quiz:
 		type: Boolean
@@ -100,6 +139,8 @@ schema = new mongoose.Schema
 			default: 0
 ,
 	collection: 'article'
+
+schema.methods.name = -> @title
 
 schema.pre 'save', (next) ->
 	this.updated = moment()
