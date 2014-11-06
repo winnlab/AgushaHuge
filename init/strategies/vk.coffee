@@ -25,7 +25,7 @@ passport.use 'vkontakte', new VkontakteStrategy
 	
 		if req.user
 			if user and req.user._id isnt user._id
-				return next new Error 'This fb profile already exist'
+				return next new Error 'This vk profile already exist'
 
 			email = req.user.email
 
@@ -51,7 +51,7 @@ passport.use 'vkontakte', new VkontakteStrategy
 
 				return user.save done
 
-			User.create
+			User.add
 				email: params.email.toLowerCase()
 				active: true
 				image: profile['_json'].photo_max
@@ -72,7 +72,7 @@ passport.use 'vkontakte', new VkontakteStrategy
 
 				return done null, user
 
-		User.DataEngine 'findOne', callback, 'email': params.email
+		User.DataEngine 'findOne', callback, 'email': params.email.toLowerCase()
 
 	User.DataEngine 'findOne', callbackWrap, 'social.fb': profile.id
 
