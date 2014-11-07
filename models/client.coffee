@@ -1,13 +1,17 @@
+
 crypto = require 'crypto'
 
 moment = require 'moment'
 mongoose = require 'mongoose'
+_ = require 'underscore'
 
 ObjectId = mongoose.Schema.Types.ObjectId
 Validate = require '../utils/validate'
 
 cryptoUtil = require '../utils/crypto'
 validator = require '../utils/validate'
+
+metaFillingWeight = require '../meta/profileWeight.coffee'
 
 schema = new mongoose.Schema
 	email:
@@ -33,12 +37,22 @@ schema = new mongoose.Schema
 	profile:
 		filling:
 			type: Number
+			default: 0
 		first_name:
 			type: String
 			trim: true
 		last_name:
 			type: String
 			trim: true
+		gender:
+			type: Number
+		birth_date:
+			month:
+				type: Number
+			day:
+				type: Number
+			year:
+				type: Number
 	image:
 		type: String
 	social:
@@ -80,6 +94,11 @@ schema = new mongoose.Schema
 ,
 	collection: 'client'
 
+schema.pre 'save', (next) ->
+	@profile.filling = @fillingProfile()
+
+	next()
+
 schema.methods.name = () ->
 	"#{@first_name} #{@last_name}"
 
@@ -92,7 +111,21 @@ schema.methods.lvl = () ->
 	  else 'Профи'
 
 schema.methods.fillingProfile = () ->
-	return 0
+	def = 0
+	that = @
+
+	_.each metaFillingWeight, (weightItem, key) ->
+		fields = weightItem.fields
+
+		isFill = _.every fields, (field) ->
+			return that.get field
+
+		console.log isFill
+
+		if isFill
+			def += weightItem.weight
+
+	return def
 
 schema.methods.getImage = (type) ->
 	return ''
