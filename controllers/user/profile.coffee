@@ -12,7 +12,7 @@ router.use (req, res, next) ->
     next()
 
 router.get '/', (req, res, next) ->
-	View.render 'user/profile/index',res, user: req.user
+    View.render 'user/profile/index',res, user: req.user
 
 router.get '/logout', (req, res, next) ->
     req.logout()
