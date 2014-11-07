@@ -12,8 +12,6 @@ exports.index = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'encyclopedia'
 	
-	alias: req.params.alias
-	
 	res.locals.params = req.params # req.params is not accessable in middlewares -_- 
 	
 	async.waterfall [
