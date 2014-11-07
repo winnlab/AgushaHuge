@@ -99,26 +99,64 @@ exports.findOne = (req, res) ->
 exports.saveAnswer = (req, res) ->
 
 	data = req.body
+	userId = req.user?._id
 	result = {}
 
-	async.waterfall [
-		(next) ->
-			Model 'QuizAnswer', 'create', next, data
-		(doc, next) ->
-			Model 'Article', 'update', next, {
-				_id: data.article,
-				'answer._id': data.answer
-			}, {
-				$inc: {
-					'answer.$.score': 1
-				}
-			}
-		(doc, status, next) ->
-			Model 'Article', 'findOne', next, _id: data.article, null, {lean: true}
-		(doc, next) ->
-			countStatistics doc, next		
-	], (err, doc) ->
-		View.ajaxResponse res, err, doc		
+	if userId
+		async.waterfall [
+			(next) ->
+				if data.article
+					Model 'Article', 'findOne', next, _id: data.article
+				else
+					next 404
+			(doc, next) ->
+				if doc
+					answerIndex = _.findIndex doc.answer, (element) ->
+						return element._id.toString() is data.answer.toString()
+
+					if answerIndex isnt -1
+						doc.answer[answerIndex].clients.push {
+							client: userId
+						}
+
+						doc.save next
+					else
+						next 404
+			(doc, status, next) ->
+				leanObj = doc.toObject()
+				countStatistics leanObj, next
+		], (err, doc) ->
+			View.ajaxResponse res, err, doc
+	else
+		View.ajaxResponse res, 403, 'Unauthorized user'
+
+#exports.saveAnswer = (req, res) ->
+#
+#	data = req.body
+#	userId = req.user?._id
+#	result = {}
+#
+#	if userId
+#		async.waterfall [
+#			(next) ->
+#				Model 'QuizAnswer', 'create', next, data
+#			(doc, next) ->
+#				Model 'Article', 'update', next, {
+#					_id: data.article,
+#					'answer._id': data.answer
+#				}, {
+#					$inc: {
+#						'answer.$.score': 1
+#					}
+#				}
+#			(doc, status, next) ->
+#				Model 'Article', 'findOne', next, _id: data.article, null, {lean: true}
+#			(doc, next) ->
+#				countStatistics doc, next
+#		], (err, doc) ->
+#			View.ajaxResponse res, err, doc
+#	else
+#		View.ajaxResponse res, 403, 'Unauthorized user'
 
 
 
@@ -126,10 +164,10 @@ countStatistics = (result, cb) ->
 	sum = 0
 
 	_.each result.answer, (answer) ->
-		sum += answer.score
+		sum += answer.clients.length
 
 	for answerItem, answerKey in result.answer
-		percent = answerItem.score * 100 / sum
+		percent = answerItem.clients.length * 100 / sum
 		result.answer[answerKey].percent = percent.toFixed()
 
 	cb null, result
