@@ -10,6 +10,7 @@ View = require '../../lib/view'
 Model = require '../../lib/model'
 Email = require '../../lib/mail'
 Auth = require '../../lib/auth'
+Moneybox = require '../../lib/moneybox'
 
 crud = new Crud
 	modelName: 'Client'
@@ -72,6 +73,8 @@ router.get '/activate/:id', (req, res, next) ->
 
 			if not user
 				return next new Error 'User not exist'
+
+			Moneybox.registration user._id, () ->
 
 			data =
 				user: user

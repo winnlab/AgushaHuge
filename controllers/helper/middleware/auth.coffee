@@ -15,6 +15,7 @@ isAuth = () ->
 		if req.user
 			return res.redirect config.profileUrl
 
+
 		next()
 
 exports = {
