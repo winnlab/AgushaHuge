@@ -19,8 +19,8 @@ scoring = (client_id, rule, cb) ->
         (doc, next) ->
             doc.points = if doc.points then doc.points + rule.points else rule.points
             doc.save next
-    ], (err, doc) ->
-        cb err
+    ], (err, user, num) ->
+        cb err, user
 
 isSingleCharged = (client_id, rule_id, cb) ->
     Model 'Moneybox', 'find', {
@@ -60,7 +60,7 @@ setPoints = (client_id, name, cb) ->
             checkRestrictions client_id, rule, next
         (allowed, next) ->
             return scoring client_id, rule, next if allowed
-            next()
+            next null, null
     ], cb
 
 
