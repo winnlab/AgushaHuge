@@ -53,9 +53,10 @@ exports.getMaxFieldValue = (options, callback) ->
 		Model item.model, 'aggregate', query, next
 
 	async.map options, iterator, (err, results) ->
-		max = if _.isArray results then results.shift()[0].max else 0
+
+		max = if _.isArray(results) and results.length then results.shift()?[0]?.max or 0 else 0
 
 		_.each results, (obj) ->
-			max = Math.max obj[0].max, max
+			max = Math.max obj?[0]?.max or 0, max
 
 		callback err, max
