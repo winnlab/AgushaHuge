@@ -12,7 +12,7 @@ hprop = objUtils.handleProperty
 
 errorMsg =
 	noProperty: 'Denormalized object property `property` should be non-empty string'
-	noTargets: 'Denormalized object should have array of denormalizedIn'
+	noTargets: 'Denormalized object should have Array-type property `denormalizedIn`'
 	noModelName: 'Denormalized object target should have non-empty string as `model` property'
 	noFileName: 'File with denormalizedIn array has no name.'
 
