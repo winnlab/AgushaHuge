@@ -49,7 +49,6 @@ Router.use '/login', Login
 
 Router.use '/profile', Profile.router
 
-
 #
 
 Router.get '/products', Products.index
