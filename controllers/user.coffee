@@ -22,7 +22,7 @@ Like = require './user/like'
 Subscription = require './user/subscription'
 Commentary = require './user/commentary'
 Rating = require './user/rating'
-
+Test = require './user/test'
 
 Middleware = require './helper/middleware'
 
@@ -48,7 +48,6 @@ Router.use '/registration', Registration
 Router.use '/login', Login
 
 Router.use '/profile', Profile.router
-
 
 #
 
@@ -123,6 +122,10 @@ Router.delete '/subscribe', Subscription.remove
 
 Router.post '/commentaries/addCommentary', Commentary.add
 Router.post '/commentaries/ratings/toggleRating', Rating.toggleRating
+
+#
+
+Router.get '/email_test', Test.email
 
 #
 

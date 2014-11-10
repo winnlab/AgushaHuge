@@ -63,7 +63,10 @@ exports.findOne = (req, res) ->
 		(doc, next) ->
 			if doc
 				if doc.is_quiz
-					countStatistics doc, next
+					if req.user
+						findUserAnswer req, doc, next
+					else
+						countStatistics doc, next
 				else
 					next null, doc
 			else
@@ -83,10 +86,16 @@ exports.findOne = (req, res) ->
 				data.similarArticles = docs
 
 			if req.user?._id
+				if data.article.is_quiz
+					if req.userVoted
+						data.userVoted = true
+
 				data.user = {
 					_id: req.user._id,
 					profile: req.user.profile
 				}
+
+			console.log "User voted: #{data.userVoted}"
 
 			View.render 'user/article/index', res, data
 	], (err) ->
@@ -94,6 +103,30 @@ exports.findOne = (req, res) ->
 		Logger.log 'info', "Error in controllers/user/article/index: #{error}"
 		res.send error
 
+
+
+findUserAnswer = (req, doc, cb) ->
+	async.waterfall [
+		  (next) ->
+			  if doc.answer
+				  clientAnswer = _.find doc.answer, (answerItem) ->
+					  if answerItem.clients
+						  return _.find answerItem.clients, (client) ->
+							  return client.client.toString() is req.user._id.toString()
+					  else
+						  return false
+
+				  if clientAnswer and clientAnswer isnt -1
+					  req.userVoted = true
+
+				  countStatistics doc, next
+			  else
+				  countStatistics doc, next
+		  (next) ->
+			  cb null, doc
+	  ],
+		(err) ->
+			cb err
 
 
 exports.saveAnswer = (req, res) ->
@@ -164,10 +197,15 @@ countStatistics = (result, cb) ->
 	sum = 0
 
 	_.each result.answer, (answer) ->
-		sum += answer.clients.length
+		if answer.clients
+			sum += answer.clients.length
 
 	for answerItem, answerKey in result.answer
-		percent = answerItem.clients.length * 100 / sum
+		if answerItem.clients
+			percent = answerItem.clients.length * 100 / sum
+		else
+			percent = 0
+
 		result.answer[answerKey].percent = percent.toFixed()
 
 	cb null, result
