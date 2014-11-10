@@ -5,10 +5,7 @@ Model = require './model'
 Logger = require './logger'
 Mail = require './mail'
 
-exports.sendMail = (client, template, subject, callback) ->
-	options =
-		subject: subject
-		login: client.login
-		email: client.email
-	
+# do we even need this file?
+
+exports.sendMail = (template, options, callback) ->
 	Mail.send template, options, callback
