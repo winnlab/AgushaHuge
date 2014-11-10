@@ -129,9 +129,6 @@ schema = new mongoose.Schema
 			type: String
 		position:
 			type: Number
-		score:
-			type: Number
-			default: 0
 		clients: [
 			client:
 				type: ObjectId
