@@ -4,9 +4,9 @@ weights =
 		fields: [
 			'profile.first_name'
 			'profile.last_name'
-			'profile.birth_date.year'
-			'profile.birth_date.month'
-			'profile.birth_date.day'
+			'birth_date.year'
+			'birth_date.month'
+			'birth_date.day'
 			'profile.gender'
 			'profile.about'
 		]
@@ -19,7 +19,7 @@ weights =
 			'contacts.houseNum'
 			'contacts.apartament'
 			'contacts.phone'
-			'contacts.email'
+			'email'
 			'contacts.spareEmail'
 		]
 		weight: 30
