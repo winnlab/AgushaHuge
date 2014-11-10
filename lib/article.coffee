@@ -37,14 +37,40 @@ exports.makeSearchOptions = makeSearchOptions = (age, theme, callback) ->
 		callback null, searchOptions
 
 exports.findAll = (age, theme, callback) ->
+	articles = []
+
 	sortOptions =
+		'theme.position': -1
 		lean: true
 
 	async.waterfall [
 		(next) ->
 			makeSearchOptions age, theme, next
-		(searchOptions) ->			
-			Model 'Article', 'find', callback, searchOptions, null, sortOptions
+		(searchOptions, next) ->
+			Model 'Article', 'find', callback, searchOptions, {
+				type: 1
+				updated: 1
+				title: 1
+				transliterated: 1
+				desc: 1
+				image: 1
+				recommended: 1
+				hasBigView: 1
+				age: 1
+				likes: 1
+				commentaries: 1
+				is_quiz: 1
+				answer: 1
+				counter: 1
+				theme: { $elemMatch: { _id: theme } }
+			}, sortOptions
+		(docs, next) ->
+			articles = docs
+			searchOptions.encyclopedia = true
+			Model 'Consultation', 'find', next, searchOptions, null, { lean: true }
+		(docs, next) ->
+			articles.concat docs
+			callback articles
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in lib/article/findAll: #{error}"
