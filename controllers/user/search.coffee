@@ -1,4 +1,5 @@
 async = require 'async'
+_ = require 'lodash'
 
 View = require '../../lib/view'
 Model = require '../../lib/model'
@@ -30,11 +31,17 @@ exports.index = (req, res) ->
 	
 	words = phrase.split '_'
 	
+	regexpWords = []
+	
+	wordsLength = words.length
+	while wordsLength--
+		regexpWords.push new RegExp words[wordsLength], 'i'
+	
 	async.parallel
 		articles: (next) ->
-			Article.search words, next
+			Article.search regexpWords, next
 		consultations: (next) ->
-			Consultation.search words, next
+			Consultation.search regexpWords, next
 	, (err, results) ->
 		if err
 			error = err.message or err
@@ -42,5 +49,7 @@ exports.index = (req, res) ->
 			return res.send error
 		
 		console.log results
-	
+		
+		_.extend data, results
+		
 		View.render 'user/search/index', res, data

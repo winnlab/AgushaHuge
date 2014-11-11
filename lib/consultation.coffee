@@ -4,17 +4,16 @@ View = require './view'
 Model = require './model'
 Logger = require './logger'
 
-exports.search = (words, callback) ->
+exports.search = (regexpWords, callback) ->
 	sortOptions =
 		lean: true
 	
 	searchOptions =
 		'$or': []
 	
-	wordsLength = words.length
+	wordsLength = regexpWords.length
 	while wordsLength--
-		word = words[wordsLength]
-		regexp =  new RegExp '^' + word + '$', 'i'
+		regexp = regexpWords[wordsLength]
 		
 		searchOptions['$or'].push
 			'name': regexp

@@ -76,18 +76,16 @@ exports.findAll = (age, theme, callback) ->
 		Logger.log 'info', "Error in lib/article/findAll: #{error}"
 		View.ajaxResponse res, err
 
-exports.search = (words, callback) ->
+exports.search = (regexpWords, callback) ->
 	sortOptions =
 		lean: true
 	
 	searchOptions =
 		'$or': []
 	
-	wordsLength = words.length
+	wordsLength = regexpWords.length
 	while wordsLength--
-		word = words[wordsLength]
-		
-		regexp =  new RegExp '^' + word + '$', 'i'
+		regexp = regexpWords[wordsLength]
 		
 		searchOptions['$or'].push
 			'title': regexp
