@@ -3,6 +3,8 @@ async = require 'async'
 View = require '../../lib/view'
 Model = require '../../lib/model'
 Logger = require '../../lib/logger'
+Article = require '../../lib/article'
+Consultation = require '../../lib/consultation'
 
 tree = require '../../utils/tree'
 
@@ -28,4 +30,17 @@ exports.index = (req, res) ->
 	
 	words = phrase.split '_'
 	
-	View.render 'user/search/index', res, data
+	async.parallel
+		articles: (next) ->
+			Article.search words, next
+		consultations: (next) ->
+			Consultation.search words, next
+	, (err, results) ->
+		if err
+			error = err.message or err
+			Logger.log 'info', "Error in controllers/user/search/index: #{error}"
+			return res.send error
+		
+		console.log results
+	
+		View.render 'user/search/index', res, data
