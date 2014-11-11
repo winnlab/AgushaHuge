@@ -155,6 +155,7 @@ class ArticleCrud extends Crud
                     next err, {
                         __v: doc.__v
                         filename: doc.image[prefix]
+                        data: doc.image["data#{prefix}"]
                     }
         ], (err, data) ->
             cb err, data
