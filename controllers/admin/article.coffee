@@ -4,6 +4,7 @@ router = require('express').Router()
 _ = require 'lodash'
 
 Crud = require '../../lib/crud'
+Image = require '../../lib/image'
 Model = require '../../lib/mongooseTransport'
 View = require '../../lib/view'
 getMaxFieldValue = require('../../lib/mongoHelpers').getMaxFieldValue
@@ -122,6 +123,107 @@ class ArticleCrud extends Crud
                     cb err, doc
         ], cb
 
+    _crop: (req, cb) ->
+        id = req.body.id or req.body._id
+        data = req.body.data
+        prefix = req.body.prefix
+
+        _.forOwn data, (val, prop) -> data[prop] = parseInt val
+
+        unless id and data and prefix
+            return cb 'Ошибка. Не переданы все необходимые данные для вырезания изображения.'
+        
+        async.waterfall [
+            (next) =>
+                @findOne id, next
+            (doc, next) =>
+                unless doc.image.background
+                    return next 'Ошибка. Изображение фона не задано или удалено.'
+
+                if doc.image[prefix]
+                    return @removeFile doc.image[prefix], (err) ->
+                        next err, doc
+
+                next null, doc
+            (doc, next) ->
+                Image.crop doc.image.background, prefix, data, (err) ->
+                    next err, doc
+            (doc, next) ->
+                doc.image[prefix] = "cropped#{prefix}#{doc.image.background}"
+                doc.image["data#{prefix}"] = data
+                doc.save (err, doc) ->
+                    next err, {
+                        __v: doc.__v
+                        filename: doc.image[prefix]
+                    }
+        ], (err, data) ->
+            cb err, data
+
+    _removeCroppedFile: (req, cb) ->
+        id = req.body.id or req.body._id
+        prefix = req.body.prefix
+        fileName = undefined
+
+        async.waterfall [
+            (next) ->
+                unless id
+                    err = 'Ошибка: неизвестно поле "id" файла.'
+                
+                next err
+            (next) =>
+                @DataEngine 'findById', next, id
+            (doc, next) =>
+                fileName = doc.image[prefix]
+                unless typeof fileName is 'string'
+                    return next 'Ошибка: попытка удалить неизвестный файл (скорее всего не передан префикс)'
+
+                @removeFile fileName, (err) ->
+                    next err, doc
+            (doc, next) =>
+                doc.image[prefix] = undefined
+
+                doc.save next
+            (doc, affected) ->
+                data =
+                    doc: doc
+                    __v: doc.__v
+                    name: fileName
+
+                cb null, data
+
+        ], cb
+
+    cropRequest: (req, res) ->
+        cb = (err, data) =>
+            @result err, data, res
+
+        switch req.method
+            when "POST"
+                @_crop req, cb
+            when "DELETE"
+                @_removeCroppedFile req, cb
+            else
+                cb 'Error: #{req.method} is not allowed!'
+
+    remove: (id, cb) ->
+        async.waterfall [
+            (next) =>
+                @DataEngine 'findById', next, id
+            (doc, next) =>
+                @_removeDocFiles doc, (err) ->
+                    next err, doc
+            (doc, next) ->
+                imgs = ['S', 'L', 'XL']
+                async.each imgs, (prefix, next) ->
+                    if _.isString doc.image[prefix]
+                        @removeFile doc.image[prefix], next
+                    else
+                        do next
+                , next
+            (doc) ->
+                doc.remove cb
+        ], cb
+
 crud = new ArticleCrud
     modelName: 'Article'
     files: [
@@ -176,8 +278,9 @@ getMaxPosition = (req, res) ->
         Logger.log err if err
         View.ajaxResponse res, null, max: if _.isNumber max then max else 0
 
-router.use '/maxpos', getMaxPosition
+router.get '/maxpos', getMaxPosition
 router.use '/img', crud.fileRequest.bind crud
+router.use '/crop', crud.cropRequest.bind crud
 router.use '/:id?', crud.request.bind crud
 
 module.exports = router

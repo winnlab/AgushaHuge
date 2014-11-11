@@ -4,6 +4,16 @@ translit = require 'transliteration.cyr'
 
 ObjectId = mongoose.Schema.Types.ObjectId
 
+cropperPosition =
+	x:
+		type: Number
+	y:
+		type: Number
+	width:
+		type: Number
+	height:
+		type: Number
+
 schema = new mongoose.Schema
 	type:
 		name:
@@ -37,7 +47,9 @@ schema = new mongoose.Schema
 			type: String
 		XL:
 			type: String
-
+		dataS: cropperPosition
+		dataL: cropperPosition
+		dataXL: cropperPosition
 	active:
 		type: Boolean
 		required: true
