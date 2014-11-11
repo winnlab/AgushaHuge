@@ -1,8 +1,32 @@
+_ = require 'lodash'
 async = require 'async'
 
 Model = require '../../lib/mongooseTransport'
 
 View = require '../../lib/view'
+
+getSubscriptions = (userId, cb) ->
+	async.waterfall [
+		(next) ->
+			Model 'Subscription', 'find', { client_id: userId }, next
+		(docs, next) ->
+			Model 'Article', 'find', { 'theme._id': { $in: _.pluck(docs, 'theme_id') } }, next
+	], cb
+
+getFeed = (user, data, cb) ->
+	unless user and user._id
+		_.extend data, { themeSubs: [], consultations: [] }
+		return cb null
+
+	async.parallel {
+		themeSubs: (proceed) ->
+			getSubscriptions user._id, proceed
+		consultations: (proceed) ->
+			Model 'Consultation', 'find', { 'author.author_id': user._id }, proceed
+	}, (err, results) ->
+		_.extend data, results if results
+		cb err
+
 
 exports.index = (req, res) ->
 	data =
@@ -16,6 +40,8 @@ exports.index = (req, res) ->
 		(docs, next) ->
 			data.articles = docs
 			next null
+		(next) ->
+			getFeed req.user, data, next
 	], (err) ->
 		View.render 'user/main/index', res, data
 
