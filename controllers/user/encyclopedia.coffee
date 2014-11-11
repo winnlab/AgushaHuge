@@ -2,7 +2,7 @@ async = require 'async'
 _ = require 'underscore'
 
 View = require '../../lib/view'
-Model = require '../../lib/model'
+Model = require '../../lib/mongooseTransport'
 Article = require '../../lib/article'
 Theme = require '../../lib/theme'
 
@@ -22,7 +22,7 @@ findAgesThemesArticles = (age, theme, callback) ->
 					value: 1
 				limit: 6
 
-			Model 'Age', 'find', next, searchOptions, 'title value icon desc', sortOptions
+			Model 'Age', 'find', searchOptions, 'title value icon desc', sortOptions, next
 		themes: (next) ->
 			if !age
 				return next null, []

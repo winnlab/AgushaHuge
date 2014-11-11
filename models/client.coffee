@@ -35,6 +35,8 @@ schema = new mongoose.Schema
 		set: cryptoUtil.password
 		validate: validator.password
 	profile:
+		about:
+			type: String
 		filling:
 			type: Number
 			default: 0
@@ -46,15 +48,48 @@ schema = new mongoose.Schema
 			trim: true
 		gender:
 			type: Number
-		birth_date:
-			month:
-				type: Number
-			day:
-				type: Number
-			year:
-				type: Number
+	birth_date:
+		month:
+			type: Number
+			default: null
+		day:
+			type: Number
+			default: null
+
+		year:
+			type: Number
+			default: null
+	contacts:
+		country:
+			type: String
+			default: null
+		city: 
+			type: String
+			default: null
+		street:
+			type: String
+			default: null
+		houseNum:
+			type: String
+			default: null
+		apartament:
+			type: String
+			default: null
+		phone:
+			type: String
+			default: null
+		spareEmail:
+			type: String
+			default: null
 	image:
-		type: String
+		orig:
+			type: String
+		large:
+			type: String
+		medium:
+			type: String
+		small:
+			type: String
 	social:
 		vk:
 			id:
@@ -119,8 +154,6 @@ schema.methods.fillingProfile = () ->
 
 		isFill = _.every fields, (field) ->
 			return that.get field
-
-		console.log isFill
 
 		if isFill
 			def += weightItem.weight
