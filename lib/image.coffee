@@ -84,3 +84,13 @@ getChkdirFn = (s) ->
 				cb null, false
 			else
 				cb err, true
+
+exports.crop = (name, prefix, opts, callback) ->
+	pathToNewFile = uploadsPath + 'cropped' + prefix + name
+
+	try
+		gm(uploadsPath + name)
+			.crop(opts.width, opts.height, opts.x, opts.y)
+			.write pathToNewFile, callback
+	catch err
+		callback err.name or err
