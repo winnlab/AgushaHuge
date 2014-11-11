@@ -12,7 +12,7 @@ exports.index = (req, res) ->
 
 	async.waterfall [
 		(next) ->
-			Model 'Article', 'find', {}, null, { sort: { updated: 1 } }, next
+			Model 'Article', 'find', {}, null, { sort: { position: -1 } }, next
 		(docs, next) ->
 			data.articles = docs
 			next null
