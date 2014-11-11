@@ -36,4 +36,8 @@ public/img/uploads
 #my own directory with some garbage!
 random/
 
+#Supossed to be WebStorm support files
 .idea
+
+# PlainTasks todo lists
+*.todo
