@@ -58,6 +58,21 @@ Router.use '/rank/:id?', Rank.rest
 # Random data getter without REST wrapper
 Router.get '/user', User.get
 
+# TEMPORARY BENEATH#
+Router.post '/tmpUserRemove', (req, res) ->
+    ClientModel = require '../models/client'
+    async = require 'async'
+    string = req.body.email
+    emails = string.split ' '
+    if emails
+        async.each emails, (item, cb) ->
+            ClientModel.remove {email: new RegExp(".*#{item}.*", 'gi')}, cb
+        , (err) ->
+            res.send unless err then true else err
+    else
+        res.send 'No emails string aquired'
+# TEMPORARY ABOVE#
+
 #########################
 
 exports.Router = Router
