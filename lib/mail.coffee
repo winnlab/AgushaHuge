@@ -31,8 +31,8 @@ exports.send = (name, data, cb) ->
 			cb_html = html
 			
 			mailOptions =
-				from: "Агуша <contact@agusha.com.ua>",
-				to: "#{data.client.login} <#{data.client.email}>"
+				from: "Агуша <contact@agusha.com.ua>"
+				to: "#{data.toName} <#{data.to}>"
 				subject: data.subject
 				text: text
 				html: html
