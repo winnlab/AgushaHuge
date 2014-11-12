@@ -41,12 +41,15 @@ schema = new mongoose.Schema
 	image:
 		background:
 			type: String
+		B:
+			type: String
 		S:
 			type: String
 		L:
 			type: String
 		XL:
 			type: String
+		dataB: cropperPosition
 		dataS: cropperPosition
 		dataL: cropperPosition
 		dataXL: cropperPosition
