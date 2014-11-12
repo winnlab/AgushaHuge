@@ -46,7 +46,7 @@ class ArticleCrud extends Crud
             Model 'Article', 'find', {'theme.position': item.position}, (err, docs) ->
                 return next err if err
 
-                if docs.length > 1 or docs.length is 1 and docs[0].theme._id isnt item._id
+                if docs.length > 1 or docs.length is 1 and not _.find(docs[0].theme, (doc) -> doc._id.toString() is item._id.toString())
                     next null, item.name
                 else
                     next null, true
@@ -250,6 +250,23 @@ class ArticleCrud extends Crud
             (doc) ->
                 doc.remove cb
         ], cb
+
+    findAll: (query, cb, options = {}, fields = null) ->
+        console.log 'opts', options
+        if options.docsCount
+            docsCount = options.docsCount
+            delete options.docsCount
+        else
+            docsCount = 18
+
+        if options.lastId
+            # anchorId = mongoose.Types.ObjectId options.lastId
+            anchorId = options.lastId
+            delete options.lastId
+
+        console.log 'query', query
+        console.log docsCount, anchorId
+        Model @options.modelName, 'findPaginated', query, fields, options, cb, docsCount, anchorId
 
 crud = new ArticleCrud
     modelName: 'Article'

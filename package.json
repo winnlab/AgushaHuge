@@ -58,6 +58,6 @@
     "passport-odnoklassniki": "~0.1.5",
     "connect-mongo": "~0.4.1",
     "swig": "1.4.2",
-    "mongoose-pages": "0.0.3"
+    "mongoose-pages": "https://github.com/mshekera/mongoose-pages/tarball/master"
   }
 }

@@ -1,5 +1,6 @@
 moment = require 'moment'
 mongoose = require 'mongoose'
+mongoosePages = require 'mongoose-pages'
 translit = require 'transliteration.cyr'
 
 ObjectId = mongoose.Schema.Types.ObjectId
@@ -63,7 +64,8 @@ schema = new mongoose.Schema
 		default: false
 	position:
 		type: Number
-		default: 0
+		unique: true
+		index: true
 	hasBigView:
 		type: Boolean
 		default: false
@@ -163,8 +165,6 @@ schema = new mongoose.Schema
 ,
 	collection: 'article'
 
-schema.index 'theme.position': -1
-
 schema.methods.name = -> @title
 
 schema.pre 'save', (next) ->
@@ -172,5 +172,7 @@ schema.pre 'save', (next) ->
 	this.transliterated = translit.transliterate this.title
 
 	next()
+
+mongoosePages.anchor schema, 'position', '$lt'
 
 module.exports = mongoose.model 'Article', schema
