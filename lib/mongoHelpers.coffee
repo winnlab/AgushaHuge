@@ -32,12 +32,17 @@ exports.getMaxFieldValue = (options, callback) ->
 		isNested = 0 < item.field.indexOf '.'
 
 		if isNested
+			split = item.field.split '.'
+			query.push
+				$unwind: '$' + split[0]
+
+			if item.findQuery
+				query.push
+					$match: item.findQuery
+
 			query.push
 				$project:
 					position: "$#{item.field}"
-
-			query.push
-				$unwind: '$position'
 
 		query.push
 			$group:
@@ -53,7 +58,6 @@ exports.getMaxFieldValue = (options, callback) ->
 		Model item.model, 'aggregate', query, next
 
 	async.map options, iterator, (err, results) ->
-
 		max = if _.isArray(results) and results.length then results.shift()?[0]?.max or 0 else 0
 
 		_.each results, (obj) ->
