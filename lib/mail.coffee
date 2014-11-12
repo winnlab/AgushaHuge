@@ -39,6 +39,6 @@ exports.send = (name, data, cb) ->
 			
 			transport.sendMail mailOptions, next
 		->
-			cb cb_html
+			cb null, cb_html
 	], (err) ->
 		cb err

@@ -234,21 +234,6 @@ crud = new ArticleCrud
             type: 'string'
         },
         {
-            name: 'image.S'
-            replace: true
-            type: 'string'
-        },
-        {
-            name: 'image.L'
-            replace: true
-            type: 'string'
-        },
-        {
-            name: 'image.XL'
-            replace: true
-            type: 'string'
-        },
-        {
             name: 'desc.images'
             replace: false
             type: 'array'

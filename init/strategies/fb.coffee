@@ -62,17 +62,13 @@ passport.use 'facebook', new FaseBookStrategy
 					access_token: accessToken
 					refresh_token: refreshToken
 
-				console.log user.social.fb
-				console.log profile.id
-				console.log accessToken
-
 				return user.save done
 
 				# return done null, user
 
 			User.add
 				email: profile['_json'].email
-				image: profile['_json'].picture.data.url
+				# image: profile['_json'].picture.data.url
 				profile:
 					first_name: profile.name.givenName
 					last_name: profile.name.familyName

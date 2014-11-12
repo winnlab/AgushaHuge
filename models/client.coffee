@@ -113,15 +113,22 @@ schema = new mongoose.Schema
 			refresh_token:
 				type: String
 	children: [
-		child_id:
-			type: ObjectId
-			ref: 'Children'
+		# child_id:
+		# 	type: ObjectId
+		# 	ref: 'Children'
 		photo:
 			type: String
 		name:
 			type: String
 		birth_date:
 			type: Date
+		birth:
+			day:
+				type: String
+			month:
+				type: String
+			year:
+				type: String 
 	]
 	points:
 		type: Number
