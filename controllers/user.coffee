@@ -109,6 +109,7 @@ Router.get '/moneybox', Moneybox.index
 #
 
 Router.get '/messages', Messages.index
+Router.get '/conversations', Messages.getConversations
 
 #
 
@@ -128,5 +129,6 @@ Router.post '/commentaries/ratings/toggleRating', Rating.toggleRating
 Router.get '/email_test', Test.email
 
 #
+
 
 exports.Router = Router

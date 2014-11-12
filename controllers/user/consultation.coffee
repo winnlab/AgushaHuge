@@ -53,13 +53,15 @@ getDenormalizedData = (obj, user, cb) ->
 			author:
 				author_id: user?._id
 				name: (user?.profile?.first_name or '') + ' ' + (user?.profile?.last_name or '')
-			age:
-				age_id: obj.age_id
+			age: [
+				_id: obj.age_id
 				title: data.age.title
 				fixture: ''
-			theme:
-				theme_id: obj.theme_id
+			]
+			theme: [
+				_id: obj.theme_id
 				name: data.theme.name
+			]
 			type:
 			    name: "Статья от пользователя"
 			encyclopedia: false

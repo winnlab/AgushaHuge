@@ -1,12 +1,11 @@
 mongoose = require 'mongoose'
 moment = require 'moment'
-translit = require 'transliteration.cyr'
 
 ObjectId = mongoose.Schema.Types.ObjectId
 
 schema = new mongoose.Schema
 	interlocutors: [
-		client_id:
+		client:
 			type: ObjectId
 			ref: 'Client'
 		read:
@@ -17,9 +16,6 @@ schema = new mongoose.Schema
 		_id:
 			type: ObjectId
 			default: mongoose.Types.ObjectId
-		type:
-			type: String
-			default: 'default'
 		author:
 			type: ObjectId
 			ref: 'Client'
@@ -33,12 +29,18 @@ schema = new mongoose.Schema
 			type: Date
 			required: true
 			default: moment
+		file:
+			type: String
+			default: ''
 	]
+	type:
+		type: String
+		default: 'default'
 	updated:
 		type: Date
 		required: true
 		default: moment
 ,
-	collection: 'messages'
+	collection: 'conversations'
 
-module.exports = mongoose.model 'Message', schema
+module.exports = mongoose.model 'Conversation', schema

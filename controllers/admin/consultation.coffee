@@ -56,6 +56,8 @@ class ConsultationCrud extends Crud
 				for own field, value of data
 					hprop doc, field, value
 
+				@sendNotificationToClient data.answer, doc
+
 				doc.save next
 			(doc, numberAffected, next) =>
 				newEncyc = doc.encyclopedia
@@ -131,6 +133,69 @@ class ConsultationCrud extends Crud
                 Model 'Theme', 'update', where, what, {multi: true}, (err) ->
                     cb err, doc
 		], cb
+
+	sendNotificationToClient: (dataAnswers, externalDoc) ->
+		if dataAnswers
+			newAnswers = _.filter dataAnswers, (element) ->
+				return element._id is undefined
+
+			if newAnswers and externalDoc.author?.author_id
+
+				async.waterfall [
+					(next) ->
+						Model 'Conversation', 'findOne', {
+							'interlocutors.client': externalDoc.author.author_id,
+							'interlocutors.client': newAnswers[0].specialist._id
+						}, next
+
+					(doc, next) =>
+
+						if doc
+							authorIndex = _.findIndex doc.interlocutors, (interlocutor) ->
+								return interlocutor.client.toString() is externalDoc.author.author_id.toString()
+
+							doc.interlocutors[authorIndex].read = false
+						else
+							DocModel = Model 'Conversation'
+							doc = new DocModel()
+
+							doc.interlocutors = [
+								client: externalDoc.author.author_id
+							,
+								client: newAnswers[0].specialist._id
+							]
+							doc.type = 'consultation'
+
+						for answer in newAnswers
+							trimmedText = answer.text.substr 0, 30
+							trimmedText = trimmedText.substr(0, Math.min(trimmedText.length, trimmedText.lastIndexOf(" ")))
+							trimmedText += '...'
+
+							unless doc.messages
+								doc.messages = []
+
+							doc.messages.push {
+								author: answer.specialist._id,
+								title: externalDoc.name,
+								content: 'Доктор ответил на Ваш вопрос "' + externalDoc.name + '" в теме "' + externalDoc.theme[0].name + '" <br><br>' + 'Ответ доктора:<br>' + trimmedText + '<br><br><a href="">продолжить диалог</a>'
+							}
+							doc.updated = answer.date
+
+						doc.save next
+
+					(doc, next) ->
+
+				], (err) ->
+					console.error err
+
+#			console.log ''
+#			console.log 'newAnswers'
+#			console.log newAnswers
+#			console.log ''
+#			console.log 'doc'
+#			console.log doc
+
+
 
 crud = new ConsultationCrud
 	modelName: 'Consultation'
