@@ -43,6 +43,9 @@ exports.index = (req, res) ->
 	async.waterfall [
 		(next) ->
 			Model 'Moneybox', 'aggregate', [
+				$match:
+					client_id: req.user._id
+			,
 				$project:
 					month:
 						$month: '$time'
