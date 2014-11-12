@@ -21,7 +21,10 @@ class ArticleCrud extends Crud
             hprop doc, field, value
 
         async.waterfall [
-            (next) ->
+            (next) =>
+                @_checkThemePositions doc.theme, (err) ->
+                    next err, doc
+            (doc, next) ->
                 doc.save next
             (doc, numberAffected, next) ->
                 unless doc.theme or doc.theme.length isnt 0
@@ -37,6 +40,26 @@ class ArticleCrud extends Crud
                 Model 'Theme', 'update', where, what, {multi: true}, next
         ], (err) ->
             cb err, data
+
+    _checkThemePositions: (theme, cb) ->
+        async.map theme, (item, next) ->
+            Model 'Article', 'find', {'theme.position': item.position}, (err, docs) ->
+                return next err if err
+
+                if docs.length > 1 or docs.length is 1 and docs[0].theme._id isnt item._id
+                    next null, item.name
+                else
+                    next null, true
+
+        , (err, results) ->
+            msg = ''
+            if results
+                _.each results, (item) ->
+                    if _.isString item
+                        msg += "Позиция темы #{item} уже существует в рамках текущей темы (должна быть уникальной). "
+
+            cb err or msg or null
+
 
     update: (id, data, cb) ->
         oldVals = []
@@ -58,6 +81,9 @@ class ArticleCrud extends Crud
                 for own field, value of data
                     hprop doc, field, value
 
+                @_checkThemePositions doc.theme, (err) ->
+                    next err, doc
+            (doc, next) ->
                 doc.save next
             (doc, numberAffected, next) =>
                 newThemes = _.pluck doc.theme, '_id'
