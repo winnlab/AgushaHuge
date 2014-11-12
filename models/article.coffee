@@ -88,7 +88,7 @@ schema = new mongoose.Schema
 			type: String
 		position:
 			type: Number
-			default: 0
+			sparse: true
 		hasBigView:
 			type: Boolean
 			default: false
@@ -162,6 +162,8 @@ schema = new mongoose.Schema
 			default: 0
 ,
 	collection: 'article'
+
+schema.index 'theme.position': -1
 
 schema.methods.name = -> @title
 
