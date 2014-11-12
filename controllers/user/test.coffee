@@ -11,9 +11,8 @@ exports.email = (req, res) ->
 	# email = 'hydra0@bigmir.net'
 	
 	options =
-		client:
-			login: 'Имя Фамилия'
-			email: email
+		toName: 'Имя Фамилия'
+		to: email
 		subject: 'Агуша тест'
 	
 	Client.sendMail 'letter_regist_2', options, (err, html) ->
