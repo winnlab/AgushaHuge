@@ -252,7 +252,7 @@ class ArticleCrud extends Crud
         ], cb
 
     findAll: (query, cb, options = {}, fields = null) ->
-        console.log 'opts', options
+        # console.log 'opts', options
         if options.docsCount
             docsCount = options.docsCount
             delete options.docsCount
@@ -264,8 +264,8 @@ class ArticleCrud extends Crud
             anchorId = options.lastId
             delete options.lastId
 
-        console.log 'query', query
-        console.log docsCount, anchorId
+        # console.log 'query', query
+        # console.log docsCount, anchorId
         Model @options.modelName, 'findPaginated', query, fields, options, cb, docsCount, anchorId
 
 crud = new ArticleCrud
