@@ -11,7 +11,7 @@ breadcrumbs = require '../../meta/breadcrumbs'
 
 exports.lvls = [
 	name: 'novice'
-	label: 'Новичек'
+	label: 'Новичок'
 	points: 200
 ,
 	name: 'disciple'

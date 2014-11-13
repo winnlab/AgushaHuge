@@ -25,9 +25,7 @@ exports.findOne = (req, res) ->
 		(next) ->
 			consultation = Model 'Consultation', 'findOne', null, _id: id
 
-			consultation.populate({
-				path: 'author.author_id'
-			}).exec next
+			consultation.populate('author.author_id answer.author.author_id').exec next
 		(doc, next) ->
 			if doc
 				data.consultation = doc
