@@ -27,8 +27,7 @@ exports.getConversations = (req, res) ->
 	if req.user
 		async.waterfall [
 			(next) ->
-				conversations = Model 'Conversation', 'find', {'interlocutors.client_id': req.user._id}, null
-
+				conversations = Model 'Conversation', 'find', {'interlocutors.client': req.user._id}, null
 				conversations.populate('interlocutors.client').exec next
 			(docs, next) ->
 				View.ajaxResponse res, null, docs

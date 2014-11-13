@@ -92,6 +92,7 @@ Router.get '/specialist', Specialist.index
 
 #
 
+Router.post '/question/sendAnswer', Question.sendAnswer
 Router.get '/question/:id', Question.findOne
 
 #

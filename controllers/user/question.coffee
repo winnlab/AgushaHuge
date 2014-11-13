@@ -40,9 +40,37 @@ exports.findOne = (req, res) ->
 		(docs, next) ->
 			if docs
 				data.similarArticles = docs
+			if req.user
+				data.user = req.user
 
 			View.render 'user/question/index', res, data
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/question/index: #{error}"
 		res.send error
+
+
+
+exports.sendAnswer = (req, res) ->
+	data = req.body
+	userId = req.user?._id
+	result = {}
+
+	if userId
+		async.waterfall [
+			(next) ->
+				if data._id
+					Model 'Consultation', 'findOne', next, _id: data._id
+				else
+					next 404
+			(doc, next) ->
+				if doc
+					doc.answer.push data.answer
+
+					doc.save next
+				else
+					next 404
+		], (err, doc) ->
+			View.ajaxResponse res, err, doc
+	else
+		View.ajaxResponse res, 403, 'Unauthorized user'

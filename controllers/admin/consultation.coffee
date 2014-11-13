@@ -177,7 +177,7 @@ class ConsultationCrud extends Crud
 							doc.messages.push {
 								author: answer.specialist._id,
 								title: externalDoc.name,
-								content: 'Доктор ответил на Ваш вопрос "' + externalDoc.name + '" в теме "' + externalDoc.theme[0].name + '" <br><br>' + 'Ответ доктора:<br>' + trimmedText + '<br><br><a href="">продолжить диалог</a>'
+								content: 'Доктор ответил на Ваш вопрос "' + externalDoc.name + '" в теме "' + externalDoc.theme[0].name + '" <br><br>' + 'Ответ доктора:<br>' + trimmedText + '<br><br><a href="question/' + externalDoc._id + '">продолжить диалог</a>'
 							}
 							doc.updated = answer.date
 
@@ -187,13 +187,6 @@ class ConsultationCrud extends Crud
 
 				], (err) ->
 					console.error err
-
-#			console.log ''
-#			console.log 'newAnswers'
-#			console.log newAnswers
-#			console.log ''
-#			console.log 'doc'
-#			console.log doc
 
 
 
