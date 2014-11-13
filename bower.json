@@ -28,6 +28,8 @@
     "moment": "~2.8.3",
     "sweetalert": "~0.2.0",
     "html5sortable": "*",
-    "malihu-custom-scrollbar-plugin": "~3.0.5"
+    "malihu-custom-scrollbar-plugin": "~3.0.5",
+    "jquery-knob": "1.2.11",
+    "tooltipster": "3.3.0"
   }
 }

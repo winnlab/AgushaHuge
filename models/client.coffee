@@ -118,6 +118,9 @@ schema = new mongoose.Schema
 		# 	ref: 'Children'
 		photo:
 			type: String
+		gender:
+			type: Number
+			default: 0
 		name:
 			type: String
 		birth_date:
@@ -125,10 +128,16 @@ schema = new mongoose.Schema
 		birth:
 			day:
 				type: String
+				set: (value) ->
+					parseInt value
 			month:
 				type: String
+				set: (value) ->
+					parseInt value
 			year:
-				type: String 
+				type: String
+				set: (value) ->
+					parseInt value
 	]
 	points:
 		type: Number
