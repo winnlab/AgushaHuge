@@ -173,6 +173,6 @@ schema.pre 'save', (next) ->
 
 	next()
 
-mongoosePages.anchor schema, 'position', '$lt'
+mongoosePages.anchor schema
 
 module.exports = mongoose.model 'Article', schema
