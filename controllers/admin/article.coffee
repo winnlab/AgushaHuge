@@ -246,7 +246,8 @@ class ArticleCrud extends Crud
                         @removeFile doc.image[prefix], next
                     else
                         do next
-                , next
+                , (err) ->
+                    next err, doc
             (doc) ->
                 doc.remove cb
         ], cb
