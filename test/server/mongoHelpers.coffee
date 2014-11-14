@@ -213,7 +213,7 @@ describe 'mongoHelpers', ->
             ]
 
             getMaxFieldValue options, (err, max) ->
-                (max).should.be.exactly 51
+                (max).should.be.exactly 50
                 done()
 
         after (done) ->
