@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "coffee init",
-    "test": "mocha --compilers coffee:coffee-script"
+    "test": "mocha --compilers coffee:coffee-script/register --check-leaks test/server/*.coffee"
   },
   "authors": {
     "Rastopyr": "rastopyr@gmail.com"
