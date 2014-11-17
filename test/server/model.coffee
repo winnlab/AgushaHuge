@@ -1,11 +1,11 @@
 should = require 'should'
 
-Database = require '../init/database'
+Database = require '../../init/database'
 
 mongoose = require 'mongoose'
 async = require 'async'
-ModelPreload = require '../init/mpload'
-Model = require '../lib/model.coffee'
+ModelPreload = require '../../init/mpload'
+Model = require '../../lib/mongooseTransport.coffee'
 
 ObjectId = mongoose.Schema.Types.ObjectId
 
@@ -21,7 +21,7 @@ describe 'Model', ->
 			mdl = Model 'Test'
 			mdl.should.have.property 'modelName', 'Test'
 		it 'should return a model instance if no method provided, and do it asynchronously if cb provided', (done) ->
-			mdl = Model 'Test', null, (err, mdl) ->
+			mdl = Model 'Test', (err, mdl) ->
 				done err if err
 				mdl.should.have.property 'modelName', 'Test'
 				done()
@@ -58,11 +58,8 @@ describe 'Model', ->
 				affected.should.be.exactly 1
 				done()
 			
-			Model 'Test', 'update', cb, string: "before", string: 'edited'
+			Model 'Test', 'update', string: "before", string: 'edited', cb
 
 
 		it 'should remove existing model', (done) ->
-			cb = (err) ->
-				done err
-
-			Model 'Test', 'remove', cb, {}
+			Model 'Test', 'remove', {}, (err) -> done err
