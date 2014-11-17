@@ -67,8 +67,8 @@ setPoints = (client_id, name, cb) ->
 api =
     registration: (client_id, cb) ->
         setPoints client_id, 'registration', cb
-    profile: (client_id) ->
-        setPoints client_id, 'profile'
+    profile: (client_id, cb) ->
+        setPoints client_id, 'profile', cb
     login: (client_id, cb) ->
         setPoints client_id, 'login', cb
     like: (client_id, cb) ->
