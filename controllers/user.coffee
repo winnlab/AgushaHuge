@@ -41,6 +41,7 @@ Router = express.Router()
 
 Router.get '/', Main.index
 Router.get '/registered', Main.registered
+Router.get '/feed', Main.feed
 
 #
 

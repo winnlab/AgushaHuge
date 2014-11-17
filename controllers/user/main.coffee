@@ -45,6 +45,12 @@ exports.index = (req, res) ->
 	], (err) ->
 		View.render 'user/main/index', res, data
 
+exports.feed = (req, res) ->
+	data = {}
+	getFeed req.user, data, () ->
+		res.send data
+
+
 exports.registered = (req, res) ->
 	data =
 		breadcrumbs: [
