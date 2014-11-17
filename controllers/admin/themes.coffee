@@ -1,4 +1,5 @@
 async = require 'async'
+mongoose = require 'mongoose'
 router = require('express').Router()
 _ = require 'lodash'
 
@@ -47,6 +48,7 @@ getMaxPosition = (req, res) ->
     ]
 
     if id
+        id = mongoose.Types.ObjectId id
         options[0].findQuery['theme._id'] = id
         options[1].findQuery['theme._id'] = id
 
