@@ -20,7 +20,7 @@ exports.findThemes = findThemes = (age, callback) ->
 			sortOptions.sort =
 				position: 1
 
-			Model 'Theme', 'find', callback, searchOptions, '_id name isFirstCardXL', sortOptions
+			Model 'Theme', 'find', callback, searchOptions, '_id name counter isFirstCardXL', sortOptions
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in lib/theme/findThemes: #{error}"

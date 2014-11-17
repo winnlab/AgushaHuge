@@ -95,8 +95,6 @@ exports.findOne = (req, res) ->
 					profile: req.user.profile
 				}
 
-			console.log "User voted: #{data.userVoted}"
-
 			View.render 'user/article/index', res, data
 	], (err) ->
 		error = err.message or err

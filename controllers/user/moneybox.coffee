@@ -11,7 +11,7 @@ breadcrumbs = require '../../meta/breadcrumbs'
 
 exports.lvls = [
 	name: 'novice'
-	label: 'Новичек'
+	label: 'Новичок'
 	points: 200
 ,
 	name: 'disciple'
@@ -43,6 +43,9 @@ exports.index = (req, res) ->
 	async.waterfall [
 		(next) ->
 			Model 'Moneybox', 'aggregate', [
+				$match:
+					client_id: req.user._id
+			,
 				$project:
 					month:
 						$month: '$time'

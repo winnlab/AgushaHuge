@@ -8,6 +8,8 @@ tree = require '../../utils/tree'
 
 breadcrumbs = require '../../meta/breadcrumbs'
 
+
+
 exports.index = (req, res) ->
 	breadcrumbs.push
 		id: 'profile'
@@ -16,17 +18,21 @@ exports.index = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'messages'
 
-	# async.waterfall [
-	# 	(next) ->
-	# 		Model 'Consultation', 'find', {
-	# 			'author.author_id': req.user._id
-	# 			# 'answer.author_id': req.user._id
-	# 			'answer':
-	# 				req.user._id
-	# 		}, next
-	# 	(docs, next) ->
-	# 		_.extend data, docs
-	# 	(next) ->
-	#
-	# ], (err) ->
 	View.render 'user/messages/index', res, data
+
+
+
+exports.getConversations = (req, res) ->
+
+	if req.user
+		async.waterfall [
+			(next) ->
+				conversations = Model 'Conversation', 'find', {'interlocutors.client': req.user._id}, null
+				conversations.populate('interlocutors.client').exec next
+			(docs, next) ->
+				View.ajaxResponse res, null, docs
+
+		], (err) ->
+			View.ajaxResponse res, err, null
+	else
+		View.ajaxResponse res, 403, 'Unauthorized user'

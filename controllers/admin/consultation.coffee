@@ -32,7 +32,7 @@ class ConsultationCrud extends Crud
 
                 Model 'Theme', 'update', where, what, {multi: true}, next
 		], (err) ->
-			cb err, data
+			cb err, unless err then doc else undefined
 
 	update: (id, data, cb) ->
 		oldVals = []
@@ -55,6 +55,8 @@ class ConsultationCrud extends Crud
 
 				for own field, value of data
 					hprop doc, field, value
+
+				@sendNotificationToClient data.answer, doc
 
 				doc.save next
 			(doc, numberAffected, next) =>
@@ -131,6 +133,62 @@ class ConsultationCrud extends Crud
                 Model 'Theme', 'update', where, what, {multi: true}, (err) ->
                     cb err, doc
 		], cb
+
+	sendNotificationToClient: (dataAnswers, externalDoc) ->
+		if dataAnswers
+			newAnswers = _.filter dataAnswers, (element) ->
+				return element._id is undefined
+
+			if newAnswers and externalDoc.author?.author_id
+
+				async.waterfall [
+					(next) ->
+						Model 'Conversation', 'findOne', {
+							'interlocutors.client': externalDoc.author.author_id,
+							'interlocutors.client': newAnswers[0].specialist._id
+						}, next
+
+					(doc, next) =>
+
+						if doc
+							authorIndex = _.findIndex doc.interlocutors, (interlocutor) ->
+								return interlocutor.client.toString() is externalDoc.author.author_id.toString()
+
+							doc.interlocutors[authorIndex].read = false
+						else
+							DocModel = Model 'Conversation'
+							doc = new DocModel()
+
+							doc.interlocutors = [
+								client: externalDoc.author.author_id
+							,
+								client: newAnswers[0].specialist._id
+							]
+							doc.type = 'consultation'
+
+						for answer in newAnswers
+							trimmedText = answer.text.substr 0, 30
+							trimmedText = trimmedText.substr(0, Math.min(trimmedText.length, trimmedText.lastIndexOf(" ")))
+							trimmedText += '...'
+
+							unless doc.messages
+								doc.messages = []
+
+							doc.messages.push {
+								author: answer.specialist._id,
+								title: externalDoc.name,
+								content: 'Доктор ответил на Ваш вопрос "' + externalDoc.name + '" в теме "' + externalDoc.theme[0].name + '" <br><br>' + 'Ответ доктора:<br>' + trimmedText + '<br><br><a href="question/' + externalDoc._id + '">продолжить диалог</a>'
+							}
+							doc.updated = answer.date
+
+						doc.save next
+
+					(doc, next) ->
+
+				], (err) ->
+					console.error err
+
+
 
 crud = new ConsultationCrud
 	modelName: 'Consultation'
