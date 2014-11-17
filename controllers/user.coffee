@@ -22,7 +22,8 @@ Like = require './user/like'
 Subscription = require './user/subscription'
 Commentary = require './user/commentary'
 Rating = require './user/rating'
-Test = require './user/test'
+# Test = require './user/test'
+Contacts = require './user/contacts'
 
 Middleware = require './helper/middleware'
 
@@ -40,6 +41,7 @@ Router = express.Router()
 
 Router.get '/', Main.index
 Router.get '/registered', Main.registered
+Router.get '/feed', Main.feed
 
 #
 
@@ -61,6 +63,10 @@ Router.get '/product/:alias', Product.index
 #
 
 Router.get '/help', Help.index
+
+#
+
+Router.get '/contacts', Contacts.index
 
 #
 
@@ -127,7 +133,7 @@ Router.post '/commentaries/ratings/toggleRating', Rating.toggleRating
 
 #
 
-Router.get '/email_test', Test.email
+# Router.get '/email_test', Test.email
 
 #
 
