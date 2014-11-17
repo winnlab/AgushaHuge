@@ -50,6 +50,8 @@ exports.toggleLike = (req, res) ->
 					next "Error in controllers/user/article/index: No document was found in #{model} model with _id: #{_id}"
 
 			(doc, next) ->
+				if toggleResult is 1
+					Moneybox.like userId, ->
 
 				View.ajaxResponse res, null, {doc: doc, toggleResult: toggleResult}
 

@@ -4,6 +4,7 @@ _ = require 'lodash'
 View = require '../../lib/view'
 Model = require '../../lib/mongooseTransport.coffee'
 Logger = require '../../lib/logger'
+Moneybox = require '../../lib/moneybox'
 
 
 
@@ -20,6 +21,8 @@ exports.add = (req, res) ->
 	if userId and model and _id and content
 
 		async.waterfall [
+			(next) ->
+				Moneybox.comment userId, next
 			(next) ->
 
 				Model model, 'findOne', _id: _id, next
