@@ -2,6 +2,14 @@ Crud = require '../../lib/crud'
 
 crud = new Crud
     modelName: 'ProductAge'
+    denormalized: [
+        property: 'level'
+        denormalizedIn: [
+            model: 'Product'
+            path: ''
+            multiple: false
+        ]
+    ]
     files: [
         {
             name: 'icon'
