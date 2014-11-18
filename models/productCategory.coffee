@@ -13,8 +13,8 @@ schema = new mongoose.Schema
 	active:
 		type: Boolean
 		required: true
-		default: false
+		default: true
 ,
-	collection: 'category'
+	collection: 'productCategory'
 
-module.exports = mongoose.model 'Category', schema
+module.exports = mongoose.model 'ProductCategory', schema

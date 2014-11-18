@@ -11,6 +11,7 @@ FAQ = require './admin/faq'
 Main = require './admin/main'
 Product = require './admin/product'
 ProductAge = require './admin/productAge'
+ProductCategory = require './admin/productCategory'
 Rank = require './admin/rank'
 Theme = require './admin/themes'
 User = require './admin/user'
@@ -58,6 +59,8 @@ Router.use '/rank/:id?', Rank.rest
 
 Router.use '/certificate/img', Certificate.restFile
 Router.use '/certificate/:id?', Certificate.rest
+
+Router.use '/productCategory/:id?', ProductCategory.rest
 
 # Random data getter without REST wrapper
 Router.get '/user', User.get
