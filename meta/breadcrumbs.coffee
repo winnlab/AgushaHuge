@@ -35,4 +35,9 @@ module.exports = [
 	id: 'subscriptions'
 	title: 'Подписки'
 	href: '/subscriptions'
+,
+	id: 'contacts'
+	title: 'Контакты'
+	href: '/contacts'
+	parent_id: 'about'
 ]

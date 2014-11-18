@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "coffee init",
-    "test": "mocha --compilers coffee:coffee-script"
+    "test": "mocha --compilers coffee:coffee-script/register --check-leaks test/server/*.coffee"
   },
   "authors": {
     "Rastopyr": "rastopyr@gmail.com"
@@ -40,7 +40,7 @@
     "method-override": "1.0.2",
     "moment": "^2.8.3",
     "mongoose": "3.8.17",
-    "multer": "~0.1.0",
+    "multer": "0.1.0",
     "nodemailer": "0.6.5",
     "passport": "0.2.0",
     "passport-local": "1.0.0",
@@ -57,6 +57,7 @@
     "passport-vkontakte": "~0.3.0",
     "passport-odnoklassniki": "~0.1.5",
     "connect-mongo": "~0.4.1",
-    "swig": "1.4.2"
+    "swig": "1.4.2",
+    "mongoose-pages": "https://github.com/mshekera/mongoose-pages/tarball/master"
   }
 }

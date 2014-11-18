@@ -32,7 +32,7 @@ class ConsultationCrud extends Crud
 
                 Model 'Theme', 'update', where, what, {multi: true}, next
 		], (err) ->
-			cb err, data
+			cb err, unless err then doc else undefined
 
 	update: (id, data, cb) ->
 		oldVals = []
