@@ -43,7 +43,13 @@ class ArticleCrud extends Crud
 
     _checkThemePositions: (theme, cb) ->
         async.map theme, (item, next) ->
-            Model 'Article', 'find', {'theme.position': item.position}, (err, docs) ->
+            query =
+                $and: [
+                    'theme.position': item.position
+                ,
+                    'theme._id': item._id
+                ]
+            Model 'Article', 'find', query, (err, docs) ->
                 return next err if err
 
                 if docs.length > 1 or docs.length is 1 and not _.find(docs[0].theme, (doc) -> doc._id.toString() is item._id.toString())
