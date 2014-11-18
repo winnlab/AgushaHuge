@@ -3,6 +3,7 @@ express = require 'express'
 Age = require './admin/age'
 Article = require './admin/article'
 ArticleType = require './admin/articleType'
+Certificate = require './admin/certificate'
 Client = require './admin/clients'
 Consultation = require './admin/consultation'
 Gallery = require './admin/gallery'
@@ -54,6 +55,9 @@ Router.use '/productAge/:id?', ProductAge.rest
 
 Router.use '/rank/img', Rank.restFile
 Router.use '/rank/:id?', Rank.rest
+
+Router.use '/certificate/img', Certificate.restFile
+Router.use '/certificate/:id?', Certificate.rest
 
 # Random data getter without REST wrapper
 Router.get '/user', User.get
