@@ -6,15 +6,9 @@ schema = new mongoose.Schema
 	name:
 		type: String
 		required: true
-	url_label:
+	image:
 		type: String
-		required: true
-		unique: true
-	active:
-		type: Boolean
-		required: true
-		default: false
 ,
-	collection: 'category'
+	collection: 'certificate'
 
-module.exports = mongoose.model 'Category', schema
+module.exports = mongoose.model 'Certificate', schema

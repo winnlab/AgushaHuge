@@ -2,18 +2,19 @@ mongoose = require 'mongoose'
 ObjectId = mongoose.Schema.Types.ObjectId
 Mixed = mongoose.Schema.Types.Mixed
 
-LibSchema = require '../lib/schema'
-
 schema = new mongoose.Schema
 	name:
 		type: String
 		required: true
-	image:
+	url_label:
 		type: String
 		required: true
+		unique: true
+	active:
+		type: Boolean
+		required: true
+		default: true
 ,
-	collection: 'certificate'
+	collection: 'productCategory'
 
-LibSchema.init schema, 'image'
-
-module.exports = mongoose.model 'Certificate', schema
+module.exports = mongoose.model 'ProductCategory', schema

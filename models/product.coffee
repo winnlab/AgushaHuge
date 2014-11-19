@@ -38,7 +38,7 @@ schema = new mongoose.Schema
 	]
 	category: [
 		type: ObjectId
-		ref: "Category"
+		ref: "ProductCategory"
 	]
 	age_level:
 		type: Number
