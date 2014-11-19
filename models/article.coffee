@@ -62,6 +62,10 @@ schema = new mongoose.Schema
 		type: Boolean
 		required: true
 		default: false
+	hideOnMain:
+		type: Boolean
+		required: true
+		default: false
 	position:
 		type: Number
 		unique: true
