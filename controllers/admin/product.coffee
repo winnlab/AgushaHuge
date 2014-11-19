@@ -2,6 +2,11 @@ Crud = require '../../lib/crud'
 
 crud = new Crud
     modelName: 'Product'
+    populate: [
+    	'age',
+    	'category',
+    	'certificate'
+    ]
     files: [
         {
             name: 'image'
