@@ -42,12 +42,8 @@ schema = new mongoose.Schema
 	]
 	age_level:
 		type: Number
-	main_page:
-		type: Number
-		default: 0
 	alias:
 		type: String
-		index: true
 		unique: true
 ,
 	collection: 'product'
