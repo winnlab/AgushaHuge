@@ -27,6 +27,18 @@ getFeed = (user, data, cb) ->
 		_.extend data, results if results
 		cb err
 
+getArticles = (cb, options = {}) ->
+	docsCount = 24
+	if options.lastId
+		anchorId = options.lastId
+		delete options.lastId
+	query =
+		active: true
+		hideOnMain: false
+	options.sort =
+		position: -1
+
+	Model 'Article', 'findPaginated', query, null, options, cb, docsCount, anchorId
 
 exports.index = (req, res) ->
 	data =
@@ -36,7 +48,7 @@ exports.index = (req, res) ->
 
 	async.waterfall [
 		(next) ->
-			Model 'Article', 'find', { active: true }, null, { sort: { position: -1 } }, next
+			getArticles next
 		(docs, next) ->
 			data.articles = docs
 			next null
@@ -50,6 +62,11 @@ exports.feed = (req, res) ->
 	getFeed req.user, data, () ->
 		res.send data
 
+exports.articles = (req, res) ->
+	query = _.pick req.query, 'lastId'
+	getArticles (err, docs) ->
+		res.json docs
+	, query
 
 exports.registered = (req, res) ->
 	data =
