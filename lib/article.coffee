@@ -1,7 +1,7 @@
 async = require 'async'
 
 View = require './view'
-Model = require './model'
+Model = require './mongooseTransport'
 Logger = require './logger'
 
 translit = require '../utils/translit'
@@ -16,12 +16,12 @@ exports.makeSearchOptions = makeSearchOptions = (age, theme, callback) ->
 	async.parallel
 		age: (next) ->
 			if age
-				return Model 'Age', 'findOne', next, {value: age}, '_id', sortOptions
+				return Model 'Age', 'findOne', {value: age}, '_id', sortOptions, next
 			
 			next null
 		theme: (next) ->
 			if theme
-				return Model 'Theme', 'findOne', next, {_id: theme}, '_id', sortOptions
+				return Model 'Theme', 'findOne', {_id: theme}, '_id', sortOptions, next
 			
 			next null
 	, (err, results) ->
@@ -47,7 +47,7 @@ exports.findAll = (age, theme, callback) ->
 		(next) ->
 			makeSearchOptions age, theme, next
 		(searchOptions, next) ->
-			Model 'Article', 'find', callback, searchOptions, {
+			Model 'Article', 'find', searchOptions, {
 				type: 1
 				updated: 1
 				title: 1
@@ -63,11 +63,11 @@ exports.findAll = (age, theme, callback) ->
 				answer: 1
 				counter: 1
 				theme: { $elemMatch: { _id: theme } }
-			}, sortOptions
+			}, sortOptions, callback
 		(docs, next) ->
 			articles = docs
 			searchOptions.encyclopedia = true
-			Model 'Consultation', 'find', next, searchOptions, null, { lean: true }
+			Model 'Consultation', 'find', searchOptions, null, { lean: true }, next
 		(docs, next) ->
 			articles.concat docs
 			callback articles
@@ -77,9 +77,6 @@ exports.findAll = (age, theme, callback) ->
 		View.ajaxResponse res, err
 
 exports.search = (regexpWords, callback) ->
-	sortOptions =
-		lean: true
-	
 	searchOptions =
 		'$or': []
 	
@@ -93,4 +90,4 @@ exports.search = (regexpWords, callback) ->
 		searchOptions['$or'].push
 			'desc.text': regexp
 	
-	Model 'Article', 'find', callback, searchOptions, null, sortOptions
+	Model 'Article', 'find', searchOptions, null, callback

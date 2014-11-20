@@ -4,6 +4,7 @@ _ = require 'lodash'
 View = require '../../lib/view'
 Model = require '../../lib/mongooseTransport.coffee'
 Logger = require '../../lib/logger'
+Moneybox = require '../../lib/moneybox'
 
 tree = require '../../utils/tree'
 

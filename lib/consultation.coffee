@@ -5,9 +5,6 @@ Model = require './model'
 Logger = require './logger'
 
 exports.search = (regexpWords, callback) ->
-	sortOptions =
-		lean: true
-	
 	searchOptions =
 		'$or': []
 	
@@ -21,4 +18,4 @@ exports.search = (regexpWords, callback) ->
 		searchOptions['$or'].push
 			'text': regexp
 	
-	Model 'Consultation', 'find', callback, searchOptions, null, sortOptions
+	Model 'Consultation', 'find', callback, searchOptions, null

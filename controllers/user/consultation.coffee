@@ -33,6 +33,18 @@ exports.findOne = (req, res) ->
 					'theme.theme_id': doc.theme.theme_id
 				}, next
 		(docs, next) ->
+			if docs.length > 3
+				data.similarArticles = docs
+			else
+				Model 'Article', 'find', next, {
+					'age._id': {
+						$in: _.pluck data.consultation.age, '_id'
+					},
+				}, null, {
+					limit: 9,
+					sort: 'updated'
+				}
+		(docs, next) ->
 			if docs
 				data.similarArticles = docs
 
