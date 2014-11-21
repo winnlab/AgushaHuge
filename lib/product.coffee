@@ -16,7 +16,7 @@ exports.makeSearchOptions = makeSearchOptions = (category, age, callback) ->
 	async.parallel
 		category: (next) ->
 			if category
-				return Model 'Category', 'findOne', next, {url_label: category}, '_id', sortOptions
+				return Model 'ProductCategory', 'findOne', next, {url_label: category}, '_id', sortOptions
 			
 			next null
 		age: (next) ->
@@ -62,7 +62,7 @@ exports.getAgesAndCategories = (callback) ->
 			options =
 				lean: true
 			
-			Model 'Category', 'find', next, {active: true}, null, options
+			Model 'ProductCategory', 'find', next, {active: true}, null, options
 	}, callback
 
 exports.getAdjacents = (doc, callback) ->
