@@ -35,6 +35,7 @@ sessionParams =
 	secret: '4159J3v6V4rX6y1O6BN3ASuG2aDN7q'
 	store: new MongoStore
 		db: 'AgushaHuge'
+		expireAfter: 604800000
 
 routes = () ->
 	@use userController.Router
@@ -42,6 +43,8 @@ routes = () ->
 	@use '/admin', adminController.Router
 
 configure = () ->
+	that = @
+
 	@set 'views', "#{__dirname}/../views"
 	@set 'view engine', 'jade'
 	@set 'view options', jadeOptions
@@ -54,22 +57,25 @@ configure = () ->
 		res.set 'Content-Type', 'text/plain'
 		res.send "User-agent: *\nDisallow: /"
 
-	@use multer {
-		dest: './public/img/uploads/'
-		rename: (fieldname, filename) ->
-			return crypto.md5 filename + Date.now()
-		# onFileUploadComplete: Image.doResize
-	}
-	
-	@use View.compiler {root: '/views'}
-	
 	@use bodyParser()
+	@use methodOverride()
+
+	@use (req, res, next) ->
+		dest = req.query?.uploadDir || './public/img/uploads/'
+
+		mMiddleware = multer
+			dest: dest
+			rename: (fieldname, filename) ->
+				return crypto.md5 filename + Date.now()
+		mMiddleware req, res, next
+
+	@use View.compiler root: '/views'
+	
 	@use cookieParser 'LmAK3VNuA6'
 	@use session sessionParams
 	@use passport.initialize()
 	@use passport.session()
 	@use '/admin', Auth.isAuth
-	@use methodOverride()
 	@use View.globals
 
 	@use '/admin', (req, res, next) ->
