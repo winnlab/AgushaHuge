@@ -37,7 +37,7 @@ schema = new mongoose.Schema
 			type: String
 		text:
 			type: String
-			index: true
+			index: 'text'
 		images: [
 			type: String
 		]
