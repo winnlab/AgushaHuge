@@ -32,9 +32,15 @@ getArticles = (cb, options = {}) ->
 	if options.lastId
 		anchorId = options.lastId
 		delete options.lastId
-	query =
-		active: true
-		hideOnMain: false
+	if options?.age?._id and options?.theme?._id
+		query =
+			active: true
+			'age._id': options.age._id
+			'theme._id': options.theme._id
+	else
+		query =
+			active: true
+			hideOnMain: false
 	options.sort =
 		position: -1
 
@@ -63,7 +69,7 @@ exports.feed = (req, res) ->
 		res.send data
 
 exports.articles = (req, res) ->
-	query = _.pick req.query, 'lastId'
+	query = _.pick req.query, 'lastId', 'age', 'theme', 'nestedAnchor', 'sort'
 	getArticles (err, docs) ->
 		res.json docs
 	, query
