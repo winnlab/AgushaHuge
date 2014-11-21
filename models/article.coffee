@@ -28,6 +28,7 @@ schema = new mongoose.Schema
 	title:
 		type: String
 		required: true
+		index: true
 	transliterated:
 		type: String
 		unique: true
@@ -36,6 +37,7 @@ schema = new mongoose.Schema
 			type: String
 		text:
 			type: String
+			index: true
 		images: [
 			type: String
 		]
@@ -59,6 +61,10 @@ schema = new mongoose.Schema
 		required: true
 		default: true
 	recommended:
+		type: Boolean
+		required: true
+		default: false
+	hideOnMain:
 		type: Boolean
 		required: true
 		default: false

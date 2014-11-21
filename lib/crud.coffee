@@ -110,6 +110,18 @@ class Crud
 
 		return options
 
+	_getFindCallback: (cb) ->
+		op = @options.populate
+
+		if _.isString(op) or _.isArray(op) and op.length
+			next = (err, docs) =>
+				return cb err if err
+				@DataEngine 'populate', cb, docs, op.join and op.join(' ') or op
+		else
+			next = cb
+
+		return next
+
 	_findAll: (req, cb) ->
 		query = req.query		
 		fields = @_parseFields req.query
@@ -117,7 +129,9 @@ class Crud
 		@findAll query, cb, options, fields
 
 	findAll: (query, cb, options = {}, fields = null) ->
-		@DataEngine 'find', cb, query, fields, options
+		next = @_getFindCallback cb
+
+		@DataEngine 'find', next, query, fields, options
 
 	_findOne: (req, cb) ->
 		id = req.params.id or req.query.id
@@ -126,7 +140,9 @@ class Crud
 		@findOne id, cb, options, fields
 
 	findOne: (id, cb, options = {}, fields = null) ->
-		@DataEngine 'findById', cb, id, fields, options
+		next = @_getFindCallback cb
+
+		@DataEngine 'findById', next, id, fields, options
 
 	# Depends of id property this method call "add" or "update" functions
 	_save: (req, cb) ->

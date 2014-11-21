@@ -38,16 +38,12 @@ schema = new mongoose.Schema
 	]
 	category: [
 		type: ObjectId
-		ref: "Category"
+		ref: "ProductCategory"
 	]
 	age_level:
 		type: Number
-	main_page:
-		type: Number
-		default: 0
 	alias:
 		type: String
-		index: true
 		unique: true
 ,
 	collection: 'product'

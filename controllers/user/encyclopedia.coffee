@@ -29,10 +29,27 @@ findAgesThemesArticles = (age, theme, callback) ->
 
 			Theme.findThemes age, next
 		articles: (next) ->
+			docsCount = 24
+			query =
+				active: true
+			options = {}
 			if !age && !theme
-				return next null, []
+				options.sort =
+					position: -1
 
-			Article.findAll age, theme, next
+				return Model 'Article', 'findPaginated', query, null, options, next, docsCount
+
+			Model 'Age', 'findOne', { value: age }, '_id', (err, doc) ->
+				query['age._id'] = doc._id
+				query['theme._id'] = theme
+				options.nestedAnchor =
+					wrap: 'theme'
+					field: '_id'
+					value: theme
+					anchorField: 'position'
+				options.sort =
+					'theme.position': -1
+				Model 'Article', 'findPaginated', query, null, options, next, docsCount
 	, callback
 
 getSubscription = (user, theme, cb) ->

@@ -23,7 +23,7 @@ exports.add = (req, res) ->
 		async.waterfall [
 			(next) ->
 				Moneybox.comment userId, next
-			(next) ->
+			(user, next) ->
 
 				Model model, 'findOne', _id: _id, next
 
@@ -31,11 +31,16 @@ exports.add = (req, res) ->
 
 				if doc
 
+					if req.user.image and req.user.image.small
+						clientImage = req.user.image.small
+					else
+						clientImage = null
+
 					addData = {
 						client: {
 							client_id: userId,
 							profile: req.user.profile,
-							image: req.user.image
+							image: clientImage
 						},
 						content: content
 					}
