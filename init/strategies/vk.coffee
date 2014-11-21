@@ -43,7 +43,6 @@ passport.use 'vkontakte', new VkontakteStrategy
 			if user
 				user.auth_from = 'vk'
 
-				console.log user.social.vk
 				return done null, user if user.social.vk.id
 				
 				user.vk =
