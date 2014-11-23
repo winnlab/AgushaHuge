@@ -28,7 +28,7 @@ schema = new mongoose.Schema
 	title:
 		type: String
 		required: true
-		index: true
+		index: 'text'
 	transliterated:
 		type: String
 		unique: true

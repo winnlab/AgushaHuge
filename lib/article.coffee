@@ -79,6 +79,8 @@ exports.findAll = (age, theme, callback) ->
 exports.search = (regexpWords, callback) ->
 	searchOptions =
 		'$and': []
+		# '$text':
+			# '$search': phrase
 	
 	wordsLength = regexpWords.length
 	while wordsLength--
