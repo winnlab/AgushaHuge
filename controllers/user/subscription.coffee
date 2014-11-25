@@ -52,6 +52,7 @@ exports.get = (req, res) ->
                 _.each docs, (doc) ->
                     sub.name = doc.name if doc._id.toString() is sub.theme_id.toString()
                     sub.age = doc.age_id[0].title if doc._id.toString() is sub.theme_id.toString()
+                    sub.ageImg = doc.age_id[0].icon.hover if doc._id.toString() is sub.theme_id.toString()
             next null
     ], (err) ->
         View.render 'user/subscriptions/index', res, data
