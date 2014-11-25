@@ -42,29 +42,30 @@ class ArticleCrud extends Crud
             cb err, unless err then doc else undefined
 
     _checkThemePositions: (theme, cb) ->
-        async.map theme, (item, next) ->
-            query =
-                $and: [
-                    'theme.position': item.position
-                ,
-                    'theme._id': item._id
-                ]
-            Model 'Article', 'find', query, (err, docs) ->
-                return next err if err
+        do cb
+        # async.map theme, (item, next) ->
+        #     query =
+        #         $and: [
+        #             'theme.position': item.position
+        #         ,
+        #             'theme._id': item._id
+        #         ]
+        #     Model 'Article', 'find', query, (err, docs) ->
+        #         return next err if err
 
-                if docs.length > 1 or docs.length is 1 and not _.find(docs[0].theme, (doc) -> doc._id.toString() is item._id.toString())
-                    next null, item.name
-                else
-                    next null, true
+        #         if docs.length > 1 or docs.length is 1 and not _.find(docs[0].theme, (doc) -> doc._id.toString() is item._id.toString())
+        #             next null, item.name
+        #         else
+        #             next null, true
 
-        , (err, results) ->
-            msg = ''
-            if results
-                _.each results, (item) ->
-                    if _.isString item
-                        msg += "Позиция темы #{item} уже существует в рамках текущей темы (должна быть уникальной). "
+        # , (err, results) ->
+        #     msg = ''
+        #     if results
+        #         _.each results, (item) ->
+        #             if _.isString item
+        #                 msg += "Позиция темы #{item} уже существует в рамках текущей темы (должна быть уникальной). "
 
-            cb err or msg or null
+        #     cb err or msg or null
 
 
     update: (id, data, cb) ->
