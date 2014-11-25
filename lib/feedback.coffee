@@ -16,7 +16,7 @@ exports.send = (req, res) ->
 				to: email
 				subject: "Новый отзыв на agusha.com.ua"
 			
-			options = _.extend req.body, mail_options
+			options = _.extend mail_options, req.body
 			
 			Mail.send 'feedback', options, next
 		() ->
