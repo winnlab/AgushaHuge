@@ -78,16 +78,19 @@ exports.findAll = (age, theme, callback) ->
 
 exports.search = (regexpWords, callback) ->
 	searchOptions =
-		'$or': []
+		'$and': []
+		# '$text':
+			# '$search': phrase
 	
 	wordsLength = regexpWords.length
 	while wordsLength--
 		regexp = regexpWords[wordsLength]
 		
-		searchOptions['$or'].push
-			'title': regexp
-		
-		searchOptions['$or'].push
-			'desc.text': regexp
+		searchOptions['$and'].push
+			'$or': [
+				'title': regexp
+			,
+				'desc.text': regexp
+			]
 	
 	Model 'Article', 'find', searchOptions, null, callback
