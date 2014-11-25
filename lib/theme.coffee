@@ -16,6 +16,8 @@ exports.findThemes = findThemes = (age, callback) ->
 			Model 'Age', 'findOne', next, { value: +age, active: true }, '_id', sortOptions
 		(doc) ->
 			searchOptions.age_id = doc._id
+			searchOptions['counter.article'] =
+				$gt: 0
 
 			sortOptions.sort =
 				position: 1

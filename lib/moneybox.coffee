@@ -63,7 +63,7 @@ setPoints = (client_id, name, cb) ->
             next null, null
     ], cb
 
-
+# Callback function takes two arguments err and user
 api =
     registration: (client_id, cb) ->
         setPoints client_id, 'registration', cb

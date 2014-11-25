@@ -8,12 +8,14 @@ schema = new mongoose.Schema
 	name:
 		type: String
 		required: true
+		index: 'text'
 	transliterated:
 		type: String
 		unique: true
 	text:
 		type: String
 		required: true
+		index: 'text'
 	updated:
 		type: Date
 		required: true

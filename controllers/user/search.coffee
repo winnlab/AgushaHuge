@@ -48,8 +48,6 @@ exports.index = (req, res) ->
 			Logger.log 'info', "Error in controllers/user/search/index: #{error}"
 			return res.send error
 		
-		console.log results
-		
 		_.extend data, results
 		
 		View.render 'user/search/index', res, data

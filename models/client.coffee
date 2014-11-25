@@ -46,6 +46,9 @@ schema = new mongoose.Schema
 		last_name:
 			type: String
 			trim: true
+		middle_name:
+			type: String
+			trim: true
 		gender:
 			type: Number
 	birth_date:
@@ -79,6 +82,9 @@ schema = new mongoose.Schema
 			type: String
 			default: null
 		spareEmail:
+			type: String
+			default: null
+		postIndex:
 			type: String
 			default: null
 	image:
@@ -116,8 +122,11 @@ schema = new mongoose.Schema
 		# child_id:
 		# 	type: ObjectId
 		# 	ref: 'Children'
-		photo:
-			type: String
+		image:
+			large:
+				type: String
+			small:
+				type: String
 		gender:
 			type: Number
 			default: 0

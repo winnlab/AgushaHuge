@@ -5,20 +5,18 @@ Model = require './model'
 Logger = require './logger'
 
 exports.search = (regexpWords, callback) ->
-	sortOptions =
-		lean: true
-	
 	searchOptions =
-		'$or': []
+		'$and': []
 	
 	wordsLength = regexpWords.length
 	while wordsLength--
 		regexp = regexpWords[wordsLength]
 		
-		searchOptions['$or'].push
-			'name': regexp
-		
-		searchOptions['$or'].push
-			'text': regexp
+		searchOptions['$and'].push
+			'$or': [
+				'name': regexp
+			,
+				'text': regexp
+			]
 	
-	Model 'Consultation', 'find', callback, searchOptions, null, sortOptions
+	Model 'Consultation', 'find', callback, searchOptions, null
