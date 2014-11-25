@@ -12,6 +12,7 @@ router = require('express').Router()
 Crud = require '../../lib/crud'
 View = require '../../lib/view'
 Model = require '../../lib/model'
+Cities = require '../../meta/cities'
 
 urlPrefix = 
     child: "/img/uploads/child"
@@ -168,6 +169,23 @@ removeResponse = () ->
 
         View.render null, res
 
+getCities = () ->
+    (req, res, next) ->
+        filtered = _.filter Cities, (item, key, list) ->
+            item.name.match new RegExp req.body.term, 'i'
+
+        _.each filtered, (item, key, list) ->
+            list[key] =
+                id: item.name
+                text: item.name
+
+        res.locals.cities = filtered
+        next()
+
+renderCities = ()->
+    (req, res, next) ->
+        res.json res.locals.cities
+
 router.use (req, res, next) ->
     if not req.user
         return res.redirect '/login'
@@ -187,6 +205,12 @@ router.get '/logout', (req, res, next) ->
     req.logout()
 
     return res.redirect '/'
+
+router.post.apply router, [
+    '/cities',
+    getCities()
+    renderCities()
+]
 
 router.post.apply router, [
     '/upload'
