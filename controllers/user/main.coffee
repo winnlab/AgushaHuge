@@ -24,7 +24,7 @@ getConsultations = (userId, cb) ->
 					_id:
 						$in: _.pluck(docs, 'consultation_id')
 				,
-					'author.author_id': user._id
+					'author.author_id': userId
 				]
 			}, next
 	], (err, docs) ->
