@@ -34,6 +34,9 @@ schema = new mongoose.Schema
 		type: String
 		set: cryptoUtil.password
 		validate: validator.password
+	agree:
+		type: Boolean
+		default: false
 	profile:
 		about:
 			type: String

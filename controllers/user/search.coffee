@@ -31,17 +31,21 @@ exports.index = (req, res) ->
 	
 	words = phrase.split '_'
 	
-	regexpWords = []
+	# regexpWords = []
+	textString = ''
 	
 	wordsLength = words.length
 	while wordsLength--
-		regexpWords.push new RegExp words[wordsLength], 'i'
+		# regexpWords.push new RegExp words[wordsLength], 'i'
+		textString += '\"' + words[wordsLength] + '\" '
+	
+	# textString = phrase.replace(/_/g, '\"')
 	
 	async.parallel
 		articles: (next) ->
-			Article.search regexpWords, next
+			Article.search textString, next
 		consultations: (next) ->
-			Consultation.search regexpWords, next
+			Consultation.search textString, next
 	, (err, results) ->
 		if err
 			error = err.message or err
