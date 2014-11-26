@@ -11,7 +11,24 @@ getSubscriptions = (userId, cb) ->
 			Model 'Subscription', 'find', { client_id: userId }, next
 		(docs, next) ->
 			Model 'Article', 'find', { 'theme._id': { $in: _.pluck(docs, 'theme_id') } }, next
-	], cb
+	], (err, docs) ->
+		cb err, (if docs.length then docs else [])
+
+getConsultations = (userId, cb) ->
+	async.waterfall [
+		(next) ->
+			Model 'Watcher', 'find', { client_id: userId }, next
+		(docs, next) ->
+			Model 'Consultation', 'find', {
+				$or: [
+					_id:
+						$in: _.pluck(docs, 'consultation_id')
+				,
+					'author.author_id': user._id
+				]
+			}, next
+	], (err, docs) ->
+		cb err, (if docs.length then docs else [])
 
 getFeed = (user, data, cb) ->
 	unless user and user._id
@@ -22,7 +39,7 @@ getFeed = (user, data, cb) ->
 		themeSubs: (proceed) ->
 			getSubscriptions user._id, proceed
 		consultations: (proceed) ->
-			Model 'Consultation', 'find', { 'author.author_id': user._id }, proceed
+			getConsultations user._id, proceed
 	}, (err, results) ->
 		_.extend data, results if results
 		cb err

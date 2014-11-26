@@ -19,7 +19,7 @@ schema = new mongoose.Schema
         required: true
         default: moment
 ,
-    collection: 'subscription'
+    collection: 'watchers'
 
 schema.pre 'save', (next) ->
     this.updated = moment()
