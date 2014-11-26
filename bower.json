@@ -30,6 +30,8 @@
     "html5sortable": "*",
     "malihu-custom-scrollbar-plugin": "~3.0.5",
     "jquery-knob": "1.2.11",
-    "tooltipster": "3.3.0"
+    "tooltipster": "3.3.0",
+    "cropper": "0.7.2",
+    "jquery.inputmask": "3.1.40"
   }
 }
