@@ -29,19 +29,21 @@ exports.index = (req, res) ->
 	
 	res.locals.params = req.params # req.params is not accessable in middlewares -_- 
 	
-	words = phrase.split '_'
+	# words = phrase.split '_'
 	
-	regexpWords = []
+	# regexpWords = []
 	
-	wordsLength = words.length
-	while wordsLength--
-		regexpWords.push new RegExp words[wordsLength], 'i'
+	# wordsLength = words.length
+	# while wordsLength--
+		# regexpWords.push new RegExp words[wordsLength], 'i'
+	
+	textString = phrase.replace(/_/g, '\"')
 	
 	async.parallel
 		articles: (next) ->
-			Article.search regexpWords, next
+			Article.search textString, next
 		consultations: (next) ->
-			Consultation.search regexpWords, next
+			Consultation.search textString, next
 	, (err, results) ->
 		if err
 			error = err.message or err

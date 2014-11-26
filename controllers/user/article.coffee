@@ -50,7 +50,7 @@ exports.findAll = (req, res) ->
 exports.findOne = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'encyclopedia'
-	
+
 	alias: req.params.alias
 
 	id = req.params.id
@@ -86,6 +86,7 @@ exports.findOne = (req, res) ->
 		(docs, next) ->
 			if docs.length > 3
 				data.similarArticles = docs
+				next null, docs
 			else
 				Model 'Article', 'find', next, {
 					_id: {$ne: data.article._id},

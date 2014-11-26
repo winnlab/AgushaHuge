@@ -33,6 +33,7 @@ User = require './user/user'
 
 
 Theme = require '../lib/theme'
+Feedback = require '../lib/feedback'
 
 Router = express.Router()
 
@@ -64,6 +65,8 @@ Router.get '/product/:alias', Product.index
 #
 
 Router.get '/help', Help.index
+
+Router.post '/send_feedback', Feedback.send
 
 #
 
