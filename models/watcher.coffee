@@ -8,9 +8,9 @@ schema = new mongoose.Schema
         type: ObjectId
         ref: 'Client'
         required: true
-    theme_id:
+    consultation_id:
         type: ObjectId
-        ref: "Theme"
+        ref: "Consultation"
         set: mongoose.Types.ObjectId
         sparse: true
         required: true
@@ -25,4 +25,4 @@ schema.pre 'save', (next) ->
     this.updated = moment()
     next()
 
-module.exports = mongoose.model 'Subscription', schema
+module.exports = mongoose.model 'Watcher', schema
