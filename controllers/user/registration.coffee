@@ -59,6 +59,7 @@ router.get '/activate/:id', (req, res, next) ->
 			return next err
 
 		if not user
+			console.log err
 			return next new Error "User #{req.params.id} not exist"
 
 		if user.active
@@ -108,12 +109,24 @@ router.post '/', (req, res, next) ->
 		return res.redirect '/profile'
 
 	user = req.body
+	user.profile =
+		firstName: req.body.firstName
 
 	if not user.password
-		return next new Error 'Password not exist'
+		return next new Error 'Пароль не указан'
+
+	if user.password.length < 6
+		return next new Error 'Пароль мальенькой длины'
+
+	if not req.body.firstName
+		return next new Error 'Имя не указано'
+
+	if not user.email
+		return next new Error 'Почта не указана'
 
 	crud.add user, (err, suser) ->
 		if err
+			console.log err
 			return next new Error 'User not created. Please try again later'
 
 		activateEmail suser, (err) ->
