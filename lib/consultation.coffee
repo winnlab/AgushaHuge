@@ -4,7 +4,7 @@ View = require './view'
 Model = require './model'
 Logger = require './logger'
 
-exports.search = (textString, callback) ->
+exports.search = (regexpWords, callback) ->
 	searchOptions =
 		'$and': []
 		# '$text':
