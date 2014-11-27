@@ -48,7 +48,7 @@ exports.toggleLike = (req, res) ->
 						toggleResult = 1
 						doc.save next
 				else
-					next "Error in controllers/user/article/index: No document was found in #{model} model with _id: #{_id}"
+					next "Error in controllers/user/like/toggleLike: No document was found in #{model} model with _id: #{_id}"
 
 			(doc, next) ->
 				if toggleResult is 1
@@ -58,8 +58,8 @@ exports.toggleLike = (req, res) ->
 
 		], (err) ->
 			error = err.message or err
-			Logger.log 'info', "Error in controllers/user/article/index: #{error}"
+			Logger.log 'info', "Error in controllers/user/like/toggleLike: #{error}"
 			res.send error
 	else
-		Logger.log 'info', "Error in controllers/user/article/index: Not all of the variables were received"
-		res.send "Error in controllers/user/article/index: Not all of the variables were received"
+		Logger.log 'info', "Error in controllers/user/like/toggleLike: Not all of the variables were received"
+		res.send "Error in controllers/user/like/toggleLike: Not all of the variables were received"

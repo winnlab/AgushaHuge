@@ -85,6 +85,10 @@ schema = new mongoose.Schema
 			type: ObjectId
 			ref: 'Client'
 	]
+	watchers: [
+		type: ObjectId
+		ref: 'Client'
+	]
 	answer: [
 		_id:
 			type: ObjectId
