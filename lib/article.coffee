@@ -76,21 +76,21 @@ exports.findAll = (age, theme, callback) ->
 		Logger.log 'info', "Error in lib/article/findAll: #{error}"
 		View.ajaxResponse res, err
 
-exports.search = (textString, callback) ->
+exports.search = (regexpWords, callback) ->
 	searchOptions =
-		#'$and': []
-		'$text':
-			'$search': textString
+		'$and': []
+		# '$text':
+			# '$search': textString
 	
-	# wordsLength = regexpWords.length
-	# while wordsLength--
-		# regexp = regexpWords[wordsLength]
+	wordsLength = regexpWords.length
+	while wordsLength--
+		regexp = regexpWords[wordsLength]
 		
-		# searchOptions['$and'].push
-			# '$or': [
-				# 'title': regexp
-			# ,
-				# 'desc.text': regexp
-			# ]
+		searchOptions['$and'].push
+			'$or': [
+				'title': regexp
+			,
+				'desc.text': regexp
+			]
 	
 	Model 'Article', 'find', searchOptions, null, callback
