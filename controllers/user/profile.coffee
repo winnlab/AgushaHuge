@@ -172,7 +172,7 @@ removeResponse = () ->
 getCities = () ->
     (req, res, next) ->
         filtered = _.filter Cities, (item, key, list) ->
-            item.name.match new RegExp req.body.term, 'i'
+            item.name.match new RegExp req.body.term.trim(), 'i'
 
         _.each filtered, (item, key, list) ->
             list[key] =

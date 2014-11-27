@@ -17,9 +17,19 @@ router.get '/fb', passport.authenticate 'facebook',
 	scope: ['email', 'user_birthday']
 
 # router.get '/ok', 
+loginOptions =
+	successRedirect: null
+	failureRedirect: null
 
-router.post '/', Auth.authenticate('user', {successRedirect: null, failureRedirect: null}), (req, res, next) ->
-	isAjax = res.locals?.is_ajax_request
+# router.post '/', () ->
+# 	console.log
+
+router.post '/', Auth.authenticate('user', loginOptions), (req, res, next) ->
+	isAjax = null
+	console.log('login request');
+
+	if req.query.ajax
+		isAjax = true
 
 	if not isAjax
 		return res.redirect '/profile'
@@ -27,7 +37,7 @@ router.post '/', Auth.authenticate('user', {successRedirect: null, failureRedire
 	user = req.user?.toObject()
 
 	if not user
-		return View.clientFail new Error 'User not exist', res
+		return next new Error 'Пользователь не найден'
 	
 	Moneybox.login user._id, (err, muser) ->
 		if muser
@@ -35,8 +45,7 @@ router.post '/', Auth.authenticate('user', {successRedirect: null, failureRedire
 		
 		delete user.password
 
-		return View.clientSuccess user: user, res
-
+	return View.clientSuccess user: user, res
 
 exports = router
 
