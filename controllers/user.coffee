@@ -21,6 +21,7 @@ Messages = require './user/messages'
 Like = require './user/like'
 Subscription = require './user/subscription'
 Commentary = require './user/commentary'
+Watch = require './user/watch'
 Rating = require './user/rating'
 # Test = require './user/test'
 Contacts = require './user/contacts'
@@ -116,15 +117,19 @@ Router.use '/user', User
 #
 
 Router.get '/moneybox', Moneybox.index
+Router.get '/moneybox-points', Moneybox.getBox
 
 #
 
 Router.get '/messages', Messages.index
+Router.post '/conversations/markConversationAsRead', Messages.markConversationAsRead
 Router.get '/conversations', Messages.getConversations
 
 #
 
 Router.post '/like/toggleLike', Like.toggleLike
+
+Router.post '/watch/toggleWatch', Watch.toggleWatch
 
 Router.get '/subscriptions', Subscription.get
 Router.post '/subscribe', Subscription.save
