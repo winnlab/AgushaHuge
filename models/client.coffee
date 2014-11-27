@@ -157,6 +157,10 @@ schema = new mongoose.Schema
 ,
 	collection: 'client'
 
+schema.virtual('has_password')
+	.get () ->
+		if @password then true else false
+
 schema.pre 'save', (next) ->
 	@profile.filling = @fillingProfile()
 
@@ -193,6 +197,8 @@ schema.methods.getImage = (type) ->
 
 schema.methods.validPassword = (password) ->
 	md5pass = crypto.createHash('md5').update(password).digest 'hex'
+	console.log md5pass
+	console.log password
 
 	isValid = if md5pass == @password then true else false
 
