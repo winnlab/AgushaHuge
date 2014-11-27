@@ -120,6 +120,7 @@ Router.get '/moneybox', Moneybox.index
 #
 
 Router.get '/messages', Messages.index
+Router.post '/conversations/markConversationAsRead', Messages.markConversationAsRead
 Router.get '/conversations', Messages.getConversations
 
 #

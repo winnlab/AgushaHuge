@@ -57,28 +57,32 @@ exports.findOne = (req, res) ->
 getDenormalizedData = (obj, user, cb) ->
 	async.parallel
 		age: (proceed) ->
-			Model 'Age', 'findOne', {_id: obj.age_id}, '_id  title', proceed
+			return proceed null, null unless obj.age_id
+			Model 'Age', 'findById', obj.age_id, '_id  title', proceed
 		theme: (proceed) ->
-			Model 'Theme', 'findOne', {_id: obj.theme_id}, '_id  name', proceed
+			return proceed null, null unless obj.theme_id
+			Model 'Theme', 'findById', obj.theme_id, '_id  name', proceed
 	, (err, data) ->
 		result =
 			author:
 				author_id: user?._id
 				name: (user?.profile?.first_name or '') + ' ' + (user?.profile?.last_name or '')
-			age: [
-				_id: obj.age_id
-				title: data.age.title
-				fixture: ''
-			]
-			theme: [
-				_id: obj.theme_id
-				name: data.theme.name
-			]
 			type:
 			    name: "Статья от пользователя"
 			encyclopedia: false
 			closed: false
 			active: true
+		if data.age
+			result.age = [
+				_id: obj.age_id
+				title: data?.age?.title or ''
+				fixture: ''
+			]
+		if data.theme
+			result.theme = [
+				_id: obj.theme_id
+				name: data.theme.name
+			]
 		cb err, result
 
 exports.setConsultation = (req, res) ->
