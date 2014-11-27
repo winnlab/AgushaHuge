@@ -76,12 +76,9 @@ exports.findAll = (age, theme, callback) ->
 		Logger.log 'info', "Error in lib/article/findAll: #{error}"
 		View.ajaxResponse res, err
 
-exports.search = (regexp, callback) ->
+exports.search = (textString, callback) ->
 	searchOptions =
-		'$or': [
-			'title': regexp
-		,
-			'desc.text': regexp
-		]
+		'$text':
+			'$search': textString
 	
 	Model 'Article', 'find', searchOptions, null, callback
