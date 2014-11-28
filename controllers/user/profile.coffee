@@ -2,6 +2,8 @@
 path = require 'path'
 join = path.join
 fs = require 'fs'
+md5 = require 'MD5'
+config = require '../../config.json'
 
 _ = require 'lodash'
 gm = require('gm').subClass imageMagick: true
@@ -187,6 +189,28 @@ router.get '/logout', (req, res, next) ->
     req.logout()
 
     return res.redirect '/'
+
+router.get '/checkAuth', (req, res) ->
+    expire = req.param 'expire'
+    mid = req.param 'mid'
+    sid = req.param 'sid'
+    secret = req.param 'secret'
+    
+    sig = req.param 'sig'
+
+    check = _.every [expire, mid, sid, secret], (item) ->
+        return _.isString(item) or _.isNumber(item)
+
+    unless check
+        return res.send false
+
+    sign = md5 "expire=#{expire}mid=#{mid}secret=#{secret}sid=#{sid}#{config.vk.CLIENT_SECRET}"
+
+    if sign is sig and expire > Math.floor Date.now() / 1000
+        return res.send true
+
+    res.status 418
+    res.send false
 
 router.post.apply router, [
     '/upload'
