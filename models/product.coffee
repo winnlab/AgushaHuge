@@ -28,6 +28,9 @@ schema = new mongoose.Schema
 		default: false
 	recommended:
 		type: String
+	assorted:
+		type: Boolean
+		default: false
 	age:
 		type: ObjectId
 		ref: "ProductAge"
