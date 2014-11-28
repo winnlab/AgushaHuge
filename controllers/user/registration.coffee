@@ -59,6 +59,7 @@ router.get '/activate/:id', (req, res, next) ->
 			return next err
 
 		if not user
+			console.log err
 			return next new Error "User #{req.params.id} not exist"
 
 		if user.active
@@ -95,8 +96,6 @@ router.get '/activate/:id', (req, res, next) ->
 
 						res.redirect '/profile'
 
-			# View.render 'user/registration/success', res, data
-
 router.get '/already-active', (req, res, next) ->
 	View.render 'user/registration/already-active', res
 
@@ -108,21 +107,42 @@ router.post '/', (req, res, next) ->
 		return res.redirect '/profile'
 
 	user = req.body
+	user.profile =
+		first_name: req.body.firstName
 
 	if not user.password
-		return next new Error 'Password not exist'
+		return next new Error 'Пароль не указан'
 
-	crud.add user, (err, suser) ->
+	if user.password.length < 6
+		return next new Error 'Пароль мальенькой длины'
+
+	if not req.body.firstName
+		return next new Error 'Имя не указано'
+
+	if not user.email
+		return next new Error 'Почта не указана'
+
+
+
+	crud.DataEngine 'findOne', (err, fuser) ->
 		if err
-			return next new Error 'User not created. Please try again later'
+			return next "Что то пошло не так. Обратитесь к администратору"
 
-		activateEmail suser, (err) ->
+		if fuser
+			console.log err
+			return next "Такой пользователь уже зарегистрирован"
+
+		crud.add user, (err, suser) ->
 			if err
-				return console.log 'Error:', err
+				return next new Error "Что то пошло не так. Обратитесь к администратору"
 
-			console.log "User #{suser._id}, #{suser.profile.firstname} #{suser.profile.lastname} has been registered"
+			activateEmail suser, (err) ->
+				if err
+					return console.log 'Error:', err
 
-		res.redirect 'registration/success' 
+			res.redirect 'registration/success' 
+
+	, email: user.email, 
 
 exports = router
 

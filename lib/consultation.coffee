@@ -4,19 +4,9 @@ View = require './view'
 Model = require './model'
 Logger = require './logger'
 
-exports.search = (regexpWords, callback) ->
+exports.search = (textString, callback) ->
 	searchOptions =
-		'$and': []
-	
-	wordsLength = regexpWords.length
-	while wordsLength--
-		regexp = regexpWords[wordsLength]
-		
-		searchOptions['$and'].push
-			'$or': [
-				'name': regexp
-			,
-				'text': regexp
-			]
+		'$text':
+			'$search': textString
 	
 	Model 'Consultation', 'find', callback, searchOptions, null

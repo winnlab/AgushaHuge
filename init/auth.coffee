@@ -38,11 +38,13 @@ callbackToValidation = (username, password, done, err, user) ->
 
 validation = (err, user, password, done) ->
 	if err
-		return done err
+		return done message: err.message
+
 	if not user
-		return done null, false, { message: 'Пользователь с таким именем не существует!' }
+		return done message: 'Пользователь с таким именем не существует!'
+
 	if not user.validPassword password
-		return done null, false, { message: 'Пароль введен неправильно.' }
+		return done message: 'Пароль введен неправильно.'
 
 	done null, user
 

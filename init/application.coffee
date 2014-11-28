@@ -81,6 +81,11 @@ configure = () ->
 	@use '/admin', (req, res, next) ->
 		Ajax.isAjax req, res, next, adminController.layoutPage
 
+errorHandler = () ->
+	@use (err, req, res, next) ->
+		View.ajaxResponse res, err,
+			message: err.message
+
 exports.init = (callback) ->
 	exports.express = app = express()
 	exports.server = http.Server app
@@ -89,6 +94,7 @@ exports.init = (callback) ->
 
 	configure.apply app
 	routes.apply app
+	errorHandler.apply app
 
 	callback null
 

@@ -34,6 +34,9 @@ schema = new mongoose.Schema
 		type: String
 		set: cryptoUtil.password
 		validate: validator.password
+	agree:
+		type: Boolean
+		default: false
 	profile:
 		about:
 			type: String
@@ -66,7 +69,7 @@ schema = new mongoose.Schema
 		country:
 			type: String
 			default: null
-		city: 
+		city:
 			type: String
 			default: null
 		street:
@@ -154,6 +157,10 @@ schema = new mongoose.Schema
 ,
 	collection: 'client'
 
+schema.virtual('has_password')
+	.get () ->
+		if @password then true else false
+
 schema.pre 'save', (next) ->
 	@profile.filling = @fillingProfile()
 
@@ -161,14 +168,6 @@ schema.pre 'save', (next) ->
 
 schema.methods.name = () ->
 	"#{@first_name} #{@last_name}"
-
-schema.methods.lvl = () ->
-	grade = switch
-	  when @points < 200 then 'Новичек'
-	  when @points < 400 then 'Ученик'
-	  when @points < 600 then 'Знаток'
-	  when @points < 800 then 'Эксперт'
-	  else 'Профи'
 
 schema.methods.fillingProfile = () ->
 	def = 0
@@ -190,6 +189,8 @@ schema.methods.getImage = (type) ->
 
 schema.methods.validPassword = (password) ->
 	md5pass = crypto.createHash('md5').update(password).digest 'hex'
+	console.log md5pass
+	console.log password
 
 	isValid = if md5pass == @password then true else false
 

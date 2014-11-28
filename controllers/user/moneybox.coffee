@@ -35,39 +35,43 @@ exports.lvls = [
 	points: 1200
 ]
 
+getMoneybox = (userId, cb) ->
+	Model 'Moneybox', 'aggregate', [
+		$match:
+			client_id: userId
+	,
+		$project:
+			month:
+				$month: '$time'
+			year:
+				$year: '$time'
+			points: 1
+			label: 1
+			time: 1
+	,
+		$sort:
+			year: 1
+			time: -1
+	,
+		$group:
+			_id:
+				month: '$month'
+				year: '$year'
+			data:
+				$push: '$$ROOT'
+			allPoints:
+				$sum: '$points'
+	], cb
+
 exports.index = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'moneybox'
 		lvls: exports.lvls
+		user: req.user
 
 	async.waterfall [
 		(next) ->
-			Model 'Moneybox', 'aggregate', [
-				$match:
-					client_id: req.user._id
-			,
-				$project:
-					month:
-						$month: '$time'
-					year:
-						$year: '$time'
-					points: 1
-					label: 1
-					time: 1
-			,
-				$sort:
-					year: 1
-					time: -1
-			,
-				$group:
-					_id:
-						month: '$month'
-						year: '$year'
-					data:
-						$push: '$$ROOT'
-					allPoints:
-						$sum: '$points'
-			], next
+			getMoneybox req.user._id, next
 		(docs, next) ->
 			_.extend data, { actions: docs }
 			next null
@@ -77,3 +81,15 @@ exports.index = (req, res) ->
 			Logger.log 'info', "Error in controllers/user/moneybox/index: #{error}"
 			return res.send error
 		View.render 'user/moneybox/index', res, data
+
+exports.getBox = (req, res) ->
+	data =
+		points: req?.user?.points
+	async.waterfall [
+		(next) ->
+			getMoneybox req.user._id, next
+		(docs, next) ->
+			_.extend data, { actions: docs }
+			next null
+	], (err) ->
+		View.ajaxResponse res, err, data

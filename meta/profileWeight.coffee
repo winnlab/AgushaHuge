@@ -8,7 +8,6 @@ weights =
 			'birth_date.month'
 			'birth_date.day'
 			'profile.gender'
-			'profile.about'
 		]
 		weight: 30
 	contactInfo:
