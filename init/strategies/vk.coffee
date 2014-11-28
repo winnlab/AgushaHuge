@@ -1,4 +1,4 @@
-
+config = require '../../config.json'
 path = require 'path'
 join = path.join
 
@@ -14,8 +14,8 @@ User = new Crud
 	modelName: 'Client'
 
 passport.use 'vkontakte', new VkontakteStrategy
-	clientID: 4581691,
-	clientSecret: "AiXIURFGjfwzdXt3sArc",
+	clientID: config.vk.APP_ID,
+	clientSecret: config.vk.CLIENT_SECRET,
 	callbackURL: locals.linkTo('registration/vk/callback')
 	profileFields: ['photo_400_orig', 'bdate', 'photo_max', 'city']
 	passReqToCallback: true
