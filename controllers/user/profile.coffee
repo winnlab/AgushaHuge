@@ -2,7 +2,9 @@
 path = require 'path'
 join = path.join
 fs = require 'fs'
+path = require 'path'
 md5 = require 'MD5'
+request = require 'request'
 config = require '../../config.json'
 
 _ = require 'lodash'
@@ -211,6 +213,23 @@ router.get '/checkAuth', (req, res) ->
 
     res.status 418
     res.send false
+
+router.post '/uploadVK', (req, res) ->
+    uploadUrl = req.param 'uploadUrl'
+
+    async.waterfall [
+        (next) ->
+            r = request.post uploadUrl, next
+            form = r.form()
+
+            pathToImage = path.join process.cwd(), 'public', 'img', 'no_photo.png'
+            form.append 'photo', fs.createReadStream(pathToImage), {contentType: 'image/png', filename: 'no_photo.png'}
+        (response, body) ->
+            res.send body
+    ], (err) ->
+        res.status 500
+        res.send err
+
 
 router.post.apply router, [
     '/upload'
