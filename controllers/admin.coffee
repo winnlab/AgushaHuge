@@ -78,6 +78,11 @@ Router.post '/tmpUserRemove', (req, res) ->
             res.send unless err then true else err
     else
         res.send 'No emails string aquired'
+
+Router.delete '/tmpUserRemove', (req, res) ->
+    require('../models/client').remove {}, (err) ->
+        res.send unless err then true else err
+
 # TEMPORARY ABOVE#
 
 #########################
