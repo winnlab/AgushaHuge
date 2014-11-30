@@ -17,18 +17,24 @@ weights =
 			'contacts.street'
 			'contacts.houseNum'
 			'contacts.apartament'
+		]
+		weight: 25
+	contactInfoLeft:
+		fields: [
 			'contacts.phone'
 			'email'
 			'contacts.spareEmail'
+			'contacts.phone'
+			'contacts.postIndex'
 		]
-		weight: 30
-	social:
+		weight: 25
+	photos:
 		fields: [
-			'social.fb.id'
-			'social.vk.id'
-			'social.ok.id'
-		],
-		weight: 40
+			'image.large'
+			'image.medium'
+			'image.small'
+		]
+		weight: 20
 
 exports = weights
 

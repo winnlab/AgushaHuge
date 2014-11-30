@@ -248,7 +248,6 @@ router.post '/uploadVK', (req, res) ->
         res.status 500
         res.send err
 
-
 router.post.apply router, [
     '/cities',
     getCities()
