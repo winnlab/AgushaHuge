@@ -71,9 +71,14 @@ exports.index = (req, res) ->
 
 	async.waterfall [
 		(next) ->
-			getMoneybox req.user._id, next
+			if user?
+				return getMoneybox req.user._id, next
+			
+			next null, null
 		(docs, next) ->
-			_.extend data, { actions: docs }
+			if data?
+				_.extend data, { actions: docs }
+			
 			next null
 	], (err) ->
 		if err

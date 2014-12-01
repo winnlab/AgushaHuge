@@ -1,4 +1,5 @@
 async = require 'async'
+_ = require 'lodash'
 
 View = require './view'
 Model = require './model'
@@ -48,7 +49,11 @@ exports.findAll = (category, age, callback) ->
 		(searchOptions, next) ->
 			Model 'Product', 'find', next, searchOptions, null, sortOptions
 		(docs, next) ->
-			Model 'Product', 'populate', callback, docs, 'age category'
+			Model 'Product', 'populate', next, docs, 'age category'
+		(docs, next) ->
+			docs = _.sortBy docs, 'productCategory.position'
+			
+			callback null, docs
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in lib/product/findAll: #{error}"
