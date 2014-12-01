@@ -248,6 +248,25 @@ router.post '/uploadVK', (req, res) ->
         res.status 500
         res.send err
 
+router.get '/invitedVK', (req, res) ->
+    Model 'InvitedVkontakte', 'findOne', fn, _id: req.param 'uid'
+
+    fn = (err, doc) ->
+        if err
+            res.status 500
+            return res.send err
+
+        res.send doc and true or false
+
+router.post '/invitedVK', (req, res) ->
+    _id = req.param 'uid'
+
+    mdl = new Model('InvitedVkontakte'),
+        _id: _id
+
+    mdl.save (err) ->
+        res.send not err
+
 router.post.apply router, [
     '/cities',
     getCities()
