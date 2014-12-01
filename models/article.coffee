@@ -14,6 +14,8 @@ cropperPosition =
 		type: Number
 	height:
 		type: Number
+	alt:
+		type: Boolean
 
 schema = new mongoose.Schema
 	type:
@@ -43,6 +45,8 @@ schema = new mongoose.Schema
 		]
 	image:
 		background:
+			type: String
+		backgroundAlt:
 			type: String
 		B:
 			type: String
