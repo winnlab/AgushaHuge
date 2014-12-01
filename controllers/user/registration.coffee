@@ -24,6 +24,12 @@ activateEmail = (user, callback) ->
 
 	Email.send 'letter_regist_2', emailMeta, callback
 
+router.use (req, res, next) ->
+	if req.user
+		return res.redirect '/profile'
+
+	next()
+
 router.get '/', (req, res, next) ->
 	if req.user
 		return res.redirect '/profile'
@@ -50,6 +56,9 @@ router.get '/vk/callback', passport.authenticate 'vkontakte',
 
 router.get '/activate/:id', (req, res, next) ->
 	id = req.params.id
+
+	if req.user
+		return next new Error 'Access denied'
 
 	if not id
 		return next new Error "Пользователь не найден"

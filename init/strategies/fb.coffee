@@ -5,6 +5,7 @@ passport = require 'passport'
 FaseBookStrategy = require 'passport-facebook'
 
 Crud = require('../../lib/crud')
+Moneybox = require '../../lib/moneybox'
 
 locals = require('../locals').site
 
@@ -84,6 +85,7 @@ passport.use 'facebook', new FaseBookStrategy
 			, (err, user) ->
 				if err
 					return done err
+				Moneybox.registration user._id, () ->
 
 				done null, user
 

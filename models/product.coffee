@@ -27,10 +27,12 @@ schema = new mongoose.Schema
 		required: true
 		default: false
 	recommended:
-		type: String
+		type: Boolean
 	assorted:
 		type: Boolean
 		default: false
+	recommendation:
+		type: String
 	age:
 		type: ObjectId
 		ref: "ProductAge"

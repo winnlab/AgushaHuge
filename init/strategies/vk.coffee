@@ -7,6 +7,7 @@ passport = require 'passport'
 VkontakteStrategy = require('passport-vkontakte').Strategy
 
 Crud = require('../../lib/crud')
+Moneybox = require '../../lib/moneybox'
 
 locals = require('../locals').site
 
@@ -70,6 +71,9 @@ passport.use 'vkontakte', new VkontakteStrategy
 			, (err, user) ->
 				if err
 					return done err
+
+				Moneybox.registration user._id, () ->
+				
 
 				return done null, user
 
