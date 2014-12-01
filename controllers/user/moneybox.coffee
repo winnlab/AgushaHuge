@@ -93,3 +93,9 @@ exports.getBox = (req, res) ->
 			next null
 	], (err) ->
 		View.ajaxResponse res, err, data
+
+exports.getPoints = (req, res) ->
+	data =
+		points: req?.user?.points || 0
+	
+	View.ajaxResponse res, null, data
