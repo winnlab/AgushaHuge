@@ -12,15 +12,25 @@ breadcrumbs = require '../../meta/breadcrumbs'
 
 
 exports.index = (req, res) ->
+
+	userImage = getUserImage req.user
+
 	breadcrumbs.push
 		id: 'profile'
 		title: req?.user?.profile?.first_name or ''
 
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'messages'
+		userImage: userImage
 
 	View.render 'user/messages/index', res, data
 
+
+getUserImage = (user) ->
+	return "/img/user/helpers/stub/small.png" unless user
+	return "/img/user/helpers/stub/small.png" unless user.image?.small
+
+	"/img/uploads/#{user.image.small}"
 
 
 exports.getConversations = (req, res) ->
