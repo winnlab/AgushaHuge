@@ -18,7 +18,11 @@ async.parallel
 				return do cb
 
 			iterate = (item, cb2) ->
-				item.transliterated = translit.transliterate item.title
+				item.transliterated = translit
+					.transliterate item.title
+					.replace /\s/g, '_'
+					.replace /[\w\d_]/g, ''
+
 				item.save cb2
 
 			async.each docs, iterate, (err) ->
