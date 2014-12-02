@@ -95,6 +95,6 @@ exports.crop = (name, prefix, opts, callback) ->
 		if opts.imgWidth or opts.imgHeight
 			handle.resize opts.imgWidth, opts.imgHeight, if opts.imgWidth and opts.imgHeight then '!' else undefined
 
-		handle .write pathToNewFile, callback
+		handle.write pathToNewFile, callback
 	catch err
 		callback err.name or err

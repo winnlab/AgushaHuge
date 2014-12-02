@@ -1,4 +1,5 @@
 async = require 'async'
+_ = require 'lodash'
 
 View = require './view'
 Model = require './model'
@@ -37,13 +38,22 @@ exports.makeSearchOptions = makeSearchOptions = (category, age, callback) ->
 		callback null, searchOptions
 
 exports.findAll = (category, age, callback) ->
+	sortOptions =
+		sort:
+			volume: 1
+			assorted: 1
+	
 	async.waterfall [
 		(next) ->
 			makeSearchOptions category, age, next
 		(searchOptions, next) ->
-			Model 'Product', 'find', next, searchOptions
+			Model 'Product', 'find', next, searchOptions, null, sortOptions
 		(docs, next) ->
-			Model 'Product', 'populate', callback, docs, 'age category'
+			Model 'Product', 'populate', next, docs, 'age category'
+		(docs, next) ->
+			docs = _.sortBy docs, 'productCategory.position'
+			
+			callback null, docs
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in lib/product/findAll: #{error}"
