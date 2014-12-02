@@ -10,6 +10,9 @@ faq = require '../../meta/faq'
 exports.index = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'help'
-		faq: faq
+		tab: req.params.tab
+	
+	if req.params.tab == 'faq'
+		data.faq = faq
 	
 	View.render 'user/help/index', res, data
