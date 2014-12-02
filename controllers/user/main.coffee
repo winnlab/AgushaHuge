@@ -76,12 +76,13 @@ exports.index = (req, res) ->
 		(docs, next) ->
 			data.articles = docs
 			
-			Model 'Client', 'count', next
-		(count, next) ->
-			data.user_count = underscore.chars count+''
-			
 			getFeed req.user, data, next
 	], (err) ->
+		if err
+			error = err.message or err
+			Logger.log 'info', "Error in controllers/user/main/index: #{error}"
+			return res.send error
+		
 		View.render 'user/main/index', res, data
 
 exports.feed = (req, res) ->
