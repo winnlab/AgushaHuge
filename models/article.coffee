@@ -56,10 +56,13 @@ schema = new mongoose.Schema
 			type: String
 		XL:
 			type: String
+		SOCIAL:
+			type: String
 		dataB: cropperPosition
 		dataS: cropperPosition
 		dataL: cropperPosition
 		dataXL: cropperPosition
+		dataSOCIAL: cropperPosition
 	active:
 		type: Boolean
 		required: true
