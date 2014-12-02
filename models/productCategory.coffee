@@ -10,6 +10,9 @@ schema = new mongoose.Schema
 		type: String
 		required: true
 		unique: true
+	position:
+		type: Number
+		default: 0
 	active:
 		type: Boolean
 		required: true

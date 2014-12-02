@@ -15,8 +15,10 @@ router = require('express').Router()
 
 Crud = require '../../lib/crud'
 View = require '../../lib/view'
-Model = require '../../lib/model'
+Model = require '../../lib/mongooseTransport'
+Moneybox = require '../../lib/moneybox'
 Cities = require '../../meta/cities'
+Logger = require '../../lib/logger'
 
 urlPrefix = 
     child: "/img/uploads/child"
@@ -249,9 +251,7 @@ router.post '/uploadVK', (req, res) ->
         res.send err
 
 router.get '/invitedVK', (req, res) ->
-    Model 'InvitedVkontakte', 'findOne', fn, _id: req.param 'uid'
-
-    fn = (err, doc) ->
+    Model 'InvitedVkontakte', 'findOne', {_id: req.param 'uid'}, (err, doc) ->
         if err
             res.status 500
             return res.send err
@@ -261,11 +261,13 @@ router.get '/invitedVK', (req, res) ->
 router.post '/invitedVK', (req, res) ->
     _id = req.param 'uid'
 
-    mdl = new Model('InvitedVkontakte'),
-        _id: _id
+    mdl = new Model('InvitedVkontakte') _id: _id
 
     mdl.save (err) ->
         res.send not err
+
+    Moneybox.invite req.user._id, (err) ->
+        Logger.log 'error', err if err
 
 router.post.apply router, [
     '/cities',
