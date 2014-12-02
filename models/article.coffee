@@ -184,8 +184,8 @@ schema.pre 'save', (next) ->
 	this.updated = moment()
 	this.transliterated = translit
 		.transliterate this.title
-		.replace ///\s///g, '_'
-		.replace ///[^\w\d_]///g, ''
+		.replace /\s/g, '_'
+		.replace /[^\w\d_]/g, ''
 
 	next()
 
