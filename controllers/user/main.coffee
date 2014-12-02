@@ -1,4 +1,5 @@
 _ = require 'lodash'
+underscore = require 'underscore'
 async = require 'async'
 
 Model = require '../../lib/mongooseTransport'
@@ -74,8 +75,11 @@ exports.index = (req, res) ->
 			getArticles next
 		(docs, next) ->
 			data.articles = docs
-			next null
-		(next) ->
+			
+			Model 'Client', 'count', next
+		(count, next) ->
+			data.user_count = underscore.chars count+''
+			
 			getFeed req.user, data, next
 	], (err) ->
 		View.render 'user/main/index', res, data
