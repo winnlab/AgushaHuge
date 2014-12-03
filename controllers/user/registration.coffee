@@ -24,11 +24,12 @@ activateEmail = (user, callback) ->
 
 	Email.send 'letter_regist_2', emailMeta, callback
 
-router.use (req, res, next) ->
-	if req.user
-		return res.redirect '/profile'
 
-	next()
+# router.use (req, res, next) ->
+# 	if req.user
+# 		return res.redirect '/profile'
+
+# 	next()
 
 router.get '/', (req, res, next) ->
 	if req.user
@@ -61,7 +62,7 @@ router.get '/activate/:id', (req, res, next) ->
 		return next new Error 'Access denied'
 
 	if not id
-		return next new Error "Пользователь не найден"
+		return next message: "Пользователь не найден"
 
 	crud.findOne req.params.id, 'profile active', (err, user) ->
 		if err
@@ -116,6 +117,7 @@ router.post '/', (req, res, next) ->
 		return res.redirect '/profile'
 
 	user = req.body
+
 	user.profile =
 		first_name: req.body.firstName
 
@@ -131,27 +133,28 @@ router.post '/', (req, res, next) ->
 	if not user.email
 		return next new Error 'Почта не указана'
 
-
+	user.email = user.email.toLowerCase()
 
 	crud.DataEngine 'findOne', (err, fuser) ->
 		if err
 			return next "Что то пошло не так. Обратитесь к администратору"
 
 		if fuser
-			console.log err
 			return next "Такой пользователь уже зарегистрирован"
 
 		crud.add user, (err, suser) ->
 			if err
-				return next new Error "Что то пошло не так. Обратитесь к администратору"
+				return next "Что то пошло не так. Обратитесь к администратору"
 
 			activateEmail suser, (err) ->
 				if err
 					return console.log 'Error:', err
 
+				Moneybox.registration suser._id, () ->
+
 			res.redirect 'registration/success' 
 
-	, email: user.email, 
+	, email: user.email
 
 exports = router
 

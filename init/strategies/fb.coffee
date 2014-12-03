@@ -1,6 +1,7 @@
 
 join = require('path').join
 
+async = require 'async'
 passport = require 'passport'
 FaseBookStrategy = require 'passport-facebook'
 
@@ -21,38 +22,40 @@ passport.use 'facebook', new FaseBookStrategy
 	profileFields: ['birthday', 'gender', 'email', 'first_name', 'last_name', 'picture.type(square)']
 	passReqToCallback: true
 , (req, accessToken, refreshToken, profile, done) ->
-	callbackWrap = (err, user) ->
-		profile['_json'].email = profile['_json'].email.toString().toLowerCase()
+	dates = {}
+	gender = 0
 
-		email = profile['_json'].email
+	async.waterfall [
+		(next) ->
+			User.DataEngine 'findOne', next, 'social.fb.id': profile.id
+		(user, next) ->
+			if user
+				if req.user and req.user._id isnt user._id
+					return done new Error 'This fb profile already exist'
 
-		if user
-			if req.user and req.user._id isnt user._id
-				return done new Error 'This fb profile already exist'
+				if user.social?.fb?.id is profile.id
+					return done null, user
 
-			if user.social.fb.id is profile.id
-				return done null, user
+			profile['_json'].email = profile['_json'].email.toString().toLowerCase()
 
-		if req.user
-			email = req.user.email
+			email = profile['_json'].email
 
-		dates = {}
+			if req.user
+				email = req.user.email
 
-		if profile['_json'].gender
-			gender = if profile['_json'].gender is 'male' then 2 else 1
+			if profile['_json'].gender
+				gender = if profile['_json'].gender is 'male' then 2 else 1
 
-		if profile['_json'].birthday
-			profile['_json'].birthday = profile['_json'].birthday.split '/'
+			if profile['_json'].birthday
+				profile['_json'].birthday = profile['_json'].birthday.split '/'
 
-			dates =
-				day: profile['_json'].birthday[0]
-				month: profile['_json'].birthday[2]
-				year: profile['_json'].birthday[1]
+				dates =
+					day: profile['_json'].birthday[0]
+					month: profile['_json'].birthday[2]
+					year: profile['_json'].birthday[1]
 
-		callback = (err, user) ->
-			if err
-				return done err
-
+			User.DataEngine 'findOne', next, 'email': email
+		(user, next) ->
 			if user
 				user.auth_from = 'fb'
 
@@ -65,11 +68,10 @@ passport.use 'facebook', new FaseBookStrategy
 
 				return user.save done
 
-				# return done null, user
-
+			next()
+		(next) ->
 			User.add
 				email: profile['_json'].email
-				# image: profile['_json'].picture.data.url
 				profile:
 					first_name: profile.name.givenName
 					last_name: profile.name.familyName
@@ -82,16 +84,11 @@ passport.use 'facebook', new FaseBookStrategy
 						id: profile.id
 						access_token: accessToken
 						refresh_token: refreshToken
-			, (err, user) ->
-				if err
-					return done err
-				Moneybox.registration user._id, () ->
+			, next
+		(user, next) ->
+			Moneybox.registration user._id, () ->
 
-				done null, user
-
-		User.DataEngine 'findOne', callback, 'email': email
-	
-	User.DataEngine 'findOne', callbackWrap, 'social.fb.id': profile.id
+			done null, user
+	], done
 
 module.exports = exports = {};
-

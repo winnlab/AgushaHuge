@@ -57,14 +57,14 @@ schema = new mongoose.Schema
 	birth_date:
 		month:
 			type: Number
-			default: null
+			default: 0
 		day:
 			type: Number
-			default: null
+			default: 0
 
 		year:
 			type: Number
-			default: null
+			default: 0
 	contacts:
 		country:
 			type: String
@@ -122,9 +122,6 @@ schema = new mongoose.Schema
 			refresh_token:
 				type: String
 	children: [
-		# child_id:
-		# 	type: ObjectId
-		# 	ref: 'Children'
 		image:
 			large:
 				type: String
@@ -140,14 +137,17 @@ schema = new mongoose.Schema
 		birth:
 			day:
 				type: String
+				default: 0
 				set: (value) ->
 					parseInt value
 			month:
 				type: String
+				default: 0
 				set: (value) ->
 					parseInt value
 			year:
 				type: String
+				default: 0
 				set: (value) ->
 					parseInt value
 	]
@@ -156,6 +156,7 @@ schema = new mongoose.Schema
 		default: 0
 ,
 	collection: 'client'
+	versionKey: false
 
 schema.virtual('has_password')
 	.get () ->
@@ -189,8 +190,6 @@ schema.methods.getImage = (type) ->
 
 schema.methods.validPassword = (password) ->
 	md5pass = crypto.createHash('md5').update(password).digest 'hex'
-	console.log md5pass
-	console.log password
 
 	isValid = if md5pass == @password then true else false
 
