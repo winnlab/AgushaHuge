@@ -122,7 +122,10 @@ schema = new mongoose.Schema
 
 schema.pre 'save', (next) ->
 	this.updated = moment()
-	this.transliterated = translit.transliterate this.name
+	this.transliterated = translit
+		.transliterate this.name
+		.replace /\s/g, '_'
+		.replace /[^\w\d_]/g, ''
 
 	next()
 
