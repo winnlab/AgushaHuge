@@ -1,9 +1,9 @@
-
 async = require 'async'
 _ = require 'underscore'
 jade = require 'jade'
 fs = require 'fs'
 
+Model = require './model'
 Logger = require './logger'
 # Cache = require './cache'
 
@@ -17,7 +17,7 @@ compiledClients = []
 
 exports.render = render = (path, res, data) ->
 	data = data || {}
-
+	
 	_.extend data, res.locals
 
 	if res.locals.is_ajax_request is true
@@ -92,8 +92,18 @@ exports.globals = (req, res, next)->
 
 	res.locals.is_ajax_request = request.is_ajax_request(req.headers)
 	res.locals.strip_tags = string.strip_tags
-
-	next()
+	
+	async.waterfall [
+		(next2) ->
+			Model 'Client', 'count', next2
+		(count) ->
+			res.locals.user_count = _.chars count + ''
+			
+			next()
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/moneybox/index: #{error}"
+		next error
 
 loadClient = (name) ->
 	filename = "#{viewDirectory}/#{name}.jade"
