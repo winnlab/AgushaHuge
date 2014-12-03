@@ -1,7 +1,9 @@
+
 config = require '../../config.json'
 path = require 'path'
 join = path.join
 
+async = require 'async'
 request = require 'request'
 passport = require 'passport'
 VkontakteStrategy = require('passport-vkontakte').Strategy
@@ -21,32 +23,45 @@ passport.use 'vkontakte', new VkontakteStrategy
 	profileFields: ['photo_400_orig', 'bdate', 'photo_max', 'city']
 	passReqToCallback: true
 , (req, accessToken, refreshToken, params, profile, done) ->
-	callbackWrap = (err, user) ->
-		email = params.email.toLowerCase().toString()
-	
-		if req.user
-			if user and req.user._id isnt user._id
-				return next new Error 'This vk profile already exist'
+	async.waterfall [
+		(next) ->
+			###
+			#	Step 1. Find user by his profile id
+			###
+			console.info "Step 1"
+			User.DataEngine 'findOne', next, 'social.vk.id': profile.id
+		(user, next) ->
+			###
+			#	Step 2. Find user by email from profile
+			###
+			console.info "Step 2"
 
-			email = req.user.email
 
-		profile.birthday = profile.birthday.split '-'
+			email = params.email.toLowerCase().toString()
 
-		dates =
-			day: profile.birthday[2]
-			month: profile.birthday[1]
-			year: profile.birthday[0]
+			if req.user
+				if user and req.user._id isnt user._id
+					return next new Error 'This vk profile already exist'
 
-		callback = (err, user) ->
-			if err
-				return done err
+				email = req.user.email
+
+			profile.birthday = profile.birthday.split '-'
+
+			dates =
+				day: profile.birthday[2]
+				month: profile.birthday[1]
+				year: profile.birthday[0]
+
+			User.DataEngine 'findOne', next, 'email': email
+		(user, next) ->
+			console.info "Step 3"
 
 			if user
 				user.auth_from = 'vk'
 
 				return done null, user if user.social.vk.id
 				
-				user.vk =
+				user.social.vk =
 					id: profile.id
 					access_token: accessToken
 					refresh_token: refreshToken
@@ -68,18 +83,16 @@ passport.use 'vkontakte', new VkontakteStrategy
 						id: profile.id
 						access_token: accessToken
 						refresh_token: refreshToken
-			, (err, user) ->
-				if err
-					return done err
+			, next
+		(user) ->
+			console.info "Step 4"
 
-				Moneybox.registration user._id, () ->
-				
+			Moneybox.registration user._id, () ->
+			
 
-				return done null, user
-
-		User.DataEngine 'findOne', callback, 'email': email
-
-	User.DataEngine 'findOne', callbackWrap, 'social.fb': profile.id
+			return done null, user
+	], done
+	
 
 module.exports = exports = {};
 
