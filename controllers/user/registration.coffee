@@ -69,11 +69,10 @@ router.get '/activate/:id', (req, res, next) ->
 			return next err
 
 		if not user
-			console.log err
 			return next new Error "User #{req.params.id} not exist"
 
-		if user.active
-			return res.redirect '../already-active'
+		if user.active == true
+			return res.redirect '../profile'
 
 		user.active = true
 		user.activated_at = moment()
@@ -90,8 +89,6 @@ router.get '/activate/:id', (req, res, next) ->
 			data =
 				user: user
 				activated: true
-
-			console.log "User #{user._id}, has been activated"
 
 			req.login user, (err) ->
 				return next err if err
@@ -146,11 +143,14 @@ router.post '/', (req, res, next) ->
 			if err
 				return next "Что то пошло не так. Обратитесь к администратору"
 
+			console.log suser
+
 			activateEmail suser, (err) ->
 				if err
 					return console.log 'Error:', err
 
-				Moneybox.registration suser._id, () ->
+				console.log suser
+
 
 			res.redirect 'registration/success' 
 
