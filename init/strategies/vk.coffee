@@ -23,12 +23,14 @@ passport.use 'vkontakte', new VkontakteStrategy
 	profileFields: ['photo_400_orig', 'bdate', 'photo_max', 'city']
 	passReqToCallback: true
 , (req, accessToken, refreshToken, params, profile, done) ->
+	dates = {}
 	async.waterfall [
 		(next) ->
 			###
 			#	Step 1. Find user by his profile id
 			###
 			console.info "Step 1"
+
 			User.DataEngine 'findOne', next, 'social.vk.id': profile.id
 		(user, next) ->
 			###

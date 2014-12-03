@@ -27,6 +27,7 @@ passport.use 'facebook', new FaseBookStrategy
 
 	async.waterfall [
 		(next) ->
+			console.log 'step 1'
 			User.DataEngine 'findOne', next, 'social.fb.id': profile.id
 		(user, next) ->
 			if user
@@ -56,6 +57,8 @@ passport.use 'facebook', new FaseBookStrategy
 
 			User.DataEngine 'findOne', next, 'email': email
 		(user, next) ->
+			console.log 'step 2'
+
 			if user
 				user.auth_from = 'fb'
 
@@ -70,6 +73,8 @@ passport.use 'facebook', new FaseBookStrategy
 
 			next()
 		(next) ->
+			console.log 'step 3'
+
 			User.add
 				email: profile['_json'].email
 				profile:
@@ -86,6 +91,8 @@ passport.use 'facebook', new FaseBookStrategy
 						refresh_token: refreshToken
 			, next
 		(user, next) ->
+			console.log 'step 4'
+
 			Moneybox.registration user._id, () ->
 
 			done null, user
