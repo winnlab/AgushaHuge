@@ -1,4 +1,5 @@
 _ = require 'lodash'
+underscore = require 'underscore'
 async = require 'async'
 
 Model = require '../../lib/mongooseTransport'
@@ -74,10 +75,14 @@ exports.index = (req, res) ->
 			getArticles next
 		(docs, next) ->
 			data.articles = docs
-			next null
-		(next) ->
+			
 			getFeed req.user, data, next
 	], (err) ->
+		if err
+			error = err.message or err
+			Logger.log 'info', "Error in controllers/user/main/index: #{error}"
+			return res.send error
+		
 		View.render 'user/main/index', res, data
 
 exports.feed = (req, res) ->

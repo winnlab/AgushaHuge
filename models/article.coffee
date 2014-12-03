@@ -14,6 +14,8 @@ cropperPosition =
 		type: Number
 	height:
 		type: Number
+	alt:
+		type: Boolean
 
 schema = new mongoose.Schema
 	type:
@@ -44,6 +46,8 @@ schema = new mongoose.Schema
 	image:
 		background:
 			type: String
+		backgroundAlt:
+			type: String
 		B:
 			type: String
 		S:
@@ -52,10 +56,13 @@ schema = new mongoose.Schema
 			type: String
 		XL:
 			type: String
+		SOCIAL:
+			type: String
 		dataB: cropperPosition
 		dataS: cropperPosition
 		dataL: cropperPosition
 		dataXL: cropperPosition
+		dataSOCIAL: cropperPosition
 	active:
 		type: Boolean
 		required: true
@@ -175,7 +182,10 @@ schema.methods.name = -> @title
 
 schema.pre 'save', (next) ->
 	this.updated = moment()
-	this.transliterated = translit.transliterate this.title
+	this.transliterated = translit
+		.transliterate this.title
+		.replace /\s/g, '_'
+		.replace /[^\w\d_]/g, ''
 
 	next()
 

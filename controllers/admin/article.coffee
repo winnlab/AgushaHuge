@@ -43,6 +43,9 @@ class ArticleCrud extends Crud
 
     _checkThemePositions: (theme, cb) ->
         do cb
+        ###
+            probably check below will be returned later
+        ###
         # async.map theme, (item, next) ->
         #     query =
         #         $and: [
@@ -161,16 +164,22 @@ class ArticleCrud extends Crud
         data = req.body.data
         prefix = req.body.prefix
 
-        _.forOwn data, (val, prop) -> data[prop] = parseInt val
+        _.forOwn data, (val, prop) ->
+            if prop is 'alt'
+                data[prop] = if _.isBoolean val then val else val is 'true'
+            else
+                data[prop] = parseInt val
 
         unless id and data and prefix
             return cb 'Ошибка. Не переданы все необходимые данные для вырезания изображения.'
         
+        parentImgName = if data.alt then 'backgroundAlt' else 'background'
+
         async.waterfall [
             (next) =>
                 @findOne id, next
             (doc, next) =>
-                unless doc.image.background
+                unless doc.image[parentImgName]
                     return next 'Ошибка. Изображение фона не задано или удалено.'
 
                 if doc.image[prefix]
@@ -179,10 +188,10 @@ class ArticleCrud extends Crud
 
                 next null, doc
             (doc, next) ->
-                Image.crop doc.image.background, prefix, data, (err) ->
+                Image.crop doc.image[parentImgName], prefix, data, (err) ->
                     next err, doc
             (doc, next) ->
-                doc.image[prefix] = "cropped#{prefix}#{doc.image.background}"
+                doc.image[prefix] = "cropped#{prefix}#{doc.image[parentImgName]}"
                 doc.image["data#{prefix}"] = data
                 doc.save (err, doc) ->
                     next err, {
@@ -281,6 +290,11 @@ crud = new ArticleCrud
     files: [
         {
             name: 'image.background'
+            replace: true
+            type: 'string'
+        },
+        {
+            name: 'image.backgroundAlt'
             replace: true
             type: 'string'
         },
