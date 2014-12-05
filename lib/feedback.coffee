@@ -6,7 +6,7 @@ Model = require './mongooseTransport'
 Logger = require './logger'
 Mail = require './mail'
 
-email = 'hydra0@bigmir.net'
+email = 'dkirpa@gmail.com'
 
 exports.send = (req, res) ->
 	async.waterfall [
