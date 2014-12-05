@@ -65,7 +65,7 @@ Router.get '/product/:alias', Product.index
 
 #
 
-Router.get '/help', Help.index
+Router.get '/help/:tab', Help.index
 
 Router.post '/send_feedback', Feedback.send
 

@@ -6,12 +6,39 @@ passport = require 'passport'
 Auth = require '../../lib/auth'
 View = require '../../lib/view'
 Moneybox = require '../../lib/moneybox'
+Crud = require '../../lib/crud'
+Email = require '../../lib/mail'
 
-router.use (req, res, next) ->
-	if req.user
-		return res.redirect '/profile'
+crud = new Crud
+	modelName: 'Client'
 
-	next()
+# router.use (req, res, next) ->
+# 	if req.user
+# 		return res.redirect '/profile'
+
+# 	next()
+
+
+uniqueId = (length) ->
+	i = 0
+	text = ""
+	possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+
+	while i < length
+		text += possible.charAt(Math.floor(Math.random() * possible.length))
+		i++
+
+	return text
+
+restoreEmail = (user, password, callback) ->
+	emailMeta =
+		toName: "#{user.profile.first_name}"
+		to: user.email
+		subject: "Восстановление пароля"
+		user: user
+		newPassword: password
+
+	Email.send 'repassword', emailMeta, callback
 
 router.get '/', (req, res, next) ->
 	View.render 'user/login/index', res
@@ -38,10 +65,7 @@ router.post '/', Auth.authenticate('user', loginOptions), (req, res, next) ->
 	user = req.user?.toObject()
 
 	if not user
-		return next new Error 'Пользователь не найден'
-
-	if not user.active
-		return next new Error 'Пользователь не активирован'
+		return next 'Пользователь не найден'
 	
 	Moneybox.login user._id, (err, muser) ->
 		if muser
@@ -50,6 +74,51 @@ router.post '/', Auth.authenticate('user', loginOptions), (req, res, next) ->
 		delete user.password
 
 	return View.clientSuccess user: user, res
+
+router.get '/restore', (req, res, next) ->
+
+
+router.post '/restore', (req, res, next) ->
+	email = req.body.email.toLowerCase()
+
+	if not email
+		return next 'Пользователь с такой почтой не найден'
+
+
+	callback = (err, user) ->
+		if err
+			console.log err
+			return next new Error "Что то пошло не так. Обратитесь к администратору"
+
+		newPassword = uniqueId 7
+
+		if not user
+			console.log 'user not fount'
+			return next new Error "Пользвоатель не найден"
+
+		user.password = newPassword
+
+		user.save (err) ->
+			if err
+				console.log err
+				return next new Error "Что то пошло не так. Обратитесь к администратору"
+
+			console.log 'user saved'
+
+			restoreEmail user, newPassword, (err) ->
+				if err
+					console.log 'failed send email'
+
+				return next new Error "Что то пошло не так. Обратитесь к администратору" if err
+
+				console.log 'email sended'
+
+				return View.clientSuccess
+					user: user
+					message: "Данные отправлены Вам на почту"
+				, res
+
+	crud.DataEngine 'findOne', callback, email: email
 
 exports = router
 

@@ -43,6 +43,9 @@ validation = (err, user, password, done) ->
 	if not user
 		return done message: 'Пользователь с таким именем не существует!'
 
+	if not user.active
+		return done message: 'Пользователь не активирован'
+
 	if not user.validPassword password
 		return done message: 'Пароль введен неправильно.'
 

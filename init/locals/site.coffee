@@ -1,5 +1,5 @@
 
-baseUrl = 'http://agusha.com.ua:8080/'
+baseUrl = 'http://agusha.com.ua/'
 
 linkTo = (relUrl) ->
 	if relUrl[0] is '/'
