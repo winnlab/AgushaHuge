@@ -53,13 +53,13 @@ exports.findOne = (req, res) ->
 
 	alias: req.params.alias
 
-	id = req.params.id
+	link = req.params.id
 	
 	res.locals.params = req.params # req.params is not accessable in middlewares -_- 
 	
 	async.waterfall [
 		(next) ->
-			Model 'Article', 'findOne', next, _id: id, null, {lean: true}
+			Model 'Article', 'findOne', next, transliterated: link, null, {lean: true}
 		(doc, next) ->
 			if doc
 				if doc.is_quiz

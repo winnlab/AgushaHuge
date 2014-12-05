@@ -17,13 +17,13 @@ exports.findOne = (req, res) ->
 	
 	alias: req.params.alias
 
-	id = req.params.id
+	link = req.params.id
 	
 	res.locals.params = req.params # req.params is not accessible in middlewares -_-
 	
 	async.waterfall [
 		(next) ->
-			consultation = Model 'Consultation', 'findOne', null, _id: id
+			consultation = Model 'Consultation', 'findOne', null, transliterated: link
 
 			consultation.populate('author.author_id answer.author.author_id').exec next
 		(doc, next) ->
