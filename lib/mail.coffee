@@ -6,11 +6,18 @@ mail = nodemailer.mail
 
 app = require '../init/application'
 
+# transportOptions =
+	# host: 'mx1.mirohost.net'
+	# auth:
+		# user: 'contact@agusha.com.ua',
+		# pass: 'aHErkvZu'
+
 transportOptions =
-	host: 'mx1.mirohost.net'
+	host: 's02.atomsmtp.com'
+	port: '2525'
 	auth:
-		user: 'contact@agusha.com.ua',
-		pass: 'aHErkvZu'
+		user: 'contact@agusha.com.ua'
+		pass: 'DeNgYYmNeAp2ScK'
 
 transport = nodemailer.createTransport 'SMTP', transportOptions
 # transport = nodemailer.createTransport()

@@ -17,13 +17,12 @@ crud = new Crud
 
 activateEmail = (user, callback) ->
 	emailMeta =
-		toName: "#{user.profile.first_name} #{user.profile.last_name}"
+		toName: "#{user.profile.first_name}"
 		to: user.email
 		subject: "Активация аккаунта на agusha.com.ua"
 		user: user
-
+	
 	Email.send 'letter_regist_2', emailMeta, callback
-
 
 # router.use (req, res, next) ->
 # 	if req.user
@@ -143,14 +142,13 @@ router.post '/', (req, res, next) ->
 			if err
 				return next "Что то пошло не так. Обратитесь к администратору"
 
-			console.log suser
-
+			# console.log suser
+			
 			activateEmail suser, (err) ->
 				if err
 					return console.log 'Error:', err
-
-				console.log suser
-
+				
+				# console.log suser
 
 			res.redirect 'registration/success' 
 
