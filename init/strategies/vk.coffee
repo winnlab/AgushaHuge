@@ -20,7 +20,7 @@ passport.use 'vkontakte', new VkontakteStrategy
 	clientID: config.vk.APP_ID,
 	clientSecret: config.vk.CLIENT_SECRET,
 	callbackURL: locals.linkTo('registration/vk/callback')
-	profileFields: ['photo_400_orig', 'bdate', 'photo_max', 'city']
+	profileFields: ['email']
 	passReqToCallback: true
 , (req, accessToken, refreshToken, params, profile, done) ->
 	dates = {}

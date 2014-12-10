@@ -19,7 +19,7 @@ passport.use 'facebook', new FaseBookStrategy
 	clientID: 812840382107432,
 	clientSecret: "2d82f2e09e4c47eb9a4d5e5b8e614700",
 	callbackURL: locals.linkTo('registration/fb/callback')
-	profileFields: ['birthday', 'gender', 'email', 'first_name', 'last_name', 'picture.type(square)']
+	profileFields: ['email']
 	passReqToCallback: true
 , (req, accessToken, refreshToken, profile, done) ->
 	dates = {}
