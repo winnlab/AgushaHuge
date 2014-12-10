@@ -22,12 +22,8 @@ passport.use 'facebook', new FaseBookStrategy
 	profileFields: ['email']
 	passReqToCallback: true
 , (req, accessToken, refreshToken, profile, done) ->
-	dates = {}
-	gender = 0
-
 	async.waterfall [
 		(next) ->
-			console.log 'step 1'
 			User.DataEngine 'findOne', next, 'social.fb.id': profile.id
 		(user, next) ->
 			if user
@@ -44,21 +40,8 @@ passport.use 'facebook', new FaseBookStrategy
 			if req.user
 				email = req.user.email
 
-			if profile['_json'].gender
-				gender = if profile['_json'].gender is 'male' then 2 else 1
-
-			if profile['_json'].birthday
-				profile['_json'].birthday = profile['_json'].birthday.split '/'
-
-				dates =
-					day: profile['_json'].birthday[0]
-					month: profile['_json'].birthday[2]
-					year: profile['_json'].birthday[1]
-
 			User.DataEngine 'findOne', next, 'email': email
 		(user, next) ->
-			console.log 'step 2'
-
 			if user
 				user.auth_from = 'fb'
 
@@ -73,15 +56,8 @@ passport.use 'facebook', new FaseBookStrategy
 
 			next()
 		(next) ->
-			console.log 'step 3'
-
 			User.add
 				email: profile['_json'].email
-				profile:
-					first_name: profile.name.givenName
-					last_name: profile.name.familyName
-					birth_date: dates
-					gender: gender
 				active: true
 				social:
 					reg_from: 'fb'
@@ -91,8 +67,6 @@ passport.use 'facebook', new FaseBookStrategy
 						refresh_token: refreshToken
 			, next
 		(user, next) ->
-			console.log 'step 4'
-
 			Moneybox.registration user._id, () ->
 
 			done null, user
