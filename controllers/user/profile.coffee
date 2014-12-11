@@ -6,6 +6,7 @@ path = require 'path'
 md5 = require 'MD5'
 request = require 'request'
 config = require '../../config.json'
+crypto = require 'crypto'
 
 _ = require 'lodash'
 gm = require('gm').subClass imageMagick: true
@@ -268,6 +269,30 @@ router.post '/invitedVK', (req, res) ->
 
     Moneybox.invite req.user._id, (err) ->
         Logger.log 'error', err if err
+
+
+
+router.post '/changePassword', (req, res) ->
+    data = req.body
+
+    return res.send 403 unless req.user
+    return res.send 400 unless data.oldPassword or data.newPassword
+
+    md5pass = crypto.createHash('md5').update(data.oldPassword).digest 'hex'
+    return res.send 418 if md5pass isnt req.user.password
+
+    async.waterfall [
+        (next) ->
+            Model 'Client', 'findOne', _id: req.user._id, next
+        (doc, next) ->
+            doc.password = data.newPassword
+            doc.save next
+        (doc, next) ->
+            res.send doc._id
+    ], (err) ->
+        res.send err
+
+
 
 router.post.apply router, [
     '/cities',
