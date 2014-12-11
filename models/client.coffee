@@ -6,6 +6,8 @@ mongoose = require 'mongoose'
 _ = require 'underscore'
 
 ObjectId = mongoose.Schema.Types.ObjectId
+
+Moneybox = require '../lib/moneybox'
 Validate = require '../utils/validate'
 
 cryptoUtil = require '../utils/crypto'
@@ -182,6 +184,9 @@ schema.methods.fillingProfile = () ->
 
 		if isFill
 			def += weightItem.weight
+
+	if def == 100
+		Moneybox.profile @_id, ()->
 
 	return def
 
