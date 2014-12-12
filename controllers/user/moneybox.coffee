@@ -71,14 +71,11 @@ exports.index = (req, res) ->
 
 	async.waterfall [
 		(next) ->
-			if user?
-				return getMoneybox req.user._id, next
-			
-			next null, null
+			getMoneybox req.user._id, next
 		(docs, next) ->
 			if data?
 				_.extend data, { actions: docs }
-			
+
 			next null
 	], (err) ->
 		if err
@@ -102,5 +99,5 @@ exports.getBox = (req, res) ->
 exports.getPoints = (req, res) ->
 	data =
 		points: req?.user?.points || 0
-	
+
 	View.ajaxResponse res, null, data
