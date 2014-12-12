@@ -23,7 +23,6 @@ weights =
 		fields: [
 			'contacts.phone'
 			'email'
-			'contacts.spareEmail'
 			'contacts.phone'
 			'contacts.postIndex'
 		]
