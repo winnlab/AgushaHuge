@@ -106,9 +106,9 @@ exports.globals = (req, res, next)->
 		next error
 
 loadClient = (name) ->
-	filename = "#{viewDirectory}/#{name}.jade"
-
 	if not compiledClients[name]?
+		filename = "#{viewDirectory}/#{name}.jade"
+		
 		templateCode = fs.readFileSync filename, "utf-8"
 
 		options =
