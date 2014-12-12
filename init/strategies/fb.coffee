@@ -59,6 +59,9 @@ passport.use 'facebook', new FaseBookStrategy
 			User.add
 				email: profile['_json'].email
 				active: true
+				profile:
+					first_name: profile.name?.givenName
+					last_name: profile.name?.familyName
 				social:
 					reg_from: 'fb'
 					fb:
