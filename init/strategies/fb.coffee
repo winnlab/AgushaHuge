@@ -76,6 +76,7 @@ passport.use 'facebook', new FaseBookStrategy
 					small: profile.photos?[0].value
 			, next
 		(user, next) ->
+
 			Moneybox.registration user._id, () ->
 
 			done null, user
