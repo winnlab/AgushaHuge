@@ -16,14 +16,12 @@ User = new Crud
 gender = 0
 
 passport.use 'facebook', new FaseBookStrategy
-	clientID: 319137821610071, # 812840382107432
-	clientSecret: "1319887dcfbaa66f7abd7c8fa7f99851", # 2d82f2e09e4c47eb9a4d5e5b8e614700
+	clientID: 812840382107432,
+	clientSecret: "2d82f2e09e4c47eb9a4d5e5b8e614700",
 	callbackURL: locals.linkTo('registration/fb/callback')
 	profileFields: ['id', 'name', 'picture.height(200).width(200)', 'emails',],
 	passReqToCallback: true
 , (req, accessToken, refreshToken, profile, done) ->
-
-	console.log profile
 
 	async.waterfall [
 		(next) ->
