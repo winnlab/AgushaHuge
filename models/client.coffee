@@ -22,6 +22,9 @@ schema = new mongoose.Schema
 		unique: true
 		sparse: true
 		validate: Validate.email
+	spareEmail:
+		type: String
+		default: null
 	created_at:
 		type: Date
 		default: moment
@@ -84,9 +87,6 @@ schema = new mongoose.Schema
 			type: String
 			default: null
 		phone:
-			type: String
-			default: null
-		spareEmail:
 			type: String
 			default: null
 		postIndex:
