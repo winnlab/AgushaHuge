@@ -6,6 +6,7 @@ join = path.join
 async = require 'async'
 request = require 'request'
 passport = require 'passport'
+_ = require 'lodash'
 VkontakteStrategy = require('passport-vkontakte').Strategy
 
 Crud = require('../../lib/crud')
@@ -20,32 +21,18 @@ passport.use 'vkontakte', new VkontakteStrategy
 	clientID: config.vk.APP_ID,
 	clientSecret: config.vk.CLIENT_SECRET,
 	callbackURL: locals.linkTo('registration/vk/callback')
-	profileFields: ['email']
+	profileFields: ['photo_100']
 	passReqToCallback: true
 , (req, accessToken, refreshToken, params, profile, done) ->
+
 	async.waterfall [
 		(next) ->
-			###
-			#	Step 1. Find user by his profile id
-			###
-
 			User.DataEngine 'findOne', next, 'social.vk.id': profile.id
 		(user, next) ->
-			###
-			#	Step 2. Find user by email from profile
-			###
-
-
-			email = params.email.toLowerCase().toString()
-
 			if req.user
 				if user and req.user._id isnt user._id
-					return next new Error 'This vk profile already exist'
+					return next new Error 'This vk profile already exists'
 
-				email = req.user.email
-
-			User.DataEngine 'findOne', next, 'email': email
-		(user, next) ->
 			if user
 				user.auth_from = 'vk'
 
@@ -58,24 +45,38 @@ passport.use 'vkontakte', new VkontakteStrategy
 
 				return user.save done
 
+			photo = getVkPhoto profile
+
 			User.add
-				email: params.email.toLowerCase()
 				active: true
+				profile:
+					first_name: profile.name?.givenName
+					last_name: profile.name?.familyName
 				social:
 					reg_from: 'vk'
 					vk:
 						id: profile.id
 						access_token: accessToken
 						refresh_token: refreshToken
+				image:
+					orig: photo
+					large: photo
+					medium: photo
+					small: photo
 			, next
 		(user) ->
-			console.info "Step 4"
-
 			Moneybox.registration user._id, () ->
-			
 
 			return done null, user
 	], done
+
+
+
+getVkPhoto = (profile) ->
+	if profile._json?.photo_100
+		return profile._json.photo_100
+	else
+		return profile._json.photo
 	
 
 module.exports = exports = {};

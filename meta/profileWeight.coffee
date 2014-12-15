@@ -22,8 +22,8 @@ weights =
 	contactInfoLeft:
 		fields: [
 			'contacts.phone'
-			'email'
-			'contacts.spareEmail'
+			'email',
+			'email',
 			'contacts.phone'
 			'contacts.postIndex'
 		]
