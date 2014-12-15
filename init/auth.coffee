@@ -5,6 +5,7 @@ localStrategy = require('passport-local').Strategy
 
 fbStartegy = require './strategies/fb'
 vkStartegy = require './strategies/vk'
+okStartegy = require './strategies/ok'
 
 mongoose = require 'mongoose'
 

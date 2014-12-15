@@ -43,16 +43,20 @@ router.get '/vk', passport.authenticate 'vkontakte',
 	successRedirect: '/profile'
 	failureRedirect: '/login'
 
+router.get '/ok', passport.authenticate 'odnoklassniki',
+	scope: ['email', 'friends']
+
 router.get '/fb/callback', passport.authenticate 'facebook',
 	successRedirect: '/profile'
 	failureRedirect: '/login'
 
-router.get '/registration/ok', passport.authenticate 'vkontakte',
-	scope: ['email', 'friends']
-
 router.get '/vk/callback', passport.authenticate 'vkontakte',
 	successRedirect: '/profile'
 	failureRedirect: '/login'
+
+router.get '/ok/callback', passport.authenticate 'odnoklassniki',
+  successRedirect: '/profile'
+  failureRedirect: '/login'
 
 router.get '/activate/:id', (req, res, next) ->
 	id = req.params.id
