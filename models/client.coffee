@@ -165,14 +165,15 @@ schema.virtual('has_password')
 		if @password then true else false
 
 schema.pre 'save', (next) ->
-	@profile.filling = @fillingProfile()
-
-	next()
+	that = @
+	@fillingProfile (filling) ->
+		that.profile.filling = filling
+		next()
 
 schema.methods.name = () ->
 	"#{@first_name} #{@last_name}"
 
-schema.methods.fillingProfile = () ->
+schema.methods.fillingProfile = (cb) ->
 	def = 0
 	that = @
 
@@ -186,9 +187,10 @@ schema.methods.fillingProfile = () ->
 			def += weightItem.weight
 
 	if def == 100
-		Moneybox.profile @_id, ()->
+		return Moneybox.profile @_id, () ->
+			cb def
 
-	return def
+	cb def
 
 schema.methods.getImage = (type) ->
 	return ''
