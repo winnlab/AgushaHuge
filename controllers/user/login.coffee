@@ -8,8 +8,10 @@ View = require '../../lib/view'
 Moneybox = require '../../lib/moneybox'
 Crud = require '../../lib/crud'
 Email = require '../../lib/mail'
+config = require '../../config.json'
+md5 = require 'MD5'
 
-crud = new Crud
+User = new Crud
 	modelName: 'Client'
 
 # router.use (req, res, next) ->
@@ -118,7 +120,31 @@ router.post '/restore', (req, res, next) ->
 					message: "Данные отправлены Вам на почту"
 				, res
 
-	crud.DataEngine 'findOne', callback, email: email
+	User.DataEngine 'findOne', callback, email: email
+
+
+router.post '/linkVk', (req, res) ->
+	data = req.body
+	vkData = data.response.session
+
+	sign = md5 "expire=#{vkData.expire}mid=#{vkData.mid}secret=#{vkData.secret}sid=#{vkData.sid}#{config.vk.CLIENT_SECRET}"
+
+	if sign is vkData.sig
+		if req.user
+			async.waterfall [
+				(next) ->
+					User.DataEngine 'findOne', next, _id: req.user._id
+				(doc, next) ->
+					if doc
+						doc.social.vk = {
+							id: vkData.user.id
+						}
+
+						doc.save next
+				(next) ->
+					res.send vkData.user.id
+			], (err) ->
+				res.send err
 
 exports = router
 

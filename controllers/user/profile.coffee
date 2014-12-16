@@ -294,7 +294,6 @@ router.post '/changePassword', (req, res) ->
         res.send err
 
 
-
 router.post.apply router, [
     '/cities',
     getCities()
