@@ -85,7 +85,6 @@ exports.findOne = (req, res) ->
 				}
 		(docs, next) ->
 			if docs.length > 3
-				data.similarArticles = docs
 				next null, docs
 			else
 				Model 'Article', 'find', next, {

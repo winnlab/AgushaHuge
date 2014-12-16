@@ -31,15 +31,31 @@ exports.findOne = (req, res) ->
 				data.consultation = doc
 
 				Model 'Article', 'find', next, {
-					'theme._id': {
-						$in: _.pluck doc.theme, '_id'
-					}
+					'theme._id': { $in: _.pluck doc.theme, '_id' },
+				}, null, {
+					limit: 9
 				}
+		(docs, next) ->
+			if docs.length > 3
+				next null, docs
+			else
+				Model 'Article', 'find', next, {
+					'age._id': {
+						$in: _.pluck data.consultation.age, '_id'
+					},
+				}, null, {
+					limit: 9,
+					sort: 'updated'
+				}
+
 		(docs, next) ->
 			if docs
 				data.similarArticles = docs
 			if req.user
-				data.user = req.user
+				data.user = {
+					_id: req.user._id,
+					profile: req.user.profile
+				}
 
 			View.render 'user/question/index', res, data
 	], (err) ->

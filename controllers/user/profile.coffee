@@ -206,7 +206,7 @@ router.use '/crud/:id?', (req, res, next) ->
     delete req.body?.points
     if not req.params.id
         req.params.id = req.user.id
-    
+
     crud.request.bind(crud) req, res, next
 
 router.get '/logout', (req, res, next) ->
