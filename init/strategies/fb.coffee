@@ -34,12 +34,13 @@ passport.use 'facebook', new FaseBookStrategy
 				if user.social?.fb?.id is profile.id
 					return done null, user
 
-			profile['_json'].email = profile['_json'].email.toString().toLowerCase()
+			if profile['_json'].email
+				profile['_json'].email = profile['_json'].email.toString().toLowerCase()
 
-			email = profile['_json'].email
+				email = profile['_json'].email
 
-			if req.user
-				email = req.user.email
+				if req.user
+					email = req.user.email
 
 			User.DataEngine 'findOne', next, 'email': email
 		(user, next) ->
