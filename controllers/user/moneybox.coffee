@@ -70,28 +70,28 @@ getPrizes = (cb) ->
 		if lvl.points is 200
 			lvl.prizes = [
 				[
+					'/img/user/moneybox/blue_bed.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/blue_bed.jpg'
 					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+				]
+				[
+					'/img/user/moneybox/colorful_bed.jpg'
 					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/colorful_bed.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+				]
+				[
+					'/img/user/moneybox/yellow_towel.jpg'
 					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/yellow_towel.jpg'
 					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
 					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/red_towel.jpg'
 					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-				]
-				[
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-				]
-				[
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/red_towel.jpg'
 				]
 			]
 			lvl.prizeName = 'Силиконовый слюнявчик'
@@ -99,27 +99,27 @@ getPrizes = (cb) ->
 		if lvl.points is 400
 			lvl.prizes = [
 				[
-					'/img/user/moneybox/red_towel.jpg'
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/red_towel.jpg'
+					'/img/user/moneybox/blue_bed.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/blue_bed.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
-					'/img/user/moneybox/red_towel.jpg'
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/red_towel.jpg'
+					'/img/user/moneybox/colorful_bed.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/colorful_bed.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
-					'/img/user/moneybox/red_towel.jpg'
 					'/img/user/moneybox/yellow_towel.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
 					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/red_towel.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 					'/img/user/moneybox/red_towel.jpg'
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/yellow_towel.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
 					'/img/user/moneybox/red_towel.jpg'
 				]
 			]
@@ -129,27 +129,27 @@ getPrizes = (cb) ->
 			lvl.prizes = [
 				[
 					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/colorful_bed.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
 					'/img/user/moneybox/blue_bed.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
-					'/img/user/moneybox/blue_bed.jpg'
 					'/img/user/moneybox/colorful_bed.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
 					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/blue_bed.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/blue_bed.jpg'
+					'/img/user/moneybox/yellow_towel.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/yellow_towel.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/blue_bed.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/red_towel.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/red_towel.jpg'
 				]
 			]
 			lvl.prizeName = 'Детская постель'
@@ -157,28 +157,28 @@ getPrizes = (cb) ->
 		if lvl.points is 800
 			lvl.prizes = [
 				[
-					'/img/user/moneybox/red_hat.jpg'
-					'/img/user/moneybox/green_legs.jpg'
-					'/img/user/moneybox/green_legs.jpg'
-					'/img/user/moneybox/red_hat.jpg'
+					'/img/user/moneybox/blue_bed.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/blue_bed.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
-					'/img/user/moneybox/red_hat.jpg'
-					'/img/user/moneybox/green_legs.jpg'
-					'/img/user/moneybox/green_legs.jpg'
-					'/img/user/moneybox/red_hat.jpg'
+					'/img/user/moneybox/colorful_bed.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/colorful_bed.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
-					'/img/user/moneybox/red_hat.jpg'
-					'/img/user/moneybox/green_legs.jpg'
-					'/img/user/moneybox/green_legs.jpg'
-					'/img/user/moneybox/red_hat.jpg'
+					'/img/user/moneybox/yellow_towel.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/yellow_towel.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
-					'/img/user/moneybox/red_hat.jpg'
-					'/img/user/moneybox/green_legs.jpg'
-					'/img/user/moneybox/green_legs.jpg'
-					'/img/user/moneybox/red_hat.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/red_towel.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/red_towel.jpg'
 				]
 			]
 			lvl.prizeName = 'Милые шапочки'
@@ -186,28 +186,28 @@ getPrizes = (cb) ->
 		if lvl.points is 1000
 			lvl.prizes = [
 				[
-					'/img/user/moneybox/blue_trunky.jpg'
-					'/img/user/moneybox/orange_trunky.jpg'
-					'/img/user/moneybox/orange_trunky.jpg'
-					'/img/user/moneybox/blue_trunky.jpg'
+					'/img/user/moneybox/blue_bed.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/blue_bed.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
-					'/img/user/moneybox/blue_trunky.jpg'
-					'/img/user/moneybox/orange_trunky.jpg'
-					'/img/user/moneybox/orange_trunky.jpg'
-					'/img/user/moneybox/blue_trunky.jpg'
+					'/img/user/moneybox/colorful_bed.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/colorful_bed.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
-					'/img/user/moneybox/blue_trunky.jpg'
-					'/img/user/moneybox/orange_trunky.jpg'
-					'/img/user/moneybox/orange_trunky.jpg'
-					'/img/user/moneybox/blue_trunky.jpg'
+					'/img/user/moneybox/yellow_towel.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/yellow_towel.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				]
 				[
-					'/img/user/moneybox/blue_trunky.jpg'
-					'/img/user/moneybox/orange_trunky.jpg'
-					'/img/user/moneybox/orange_trunky.jpg'
-					'/img/user/moneybox/blue_trunky.jpg'
+					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/red_towel.jpg'
+					'/img/user/moneybox/green_slyunyavchyk.jpg'
+					'/img/user/moneybox/red_towel.jpg'
 				]
 			]
 			lvl.prizeName = 'Детский чемодан Trunky'
