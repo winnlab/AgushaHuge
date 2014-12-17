@@ -37,11 +37,12 @@ exports.remove = (req, res) ->
         View.ajaxResponse res, err, doc
 
 exports.get = (req, res) ->
+    unless req?.user?._id
+        return res.redirect '/'
     data =
         breadcrumbs: tree.findWithParents breadcrumbs, 'subscriptions'
     async.waterfall [
         (next) ->
-            return next 'Неизвестный пользователь' if not req?.user?._id
             Model 'Subscription', 'find', { client_id: req.user._id }, null, { lean: true }, next
         (docs, next) ->
             _.extend data, { 'subscriptions': docs }
