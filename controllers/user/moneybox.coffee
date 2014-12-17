@@ -71,6 +71,8 @@ getPrizes = (cb) ->
 			lvl.prizes = [
 				'/img/user/moneybox/blue_slyunyavchyk.jpg'
 				'/img/user/moneybox/green_slyunyavchyk.jpg'
+				'/img/user/moneybox/green_slyunyavchyk.jpg'
+				'/img/user/moneybox/blue_slyunyavchyk.jpg'
 			]
 			lvl.prizeName = 'Силиконовый слюнявчик'
 			lvl.prizeQty = '5 наборов'
@@ -78,6 +80,8 @@ getPrizes = (cb) ->
 			lvl.prizes = [
 				'/img/user/moneybox/red_towel.jpg'
 				'/img/user/moneybox/yellow_towel.jpg'
+				'/img/user/moneybox/yellow_towel.jpg'
+				'/img/user/moneybox/red_towel.jpg'
 			]
 			lvl.prizeName = 'Полотенце с капюшоном'
 			lvl.prizeQty = '5 наборов'
@@ -85,6 +89,8 @@ getPrizes = (cb) ->
 			lvl.prizes = [
 				'/img/user/moneybox/blue_bed.jpg'
 				'/img/user/moneybox/colorful_bed.jpg'
+				'/img/user/moneybox/colorful_bed.jpg'
+				'/img/user/moneybox/blue_bed.jpg'
 			]
 			lvl.prizeName = 'Детская постель'
 			lvl.prizeQty = '4 комплекта'
@@ -92,6 +98,8 @@ getPrizes = (cb) ->
 			lvl.prizes = [
 				'/img/user/moneybox/red_hat.jpg'
 				'/img/user/moneybox/green_legs.jpg'
+				'/img/user/moneybox/green_legs.jpg'
+				'/img/user/moneybox/red_hat.jpg'
 			]
 			lvl.prizeName = 'Милые шапочки'
 			lvl.prizeQty = '5 штук'
@@ -99,6 +107,8 @@ getPrizes = (cb) ->
 			lvl.prizes = [
 				'/img/user/moneybox/blue_trunky.jpg'
 				'/img/user/moneybox/orange_trunky.jpg'
+				'/img/user/moneybox/orange_trunky.jpg'
+				'/img/user/moneybox/blue_trunky.jpg'
 			]
 			lvl.prizeName = 'Детский чемодан Trunky'
 			lvl.prizeQty = '3 штуки'
