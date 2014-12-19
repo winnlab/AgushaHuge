@@ -244,7 +244,7 @@ router.post '/uploadVK', (req, res) ->
             r = request.post uploadUrl, next
             form = r.form()
 
-            pathToImage = path.join process.cwd(), 'public', 'img', 'no_photo.png'
+            pathToImage = path.join process.cwd(), 'public', 'img', 'uploads', 'croppedLfa07856a455f7106420418544e460f17.jpg'
             form.append 'photo', fs.createReadStream(pathToImage), {contentType: 'image/png', filename: 'no_photo.png'}
         (response, body) ->
             res.send body
