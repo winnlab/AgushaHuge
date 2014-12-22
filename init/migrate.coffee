@@ -33,7 +33,7 @@ checkMigration = (migrate, callback) ->
 						if doc
 							return next null
 						
-						doc.update(data, next)
+						Model.create data, next
 				, callback
 	] , callback
 
