@@ -20,3 +20,16 @@ exports.email = (req, res) ->
 			return res.send err
 		
 		res.send html
+
+exports.client_findAll = (req, res) ->
+	result = []
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, null, null, lean: true
+		(docs, next) ->				
+			res.send docs
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/client_findAll: #{error}"
+		res.send error

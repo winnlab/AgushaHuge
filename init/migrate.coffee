@@ -10,8 +10,8 @@ checkMigration = (migrate, callback) ->
 		(next) ->
 			Model.count next
 		(count) ->
-			if count > 0
-				return callback null
+			# if count > 0
+				# return callback null
 			
 			if not migrate.data?
 				migrate.data = require '../meta/' + migrate.modelName
