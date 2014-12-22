@@ -30,10 +30,11 @@ checkMigration = (migrate, callback) ->
 					options[keyField] = data[keyField]
 					
 					Model.findOne options, (err, doc) ->
-						if doc
-							return next null
+						# if doc
+							# return next null
 						
-						Model.create data, next
+						doc.update data, next
+						# Model.create data, next
 				, callback
 	] , callback
 
