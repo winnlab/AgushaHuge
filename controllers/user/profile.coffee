@@ -280,8 +280,10 @@ router.post '/changePassword', (req, res) ->
     return res.send 400 unless data.oldPassword or data.newPassword
 
     md5pass = crypto.createHash('md5').update(data.oldPassword).digest 'hex'
+    md5pass = crypto.createHash('md5').update(md5pass).digest 'hex'
+	
     return res.send 418 if md5pass isnt req.user.password
-
+	
     async.waterfall [
         (next) ->
             Model 'Client', 'findOne', _id: req.user._id, next
