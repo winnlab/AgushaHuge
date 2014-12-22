@@ -10,8 +10,8 @@ checkMigration = (migrate, callback) ->
 		(next) ->
 			Model.count next
 		(count) ->
-			# if count > 0
-				# return callback null
+			if count > 0
+				return callback null
 			
 			if not migrate.data?
 				migrate.data = require '../meta/' + migrate.modelName
@@ -30,11 +30,10 @@ checkMigration = (migrate, callback) ->
 					options[keyField] = data[keyField]
 					
 					Model.findOne options, (err, doc) ->
-						# if doc
-							# return next null
+						if doc
+							return next null
 						
-						doc.update data, next
-						# Model.create data, next
+						Model.findOneAndUpdate options, data, upsert: true, next
 				, callback
 	] , callback
 
