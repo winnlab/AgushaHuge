@@ -42,6 +42,18 @@ schema = new mongoose.Schema
 	agree:
 		type: Boolean
 		default: false
+	login: # old field after merging databases
+		type: String
+	type: # 0 - direct, 1 - friend # old field after merging databases
+		type: Number
+		default: 0
+	invited_by: # old field after merging databases
+		type: ObjectId
+		ref: 'Client'
+	hasKids: # 0 - does not have, 1 - has, 2 - is waiting # old field after merging databases
+		type: Number
+	ip_address: # old field after merging databases
+		type: String
 	profile:
 		about:
 			type: String

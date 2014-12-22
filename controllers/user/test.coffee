@@ -7,8 +7,8 @@ Logger = require '../../lib/logger'
 Client = require '../../lib/client'
 
 exports.email = (req, res) ->
-	email = 'hydraorc@gmail.com'
-	# email = 'hydra0@bigmir.net'
+	# email = 'hydraorc@gmail.com'
+	email = 'hydra0@bigmir.net'
 	
 	options =
 		toName: 'Имя Фамилия'
