@@ -25,7 +25,7 @@ exports.findOne = (req, res) ->
 		(next) ->
 			consultation = Model 'Consultation', 'findOne', null, transliterated: link
 
-			consultation.populate('author.author_id answer.author.author_id').exec next
+			consultation.populate('author.author_id answer.author.author_id age').exec next
 		(doc, next) ->
 			if doc
 				data.consultation = doc
@@ -51,6 +51,7 @@ exports.findOne = (req, res) ->
 		(docs, next) ->
 			if docs
 				data.similarArticles = docs
+
 			if req.user
 				data.user = {
 					_id: req.user._id,

@@ -17,7 +17,7 @@ getData = (cb) ->
 		themes: (proceed) ->
 			Model 'Theme', 'find', {"active" : true}, proceed
 		articles: (proceed) ->
-			consultation = Model 'Consultation', 'find', null
+			consultation = Model 'Consultation', 'find', {"active" : true}, null
 			consultation.populate({
 				path: 'author.author_id'
 				select: 'image created_at'
