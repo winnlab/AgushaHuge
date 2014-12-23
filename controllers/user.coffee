@@ -23,7 +23,7 @@ Subscription = require './user/subscription'
 Commentary = require './user/commentary'
 Watch = require './user/watch'
 Rating = require './user/rating'
-Test = require './user/test'
+# Test = require './user/test'
 Contacts = require './user/contacts'
 
 Middleware = require './helper/middleware'
@@ -145,7 +145,7 @@ Router.post '/commentaries/ratings/toggleRating', Rating.toggleRating
 
 # Router.get '/email_test', Test.email
 # Router.get '/client_findAll', Test.client_findAll
-Router.get '/septemberAction', Test.septemberAction
+# Router.get '/septemberAction', Test.septemberAction
 
 #
 
