@@ -124,7 +124,7 @@ exports.septemberAction = (req, res) ->
 				theMail = new RegExp email, 'i'
 				
 				options =
-					name:
+					email:
 						'$regex': theMail
 				
 				Model 'Client', 'findOne', next, options, '_id'
