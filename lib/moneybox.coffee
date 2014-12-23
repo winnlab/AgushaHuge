@@ -77,6 +77,8 @@ api =
         setPoints client_id, 'comment', cb
     invite: (client_id, cb) ->
         setPoints client_id, 'invite', cb
+    septemberAction: (client_id, cb) ->
+        setPoints client_id, 'septemberAction', cb
 
 exports = api
 module.exports = exports
