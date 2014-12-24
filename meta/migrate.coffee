@@ -1,7 +1,5 @@
 mongoose = require 'mongoose'
 
-client = require './client'
-
 module.exports = [
 	modelName: 'permission'
 	data: [
@@ -135,9 +133,21 @@ module.exports = [
 			week: 0
 			month: 5
 			year: 0
+	,
+		_id: '5499b8b162a06a18d8b06150'
+		name: 'septemberAction'
+		label: 'Участие в акции "Первая тысяча"'
+		description: 'Одноразовая акция'
+		points: 100
+		active: true
+		multi: false
+		limits:
+			day: 0
+			week: 0
+			month: 0
+			year: 0
 	]
 ,
 	modelName: 'client'
 	keyField: 'email'
-	data: client
 ]
