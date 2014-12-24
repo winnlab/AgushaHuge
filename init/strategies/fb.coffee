@@ -58,6 +58,8 @@ passport.use 'facebook', new FaseBookStrategy
 
 				next()
 			(next) ->
+				Moneybox.checkReferer req
+
 				User.add
 					email: profile['_json'].email
 					active: true

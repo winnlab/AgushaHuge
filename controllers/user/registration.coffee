@@ -80,6 +80,8 @@ router.get '/activate/:id', (req, res, next) ->
 		user.active = true
 		user.activated_at = moment()
 
+		Moneybox.checkReferer req
+
 		user.save (err, user) ->
 			if err
 				return next new Error 'User has not been activate'
@@ -161,3 +163,5 @@ router.post '/', (req, res, next) ->
 exports = router
 
 module.exports = exports
+
+

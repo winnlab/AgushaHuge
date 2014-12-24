@@ -65,6 +65,9 @@ getArticles = (cb, options = {}) ->
 	Model 'Article', 'findPaginated', query, null, options, cb, docsCount, anchorId
 
 exports.index = (req, res) ->
+	if req.query?.referer
+		res.cookie('referer', req.query.referer, {maxAge: 2592000000})
+
 	data =
 		breadcrumbs: [
 			title: if req.user and req.user.profile and req.user.profile.first_name then req.user.profile.first_name else ''

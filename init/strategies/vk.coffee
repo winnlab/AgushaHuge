@@ -47,6 +47,8 @@ passport.use 'vkontakte', new VkontakteStrategy
 
 			photo = getVkPhoto profile
 
+			Moneybox.checkReferer req
+
 			User.add
 				active: true
 				profile:
