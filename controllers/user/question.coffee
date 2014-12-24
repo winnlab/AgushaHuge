@@ -25,7 +25,7 @@ exports.findOne = (req, res) ->
 		(next) ->
 			consultation = Model 'Consultation', 'findOne', null, transliterated: link
 
-			consultation.populate('author.author_id answer.author.author_id age').exec next
+			consultation.populate('author.author_id answer.author.author_id age._id').exec next
 		(doc, next) ->
 			if doc
 				data.consultation = doc
