@@ -63,6 +63,16 @@ setPoints = (client_id, name, cb) ->
             next null, null
     ], cb
 
+checkReferer = (req, cb) ->
+    if req.cookies?.referer
+        async.waterfall [
+            (next) ->
+                Model 'Client', 'findOne', next, _id: req.cookies?.referer
+            (doc, next) ->
+                if doc
+                    api.invite doc._id, cb
+        ], (err) ->
+
 # Callback function takes two arguments err and user
 api =
     registration: (client_id, cb) ->
@@ -83,6 +93,8 @@ api =
         setPoints client_id, 'septemberAction', cb
     consultation: (client_id, cb) ->
         setPoints client_id, 'communityQuestion', cb
+    checkReferer: (req, cb) ->
+        checkReferer req, cb
 
 exports = api
 module.exports = exports

@@ -43,6 +43,8 @@ passport.use 'odnoklassniki', new OkStrategy
 			(next) ->
 				photo = getPhoto profile.photos
 
+				Moneybox.checkReferer req
+
 				User.add
 					email: profile.emails?[0]
 					active: true

@@ -25,7 +25,7 @@ exports.findOne = (req, res) ->
 		(next) ->
 			consultation = Model 'Consultation', 'findOne', null, transliterated: link
 
-			consultation.populate('author.author_id answer.author.author_id age').exec next
+			consultation.populate('author.author_id answer.author.author_id').exec next
 		(doc, next) ->
 			if doc
 				data.consultation = doc
@@ -51,6 +51,15 @@ exports.findOne = (req, res) ->
 		(docs, next) ->
 			if docs
 				data.similarArticles = docs
+
+			ageIdArr = _.pluck data.consultation.age, '_id'
+			Model 'Age', 'findOne', next, {_id: ageIdArr[0]}
+		(doc, next) ->
+
+			if doc?.icon?.fixture
+				data.consultation.fixture = "/img/uploads/" + doc.icon.fixture
+			else
+				data.consultation.fixture = "/img/user/question/bg.jpg"
 
 			if req.user
 				data.user = {

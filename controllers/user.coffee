@@ -145,6 +145,7 @@ Router.post '/commentaries/ratings/toggleRating', Rating.toggleRating
 
 # Router.get '/email_test', Test.email
 # Router.get '/client_findAll', Test.client_findAll
+# Router.get '/septemberAction', Test.septemberAction
 
 #
 
