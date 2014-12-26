@@ -3,6 +3,7 @@ _ = require 'lodash'
 
 View = require '../../lib/view'
 Model = require '../../lib/mongooseTransport'
+Moneybox = require '../../lib/moneybox'
 Logger = require '../../lib/logger'
 Article = require '../../lib/article'
 
@@ -86,14 +87,18 @@ getDenormalizedData = (obj, user, cb) ->
 		cb err, result
 
 exports.setConsultation = (req, res) ->
+	consultation
 	async.waterfall [
 		(next) ->
 			getDenormalizedData req.body, req.user, next
 		(data, next) ->
 			data.name = req.body.name
 			data.text = req.body.text
-			DocModel = Model.apply Model, ['Consultation']
+			DocModel = Model 'Consultation'
 			doc = new DocModel data
 			doc.save next
+		(doc, numEffected, next) ->
+			consultation = doc
+			Moneybox.consultation req.user._id, next
 	], (err, doc) ->
-		View.ajaxResponse res, err, doc
+		View.ajaxResponse res, err, consultation

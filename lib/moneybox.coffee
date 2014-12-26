@@ -73,12 +73,16 @@ api =
         setPoints client_id, 'login', cb
     like: (client_id, cb) ->
         setPoints client_id, 'like', cb
+    socialLike: (client_id, socNW, cb) ->
+        setPoints client_id, "#{socNW}Like", cb
     comment: (client_id, cb) ->
         setPoints client_id, 'comment', cb
     invite: (client_id, cb) ->
         setPoints client_id, 'invite', cb
     septemberAction: (client_id, cb) ->
         setPoints client_id, 'septemberAction', cb
+    consultation: (client_id, cb) ->
+        setPoints client_id, 'communityQuestion', cb
 
 exports = api
 module.exports = exports
