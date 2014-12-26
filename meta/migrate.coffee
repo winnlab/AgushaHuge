@@ -198,7 +198,8 @@ module.exports = [
 		    week: 0,
 		    month: 10,
 		    year: 0
-	],
+	]
+,
 	modelName: 'client'
 	keyField: 'email'
 ]

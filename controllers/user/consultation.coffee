@@ -87,7 +87,7 @@ getDenormalizedData = (obj, user, cb) ->
 		cb err, result
 
 exports.setConsultation = (req, res) ->
-	consultation
+	consultation = null
 	async.waterfall [
 		(next) ->
 			getDenormalizedData req.body, req.user, next
