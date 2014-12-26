@@ -23,6 +23,93 @@ module.exports = [
 	,
 		_id: 'permisions'
 		name: 'permissions'
+	,
+		_id: 'ranks'
+		name: 'ranks'
+	,
+		_id: 'rank'
+		name: 'rank'
+	,
+		_id: 'tmpUserRemove'
+		name: 'tmpUserRemove'
+	,
+		_id: 'user'
+		name: 'user'
+	,
+		_id: 'productCategory'
+		name: 'productCategory'
+	,
+		_id: 'productCategories'
+		name: 'productCategories'
+	,
+		_id: 'certificate'
+		name: 'certificate'
+	,
+		_id: 'certificates'
+		name: 'certificates'
+	,
+		_id: 'productAge'
+		name: 'productAge'
+	,
+		_id: 'productAges'
+		name: 'productAges'
+	,
+		_id: 'product'
+		name: 'product'
+	,
+		_id: 'products'
+		name: 'products'
+	,
+		_id: 'gallery'
+		name: 'gallery'
+	,
+		_id: 'galleries'
+		name: 'galleries'
+	,
+		_id: 'client'
+		name: 'client'
+	,
+		_id: 'clients'
+		name: 'clients'
+	,
+		_id: 'consultations'
+		name: 'consultations'
+	,
+		_id: 'consultation'
+		name: 'consultation'
+	,
+		_id: 'faq'
+		name: 'faq'
+	,
+		_id: 'faqs'
+		name: 'faqs'
+	,
+		_id: 'article'
+		name: 'article'
+	,
+		_id: 'articles'
+		name: 'articles'
+	,
+		_id: 'articleType'
+		name: 'articleType'
+	,
+		_id: 'articleTypes'
+		name: 'articleTypes'
+	,
+		_id: 'theme'
+		name: 'theme'
+	,
+		_id: 'themes'
+		name: 'themes'
+	,
+		_id: 'age'
+		name: 'age'
+	,
+		_id: 'ages'
+		name: 'ages'
+	,
+		_id: 'logout'
+		name: 'logout'
 	]
 ,
 	modelName: 'role'
@@ -37,6 +124,35 @@ module.exports = [
 			'cache'
 			'roles'
 			'permisions'
+			'ranks'
+			'rank'
+			'tmpUserRemove'
+			'user'
+			'productCategory'
+			'productCategories'
+			'certificate'
+			'certificates'
+			'productAge'
+			'productAges'
+			'product'
+			'products'
+			'gallery'
+			'galleries'
+			'client'
+			'clients'
+			'consultations'
+			'consultation'
+			'faq'
+			'faqs'
+			'article'
+			'articles'
+			'articleType'
+			'articleTypes'
+			'theme'
+			'themes'
+			'age'
+			'ages'
+			'logout'
 		]
 	,
 		_id: 'user'

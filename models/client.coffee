@@ -212,4 +212,7 @@ schema.methods.validPassword = (password) ->
 
 	isValid = if md5pass == @password then true else false
 
+schema.methods.getRole = () ->
+	@role || 'user'
+
 module.exports = mongoose.model 'Client', schema

@@ -3,11 +3,13 @@ _ = require 'underscore'
 _.str = require 'underscore.string'
 
 Database = require './database'
-Logger = require '../lib/logger'
 Migrate = require './migrate'
 Application = require './application'
 AuthStartegies = require './auth'
 ModelPreloader = require './mpload'
+Roles = require './roles'
+
+Logger = require '../lib/logger'
 Notifier = require '../lib/notifier'
 Image = require '../lib/image'
 Product = require '../lib/product'
@@ -30,7 +32,11 @@ async.waterfall [
 		Migrate.init next
 	(next) ->
 		Logger.log 'info', 'Migrate is initializated'
-
+		
+		Roles.init next
+	(next) ->
+		Logger.log 'info', 'Roles are created'
+		
 		Image.checkDirectories next
 	(next) ->
 		Logger.log 'info', 'Image directories are checked'
