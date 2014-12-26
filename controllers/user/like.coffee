@@ -63,3 +63,13 @@ exports.toggleLike = (req, res) ->
 	else
 		Logger.log 'info', "Error in controllers/user/like/toggleLike: Not all of the variables were received"
 		res.send "Error in controllers/user/like/toggleLike: Not all of the variables were received"
+
+
+
+exports.socialLike = (req, res) ->
+	return res.send 400 unless req.body?.network
+	return res.send 403 unless req.user
+
+	Moneybox.socialLike req.user._id, req.body.network, () ->
+		res.send req.body.network
+

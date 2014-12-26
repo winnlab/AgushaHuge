@@ -80,7 +80,6 @@ Router.get '/encyclopedia/:age?/:theme?', Encyclopedia.index
 Router.get '/article/:id', Article.findOne
 # Router.get '/article/:alias?', Article.index
 Router.get '/poll/:alias?', Poll.index
-Router.post '/pollVote', Article.saveAnswer
 
 Router.post '/themes/findAll', Theme.findAll
 Router.post '/articles/findAll', Article.findAll
@@ -129,6 +128,7 @@ Router.get '/conversations', Messages.getConversations
 #
 
 Router.post '/like/toggleLike', Like.toggleLike
+Router.post '/like/socialLike', Like.socialLike
 
 Router.post '/watch/toggleWatch', Watch.toggleWatch
 
