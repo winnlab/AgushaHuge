@@ -35,6 +35,32 @@ exports.client_findAll = (req, res) ->
 		Logger.log 'info', "Error in controllers/user/test/client_findAll: #{error}"
 		res.send error
 
+exports.remakeActive = (req, res) ->
+	res.send 'Processing...'
+	
+	options =
+		login:
+			'$ne': null
+		active: true
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, '_id'
+		(docs, next) ->
+			console.log docs.length
+			
+			async.eachSeries docs, (doc, next2) ->
+				doc.active = false
+				
+				doc.save next2
+			, next
+		() ->
+			console.log 'remakeActive done'
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/remakeActive: #{error}"
+		res.send error
+
 eachSeptemberAction = (id, callback) ->
 	console.log id
 	Moneybox.septemberAction id, callback
