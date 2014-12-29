@@ -133,7 +133,7 @@ router.get '/activate_from_old_site/:email/:password', (req, res, next) ->
 			return next new Error "User #{req.params.email} does not exist"
 		
 		if user.active == true
-			return res.redirect '../profile'
+			return res.redirect '/profile'
 		
 		user.active = true
 		user.activated_at = moment()
