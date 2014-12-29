@@ -65,7 +65,7 @@ eachSeptemberAction = (id, callback) ->
 	console.log id
 	Moneybox.septemberAction id, callback
 
-exports.septemberActionOld = (req, res) ->
+exports.septemberAction = (req, res) ->
 	res.send 'Processing...'
 	
 	options =
@@ -86,7 +86,7 @@ exports.septemberActionOld = (req, res) ->
 		Logger.log 'info', "Error in controllers/user/test/septemberAction: #{error}"
 		res.send error
 
-exports.septemberAction = (req, res) ->
+exports.septemberActionNew = (req, res) ->
 	res.send 'Processing...'
 	
 	emails = [
