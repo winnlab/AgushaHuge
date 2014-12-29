@@ -1,7 +1,7 @@
-
 async = require 'async'
 moment = require 'moment'
 passport = require 'passport'
+MD5 = require 'MD5'
 
 router = require('express').Router()
 
@@ -108,21 +108,29 @@ router.get '/activate/:id', (req, res, next) ->
 
 						res.redirect '/profile'
 
-router.get '/activate_from_old_site/:id', (req, res, next) ->
-	id = req.params.id
+router.get '/activate_from_old_site/:email/:password', (req, res, next) ->
+	email = req.params.email
+	password = req.params.password
 	
 	if req.user
 		return next new Error 'Access denied'
 	
-	if not id
+	if not email
 		return next message: "Пользователь не найден"
 	
-	crud.findOne req.params.id, 'profile active', (err, user) ->
+	if not password
+		return next message: "Пароль не найден"
+	
+	options =
+		email: email
+		password: MD5 password
+	
+	Model 'ProductAge', 'findOne', (err, user) ->
 		if err
 			return next err
 		
 		if not user
-			return next new Error "User #{req.params.id} not exist"
+			return next new Error "User #{req.params.email} does not exist"
 		
 		if user.active == true
 			return res.redirect '../profile'
@@ -152,6 +160,7 @@ router.get '/activate_from_old_site/:id', (req, res, next) ->
 						return next err if err
 						
 						res.redirect '/profile'
+	, options
 
 router.get '/already-active', (req, res, next) ->
 	View.render 'user/registration/already-active', res
