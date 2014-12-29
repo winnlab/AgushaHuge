@@ -2,6 +2,7 @@ mongoose = require 'mongoose'
 
 module.exports = [
 	modelName: 'permission'
+	overwrite: true
 	data: [
 		_id: 'denied'
 		name: 'access_denied'
@@ -113,6 +114,7 @@ module.exports = [
 	]
 ,
 	modelName: 'role'
+	overwrite: true
 	data: [
 		_id: 'admin'
 		name: 'admin'
