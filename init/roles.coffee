@@ -29,8 +29,6 @@ exports.init = (callback) ->
 			while j--
 				perms.push appName + '.' + results.roles[i].permissions[j].name
 			
-			console.log results.roles[i].name, perms
-			
 			roles.addProfile results.roles[i].name, perms
 		
 		callback null
