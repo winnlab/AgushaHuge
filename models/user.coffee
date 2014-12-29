@@ -62,34 +62,7 @@ UserShema.methods.validPassword = (password) ->
 
 	isValid = if md5pass == @password then true else false
 
-UserShema.methods.getUserFlag = ()->
-	roles = [
-		'notactive'
-		'admin'
-		'manager'
-		'moderator'
-		'buyer'
-	]
-
-	roles[@role]
-
-UserShema.methods.getRole = ()->
-	roles = [
-		'Неактивный'
-		'Администратор'
-		'Менеджер'
-		'Модератор'
-		'Покупатель'
-	]
-
-	roles[@role]
-
-UserShema.methods.getGender = ()->
-	genders = [
-		'Женский'
-		'Мужской'
-	]
-
-	genders[@gender]
+UserShema.methods.getRole = () ->
+	@role || 'user'
 
 module.exports =  mongoose.model 'User', UserShema

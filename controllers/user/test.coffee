@@ -9,7 +9,7 @@ Client = require '../../lib/client'
 
 exports.email = (req, res) ->
 	# email = 'hydraorc@gmail.com'
-	email = 'hydra0@bigmir.net'
+	email = 'imhereintheshadows@gmail.com'
 	
 	options =
 		toName: 'Имя Фамилия'

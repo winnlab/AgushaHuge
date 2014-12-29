@@ -76,6 +76,7 @@ configure = () ->
 	@use passport.initialize()
 	@use passport.session()
 	@use '/admin', Auth.isAuth
+	@use '/admin', Auth.isAdmin
 	@use View.globals
 
 	@use '/admin', (req, res, next) ->
