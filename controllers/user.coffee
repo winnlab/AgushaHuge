@@ -80,6 +80,7 @@ Router.get '/encyclopedia/:age?/:theme?', Encyclopedia.index
 Router.get '/article/:id', Article.findOne
 # Router.get '/article/:alias?', Article.index
 Router.get '/poll/:alias?', Poll.index
+Router.post '/pollVote', Article.saveAnswer
 
 Router.post '/themes/findAll', Theme.findAll
 Router.post '/articles/findAll', Article.findAll
