@@ -125,7 +125,7 @@ router.get '/activate_from_old_site/:email/:password', (req, res, next) ->
 		email: email
 		password: MD5 password
 	
-	Model 'ProductAge', 'findOne', (err, user) ->
+	Model 'Client', 'findOne', (err, user) ->
 		if err
 			return next err
 		
