@@ -125,8 +125,7 @@ exports.septemberAction = (req, res) ->
 
 exports.findOldActivated = (req, res) ->
 	options =
-		login:
-			'$ne': null
+		login: null
 		points:
 			$gt: 100
 	
