@@ -137,9 +137,7 @@ exports.findOldActivated = (req, res) ->
 			console.log docs.length
 			console.log docs
 			
-			async.eachSeries docs, eachSeptemberAction, next
-		() ->
-			console.log 'septemberAction done'
+			return docs
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/septemberAction: #{error}"
