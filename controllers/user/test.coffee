@@ -132,7 +132,7 @@ exports.findOldActivated = (req, res) ->
 	
 	async.waterfall [
 		(next) ->
-			Model 'Client', 'find', next, options, '_id'
+			Model 'Client', 'find', next, options, '-_id email'
 		(docs, next) ->
 			console.log docs.length
 			console.log docs
