@@ -41,3 +41,6 @@ random/
 
 # PlainTasks todo lists
 *.todo
+
+# database settings
+init/database.coffee

@@ -70,28 +70,19 @@ getPrizes = (cb) ->
 		if lvl.points is 200
 			lvl.prizes = [
 				[
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/slunyavchik/slunyavchik_1.jpg'
 				]
 				[
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/slunyavchik/slunyavchik_2.jpg'
 				]
 				[
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/slunyavchik/slunyavchik_3.jpg'
 				]
 				[
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-					'/img/user/moneybox/red_towel.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/red_towel.jpg'
+					'/img/user/moneybox/slunyavchik/slunyavchik_4.jpg'
+				]
+				[
+					'/img/user/moneybox/slunyavchik/slunyavchik_5.jpg'
 				]
 			]
 			lvl.prizeName = 'Силиконовый слюнявчик'
@@ -99,28 +90,19 @@ getPrizes = (cb) ->
 		if lvl.points is 400
 			lvl.prizes = [
 				[
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/polotenca/polotence_1.jpg'
 				]
 				[
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/polotenca/polotence_2.jpg'
 				]
 				[
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/polotenca/polotence_3.jpg'
 				]
 				[
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-					'/img/user/moneybox/red_towel.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/red_towel.jpg'
+					'/img/user/moneybox/polotenca/polotence_4.jpg'
+				]
+				[
+					'/img/user/moneybox/polotenca/polotence_5.jpg'
 				]
 			]
 			lvl.prizeName = 'Полотенце с капюшоном'
@@ -128,28 +110,16 @@ getPrizes = (cb) ->
 		if lvl.points is 600
 			lvl.prizes = [
 				[
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/postel/postel_1.jpg'
 				]
 				[
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/postel/postel_2.jpg'
 				]
 				[
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/postel/postel_3.jpg'
 				]
 				[
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-					'/img/user/moneybox/red_towel.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/red_towel.jpg'
+					'/img/user/moneybox/postel/postel_4.jpg'
 				]
 			]
 			lvl.prizeName = 'Детская постель'
@@ -157,28 +127,10 @@ getPrizes = (cb) ->
 		if lvl.points is 800
 			lvl.prizes = [
 				[
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/shapka_nabor/shapka1.jpg'
 				]
 				[
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-				]
-				[
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-				]
-				[
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-					'/img/user/moneybox/red_towel.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/red_towel.jpg'
+					'/img/user/moneybox/shapka_nabor/shapka2.jpg'
 				]
 			]
 			lvl.prizeName = 'Милые шапочки'
@@ -186,28 +138,13 @@ getPrizes = (cb) ->
 		if lvl.points is 1000
 			lvl.prizes = [
 				[
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/blue_bed.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/chemodan/chemodan_1.jpg'
 				]
 				[
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/colorful_bed.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
+					'/img/user/moneybox/chemodan/chemodan_2.jpg'
 				]
 				[
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/yellow_towel.jpg'
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-				]
-				[
-					'/img/user/moneybox/blue_slyunyavchyk.jpg'
-					'/img/user/moneybox/red_towel.jpg'
-					'/img/user/moneybox/green_slyunyavchyk.jpg'
-					'/img/user/moneybox/red_towel.jpg'
+					'/img/user/moneybox/chemodan/chemodan_3.jpg'
 				]
 			]
 			lvl.prizeName = 'Детский чемодан Trunky'

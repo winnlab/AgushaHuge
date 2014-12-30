@@ -1,7 +1,7 @@
-
 async = require 'async'
 moment = require 'moment'
 passport = require 'passport'
+MD5 = require 'MD5'
 
 router = require('express').Router()
 
@@ -84,10 +84,10 @@ router.get '/activate/:id', (req, res, next) ->
 
 		user.save (err, user) ->
 			if err
-				return next new Error 'User has not been activate'
+				return next new Error 'User has not been activated'
 
 			if not user
-				return next new Error 'User not exist'
+				return next new Error 'User does not exist'
 
 			Moneybox.registration user._id, () ->
 
@@ -107,6 +107,60 @@ router.get '/activate/:id', (req, res, next) ->
 						return next err if err
 
 						res.redirect '/profile'
+
+router.get '/activate_from_old_site/:email/:password', (req, res, next) ->
+	email = req.params.email
+	password = req.params.password
+	
+	if req.user
+		return next new Error 'Access denied'
+	
+	if not email
+		return next message: "Пользователь не найден"
+	
+	if not password
+		return next message: "Пароль не найден"
+	
+	options =
+		email: email
+		password: MD5 password
+	
+	Model 'Client', 'findOne', (err, user) ->
+		if err
+			return next err
+		
+		if not user
+			return next new Error "User #{req.params.email} does not exist"
+		
+		if user.active == true
+			return res.redirect '/profile'
+		
+		user.active = true
+		user.activated_at = moment()
+		
+		user.save (err, user) ->
+			if err
+				return next new Error 'User has not been activated'
+			
+			if not user
+				return next new Error 'User does not exist'
+			data =
+				user: user
+				activated: true
+			
+			req.login user, (err) ->
+				return next err if err
+				temp = req.session.passport
+				
+				req.session.regenerate (err) ->
+					return next err if err
+					
+					req.session.passport = temp
+					req.session.save (err) ->
+						return next err if err
+						
+						res.redirect '/profile'
+	, options
 
 router.get '/already-active', (req, res, next) ->
 	View.render 'user/registration/already-active', res

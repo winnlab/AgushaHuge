@@ -22,297 +22,296 @@ Cities = require '../../meta/cities'
 Logger = require '../../lib/logger'
 
 urlPrefix = 
-    child: "/img/uploads/child"
-    profile: "/img/uploads/profile"
+	child: "/img/uploads/child"
+	profile: "/img/uploads/profile"
 
 pathToProfileImages = join.apply path, [
-    __dirname
-    '../..'
-    'public/img/uploads/profile'
+	__dirname
+	'../..'
+	'public/img/uploads/profile'
 ]
 
 pathToChildProfile = join.apply path, [
-    __dirname
-    '../..'
-    'public/img/uploads/child'
+	__dirname
+	'../..'
+	'public/img/uploads/child'
 ]
 
 sizes =
-    profile:
-        paths:
-            orig: join.apply path, [pathToProfileImages, 'orig']
-            large: join.apply path, [pathToProfileImages, 'large']
-            medium: join.apply path, [pathToProfileImages, 'medium']
-            small: join.apply path, [pathToProfileImages, 'small']
-        sizes:
-            large: 120
-            medium: 100
-            small: 50
-    child:
-        paths:
-            orig: join.apply path, [pathToChildProfile, 'orig']
-            large:  join.apply path, [pathToChildProfile, 'large']
-            small: join.apply path, [pathToChildProfile, 'small']
-        sizes:
-            large: 100
-            small: 50
+	profile:
+		paths:
+			orig: join.apply path, [pathToProfileImages, 'orig']
+			large: join.apply path, [pathToProfileImages, 'large']
+			medium: join.apply path, [pathToProfileImages, 'medium']
+			small: join.apply path, [pathToProfileImages, 'small']
+		sizes:
+			large: 120
+			medium: 100
+			small: 50
+	child:
+		paths:
+			orig: join.apply path, [pathToChildProfile, 'orig']
+			large:  join.apply path, [pathToChildProfile, 'large']
+			small: join.apply path, [pathToChildProfile, 'small']
+		sizes:
+			large: 100
+			small: 50
 
 fileKey =
-    profile:
-        name: 'profile'
-        prop: 'image'
-    child:
-        name: 'child'
-        prop: 'image'
+	profile:
+		name: 'profile'
+		prop: 'image'
+	child:
+		name: 'child'
+		prop: 'image'
 
 crud = new Crud
-    modelName: 'Client'
+	modelName: 'Client'
 
 isCropImage = (params) ->
-    keys = ['x', 'y', 'width', 'height']
+	keys = ['x', 'y', 'width', 'height']
 
-    _.every keys, (key) ->
-        return params[key]
+	_.every keys, (key) ->
+		return params[key]
 
 remove = (imageName, type, callback) ->
-    console.log imageName
-    pathsToImage = {}
+	console.log imageName
+	pathsToImage = {}
 
-    _.each sizes[type].paths, (path, key, list) ->
-        pathsToImage[key] = join path, imageName
+	_.each sizes[type].paths, (path, key, list) ->
+		pathsToImage[key] = join path, imageName
 
-    async.each Object.keys(pathsToImage), (key, next)->
-        fs.unlink pathsToImage[key], next
-    , callback
+	async.each Object.keys(pathsToImage), (key, next)->
+		fs.unlink pathsToImage[key], next
+	, callback
 
 resize = (src, dest, width, height, next) ->
-    gm(src)
-        .thumb width, height, dest, 80, (err) ->
-            next err, dest
+	gm(src)
+		.thumb width, height, dest, 80, (err) ->
+			next err, dest
 
 crop = (name, type, params, next) ->
-    srcDir = path.dirname params.paths['orig']
-    srcPath = join srcDir, name
-    srcDest = join params.paths['orig'], name
+	srcDir = path.dirname params.paths['orig']
+	srcPath = join srcDir, name
+	srcDest = join params.paths['orig'], name
 
-    gm(srcPath)
-        .crop(
-            params.width, 
-            params.height, 
-            params.x, 
-            params.y
-        )
-        .write srcDest, (err)->
-            return next err if err
+	gm(srcPath)
+		.crop(
+			params.width, 
+			params.height, 
+			params.x, 
+			params.y
+		)
+		.write srcDest, (err)->
+			return next err if err
 
-            next null, srcDest
+			next null, srcDest
 
 resizeImage = () ->
-    (req, res, next) ->
-        name = res.locals.resize.name
-        type = res.locals.resize.type
-        resizes = sizes[type].sizes
-        src = res.locals.resize.path
+	(req, res, next) ->
+		name = res.locals.resize.name
+		type = res.locals.resize.type
+		resizes = sizes[type].sizes
+		src = res.locals.resize.path
 
-        srcDir = path.dirname path.dirname res.locals.resize.path
+		srcDir = path.dirname path.dirname res.locals.resize.path
 
-        async.map Object.keys(resizes), (k, cb) ->
-            width = resizes[k]
-            height = resizes[k]
+		async.map Object.keys(resizes), (k, cb) ->
+			width = resizes[k]
+			height = resizes[k]
 
-            dest = join srcDir, k, name
-            
-            resize src, dest, width, height, cb
-        , (err, destinations) ->
-            res.locals.images = {}
+			dest = join srcDir, k, name
+			
+			resize src, dest, width, height, cb
+		, (err, destinations) ->
+			res.locals.images = {}
 
-            _.each Object.keys(resizes), (value, key, list) ->
-                res.locals.images[value] = join urlPrefix[type], value, name
+			_.each Object.keys(resizes), (value, key, list) ->
+				res.locals.images[value] = join urlPrefix[type], value, name
 
-            next()
+			next()
 
 cropImage = () ->
-    (req, res, next) ->
-        return next() unless isCropImage req.query
+	(req, res, next) ->
+		return next() unless isCropImage req.query
 
-        key = _.find fileKey, (item, key, list) ->
-            return false unless req.files[key]
+		key = _.find fileKey, (item, key, list) ->
+			return false unless req.files[key]
 
-            return true
+			return true
 
-        file = req.files[key.name]
+		file = req.files[key.name]
 
-        params = _.extend req.query, sizes[key.name]
+		params = _.extend req.query, sizes[key.name]
 
-        crop file.name, key.name, params, (err, orig)->
-            return next err if err
-            
-            res.locals.resize =
-                name: file.name
-                path: orig
-                type: key.name
+		crop file.name, key.name, params, (err, orig)->
+			return next err if err
+			
+			res.locals.resize =
+				name: file.name
+				path: orig
+				type: key.name
 
-            next()
+			next()
 
 removeImage = () ->
-    (req, res, next) ->
-        image = req.query.name
-        type = req.query.type
+	(req, res, next) ->
+		image = req.query.name
+		type = req.query.type
 
-        remove image, type, (err) ->
-            return next err if err
+		remove image, type, (err) ->
+			return next err if err
 
-            next()
+			next()
 
 resizeResponse = () ->
-    (req, res, next) ->
-        res.locals.is_ajax_request = true
+	(req, res, next) ->
+		res.locals.is_ajax_request = true
 
-        View.render null, res
+		View.render null, res
 
 removeResponse = () ->
-    (req, res, next) ->
-        res.locals.is_ajax_request = true
+	(req, res, next) ->
+		res.locals.is_ajax_request = true
 
-        View.render null, res
+		View.render null, res
 
 getCities = () ->
-    (req, res, next) ->
-        filtered = _.filter Cities, (item, key, list) ->
-            item.name.match new RegExp req.body.term.trim(), 'i'
+	(req, res, next) ->
+		filtered = _.filter Cities, (item, key, list) ->
+			item.name.match new RegExp req.body.term.trim(), 'i'
 
-        _.each filtered, (item, key, list) ->
-            list[key] =
-                id: item.name
-                text: item.name
+		_.each filtered, (item, key, list) ->
+			list[key] =
+				id: item.name
+				text: item.name
 
-        res.locals.cities = filtered
-        next()
+		res.locals.cities = filtered
+		next()
 
 renderCities = ()->
-    (req, res, next) ->
-        res.json res.locals.cities
+	(req, res, next) ->
+		res.json res.locals.cities
 
 router.use (req, res, next) ->
-    if not req.user
-        return res.redirect '/login'
+	if not req.user
+		return res.redirect '/login'
 
-    next()
+	next()
 
 router.get '/', (req, res, next) ->
-    View.render 'user/profile/index',res, user: req.user
+	View.render 'user/profile/index',res, user: req.user
 
 router.use '/crud/:id?', (req, res, next) ->
-    delete req.body?.points
-    if not req.params.id
-        req.params.id = req.user.id
+	delete req.body?.points
+	if not req.params.id
+		req.params.id = req.user.id
 
-    crud.request.bind(crud) req, res, next
+	crud.request.bind(crud) req, res, next
 
 router.get '/logout', (req, res, next) ->
-    req.logout()
+	req.logout()
 
-    return res.redirect '/'
+	return res.redirect '/'
 
 router.get '/checkAuth', (req, res) ->
-    expire = req.param 'expire'
-    mid = req.param 'mid'
-    sid = req.param 'sid'
-    secret = req.param 'secret'
-    
-    sig = req.param 'sig'
+	expire = req.param 'expire'
+	mid = req.param 'mid'
+	sid = req.param 'sid'
+	secret = req.param 'secret'
+	
+	sig = req.param 'sig'
 
-    check = _.every [expire, mid, sid, secret], (item) ->
-        return _.isString(item) or _.isNumber(item)
+	check = _.every [expire, mid, sid, secret], (item) ->
+		return _.isString(item) or _.isNumber(item)
 
-    unless check
-        return res.send false
+	unless check
+		return res.send false
 
-    sign = md5 "expire=#{expire}mid=#{mid}secret=#{secret}sid=#{sid}#{config.vk.CLIENT_SECRET}"
+	sign = md5 "expire=#{expire}mid=#{mid}secret=#{secret}sid=#{sid}#{config.vk.CLIENT_SECRET}"
 
-    if sign is sig and expire > Math.floor Date.now() / 1000
-        return res.send true
+	if sign is sig and expire > Math.floor Date.now() / 1000
+		return res.send true
 
-    res.status 418
-    res.send false
+	res.status 418
+	res.send false
 
 router.post '/uploadVK', (req, res) ->
-    uploadUrl = req.param 'uploadUrl'
+	uploadUrl = req.param 'uploadUrl'
 
-    async.waterfall [
-        (next) ->
-            r = request.post uploadUrl, next
-            form = r.form()
+	async.waterfall [
+		(next) ->
+			r = request.post uploadUrl, next
+			form = r.form()
 
-            pathToImage = path.join process.cwd(), 'public', 'img', 'uploads', 'croppedLfa07856a455f7106420418544e460f17.jpg'
-            form.append 'photo', fs.createReadStream(pathToImage), {contentType: 'image/png', filename: 'no_photo.png'}
-        (response, body) ->
-            res.send body
-    ], (err) ->
-        res.status 500
-        res.send err
+			pathToImage = path.join process.cwd(), 'public', 'img', 'uploads', 'croppedLfa07856a455f7106420418544e460f17.jpg'
+			form.append 'photo', fs.createReadStream(pathToImage), {contentType: 'image/png', filename: 'no_photo.png'}
+		(response, body) ->
+			res.send body
+	], (err) ->
+		res.status 500
+		res.send err
 
 router.get '/invitedVK', (req, res) ->
-    Model 'InvitedVkontakte', 'findOne', {_id: req.param 'uid'}, (err, doc) ->
-        if err
-            res.status 500
-            return res.send err
+	Model 'InvitedVkontakte', 'findOne', {_id: req.param 'uid'}, (err, doc) ->
+		if err
+			res.status 500
+			return res.send err
 
-        res.send doc and true or false
+		res.send doc and true or false
 
 router.post '/invitedVK', (req, res) ->
-    _id = req.param 'uid'
+	_id = req.param 'uid'
 
-    mdl = new Model('InvitedVkontakte') _id: _id
+	mdl = new Model('InvitedVkontakte') _id: _id
 
-    mdl.save (err) ->
-        res.send not err
+	mdl.save (err) ->
+		res.send not err
 
-    Moneybox.invite req.user._id, (err) ->
-        Logger.log 'error', err if err
+	Moneybox.invite req.user._id, (err) ->
+		Logger.log 'error', err if err
 
 
 
 router.post '/changePassword', (req, res) ->
-    data = req.body
+	data = req.body
 
-    return res.send 403 unless req.user
-    return res.send 400 unless data.oldPassword or data.newPassword
+	return res.send 403 unless req.user
+	return res.send 400 unless data.oldPassword or data.newPassword
 
-    md5pass = crypto.createHash('md5').update(data.oldPassword).digest 'hex'
-    md5pass = crypto.createHash('md5').update(md5pass).digest 'hex'
+	md5pass = crypto.createHash('md5').update(data.oldPassword).digest 'hex'
 	
-    return res.send 418 if md5pass isnt req.user.password
+	return res.send 418 if md5pass isnt req.user.password
 	
-    async.waterfall [
-        (next) ->
-            Model 'Client', 'findOne', _id: req.user._id, next
-        (doc, next) ->
-            doc.password = data.newPassword
-            doc.save next
-        (doc, next) ->
-            res.send doc._id
-    ], (err) ->
-        res.send err
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'findOne', _id: req.user._id, next
+		(doc, next) ->
+			doc.password = data.newPassword
+			doc.save next
+		(doc, next) ->
+			res.send doc._id
+	], (err) ->
+		res.send err
 
 
 router.post.apply router, [
-    '/cities',
-    getCities()
-    renderCities()
+	'/cities',
+	getCities()
+	renderCities()
 ]
 
 router.post.apply router, [
-    '/upload'
-    cropImage()
-    resizeImage()
-    resizeResponse()
+	'/upload'
+	cropImage()
+	resizeImage()
+	resizeResponse()
 ]
 
 router.delete.apply router, [
-    '/upload'
-    removeImage()
-    removeResponse()
+	'/upload'
+	removeImage()
+	removeResponse()
 ]
 
 exports = {
