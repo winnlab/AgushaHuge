@@ -137,7 +137,7 @@ exports.findOldActivated = (req, res) ->
 			console.log docs.length
 			console.log docs
 			
-			return docs
+			res.send docs
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/septemberAction: #{error}"
