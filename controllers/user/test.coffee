@@ -71,6 +71,7 @@ exports.septemberActionOld = (req, res) ->
 	options =
 		login:
 			'$ne': null
+		active: true
 	
 	async.waterfall [
 		(next) ->
@@ -121,3 +122,25 @@ exports.septemberAction = (req, res) ->
 			error = err.message or err
 			Logger.log 'info', "Error in controllers/user/test/septemberAction: #{error}"
 			res.send error
+
+exports.findOldActivated = (req, res) ->
+	options =
+		login:
+			'$ne': null
+		points:
+			$gt: 100
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, '_id'
+		(docs, next) ->
+			console.log docs.length
+			console.log docs
+			
+			async.eachSeries docs, eachSeptemberAction, next
+		() ->
+			console.log 'septemberAction done'
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/septemberAction: #{error}"
+		res.send error
