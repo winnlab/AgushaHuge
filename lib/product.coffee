@@ -2,7 +2,7 @@ async = require 'async'
 _ = require 'lodash'
 
 View = require './view'
-Model = require './model'
+Model = require './mongooseTransport'
 Logger = require './logger'
 
 translit = require '../utils/translit'
@@ -17,12 +17,12 @@ exports.makeSearchOptions = makeSearchOptions = (category, age, callback) ->
 	async.parallel
 		category: (next) ->
 			if category
-				return Model 'ProductCategory', 'findOne', next, {url_label: category}, '_id', sortOptions
+				return Model 'ProductCategory', 'findOne', url_label: category, '_id', sortOptions, next
 			
 			next null
 		age: (next) ->
 			if age
-				return Model 'ProductAge', 'findOne', next, {value: age}, '_id', sortOptions
+				return Model 'ProductAge', 'findOne', value: +age, '_id', sortOptions, next
 			
 			next null
 	, (err, results) ->
@@ -47,9 +47,9 @@ exports.findAll = (category, age, callback) ->
 		(next) ->
 			makeSearchOptions category, age, next
 		(searchOptions, next) ->
-			Model 'Product', 'find', next, searchOptions, null
+			Model 'Product', 'find', searchOptions, null, next
 		(docs, next) ->
-			Model 'Product', 'populate', next, docs, 'age category'
+			Model 'Product', 'populate', docs, 'age category', next
 		(docs, next) ->
 			docs = _.sortBy docs, (doc) ->
 				if !doc.category[0]
@@ -71,12 +71,12 @@ exports.getAgesAndCategories = (callback) ->
 					value: 1
 				lean: true
 			
-			Model 'ProductAge', 'find', next, {active: true}, null, options
+			Model 'ProductAge', 'find', active: true, null, options, next
 		categories: (next) ->
 			options =
 				lean: true
 			
-			Model 'ProductCategory', 'find', next, {active: true}, null, options
+			Model 'ProductCategory', 'find', active: true, null, options, next
 	}, callback
 
 exports.getAdjacents = (doc, callback) ->
@@ -84,7 +84,7 @@ exports.getAdjacents = (doc, callback) ->
 	
 	async.waterfall [
 		(next) ->
-			Model 'Product', 'find', next, age: doc.age._id, 'alias image', lean: true
+			Model 'Product', 'find', age: doc.age._id, 'alias image', lean: true, next
 		(docs) ->
 			docsLength = docs.length
 			while docsLength--
