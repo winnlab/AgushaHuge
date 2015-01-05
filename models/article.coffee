@@ -31,6 +31,8 @@ schema = new mongoose.Schema
 		type: Date
 		required: true
 		default: moment
+		set: (date) ->
+			moment date, 'DD/MM/YYYY'
 	title:
 		type: String
 		required: true
