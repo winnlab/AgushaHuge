@@ -3,6 +3,7 @@ _ = require 'underscore'
 
 View = require '../../lib/view'
 Product = require '../../lib/product'
+Logger = require '../../lib/logger'
 
 tree = require '../../utils/tree'
 
