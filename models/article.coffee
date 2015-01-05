@@ -27,6 +27,10 @@ schema = new mongoose.Schema
 		type: Date
 		required: true
 		default: moment
+	created:
+		type: Date
+		required: true
+		default: moment
 	title:
 		type: String
 		required: true
