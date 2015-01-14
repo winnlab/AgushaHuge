@@ -53,6 +53,9 @@ class ConsultationCrud extends Crud
 				oldThemes = _.pluck doc.theme, '_id'
 				oldThemes = _.map oldThemes, (v) -> v?.toString?()
 
+				unless data.answer
+					data.answer = []
+
 				for own field, value of data
 					hprop doc, field, value
 
@@ -100,7 +103,7 @@ class ConsultationCrud extends Crud
 								'counter.article': 1
 
 						Model 'Theme', 'update', where, what, {multi: true}, next
-				, (err, results) => 
+				, (err, results) =>
 					if @options.denormalized.length
 						return next err, doc
 
@@ -123,7 +126,7 @@ class ConsultationCrud extends Crud
 				unless doc.encyclopedia
 					return cb null, doc
 
-				where = 
+				where =
                     _id:
                         $in: _.pluck doc.theme, '_id'
                 what =
