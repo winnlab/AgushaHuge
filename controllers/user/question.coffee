@@ -57,7 +57,7 @@ exports.findOne = (req, res) ->
 		(doc, next) ->
 
 			if doc?.icon?.fixture
-				data.consultation.fixture = "/img/uploads/" + doc.icon.fixture
+				data.consultation.fixture = doc.icon.fixture
 			else
 				data.consultation.fixture = "/img/user/question/bg.jpg"
 

@@ -6,6 +6,7 @@ Model = require '../../lib/mongooseTransport'
 Moneybox = require '../../lib/moneybox'
 Logger = require '../../lib/logger'
 Article = require '../../lib/article'
+Email = require '../../lib/mail'
 
 tree = require '../../utils/tree'
 
@@ -100,5 +101,13 @@ exports.setConsultation = (req, res) ->
 		(doc, numEffected, next) ->
 			consultation = doc
 			Moneybox.consultation req.user._id, next
-	], (err, doc) ->
+		(userId, next) ->
+			emailMeta =
+				toName: "Ольга Ковалева"
+				to: "olga.kovaleva@pepsico.com"
+				subject: "Вопрос специалисту"
+				msg: "От пользователя портала Agusha.com.ua поступил новый вопрос"
+
+			Email.send 'consultation', emailMeta, next
+	], (err) ->
 		View.ajaxResponse res, err, consultation
