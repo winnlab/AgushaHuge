@@ -15,7 +15,7 @@ exports.findOne = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'encyclopedia'
 	
-	alias: req.params.alias
+		alias: req.params.alias
 
 	link = req.params.id
 	
