@@ -30,9 +30,8 @@ schema = new mongoose.Schema
 	created:
 		type: Date
 		required: true
-		default: moment
-		set: (date) ->
-			moment date, 'DD/MM/YYYY'
+		default: -> moment().format()
+		set: (date) -> moment(date, 'DD/MM/YYYY').format()
 	title:
 		type: String
 		required: true
