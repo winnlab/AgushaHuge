@@ -141,3 +141,71 @@ exports.findOldActivated = (req, res) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/septemberAction: #{error}"
 		res.send error
+
+exports.ranks_count = (req, res) ->
+	async.waterfall [
+		(next) ->
+			async.parallel
+				novice: (next2) ->
+					options =
+						points:
+							$gt: -1
+							$lt: 201
+					
+					Model 'Client', 'count', next2, options
+				disciple: (next2) ->
+					options =
+						points:
+							$gt: 200
+							$lt: 401
+					
+					Model 'Client', 'count', next2, options
+				adept: (next2) ->
+					options =
+						points:
+							$gt: 400
+							$lt: 601
+					
+					Model 'Client', 'count', next2, options
+				expert: (next2) ->
+					options =
+						points:
+							$gt: 600
+							$lt: 801
+					
+					Model 'Client', 'count', next2, options
+				pro: (next2) ->
+					options =
+						points:
+							$gt: 800
+							$lt: 1001
+					
+					Model 'Client', 'count', next2, options
+			, next
+		(results, next) ->
+			data =
+				novice:
+					name: 'Новичок'
+					count: results.novice
+				
+				disciple:
+					name: 'Ученик'
+					count: results.disciple
+				
+				adept:
+					name: 'Знаток'
+					count: results.adept
+				
+				expert:
+					name: 'Эксперт'
+					count: results.expert
+				
+				pro:
+					name: 'Профи'
+					count: results.pro
+			
+			res.send data
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/ranks_count: #{error}"
+		res.send error
