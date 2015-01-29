@@ -81,11 +81,10 @@ router.get '/restore', (req, res, next) ->
 
 
 router.post '/restore', (req, res, next) ->
-	email = req.body.email.toLowerCase()
+	email = req.body.email.toLocaleLowerCase()
 
 	if not email
 		return next 'Пользователь с такой почтой не найден'
-
 
 	callback = (err, user) ->
 		if err
@@ -121,7 +120,6 @@ router.post '/restore', (req, res, next) ->
 				, res
 
 	User.DataEngine 'findOne', callback, email: email
-
 
 router.post '/linkVk', (req, res) ->
 	data = req.body
