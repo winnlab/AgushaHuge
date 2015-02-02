@@ -4,6 +4,8 @@ nodemailer = require 'nodemailer'
 emailTemplates = require 'email-templates'
 mail = nodemailer.mail
 
+Logger = require './logger'
+
 app = require '../init/application'
 
 transportOptions =
@@ -49,3 +51,5 @@ exports.send = (name, data, cb) ->
 		Logger.log 'info', "Error in lib/mail/send: #{error}"
 		
 		cb null
+		
+		# cb err
