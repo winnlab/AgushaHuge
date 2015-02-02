@@ -150,7 +150,7 @@ Router.get '/email_test', Test.email
 # Router.get '/remakeActive', Test.remakeActive
 # Router.get '/findOldActivated', Test.findOldActivated
 Router.get '/ranks_count', Test.ranks_count
-Router.get '/email_moneybox_1', Test.email_moneybox_1
+# Router.get '/email_moneybox_1', Test.email_moneybox_1
 
 #
 
