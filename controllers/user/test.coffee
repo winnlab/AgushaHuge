@@ -232,7 +232,7 @@ send_moneybox_1 = (res, doc, callback) ->
 exports.email_moneybox_1 = (req, res) ->
 	sortOptions =
 		lean: true
-		skip: 0
+		skip: 2248
 	
 	async.waterfall [
 		(next) ->
