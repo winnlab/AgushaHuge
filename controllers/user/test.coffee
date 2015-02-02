@@ -214,11 +214,12 @@ exports.ranks_count = (req, res) ->
 send_moneybox_1 = (res, doc, callback) ->
 	name = doc.email
 	
-	if doc.profile.first_name
-		name = doc.profile.first_name
+	if doc.profile
+		if doc.profile.first_name
+			name = doc.profile.first_name
 	
-	if doc.profile.last_name
-		name += ' ' + doc.profile.last_name
+		if doc.profile.last_name
+			name += ' ' + doc.profile.last_name
 	
 	options =
 		toName: stringUtil.title_case name
@@ -232,7 +233,7 @@ send_moneybox_1 = (res, doc, callback) ->
 exports.email_moneybox_1 = (req, res) ->
 	sortOptions =
 		lean: true
-		skip: 3459
+		skip: 5424
 	
 	async.waterfall [
 		(next) ->
