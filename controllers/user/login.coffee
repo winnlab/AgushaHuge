@@ -104,8 +104,6 @@ router.post '/restore', (req, res, next) ->
 				console.log err
 				return next new Error "Что то пошло не так. Обратитесь к администратору"
 
-			console.log 'user saved'
-
 			restoreEmail user, newPassword, (err) ->
 				if err
 					console.log 'failed send email'

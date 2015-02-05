@@ -75,7 +75,6 @@ isCropImage = (params) ->
 		return params[key]
 
 remove = (imageName, type, callback) ->
-	console.log imageName
 	pathsToImage = {}
 
 	_.each sizes[type].paths, (path, key, list) ->
@@ -204,6 +203,8 @@ router.get '/', (req, res, next) ->
 
 router.use '/crud/:id?', (req, res, next) ->
 	delete req.body?.points
+	delete req.body?.password
+
 	if not req.params.id
 		req.params.id = req.user.id
 

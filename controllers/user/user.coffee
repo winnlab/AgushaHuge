@@ -10,6 +10,7 @@ router.get '/', (req, res) ->
 		user = req.user.toObject()
 		if user.password
 			user.standardRegistration = true
+
 		delete user.password
 
 	res.locals.user = user
