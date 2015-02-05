@@ -9,7 +9,7 @@ _ = require 'underscore'
 cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
 session = require 'express-session'
-methodOverride = require 'method-override' 
+methodOverride = require 'method-override'
 multer = require 'multer'
 MongoStore = require('connect-mongo') session
 
@@ -57,7 +57,7 @@ configure = () ->
 		res.set 'Content-Type', 'text/plain'
 		res.send "User-agent: *\nDisallow: /"
 
-	@use bodyParser()
+	@use bodyParser limit: '16mb'
 	@use methodOverride()
 
 	@use (req, res, next) ->
@@ -70,7 +70,7 @@ configure = () ->
 		mMiddleware req, res, next
 
 	@use View.compiler root: '/views'
-	
+
 	@use cookieParser 'LmAK3VNuA6'
 	@use session sessionParams
 	@use passport.initialize()
