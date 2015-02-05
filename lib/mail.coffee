@@ -4,24 +4,19 @@ nodemailer = require 'nodemailer'
 emailTemplates = require 'email-templates'
 mail = nodemailer.mail
 
+Logger = require './logger'
+
 app = require '../init/application'
-
-# transportOptions =
-	# host: 'mx1.mirohost.net'
-	# auth:
-		# user: 'contact@agusha.com.ua',
-		# pass: 'aHErkvZu'
-
-# transportOptions =
-	# host: 's02.atomsmtp.com'
-	# port: '2525'
-	# auth:
-		# user: 'contact@agusha.com.ua'
-		# pass: 'DeNgYYmNeAp2ScK'
 
 transportOptions =
 	host: '0.0.0.0'
 	port: '25'
+
+# transportOptions =
+	# service: "Gmail"
+	# auth:
+		# user: "nodesmtp@gmail.com",
+		# pass: "smtpisverygood11"
 
 transport = nodemailer.createTransport 'SMTP', transportOptions
 # transport = nodemailer.createTransport()
@@ -52,4 +47,9 @@ exports.send = (name, data, cb) ->
 		->
 			cb null, cb_html
 	], (err) ->
+		# error = err.message or err
+		# Logger.log 'info', "Error in lib/mail/send: #{error}"
+		
+		# cb null
+		
 		cb err

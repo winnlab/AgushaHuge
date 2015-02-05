@@ -7,16 +7,17 @@ Moneybox = require '../../lib/moneybox'
 
 Client = require '../../lib/client'
 
+stringUtil = require '../../utils/string'
+
 exports.email = (req, res) ->
-	# email = 'hydraorc@gmail.com'
-	email = 'imhereintheshadows@gmail.com'
+	email = 'hydra0@bigmir.net'
 	
 	options =
 		toName: 'Имя Фамилия'
 		to: email
 		subject: 'Агуша тест'
 	
-	Client.sendMail 'letter_regist_2', options, (err, html) ->
+	Client.sendMail 'moneybox_1', options, (err, html) ->
 		if err
 			return res.send err
 		
@@ -141,3 +142,114 @@ exports.findOldActivated = (req, res) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/septemberAction: #{error}"
 		res.send error
+
+exports.ranks_count = (req, res) ->
+	async.waterfall [
+		(next) ->
+			async.parallel
+				novice: (next2) ->
+					options =
+						points:
+							$gt: -1
+							$lt: 201
+					
+					Model 'Client', 'count', next2, options
+				disciple: (next2) ->
+					options =
+						points:
+							$gt: 200
+							$lt: 401
+					
+					Model 'Client', 'count', next2, options
+				adept: (next2) ->
+					options =
+						points:
+							$gt: 400
+							$lt: 601
+					
+					Model 'Client', 'count', next2, options
+				expert: (next2) ->
+					options =
+						points:
+							$gt: 600
+							$lt: 801
+					
+					Model 'Client', 'count', next2, options
+				pro: (next2) ->
+					options =
+						points:
+							$gt: 800
+							$lt: 1001
+					
+					Model 'Client', 'count', next2, options
+			, next
+		(results, next) ->
+			data =
+				novice:
+					name: 'Новичок'
+					count: results.novice
+				
+				disciple:
+					name: 'Ученик'
+					count: results.disciple
+				
+				adept:
+					name: 'Знаток'
+					count: results.adept
+				
+				expert:
+					name: 'Эксперт'
+					count: results.expert
+				
+				pro:
+					name: 'Профи'
+					count: results.pro
+			
+			res.send data
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/ranks_count: #{error}"
+		res.send error
+
+send_moneybox_1 = (res, doc, callback) ->
+	name = doc.email
+	
+	if doc.profile
+		if doc.profile.first_name
+			name = doc.profile.first_name
+	
+		if doc.profile.last_name
+			name += ' ' + doc.profile.last_name
+	
+	options =
+		toName: stringUtil.title_case name
+		to: doc.email
+		subject: 'Копилка'
+	
+	console.log doc
+	
+	Client.sendMail 'moneybox_1', options, callback
+
+exports.email_moneybox_1 = (req, res) ->
+	sortOptions =
+		lean: true
+		skip: 0
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, null, '_id email profile', sortOptions
+		(docs, next) ->
+			console.log docs.length
+			
+			async.timesSeries docs.length, (n, next2) ->
+				console.log n
+				doc = docs[n]
+				
+				send_moneybox_1 res, doc, next2
+			, next
+		(results) ->
+			console.log 'send_moneybox_1 done'
+			res.send true
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/send_moneybox_1: #{error}"

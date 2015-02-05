@@ -40,7 +40,9 @@ callbackToValidation = (username, password, done, err, user) ->
 validation = (err, user, password, done) ->
 	if err
 		return done message: err.message
-
+	
+	console.log user
+	
 	if not user
 		return done message: 'Пользователь с таким именем не существует!'
 
@@ -53,10 +55,14 @@ validation = (err, user, password, done) ->
 	done null, user
 
 adminStrategy = (username, password, done) ->
+	username = username.toLocaleLowerCase()
+	
 	Model 'User', 'findOne', 
 		async.apply(callbackToValidation, arguments...), {username : username}
 
 userStrategy = (email, password, done) ->
+	email = email.toLocaleLowerCase()
+	
 	Model 'Client', 'findOne',
 		async.apply(callbackToValidation, arguments...), {email : email}
 

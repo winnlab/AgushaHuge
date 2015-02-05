@@ -146,11 +146,12 @@ Router.post '/commentaries/ratings/toggleRating', Rating.toggleRating
 
 Router.get '/email_test', Test.email
 # Router.get '/client_findAll', Test.client_findAll
-Router.get '/septemberAction', Test.septemberAction
-Router.get '/remakeActive', Test.remakeActive
-Router.get '/findOldActivated', Test.findOldActivated
+# Router.get '/septemberAction', Test.septemberAction
+# Router.get '/remakeActive', Test.remakeActive
+# Router.get '/findOldActivated', Test.findOldActivated
+Router.get '/ranks_count', Test.ranks_count
+# Router.get '/email_moneybox_1', Test.email_moneybox_1
 
 #
-
 
 exports.Router = Router
