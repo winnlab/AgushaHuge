@@ -9,7 +9,7 @@ router.get '/', (req, res) ->
 	if req.user and req.user._id
 		user = req.user.toObject()
 		if user.password
-			user.standardRegistration = true
+			user.standardRegistration = false
 
 		delete user.password
 
