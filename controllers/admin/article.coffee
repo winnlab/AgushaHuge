@@ -30,7 +30,7 @@ class ArticleCrud extends Crud
                 unless doc.theme or doc.theme.length isnt 0
                     return do next
 
-                where = 
+                where =
                     _id:
                         $in: _.pluck doc.theme, '_id'
                 what =
@@ -128,7 +128,7 @@ class ArticleCrud extends Crud
                                 'counter.article': 1
 
                         Model 'Theme', 'update', where, what, {multi: true}, next
-                , (err, results) => 
+                , (err, results) =>
                     if @options.denormalized.length
                         return next err, doc
 
@@ -148,7 +148,7 @@ class ArticleCrud extends Crud
                 doc.remove (err) ->
                     next err, doc
             (doc, next)  ->
-                where = 
+                where =
                     _id:
                         $in: _.pluck doc.theme, '_id'
                 what =
@@ -172,7 +172,7 @@ class ArticleCrud extends Crud
 
         unless id and data and prefix
             return cb 'Ошибка. Не переданы все необходимые данные для вырезания изображения.'
-        
+
         parentImgName = if data.alt then 'backgroundAlt' else 'background'
 
         async.waterfall [
@@ -211,7 +211,7 @@ class ArticleCrud extends Crud
             (next) ->
                 unless id
                     err = 'Ошибка: неизвестно поле "id" файла.'
-                
+
                 next err
             (next) =>
                 @DataEngine 'findById', next, id
@@ -255,9 +255,9 @@ class ArticleCrud extends Crud
             (doc, next) =>
                 @_removeDocFiles doc, (err) ->
                     next err, doc
-            (doc, next) ->
+            (doc, next) =>
                 imgs = ['S', 'L', 'XL']
-                async.each imgs, (prefix, next) ->
+                async.each imgs, (prefix, next) =>
                     if _.isString doc.image[prefix]
                         @removeFile doc.image[prefix], next
                     else
