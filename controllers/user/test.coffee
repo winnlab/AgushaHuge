@@ -11,13 +11,14 @@ stringUtil = require '../../utils/string'
 
 exports.email = (req, res) ->
 	email = 'hydra0@bigmir.net'
+	# email = 'hydraorc@gmail.com'
 	
 	options =
 		toName: 'Имя Фамилия'
 		to: email
 		subject: 'Агуша тест'
 	
-	Client.sendMail 'moneybox_1', options, (err, html) ->
+	Client.sendMail 'moneybox_2', options, (err, html) ->
 		if err
 			return res.send err
 		
@@ -253,3 +254,46 @@ exports.email_moneybox_1 = (req, res) ->
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/send_moneybox_1: #{error}"
+
+send_moneybox_2 = (res, doc, callback) ->
+	name = doc.email
+	
+	if doc.profile
+		if doc.profile.first_name
+			name = doc.profile.first_name
+	
+		if doc.profile.last_name
+			name += ' ' + doc.profile.last_name
+	
+	options =
+		toName: stringUtil.title_case name
+		to: doc.email
+		subject: 'Копилка'
+	
+	console.log doc
+	
+	Client.sendMail 'moneybox_2', options, callback
+
+exports.email_moneybox_2 = (req, res) ->
+	sortOptions =
+		lean: true
+		skip: 0
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, null, '_id email profile', sortOptions
+		(docs, next) ->
+			console.log docs.length
+			
+			async.timesSeries docs.length, (n, next2) ->
+				console.log n
+				doc = docs[n]
+				
+				send_moneybox_2 res, doc, next2
+			, next
+		(results) ->
+			console.log 'send_moneybox_2 done'
+			res.send true
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/send_moneybox_2: #{error}"
