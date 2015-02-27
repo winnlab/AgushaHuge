@@ -47,9 +47,9 @@ exports.send = (name, data, cb) ->
 		->
 			cb null, cb_html
 	], (err) ->
-		error = err.message or err
-		Logger.log 'info', "Error in lib/mail/send: #{error}"
+		# error = err.message or err
+		# Logger.log 'info', "Error in lib/mail/send: #{error}"
 		
-		cb null
+		# cb null
 		
-		# cb err
+		cb err

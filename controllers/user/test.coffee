@@ -11,7 +11,7 @@ stringUtil = require '../../utils/string'
 
 exports.email = (req, res) ->
 	email = 'hydra0@bigmir.net'
-	# email = 'hydraorc@gmail.com'
+	email = 'hydraorc@gmail.com'
 	
 	options =
 		toName: 'Имя Фамилия'
