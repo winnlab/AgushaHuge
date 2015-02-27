@@ -41,7 +41,7 @@ validation = (err, user, password, done) ->
 	if err
 		return done message: err.message
 	
-	console.log user
+	# console.log user
 	
 	if not user
 		return done message: 'Пользователь с таким именем не существует!'
