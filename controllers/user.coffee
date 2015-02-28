@@ -25,6 +25,7 @@ Watch = require './user/watch'
 Rating = require './user/rating'
 Test = require './user/test'
 Contacts = require './user/contacts'
+Download = require './user/download'
 
 Middleware = require './helper/middleware'
 
@@ -72,6 +73,10 @@ Router.post '/send_feedback', Feedback.send
 #
 
 Router.get '/contacts', Contacts.index
+
+#
+
+Router.get '/download', Download.index
 
 #
 

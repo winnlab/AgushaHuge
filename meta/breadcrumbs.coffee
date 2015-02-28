@@ -40,4 +40,9 @@ module.exports = [
 	title: 'Контакты'
 	href: '/contacts'
 	parent_id: 'about'
+,
+	id: 'download'
+	title: 'Скачать'
+	href: '/download'
+	parent_id: 'about'
 ]

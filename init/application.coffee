@@ -53,6 +53,7 @@ configure = () ->
 	@use '/img', express.static "#{__dirname}/../public/img"
 	@use '/css', express.static "#{__dirname}/../public/css"
 	@use '/fonts', express.static "#{__dirname}/../public/fonts"
+	@use '/doc', express.static "#{__dirname}/../public/doc"
 	@use '/robots.txt', (req, res)->
 		res.set 'Content-Type', 'text/plain'
 		res.send "User-agent: *\nDisallow: /"
