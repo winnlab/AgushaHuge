@@ -258,10 +258,11 @@ exports.rankToExcel = (req, res) ->
 			if docsLength
 				while docsLength--
 					client = docs[docsLength]
-					client.first_name = stringUtil.title_case (if client.profile.first_name then client.profile.first_name else '')
-					client.last_name = stringUtil.title_case (if client.profile.last_name then client.profile.last_name else '')
-					client.middle_name = stringUtil.title_case (if client.profile.middle_name then client.profile.middle_name else '')
-					delete client.profile
+					client.first_name = stringUtil.title_case (if client.profile and client.profile.first_name then client.profile.first_name else '')
+					client.last_name = stringUtil.title_case (if client.profile and client.profile.last_name then client.profile.last_name else '')
+					client.middle_name = stringUtil.title_case (if client.profile and client.profile.middle_name then client.profile.middle_name else '')
+					if client.profile
+						delete client.profile
 				
 				return res.xls filename, docs
 			
