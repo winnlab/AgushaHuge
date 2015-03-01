@@ -212,6 +212,64 @@ exports.ranks_count = (req, res) ->
 		Logger.log 'info', "Error in controllers/user/test/ranks_count: #{error}"
 		res.send error
 
+exports.rankToExcel = (req, res) ->
+	ranks =
+		novice:
+			$gt: -1
+			$lt: 201
+		
+		disciple:
+			$gt: 200
+			$lt: 401
+		
+		adept:
+			$gt: 400
+			$lt: 601
+		
+		expert:
+			$gt: 600
+			$lt: 801
+		
+		pro:
+			$gt: 600
+			$lt: 1001
+	
+	rank = req.params.rank
+	
+	sortOptions =
+		lean: true
+		sort:
+			'profile.first_name': 1
+	
+	options = {}
+	filename = 'data.xlsx'
+	
+	if rank
+		if ranks[rank]
+			options.points = ranks[rank]
+			filename = rank + '.xlsx'
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, '_id email profile points', sortOptions
+		(docs, next) ->
+			docsLength = docs.length
+			
+			if docsLength
+				while docsLength--
+					client = docs[docsLength]
+					client.first_name = stringUtil.title_case (if client.profile.first_name then client.profile.first_name else '')
+					client.last_name = stringUtil.title_case (if client.profile.last_name then client.profile.last_name else '')
+					client.middle_name = stringUtil.title_case (if client.profile.middle_name then client.profile.middle_name else '')
+					delete client.profile
+				
+				return res.xls filename, docs
+			
+			res.send 'Ничего не найдено'
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/rankToExcel: #{error}"
+
 send_moneybox_1 = (res, doc, callback) ->
 	name = doc.email
 	

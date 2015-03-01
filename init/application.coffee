@@ -12,6 +12,7 @@ session = require 'express-session'
 methodOverride = require 'method-override'
 multer = require 'multer'
 MongoStore = require('connect-mongo') session
+json2xls = require 'json2xls'
 
 Admin = require '../lib/admin'
 Ajax = require '../lib/ajax'
@@ -71,6 +72,8 @@ configure = () ->
 		mMiddleware req, res, next
 
 	@use View.compiler root: '/views'
+	
+	@use json2xls.middleware
 
 	@use cookieParser 'LmAK3VNuA6'
 	@use session sessionParams
