@@ -241,7 +241,12 @@ exports.rankToExcel = (req, res) ->
 		sort:
 			'profile.first_name': 1
 	
-	options = {}
+	options =
+		email:
+			'$ne': null
+			'$ne': ''
+			'$ne': 'undefined'
+	
 	filename = 'data.xlsx'
 	
 	if rank
