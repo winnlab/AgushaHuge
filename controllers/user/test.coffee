@@ -244,8 +244,6 @@ exports.rankToExcel = (req, res) ->
 	options =
 		email:
 			'$ne': null
-			'$ne': ''
-			'$ne': 'undefined'
 	
 	filename = 'data.xlsx'
 	
