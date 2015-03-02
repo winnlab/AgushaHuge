@@ -155,15 +155,15 @@ getPrizes = (cb) ->
 getWinners = (callback) ->
 	winners =
 		novice: [
-			'annikka1@mail.ru'
+			'voynarovska1983@mail.ru'
 			'ivanka.boyko.97@mail.ru'
-			'nika_ne@hotbox.ru'
+			'dzyubak_88@mail.ru'
 			'zaikina.in@ya.ru'
-			'polishhuk1988@bk.ru'
-			'yulia_gevkan@mail.ru'
-			'matveeva_83@mail.ru'
-			'mordashka999@mail.ru'
-			'anistyuliya@yandex.ru'
+			'zhdanova_yulya92@mail.ru'
+			'anna10081990@ukr.net'
+			'bas1983@list.ru'
+			'bymerz@mail.ru'
+			'myposhte@mail.ru'
 			'marydavidchenko@gmail.com'
 		]
 		
