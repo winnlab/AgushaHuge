@@ -163,7 +163,7 @@ getWinners = (callback) ->
 			'nkii2010@mail.ru'
 			'matveeva_83@mail.ru'
 			'mariya_333@bk.ru'
-			'ksenadon@mail.ru'
+			'anistyuliya@yandex.ru'
 			'pipa125@yandex.ru'
 		]
 		
