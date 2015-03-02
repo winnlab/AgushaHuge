@@ -152,12 +152,124 @@ getPrizes = (cb) ->
 		return lvl
 	cb null, prizes
 
+getWinners = (callback) ->
+	winners =
+		novice: [
+			'ksenya1902@ukr.net'
+			'ivanka.boyko.97@mail.ru'
+			'chereshnea@mail.ru'
+			'zaikina.in@ya.ru'
+			'polishhuk1988@bk.ru'
+			'nkii2010@mail.ru'
+			'ivanitskaya2@mail.ru'
+			'mariya_333@bk.ru'
+			'ksenadon@mail.ru'
+			'pipa125@yandex.ru'
+		]
+		
+		disciple: [
+			'sekretar_vpu7@mail.ru'
+			'barbashova23@mail.ru'
+			'anastasiya_shtan@mail.ru'
+			'12130406@list.ru'
+			'trusko@mail.ru'
+		]
+		
+		adept: [
+			'diana190@ya.ru'
+			'kika4ka.ru@mail.ru'
+			'sweetlanna@ukr.net'
+			'raselo4ek@rambler.ru'
+		]
+		
+		expert: [
+			'smuschfm@yahoo.com'
+			'natusiamoja@gmail.com'
+		]
+		
+		pro: [
+			'vita-scorpi@yandex.ru'
+		]
+	
+	async.waterfall [
+		(next) ->
+			fields = '_id profile image children'
+			
+			sortOptions =
+				lean: true
+			
+			async.parallel
+				novice: (next2) ->
+					options =
+						$or: []
+					
+					lng = winners.novice.length
+					while lng--
+						winner = winners.novice[lng]
+						options.$or.push
+							email: winner
+					
+					Model 'Client', 'find', options, fields, sortOptions, next2
+				disciple: (next2) ->
+					options =
+						$or: []
+					
+					lng = winners.disciple.length
+					while lng--
+						winner = winners.disciple[lng]
+						options.$or.push
+							email: winner
+					
+					Model 'Client', 'find', options, fields, sortOptions, next2
+				adept: (next2) ->
+					options =
+						$or: []
+					
+					lng = winners.adept.length
+					while lng--
+						winner = winners.adept[lng]
+						options.$or.push
+							email: winner
+					
+					Model 'Client', 'find', options, fields, sortOptions, next2
+				expert: (next2) ->
+					options =
+						$or: []
+					
+					lng = winners.expert.length
+					while lng--
+						winner = winners.expert[lng]
+						options.$or.push
+							email: winner
+					
+					Model 'Client', 'find', options, fields, sortOptions, next2
+				pro: (next2) ->
+					options =
+						$or: []
+					
+					lng = winners.pro.length
+					while lng--
+						winner = winners.pro[lng]
+						options.$or.push
+							email: winner
+					
+					Model 'Client', 'find', options, fields, sortOptions, next2
+			, next
+		(results) ->
+			console.log results
+			
+			callback null, results
+	], callback
+
 exports.index = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'moneybox'
 		lvls: exports.lvls
 		user: req.user
-
+	
+	if req.params.test is 'test'
+		data.test = true
+	
 	async.waterfall [
 		(next) ->
 			if req?.user?._id
@@ -166,18 +278,24 @@ exports.index = (req, res) ->
 		(docs, next) ->
 			if data?
 				_.extend data, { actions: docs }
-
+			
 			getPrizes next
 		(docs, next) ->
 			if docs?
 				_.extend data, { prizes: docs }
-
+			
+			getWinners next
+		(results, next) ->
+			if results
+				data.winners = results
+			
 			next null
 	], (err) ->
 		if err
 			error = err.message or err
 			Logger.log 'info', "Error in controllers/user/moneybox/index: #{error}"
 			return res.send error
+		
 		View.render 'user/moneybox/index', res, data
 
 exports.getBox = (req, res) ->

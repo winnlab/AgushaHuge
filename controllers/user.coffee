@@ -121,7 +121,7 @@ Router.use '/user', User
 
 #
 
-Router.get '/moneybox', Moneybox.index
+Router.get '/moneybox/:test?', Moneybox.index
 Router.get '/moneybox-points', Moneybox.getBox
 Router.get '/moneybox-points-only', Moneybox.getPoints
 
