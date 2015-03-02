@@ -157,7 +157,7 @@ getWinners = (callback) ->
 		novice: [
 			'annikka1@mail.ru'
 			'ivanka.boyko.97@mail.ru'
-			'anabanana7@rambler.ru'
+			'nika_ne@hotbox.ru'
 			'zaikina.in@ya.ru'
 			'polishhuk1988@bk.ru'
 			'nkii2010@mail.ru'
