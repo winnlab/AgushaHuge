@@ -164,7 +164,7 @@ getWinners = (callback) ->
 			'matveeva_83@mail.ru'
 			'mordashka999@mail.ru'
 			'anistyuliya@yandex.ru'
-			'pipa125@yandex.ru'
+			'marydavidchenko@gmail.com'
 		]
 		
 		disciple: [
