@@ -193,7 +193,7 @@ getWinners = (callback) ->
 	
 	async.waterfall [
 		(next) ->
-			fields = '_id profile image.middle children'
+			fields = '_id profile image.medium children'
 			
 			sortOptions =
 				lean: true
