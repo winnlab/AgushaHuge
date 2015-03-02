@@ -191,75 +191,68 @@ getWinners = (callback) ->
 			'vita-scorpi@yandex.ru'
 		]
 	
-	async.waterfall [
-		(next) ->
-			fields = '_id profile.first_name profile.middle_name profile.last_name image.medium children.gender'
+	fields = '_id profile.first_name profile.middle_name profile.last_name image.medium children.gender'
+	
+	sortOptions =
+		lean: true
+	
+	async.parallel
+		novice: (next2) ->
+			options =
+				$or: []
 			
-			sortOptions =
-				lean: true
+			lng = winners.novice.length
+			while lng--
+				winner = winners.novice[lng]
+				options.$or.push
+					email: winner
 			
-			async.parallel
-				novice: (next2) ->
-					options =
-						$or: []
-					
-					lng = winners.novice.length
-					while lng--
-						winner = winners.novice[lng]
-						options.$or.push
-							email: winner
-					
-					Model 'Client', 'find', options, fields, sortOptions, next2
-				disciple: (next2) ->
-					options =
-						$or: []
-					
-					lng = winners.disciple.length
-					while lng--
-						winner = winners.disciple[lng]
-						options.$or.push
-							email: winner
-					
-					Model 'Client', 'find', options, fields, sortOptions, next2
-				adept: (next2) ->
-					options =
-						$or: []
-					
-					lng = winners.adept.length
-					while lng--
-						winner = winners.adept[lng]
-						options.$or.push
-							email: winner
-					
-					Model 'Client', 'find', options, fields, sortOptions, next2
-				expert: (next2) ->
-					options =
-						$or: []
-					
-					lng = winners.expert.length
-					while lng--
-						winner = winners.expert[lng]
-						options.$or.push
-							email: winner
-					
-					Model 'Client', 'find', options, fields, sortOptions, next2
-				pro: (next2) ->
-					options =
-						$or: []
-					
-					lng = winners.pro.length
-					while lng--
-						winner = winners.pro[lng]
-						options.$or.push
-							email: winner
-					
-					Model 'Client', 'find', options, fields, sortOptions, next2
-			, next
-		(results) ->
-			console.log results
+			Model 'Client', 'find', options, fields, sortOptions, next2
+		disciple: (next2) ->
+			options =
+				$or: []
 			
-			callback null, results
-	], callback
+			lng = winners.disciple.length
+			while lng--
+				winner = winners.disciple[lng]
+				options.$or.push
+					email: winner
+			
+			Model 'Client', 'find', options, fields, sortOptions, next2
+		adept: (next2) ->
+			options =
+				$or: []
+			
+			lng = winners.adept.length
+			while lng--
+				winner = winners.adept[lng]
+				options.$or.push
+					email: winner
+			
+			Model 'Client', 'find', options, fields, sortOptions, next2
+		expert: (next2) ->
+			options =
+				$or: []
+			
+			lng = winners.expert.length
+			while lng--
+				winner = winners.expert[lng]
+				options.$or.push
+					email: winner
+			
+			Model 'Client', 'find', options, fields, sortOptions, next2
+		pro: (next2) ->
+			options =
+				$or: []
+			
+			lng = winners.pro.length
+			while lng--
+				winner = winners.pro[lng]
+				options.$or.push
+					email: winner
+			
+			Model 'Client', 'find', options, fields, sortOptions, next2
+	, callback
 
 exports.index = (req, res) ->
 	data =
