@@ -163,18 +163,8 @@ getWinners = (callback) ->
 			'anna10081990@ukr.net'
 			'bas1983@list.ru'
 			'bymerz@mail.ru'
-			'myposhte@mail.ru'
-			'marydavidchenko@gmail.com'
-			'annikka1@mail.ru'
-			'ivanka.boyko.97@mail.ru'
-			'chereshnea@mail.ru'
-			'zaikina.in@ya.ru'
 			'polishhuk1988@bk.ru'
-			'nkii2010@mail.ru'
-			'ivanitskaya2@mail.ru'
-			'mariya_333@bk.ru'
-			'ksenadon@mail.ru'
-			'pipa125@yandex.ru'
+			'marydavidchenko@gmail.com'
 		]
 		
 		disciple: [
