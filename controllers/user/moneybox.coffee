@@ -286,17 +286,14 @@ exports.index = (req, res) ->
 			
 			getWinners next
 		(results, next) ->
-			if results
-				data.winners = results
+			if results?
+				_.extend data, { winners: results }
 			
-			next null
+			View.render 'user/moneybox/index', res, data
 	], (err) ->
-		if err
-			error = err.message or err
-			Logger.log 'info', "Error in controllers/user/moneybox/index: #{error}"
-			return res.send error
-		
-		View.render 'user/moneybox/index', res, data
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/moneybox/index: #{error}"
+		return res.send error
 
 exports.getBox = (req, res) ->
 	data =
