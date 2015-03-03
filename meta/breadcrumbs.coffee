@@ -42,7 +42,7 @@ module.exports = [
 	parent_id: 'about'
 ,
 	id: 'download'
-	title: 'Скачать'
+	title: 'Меню малыша'
 	href: '/download'
 	parent_id: 'about'
 ]
