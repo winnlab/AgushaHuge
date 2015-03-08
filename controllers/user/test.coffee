@@ -471,7 +471,7 @@ send_winner_8_marta = (res, doc, callback) ->
 	
 	console.log doc
 	
-	Client.sendMail 'winner_polotence', options, callback
+	Client.sendMail '8_marta', options, callback
 
 exports.email_8_marta = (req, res) ->
 	sortOptions =
