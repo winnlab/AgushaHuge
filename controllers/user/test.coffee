@@ -12,13 +12,16 @@ stringUtil = require '../../utils/string'
 exports.email = (req, res) ->
 	email = 'hydra0@bigmir.net'
 	email = 'hydraorc@gmail.com'
+	# email = 'dkirpa@gmail.com'
 	
 	options =
 		toName: 'Имя Фамилия'
 		to: email
 		subject: 'Агуша тест'
+		client:
+			first_name: 'Имя'
 	
-	Client.sendMail 'moneybox_2', options, (err, html) ->
+	Client.sendMail '8_marta', options, (err, html) ->
 		if err
 			return res.send err
 		
@@ -36,6 +39,44 @@ exports.client_findAll = (req, res) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/client_findAll: #{error}"
 		res.send error
+
+winners =
+	novice: [
+		'voynarovska1983@mail.ru'
+		'ivanka.boyko.97@mail.ru'
+		'dzyubak_88@mail.ru'
+		'zaikina.in@ya.ru'
+		'zhdanova_yulya92@mail.ru'
+		'anna10081990@ukr.net'
+		'bas1983@list.ru'
+		'bymerz@mail.ru'
+		'polishhuk1988@bk.ru'
+		'marydavidchenko@gmail.com'
+	]
+	
+	disciple: [
+		'sekretar_vpu7@mail.ru'
+		'barbashova23@mail.ru'
+		'anastasiya_shtan@mail.ru'
+		'12130406@list.ru'
+		'trusko@mail.ru'
+	]
+	
+	adept: [
+		'diana190@ya.ru'
+		'kika4ka.ru@mail.ru'
+		'sweetlanna@ukr.net'
+		'raselo4ek@rambler.ru'
+	]
+	
+	expert: [
+		'smuschfm@yahoo.com'
+		'natusiamoja@gmail.com'
+	]
+	
+	pro: [
+		'vita-scorpi@yandex.ru'
+	]
 
 exports.remakeActive = (req, res) ->
 	res.send 'Processing...'
@@ -359,3 +400,102 @@ exports.email_moneybox_2 = (req, res) ->
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/send_moneybox_2: #{error}"
+
+send_winner_polotence = (res, doc, callback) ->
+	name = doc.email
+	
+	if doc.profile
+		if doc.profile.first_name
+			name = doc.profile.first_name
+	
+		if doc.profile.last_name
+			name += ' ' + doc.profile.last_name
+	
+	options =
+		toName: stringUtil.title_case name
+		to: doc.email
+		subject: 'Копилка'
+		client:
+			first_name: stringUtil.title_case doc.profile.first_name
+	
+	console.log doc
+	
+	Client.sendMail 'winner_polotence', options, callback
+
+exports.email_winner_polotence = (req, res) ->
+	sortOptions =
+		lean: true
+	
+	options =
+		$or: []
+	
+	lng = winners.disciple.length
+	while lng--
+		winner = winners.disciple[lng]
+		options.$or.push
+			email: winner
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, '_id email profile.first_name profile.last_name', sortOptions
+		(docs, next) ->
+			console.log docs.length
+			
+			async.timesSeries docs.length, (n, next2) ->
+				console.log n
+				doc = docs[n]
+				
+				send_winner_polotence res, doc, next2
+			, next
+		(results) ->
+			console.log 'email_winner_polotence done'
+			res.send true
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/email_winner_polotence: #{error}"
+
+send_winner_8_marta = (res, doc, callback) ->
+	name = doc.email
+	
+	if doc.profile
+		if doc.profile.first_name
+			name = doc.profile.first_name
+	
+		if doc.profile.last_name
+			name += ' ' + doc.profile.last_name
+	
+	options =
+		toName: stringUtil.title_case name
+		to: doc.email
+		subject: 'Поздравление с 8 марта'
+	
+	console.log doc
+	
+	Client.sendMail 'winner_polotence', options, callback
+
+exports.email_8_marta = (req, res) ->
+	sortOptions =
+		lean: true
+	
+	options =
+		email:
+			'$ne': null
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, '_id email profile.first_name profile.last_name', sortOptions
+		(docs, next) ->
+			console.log docs.length
+			
+			async.timesSeries docs.length, (n, next2) ->
+				console.log n
+				doc = docs[n]
+				
+				send_winner_8_marta res, doc, next2
+			, next
+		(results) ->
+			console.log 'email_8_marta done'
+			res.send true
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/email_8_marta: #{error}"
