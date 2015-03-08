@@ -9,8 +9,6 @@ tree = require '../../utils/tree'
 
 breadcrumbs = require '../../meta/breadcrumbs'
 
-
-
 exports.index = (req, res) ->
 	userImage = getUserImage req.user
 	
@@ -26,16 +24,13 @@ exports.index = (req, res) ->
 
 	View.render 'user/messages/index', res, data
 
-
 getUserImage = (user) ->
 	return "/img/user/helpers/stub/small.png" unless user
 	return "/img/user/helpers/stub/small.png" unless user.image?.small
 
 	"/img/uploads/#{user.image.small}"
 
-
 exports.getConversations = (req, res) ->
-
 	if req.user
 		async.waterfall [
 			(next) ->
@@ -48,8 +43,6 @@ exports.getConversations = (req, res) ->
 			View.ajaxResponse res, err, null
 	else
 		View.ajaxResponse res, 403, 'Unauthorized user'
-
-
 
 exports.markConversationAsRead = (req, res) ->
 	data = req.body
