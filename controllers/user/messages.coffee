@@ -12,15 +12,16 @@ breadcrumbs = require '../../meta/breadcrumbs'
 
 
 exports.index = (req, res) ->
-
 	userImage = getUserImage req.user
-
-	breadcrumbs.push
+	
+	clonedBreadcrumbs = _.clone breadcrumbs
+	
+	clonedBreadcrumbs.push
 		id: 'profile'
 		title: req?.user?.profile?.first_name or ''
 
 	data =
-		breadcrumbs: tree.findWithParents breadcrumbs, 'messages'
+		breadcrumbs: tree.findWithParents clonedBreadcrumbs, 'messages'
 		userImage: userImage
 
 	View.render 'user/messages/index', res, data
