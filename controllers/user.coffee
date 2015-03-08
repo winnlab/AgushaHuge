@@ -158,8 +158,8 @@ Router.get '/ranks_count', Test.ranks_count
 Router.get '/rankToExcel/:rank?', Test.rankToExcel
 # Router.get '/email_moneybox_1', Test.email_moneybox_1
 # Router.get '/email_moneybox_2', Test.email_moneybox_2
-Router.get '/email_winner_polotence', Test.email_winner_polotence
-Router.get '/email_8_marta', Test.email_8_marta
+# Router.get '/email_winner_polotence', Test.email_winner_polotence
+# Router.get '/email_8_marta', Test.email_8_marta
 
 #
 
