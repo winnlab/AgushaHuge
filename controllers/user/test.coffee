@@ -499,3 +499,50 @@ exports.email_8_marta = (req, res) ->
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/email_8_marta: #{error}"
+
+send_apologize = (res, doc, callback) ->
+	name = doc.email
+	
+	if doc.profile
+		if doc.profile.first_name
+			name = doc.profile.first_name
+	
+		if doc.profile.last_name
+			name += ' ' + doc.profile.last_name
+	
+	options =
+		toName: stringUtil.title_case name
+		to: doc.email
+		subject: 'Извинение от разработчика'
+	
+	console.log doc
+	
+	Client.sendMail 'apologize', options, callback
+
+exports.email_apologize = (req, res) ->
+	sortOptions =
+		lean: true
+		limit: 2186
+	
+	options =
+		email:
+			'$ne': null
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, '_id email profile.first_name profile.last_name', sortOptions
+		(docs, next) ->
+			console.log docs.length
+			
+			async.timesSeries docs.length, (n, next2) ->
+				console.log n
+				doc = docs[n]
+				
+				send_apologize res, doc, next2
+			, next
+		(results) ->
+			console.log 'email_apologize done'
+			res.send true
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/email_apologize: #{error}"
