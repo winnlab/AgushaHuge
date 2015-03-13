@@ -64,11 +64,12 @@ configure = () ->
 
 	@use (req, res, next) ->
 		dest = req.query?.uploadDir || './public/img/uploads/'
-
+		
 		mMiddleware = multer
 			dest: dest
 			rename: (fieldname, filename) ->
 				return crypto.md5 filename + Date.now()
+			onFileUploadComplete: Image.doResize
 		mMiddleware req, res, next
 
 	@use View.compiler root: '/views'
