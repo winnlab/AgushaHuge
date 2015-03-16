@@ -546,3 +546,25 @@ exports.email_apologize = (req, res) ->
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/email_apologize: #{error}"
+
+exports.get_novice_winners = (req, res) ->
+	sortOptions =
+		lean: true
+	
+	options =
+		$or: []
+	
+	lng = winners.novice.length
+	while lng--
+		winner = winners.novice[lng]
+		options.$or.push
+			email: winner
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, null, sortOptions
+		(docs, next) ->
+			res.send docs
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/get_novice_winners: #{error}"

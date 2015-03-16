@@ -161,6 +161,7 @@ Router.get '/rankToExcel/:rank?', Test.rankToExcel
 # Router.get '/email_winner_polotence', Test.email_winner_polotence
 # Router.get '/email_8_marta', Test.email_8_marta
 # Router.get '/email_apologize', Test.email_apologize
+Router.get '/get_novice_winners', Test.get_novice_winners
 
 #
 
