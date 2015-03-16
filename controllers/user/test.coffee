@@ -572,9 +572,9 @@ exports.get_novice_winners = (req, res) ->
 				doc = docs[dLength]
 				
 				new_doc = _.pick doc, 'email', 'phone'
-				new_doc.vk = doc.social.vk
-				new_doc.ok = doc.social.ok
-				new_doc.fb = doc.social.fb
+				new_doc.vk = if doc.social then doc.social.vk else ''
+				new_doc.ok = if doc.social then doc.social.ok else ''
+				new_doc.fb = if doc.social then doc.social.fb else ''
 				
 				new_docs.push new_doc
 			
