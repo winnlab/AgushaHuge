@@ -571,10 +571,12 @@ exports.get_novice_winners = (req, res) ->
 			while dLength--
 				doc = docs[dLength]
 				
-				new_doc = _.pick doc, 'email', 'phone'
-				new_doc.vk = if doc.social and doc.social.vk then doc.social.vk.id else ''
-				new_doc.ok = if doc.social and doc.social.ok then doc.social.ok.id else ''
-				new_doc.fb = if doc.social and doc.social.fb then doc.social.fb.id else ''
+				new_doc =
+					email: doc.email
+					phone: if doc.phone then doc.phone else ''
+					vk: if doc.social and doc.social.vk then doc.social.vk.id else ''
+					ok: if doc.social and doc.social.ok then doc.social.ok.id else ''
+					fb: if doc.social and doc.social.fb then doc.social.fb.id else ''
 				
 				new_docs.push new_doc
 			
