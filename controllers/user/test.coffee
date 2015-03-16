@@ -565,7 +565,7 @@ exports.get_novice_winners = (req, res) ->
 	
 	async.waterfall [
 		(next) ->
-			Model 'Client', 'find', next, options, 'email social phone', sortOptions
+			Model 'Client', 'find', next, options, 'email social contacts.phone', sortOptions
 		(docs, next) ->
 			dLength = docs.length
 			while dLength--
@@ -573,7 +573,7 @@ exports.get_novice_winners = (req, res) ->
 				
 				new_doc =
 					email: doc.email
-					phone: if doc.phone then doc.phone else ''
+					phone: if doc.contacts and doc.contacts.phone then doc.contacts.phone else ''
 					vk: if doc.social and doc.social.vk then doc.social.vk.id else ''
 					ok: if doc.social and doc.social.ok then doc.social.ok.id else ''
 					fb: if doc.social and doc.social.fb then doc.social.fb.id else ''
