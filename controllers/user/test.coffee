@@ -560,11 +560,24 @@ exports.get_novice_winners = (req, res) ->
 		options.$or.push
 			email: winner
 	
+	new_docs = []
+	
 	async.waterfall [
 		(next) ->
-			Model 'Client', 'find', next, options, null, sortOptions
+			Model 'Client', 'find', next, options, 'email social phone', sortOptions
 		(docs, next) ->
-			res.send docs
+			dLength = docs.length
+			while dLength--
+				doc = docs[dLength]
+				
+				new_doc = _.pick doc, 'email', 'phone'
+				new_doc.vk = doc.social.vk
+				new_doc.ok = doc.social.ok
+				new_doc.fb = doc.social.fb
+				
+				new_docs.push new_doc
+			
+			return res.xls 'novice_winners.xls', new_docs
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/get_novice_winners: #{error}"
