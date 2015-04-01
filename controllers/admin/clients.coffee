@@ -1,6 +1,11 @@
 async = require 'async'
+moment = require 'moment'
 
+ClientLib = require '../../lib/client'
 Crud = require '../../lib/crud'
+Model = require '../../lib/mongooseTransport'
+Logger = require '../../lib/logger'
+Client = require '../../lib/client'
 
 class ClientCrud extends Crud
 	_findAll: (req, cb) ->
@@ -27,7 +32,7 @@ class ClientCrud extends Crud
 				for own prop of item
 					item[prop] = new RegExp '.*' + item[prop] + '.*', 'g'
 		###
-		`#Govnokod` ahead cause of mongoose issues #1950 (fixed in 
+		`#Govnokod` ahead cause of mongoose issues #1950 (fixed in
 		currently unstable 3.9.3) and #2374
 		###
 		async.waterfall [
@@ -53,7 +58,7 @@ class ClientCrud extends Crud
 		# 		mongoQuery
 		#			###
 		#				Should redo limit-skip into range-based find query.
-		#				Something like: 
+		#				Something like:
 		#				Model.find({_id: {$gt: `someId`}}).limit(limit).exec(next)
 		#			###
 		# 			.limit(limit)
@@ -73,3 +78,30 @@ crud = new ClientCrud
 
 module.exports.rest = crud.request.bind crud
 module.exports.restFile = crud.fileRequest.bind crud
+
+module.exports.export = (req, res) ->
+	field = req.body.type
+	range = req.body.range.split ' - '
+	from = moment range[0], 'DD/MM/YYYY HH:mm'
+	to = moment range[1], 'DD/MM/YYYY HH:mm'
+
+	async.waterfall [
+		(next) ->
+			where = {}
+			where[field] =
+				$gte: from.valueOf()
+				$lt: to.valueOf()
+
+			Model('Client', 'find', where)
+				.populate('invited_by city')
+				.lean(true)
+				.exec next
+		(docs, next) ->
+			Client.exportDocs docs, next
+		(result) ->
+			res.setHeader 'Content-Type', 'application/vnd.openxmlformats'
+			res.setHeader "Content-Disposition", "attachment; filename=Clients.xlsx"
+			res.end result, 'binary'
+	], (err) ->
+		Logger.log 'error', 'Error in excel client export: ', err
+		console.error err

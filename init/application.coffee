@@ -21,6 +21,7 @@ Image = require '../lib/image'
 Logger = require '../lib/logger'
 Model = require '../lib/model'
 View = require '../lib/view'
+Client = require '../controllers/admin/clients'
 
 crypto = require '../utils/crypto'
 
@@ -64,7 +65,7 @@ configure = () ->
 
 	@use (req, res, next) ->
 		dest = req.query?.uploadDir || './public/img/uploads/'
-		
+
 		mMiddleware = multer
 			dest: dest
 			rename: (fieldname, filename) ->
@@ -73,7 +74,7 @@ configure = () ->
 		mMiddleware req, res, next
 
 	@use View.compiler root: '/views'
-	
+
 	@use json2xls.middleware
 
 	@use cookieParser 'LmAK3VNuA6'
@@ -83,6 +84,7 @@ configure = () ->
 	@use '/admin', Auth.isAuth
 	@use '/admin', Auth.isAdmin
 	@use View.globals
+	@post '/admin/clients/export', Client.export
 
 	@use '/admin', (req, res, next) ->
 		Ajax.isAjax req, res, next, adminController.layoutPage

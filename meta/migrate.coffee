@@ -110,6 +110,9 @@ module.exports = [
 	,
 		_id: 'logout'
 		name: 'logout'
+	,
+		_id: 'exportСlients'
+		name: 'exportСlients'
 	]
 ,
 	modelName: 'role'
@@ -153,6 +156,7 @@ module.exports = [
 			'age'
 			'ages'
 			'logout'
+			'exportСlients'
 		]
 	,
 		_id: 'user'
