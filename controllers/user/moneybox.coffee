@@ -325,12 +325,16 @@ exports.index = (req, res) ->
 		(results, next) ->
 			data.winners = []
 			
+			console.log 1
+			
 			resultsLength = results.length
 			while resultsLength--
 				result = results[resultsLength]
 				data.winners[resultsLength] =
 					date: winners_array[resultsLength].date
 					data: results[resultsLength]
+			
+			console.log data.winners
 			
 			View.render 'user/moneybox/index', res, data
 	], (err) ->
