@@ -308,9 +308,7 @@ exports.index = (req, res) ->
 	
 	async.waterfall [
 		(next) ->
-			console.log req.user
 			if req.user and req.user._id
-				console.log req.user._id
 				return getMoneybox req.user._id, next
 			
 			next null, null
@@ -327,16 +325,12 @@ exports.index = (req, res) ->
 		(results, next) ->
 			data.winners = []
 			
-			console.log 1
-			
 			resultsLength = results.length
 			while resultsLength--
 				result = results[resultsLength]
 				data.winners[resultsLength] =
 					date: winners_array[resultsLength].date
 					data: results[resultsLength]
-			
-			console.log data.winners
 			
 			View.render 'user/moneybox/index', res, data
 	], (err) ->
