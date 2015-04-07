@@ -22,14 +22,18 @@ exports.render = render = (path, res, data) ->
 
 	if res.locals.is_ajax_request is true
 		return ajaxResponse res, null, data
+	
+	#
+	
+	# if not compiledFiles[path]
+	options =
+		compileDebug: false
+		pretty: false
 
-	if not compiledFiles[path]
-		options =
-			compileDebug: false
-			pretty: false
-
-		compiledFiles[path] = jade.compileFile "#{viewDirectory}/#{path}.jade", options
-
+	compiledFiles[path] = jade.compileFile "#{viewDirectory}/#{path}.jade", options
+	
+	#
+	
 	html = compiledFiles[path] data
 
 	res.send html

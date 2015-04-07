@@ -17,6 +17,7 @@ Search = require './user/search'
 QuizAnswer = require './user/quizAnswer'
 Consultation = require './user/consultation'
 Profile = require './user/profile'
+Action = require './user/action'
 Messages = require './user/messages'
 Like = require './user/like'
 Subscription = require './user/subscription'
@@ -114,6 +115,10 @@ Router.get '/question/:id', Question.findOne
 #
 
 Router.get '/search/:phrase', Search.index
+
+#
+
+Router.get '/action', Action.index
 
 #
 
