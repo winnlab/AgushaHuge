@@ -16,3 +16,9 @@ exports.title_case = (str) ->
 
 exports.escape = (text) ->
 	text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+
+exports.leftPad = (number, targetLength) ->
+	output = number + ''
+	while output.length < targetLength
+		output = '0' + output
+	output
