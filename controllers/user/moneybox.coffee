@@ -343,7 +343,10 @@ exports.getBox = (req, res) ->
 		points: req?.user?.points
 	async.waterfall [
 		(next) ->
-			getMoneybox req.user._id, next
+			if req.user and req.user._id
+				return getMoneybox req.user._id, next
+			
+			next null, null
 		(docs, next) ->
 			_.extend data, { actions: docs }
 			next null
