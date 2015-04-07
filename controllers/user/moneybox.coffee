@@ -308,7 +308,7 @@ exports.index = (req, res) ->
 	
 	async.waterfall [
 		(next) ->
-			console.log req.user._id
+			console.log req.user
 			if req.user and req.user._id
 				console.log req.user._id
 				return getMoneybox req.user._id, next
