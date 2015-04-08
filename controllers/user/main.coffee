@@ -1,10 +1,13 @@
 _ = require 'lodash'
 underscore = require 'underscore'
 async = require 'async'
+moment = require 'moment'
 
 Model = require '../../lib/mongooseTransport'
 
 View = require '../../lib/view'
+
+string = require '../../utils/string'
 
 getSubscriptions = (userId, cb) ->
 	async.waterfall [
@@ -67,12 +70,23 @@ getArticles = (cb, options = {}) ->
 exports.index = (req, res) ->
 	if req.query?.referer
 		res.cookie('referer', req.query.referer, {maxAge: 2592000000})
-
+	
+	currentDate = moment()
+	endDate = moment '10.04.2015', 'DD.MM.YYYY'
+	diff = endDate.diff currentDate
+	
+	duration = moment.duration diff
+	
 	data =
 		breadcrumbs: [
 			title: if req.user and req.user.profile and req.user.profile.first_name then req.user.profile.first_name else ''
 		]
-
+		duration:
+			days: underscore.chars string.leftPad duration._data.days, 2
+			hours: underscore.chars string.leftPad duration._data.hours, 2
+			minutes: underscore.chars string.leftPad duration._data.minutes, 2
+			diff: diff
+	
 	async.waterfall [
 		(next) ->
 			getArticles next

@@ -47,6 +47,6 @@ module.exports = [
 	parent_id: 'about'
 ,
 	id: 'action'
-	title: 'Акция'
+	title: 'Акции'
 	href: '/action'
 ]
