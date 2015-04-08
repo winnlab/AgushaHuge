@@ -13,7 +13,7 @@ breadcrumbs = require '../../meta/breadcrumbs'
 
 exports.index = (req, res) ->
 	currentDate = moment()
-	endDate = moment '20.04.2015', 'DD.MM.YYYY'
+	endDate = moment '20.05.2015', 'DD.MM.YYYY'
 	diff = endDate.diff currentDate
 	
 	duration = moment.duration diff
