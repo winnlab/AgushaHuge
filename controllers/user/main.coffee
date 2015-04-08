@@ -82,7 +82,7 @@ exports.index = (req, res) ->
 			title: if req.user and req.user.profile and req.user.profile.first_name then req.user.profile.first_name else ''
 		]
 		duration:
-			days: underscore.chars string.leftPad duration._data.days, 2
+			days: underscore.chars string.leftPad duration._data.days + 30, 2
 			hours: underscore.chars string.leftPad duration._data.hours, 2
 			minutes: underscore.chars string.leftPad duration._data.minutes, 2
 			diff: diff

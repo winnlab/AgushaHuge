@@ -13,7 +13,7 @@ breadcrumbs = require '../../meta/breadcrumbs'
 
 exports.index = (req, res) ->
 	currentDate = moment()
-	endDate = moment '20.05.2015', 'DD.MM.YYYY'
+	endDate = moment '20/05/2015', 'DD/MM/YYYY'
 	diff = endDate.diff currentDate
 	
 	duration = moment.duration diff
@@ -21,7 +21,7 @@ exports.index = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'action'
 		duration:
-			days: _.chars string.leftPad duration._data.days, 2
+			days: _.chars string.leftPad duration._data.days + 30, 2
 			hours: _.chars string.leftPad duration._data.hours, 2
 			minutes: _.chars string.leftPad duration._data.minutes, 2
 	
