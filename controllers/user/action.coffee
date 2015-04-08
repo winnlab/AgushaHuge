@@ -21,7 +21,7 @@ exports.index = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'action'
 		duration:
-			days: _.chars string.leftPad duration._data.days + 30, 2
+			days: _.chars string.leftPad duration._data.days + (if duration._data.months > 0 then 30 else 0), 2
 			hours: _.chars string.leftPad duration._data.hours, 2
 			minutes: _.chars string.leftPad duration._data.minutes, 2
 	
