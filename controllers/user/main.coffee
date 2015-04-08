@@ -72,7 +72,7 @@ exports.index = (req, res) ->
 		res.cookie('referer', req.query.referer, {maxAge: 2592000000})
 	
 	currentDate = moment()
-	endDate = moment '10.04.2015', 'DD.MM.YYYY'
+	endDate = moment '20.04.2015', 'DD.MM.YYYY'
 	diff = endDate.diff currentDate
 	
 	duration = moment.duration diff
