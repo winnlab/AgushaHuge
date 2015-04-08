@@ -19,10 +19,10 @@ exports.index = (req, res) ->
 	duration = moment.duration diff
 	
 	data =
-		breadcrumbs: tree.findWithParents breadcrumbs, 'action'
+		breadcrumbs: tree.findWithParents breadcrumbs, 'springregistration'
 		duration:
 			days: _.chars string.leftPad duration._data.days + (if duration._data.months > 0 then 30 else 0), 2
 			hours: _.chars string.leftPad duration._data.hours, 2
 			minutes: _.chars string.leftPad duration._data.minutes, 2
 	
-	View.render 'user/action/index', res, data
+	View.render 'user/springregistration/index', res, data

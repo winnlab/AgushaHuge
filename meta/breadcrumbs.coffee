@@ -46,7 +46,7 @@ module.exports = [
 	href: '/download'
 	parent_id: 'about'
 ,
-	id: 'action'
+	id: 'springregistration'
 	title: 'Акции'
-	href: '/action'
+	href: '/springregistration'
 ]
