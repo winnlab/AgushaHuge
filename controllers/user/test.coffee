@@ -19,10 +19,10 @@ exports.email = (req, res) ->
 		toName: 'Имя Фамилия'
 		to: email
 		subject: 'Агуша тест'
-		client:
-			first_name: 'Имя'
+		friend:
+			firstName: 'Имя'
 	
-	Client.sendMail '8_marta', options, (err, html) ->
+	Client.sendMail 'spring_invite', options, (err, html) ->
 		if err
 			return res.send err
 		

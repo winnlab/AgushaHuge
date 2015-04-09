@@ -44,12 +44,15 @@ schema = new mongoose.Schema
 		default: false
 	login: # old field after merging databases
 		type: String
-	type: # 0 - direct, 1 - friend # old field after merging databases
+	type: # 0 - direct, 1 - friend
 		type: Number
 		default: 0
-	invited_by: # old field after merging databases
+	invited_by:
 		type: ObjectId
 		ref: 'Client'
+	invited_emails: [
+		type: String
+	]
 	hasKids: # 0 - does not have, 1 - has, 2 - is waiting # old field after merging databases
 		type: Number
 	ip_address: # old field after merging databases

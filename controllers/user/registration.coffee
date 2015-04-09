@@ -2,11 +2,13 @@ async = require 'async'
 moment = require 'moment'
 passport = require 'passport'
 MD5 = require 'MD5'
+_ = require 'lodash'
 
 router = require('express').Router()
 
 Crud = require '../../lib/crud'
 View = require '../../lib/view'
+Logger = require '../../lib/logger'
 Model = require '../../lib/model'
 Email = require '../../lib/mail'
 Auth = require '../../lib/auth'
@@ -181,7 +183,7 @@ router.post '/', (req, res, next) ->
 		return next new Error 'Пароль не указан'
 
 	if user.password.length < 6
-		return next new Error 'Пароль мальенькой длины'
+		return next new Error 'Пароль маленькой длины'
 
 	if not req.body.firstName
 		return next new Error 'Имя не указано'
@@ -214,8 +216,70 @@ router.post '/', (req, res, next) ->
 
 	, email: user.email
 
+inviteMail = (req, res, friend, callback) ->
+	options =
+		toName: req.body.first_name
+		to: req.body.email
+		friend: friend
+	
+	options.friendName = ' '
+	if friend and friend.profile and friend.profile.first_name
+		options.friendName += friend.profile.first_name + ' '
+	
+	options.subject = 'Ваш друг' + options.friendName + 'приглашает вас в сообщество Агуша'
+	
+	Email.send 'spring_invite', options, callback
+
+router.post '/spring_invite', (req, res) ->
+	invited_by = if req.user and req.user._id then req.user._id
+	email = req.body.email
+	
+	client = false
+	
+	async.waterfall [
+		(next) ->
+			findOptions =
+				email: email
+			
+			Model 'Client', 'findOne', next, findOptions, '_id invited_emails'
+		(doc, next) ->
+			if doc
+				error = 'Указанный e-mail уже зарегистрирован'
+				return View.ajaxResponse res, error
+			
+			if invited_by
+				return Model 'Client', 'findById', next, invited_by, 'profile.first_name'
+			
+			next null, null
+		(doc, next) ->
+			if doc
+				client = doc
+			
+			inviteMail req, res, doc, next
+		(result, next) ->
+			if client
+				if !client.invited_emails
+					client.invited_emails = []
+				
+				if !_.contains client.invited_emails, email
+					client.invited_emails.push email
+					return client.save next
+			
+			next null
+		() ->
+			View.ajaxResponse res, null
+	], (err) ->
+		inviteErr err, res
+
+inviteErr = (err, res) ->
+	if err.code == 11000
+		error = 'Указанный e-mail уже зарегистрирован'
+	else
+		error = err.message or err
+	
+	Logger.log 'info', "Error in controllers/user/signup/invite: #{error}"
+	View.ajaxResponse res, error
+
 exports = router
 
 module.exports = exports
-
-
