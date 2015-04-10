@@ -24,7 +24,7 @@ activateEmail = (user, callback) ->
 		subject: "Активация аккаунта на agusha.com.ua"
 		user: user
 	
-	Email.send 'letter_regist_2', emailMeta, callback
+	Email.send 'letter_regist_3', emailMeta, callback
 
 # router.use (req, res, next) ->
 # 	if req.user
