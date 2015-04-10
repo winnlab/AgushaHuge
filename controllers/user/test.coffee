@@ -22,7 +22,7 @@ exports.email = (req, res) ->
 		friend:
 			firstName: 'Имя'
 	
-	Client.sendMail 'spring_invite', options, (err, html) ->
+	Client.sendMail 'letter_regist_3', options, (err, html) ->
 		if err
 			return res.send err
 		
