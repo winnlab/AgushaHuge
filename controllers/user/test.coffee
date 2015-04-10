@@ -19,10 +19,10 @@ exports.email = (req, res) ->
 		toName: 'Имя Фамилия'
 		to: email
 		subject: 'Агуша тест'
-		client:
-			first_name: 'Имя'
+		friend:
+			firstName: 'Имя'
 	
-	Client.sendMail '8_marta', options, (err, html) ->
+	Client.sendMail 'letter_regist_3', options, (err, html) ->
 		if err
 			return res.send err
 		
@@ -296,7 +296,7 @@ exports.rankToExcel = (req, res) ->
 	
 	async.waterfall [
 		(next) ->
-			Model 'Client', 'find', next, options, '_id email profile points', sortOptions
+			Model 'Client', 'find', next, options, '_id email profile points children image', sortOptions
 		(docs, next) ->
 			docsLength = docs.length
 			
@@ -306,6 +306,8 @@ exports.rankToExcel = (req, res) ->
 					client.first_name = stringUtil.title_case (if client.profile and client.profile.first_name then client.profile.first_name else '')
 					client.last_name = stringUtil.title_case (if client.profile and client.profile.last_name then client.profile.last_name else '')
 					client.middle_name = stringUtil.title_case (if client.profile and client.profile.middle_name then client.profile.middle_name else '')
+					client.children = if client.children then client.children.length else ''
+					client.image = if client.image and client.image.medium then true else ''
 					if client.profile
 						delete client.profile
 				

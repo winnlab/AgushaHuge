@@ -45,4 +45,8 @@ module.exports = [
 	title: 'Меню малыша'
 	href: '/download'
 	parent_id: 'about'
+,
+	id: 'springregistration'
+	title: 'Акции'
+	href: '/springregistration'
 ]

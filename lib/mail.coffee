@@ -9,7 +9,7 @@ Logger = require './logger'
 app = require '../init/application'
 
 transportOptions =
-	host: '0.0.0.0'
+	host: '127.0.0.1'
 	port: '25'
 
 # transportOptions =

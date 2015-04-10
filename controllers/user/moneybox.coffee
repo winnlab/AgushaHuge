@@ -152,8 +152,9 @@ getPrizes = (cb) ->
 		return lvl
 	cb null, prizes
 
-getWinners = (callback) ->
-	winners =
+winners_array = [
+	date: '02.03.2015'
+	data:
 		novice: [
 			'voynarovska1983@mail.ru'
 			'ivanka.boyko.97@mail.ru'
@@ -190,6 +191,48 @@ getWinners = (callback) ->
 		pro: [
 			'vita-scorpi@yandex.ru'
 		]
+,
+	date: '06.04.2015'
+	data:
+		novice: [
+			'jarmoljuk-anastasija@rambler.ru'
+			'iokharchenko@mail.ru'
+			'svetulia78@ukr.net'
+			'karatash.valentina@mail.ru'
+			'litanatavita@mail.ru'
+			'Beltan@meta.ua'
+			'vitusja2007@ukr.net'
+			'carenko_1982@mail.ru'
+			'jacubishina.aleksandra@yandex.ru'
+			'mir_oks@ukr.net'
+		]
+		
+		disciple: [
+			'tapoks84@gmail.com'
+			'dowjenko.olga@yandex.ru'
+			'valernat@gmail.com'
+			'Lanina_nana@mail.ru'
+			'natashenka1992@mail.ru'
+		]
+		
+		adept: [
+			'seleninnochka@rambler.ru'
+			'mamby@yandex.ru'
+			'yuliaqwas@mail.ru'
+			'ludmila.kirneva@e-mail.ua'
+		]
+		
+		expert: [
+			'trusko@mail.ru'
+		]
+		
+		pro: [
+			'chuplakk@gmail.com'
+		]
+]
+
+getWinners = (winners_item, callback) ->
+	winners = winners_item.data
 	
 	fields = '_id profile.first_name profile.middle_name profile.last_name image.medium children.gender'
 	
@@ -265,8 +308,9 @@ exports.index = (req, res) ->
 	
 	async.waterfall [
 		(next) ->
-			if req?.user?._id
+			if req.user and req.user._id
 				return getMoneybox req.user._id, next
+			
 			next null, null
 		(docs, next) ->
 			if data?
@@ -277,10 +321,16 @@ exports.index = (req, res) ->
 			if docs?
 				_.extend data, { prizes: docs }
 			
-			getWinners next
+			async.map winners_array, getWinners, next
 		(results, next) ->
-			if results?
-				_.extend data, { winners: results }
+			data.winners = []
+			
+			resultsLength = results.length
+			while resultsLength--
+				result = results[resultsLength]
+				data.winners[resultsLength] =
+					date: winners_array[resultsLength].date
+					data: results[resultsLength]
 			
 			View.render 'user/moneybox/index', res, data
 	], (err) ->
@@ -293,7 +343,10 @@ exports.getBox = (req, res) ->
 		points: req?.user?.points
 	async.waterfall [
 		(next) ->
-			getMoneybox req.user._id, next
+			if req.user and req.user._id
+				return getMoneybox req.user._id, next
+			
+			next null, null
 		(docs, next) ->
 			_.extend data, { actions: docs }
 			next null
