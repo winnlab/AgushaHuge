@@ -1,4 +1,5 @@
 async = require 'async'
+moment = require 'moment'
 
 View = require './view'
 Model = require './model'
@@ -41,23 +42,33 @@ exports.exportDocs = (docs, callback) ->
 	momentFormat = 'HH:mm:ss MM/DD/YYYY'
 
 	for item, index in docs
+		name = ''
+		if item.profile?.last_name?.length
+			name += item.profile.last_name + ' '
+		if item.profile?.first_name?.length
+			name += item.profile.first_name + ' '
+		if item.profile?.middle_name?.length
+			name += item.profile.middle_name
+
+		created_at = moment(item.created_at).format 'YYYY.MM.DD HH:mm'
+		activated_at = moment(item.activated_at).format 'YYYY.MM.DD HH:mm'
 		conf.rows.push [
-			index,
-			item.login,
-			item.email,
-			item.created_at or 'N/A',
-			item.activated_at or 'N/A',
-			item.type,
-			item.invited_by?.login or 'N/A',
-			item.active or 0,
-			item.status,
-			!item.newClient,
-			("#{item.lastName} #{item.firstName} #{item.patronymic}") or 'N/A',
-			item.phone or 'N/A',
-			item.city?.name or 'N/A',
-			item.street or 'N/A',
-			item.house or 'N/A',
-			item.apartment or 'N/A',
+			index
+			item.login or ''
+			item.email
+			created_at
+			activated_at
+			if item.type is 0 then 'Прямой' else 'Друг'
+			item.invited_by?.login or 'N/A'
+			item.active or 0
+			item.status
+			!item.newClient
+			name
+			item.contacts?.phone or 'N/A'
+			item.contacts?.city or 'N/A'
+			item.contacts?.street or 'N/A'
+			item.contacts?.houseNum or 'N/A'
+			item.contacts?.apartament or 'N/A'
 			item.ip_address or 'N/A'
 		]
 
