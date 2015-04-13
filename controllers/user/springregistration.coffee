@@ -26,3 +26,6 @@ exports.index = (req, res) ->
 			minutes: _.chars string.leftPad duration._data.minutes, 2
 	
 	View.render 'user/springregistration/index', res, data
+
+exports.success = (req, res) ->
+	res.redirect '/springregistration'
