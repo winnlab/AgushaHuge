@@ -218,7 +218,7 @@ router.post '/', (req, res, next) ->
 
 inviteMail = (req, res, friend, callback) ->
 	options =
-		toName: req.body.first_name
+		toName: req.body.firstName
 		to: req.body.email
 		friend: friend
 	
