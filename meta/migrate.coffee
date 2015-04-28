@@ -175,6 +175,7 @@ module.exports = [
 	]
 ,
 	modelName: 'moneyboxRule'
+	overwrite: true
 	data: [
 		_id: '545a2d0cf83d3cdf07cc7601'
 		name: 'registration'
