@@ -90,6 +90,8 @@ schema = new mongoose.Schema
   hasVideo:
     type: Boolean
     default: false
+  videoUrl:
+    type: String
   age: [
     _id:
       type: ObjectId
