@@ -591,6 +591,8 @@ exports.add_registration_points = (req, res) ->
 	options =
 		email:
 			'$ne': null
+		points:
+			$lt: 25
 	
 	sortOptions =
 		lean: true
