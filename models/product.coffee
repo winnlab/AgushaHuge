@@ -63,12 +63,12 @@ schema.methods.getFormattedVolume = () ->
 		else 
 			postfix = 'л' 
 			type = 'объем'
-
-	if parseInt(volume) < 1000
-		postfix = "м#{postfix}"
-
+			
+			if parseInt(volume) < 1000
+				postfix = "м#{postfix}"
+	
 	newVolume = Math.round(volume / 100) / 10
-
+	
 	obj =
 		volume: volume
 		postfix: postfix
