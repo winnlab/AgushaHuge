@@ -55,7 +55,18 @@ exports.findAll = (category, age, callback) ->
 				if !doc.category[0]
 					return 0
 				
-				return doc.category[0].position
+				toReturn = doc.category[0].position
+				
+				if doc.category[0].url_label == 'juice'
+					switch doc.volume
+						when 200
+							toReturn += 0.1
+						when 500
+							toReturn += 0.2
+						when 150
+							toReturn += 0.3
+				
+				return toReturn
 			
 			callback null, docs
 	], (err) ->
