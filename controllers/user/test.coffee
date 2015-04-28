@@ -586,3 +586,24 @@ exports.get_novice_winners = (req, res) ->
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/get_novice_winners: #{error}"
+
+exports.add_registration_points = (req, res) ->
+	options =
+		email:
+			'$ne': null
+	
+	sortOptions =
+		lean: true
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, '_id', sortOptions
+		(docs, next) ->
+			async.each docs, (doc, next2) ->
+				Moneybox.registration doc._id, next2
+			, next
+		() ->
+			res.send true
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/get_novice_winners: #{error}"

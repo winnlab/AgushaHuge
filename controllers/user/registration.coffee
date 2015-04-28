@@ -90,9 +90,9 @@ router.get '/activate/:id', (req, res, next) ->
 
 			if not user
 				return next new Error 'User does not exist'
-
+			
 			Moneybox.registration user._id, () ->
-
+			
 			data =
 				user: user
 				activated: true
@@ -211,7 +211,9 @@ router.post '/', (req, res, next) ->
 					return console.log 'Error:', err
 				
 				# console.log suser
-
+				
+				Moneybox.registration suser._id, () ->
+			
 			res.redirect 'registration/success' 
 
 	, email: user.email
