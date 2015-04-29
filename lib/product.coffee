@@ -86,6 +86,8 @@ exports.getAgesAndCategories = (callback) ->
 		categories: (next) ->
 			options =
 				lean: true
+				sort:
+					position: 1
 			
 			Model 'ProductCategory', 'find', active: true, null, options, next
 	}, callback
