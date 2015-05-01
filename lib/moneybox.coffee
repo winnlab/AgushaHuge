@@ -17,8 +17,10 @@ scoring = (client_id, rule, cb) ->
         (doc, affected, next) ->
             Model 'Client', 'findOne', { '_id': client_id }, next
         (doc, next) ->
-            doc.points = if doc.points then doc.points + rule.points else rule.points
-            doc.save next
+            if doc
+              doc.points = if doc?.points then doc.points + rule.points else rule.points
+              doc.save next
+            else next null, doc
     ], (err, user, num) ->
         cb err, user
 
