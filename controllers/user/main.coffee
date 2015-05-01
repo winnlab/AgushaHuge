@@ -65,18 +65,18 @@ getArticles = (cb, options = {}) ->
 	options.sort =
 		position: -1
 
-	Model 'Article', 'findPaginated', query, null, options, cb, docsCount, anchorId
+	Model 'Article', 'findPaginated', query, '-desc.text -image.dataB -image.dataL -image.dataS -image.dataSOCIAL -image.dataXL', options, cb, docsCount, anchorId
 
 exports.index = (req, res) ->
 	if req.query?.referer
 		res.cookie('referer', req.query.referer, {maxAge: 2592000000})
-	
+
 	currentDate = moment()
 	endDate = moment '20.05.2015', 'DD.MM.YYYY'
 	diff = endDate.diff currentDate
-	
+
 	duration = moment.duration diff
-	
+
 	data =
 		breadcrumbs: [
 			title: if req.user and req.user.profile and req.user.profile.first_name then req.user.profile.first_name else ''
@@ -86,20 +86,20 @@ exports.index = (req, res) ->
 			hours: underscore.chars string.leftPad duration._data.hours, 2
 			minutes: underscore.chars string.leftPad duration._data.minutes, 2
 			diff: diff
-	
+
 	async.waterfall [
 		(next) ->
 			getArticles next
 		(docs, next) ->
 			data.articles = docs
-			
+
 			getFeed req.user, data, next
 	], (err) ->
 		if err
 			error = err.message or err
 			Logger.log 'info', "Error in controllers/user/main/index: #{error}"
 			return res.send error
-		
+
 		View.render 'user/main/index', res, data
 
 exports.feed = (req, res) ->

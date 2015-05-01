@@ -49,7 +49,7 @@ findAgesThemesArticles = (age, theme, callback) ->
 					anchorField: 'position'
 				options.sort =
 					'theme.position': -1
-				Model 'Article', 'findPaginated', query, null, options, next, docsCount
+				Model 'Article', 'findPaginated', query, '-desc.text -image.dataB -image.dataL -image.dataS -image.dataSOCIAL -image.dataXL', options, next, docsCount
 	, callback
 
 getSubscription = (user, theme, cb) ->
