@@ -143,8 +143,8 @@ processDocuments = (docs, data, callback) ->
     for dates in colDates
       res = _.findWhere data,
         client_id: item._id
-        month: dates[0]
-        year: dates[1]
+        month: dates[0] + 1
+        year: dates[1] + 1
 
       rowData.push _.result res, 'points', 0
 
