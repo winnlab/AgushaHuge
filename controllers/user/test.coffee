@@ -22,7 +22,7 @@ exports.email = (req, res) ->
 		friend:
 			firstName: 'Имя'
 	
-	Client.sendMail 'letter_regist_3', options, (err, html) ->
+	Client.sendMail 'moneybox_3', options, (err, html) ->
 		if err
 			return res.send err
 		
@@ -361,7 +361,7 @@ exports.email_moneybox_1 = (req, res) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/send_moneybox_1: #{error}"
 
-send_moneybox_2 = (res, doc, callback) ->
+send_moneybox_3 = (res, doc, callback) ->
 	name = doc.email
 	
 	if doc.profile
@@ -378,9 +378,9 @@ send_moneybox_2 = (res, doc, callback) ->
 	
 	console.log doc
 	
-	Client.sendMail 'moneybox_2', options, callback
+	Client.sendMail 'moneybox_3', options, callback
 
-exports.email_moneybox_2 = (req, res) ->
+exports.email_moneybox_3 = (req, res) ->
 	sortOptions =
 		lean: true
 		skip: 0
@@ -395,14 +395,14 @@ exports.email_moneybox_2 = (req, res) ->
 				console.log n
 				doc = docs[n]
 				
-				send_moneybox_2 res, doc, next2
+				send_moneybox_3 res, doc, next2
 			, next
 		(results) ->
-			console.log 'send_moneybox_2 done'
+			console.log 'send_moneybox_3 done'
 			res.send true
 	], (err) ->
 		error = err.message or err
-		Logger.log 'info', "Error in controllers/user/test/send_moneybox_2: #{error}"
+		Logger.log 'info', "Error in controllers/user/test/send_moneybox_3: #{error}"
 
 send_winner_polotence = (res, doc, callback) ->
 	name = doc.email
