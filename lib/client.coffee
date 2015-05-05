@@ -119,7 +119,7 @@ processDocuments = (docs, data, callback) ->
 
     created_at = moment(item.created_at).format 'YYYY.MM.DD HH:mm'
     activated_at = moment(item.activated_at).format 'YYYY.MM.DD HH:mm'
-    conf.rows.push [
+    rowData = [
       index
       item.login or ''
       item.email
@@ -146,7 +146,9 @@ processDocuments = (docs, data, callback) ->
         month: dates[0]
         year: dates[1]
 
-      conf.rows.push _.result res, 'points', 0
+      rowData.push _.result res, 'points', 0
+
+    conf.rows.push
 
   nodeExcel.executeAsync conf, 'STORE', (res) ->
     callback null, res
