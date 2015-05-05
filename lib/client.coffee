@@ -146,9 +146,15 @@ processDocuments = (docs, data, callback) ->
         month: dates[0] + 1
         year: dates[1]
 
-      if __cnt < 30
-        Logger.log 'info', res
+      if __cnt < 5
+        Logger.log 'info', '--'
+        Logger.log 'info', data[0]
+        Logger.log 'info', item._id, dates
+        Logger.log 'info', '--'
         __cnt += 1
+
+      if res
+        Logger.log 'info', res
 
       rowData.push _.result res, 'points', 0
 
