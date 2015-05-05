@@ -148,7 +148,7 @@ processDocuments = (docs, data, callback) ->
 
       rowData.push _.result res, 'points', 0
 
-    conf.rows.push
+    conf.rows.push rowData
 
   nodeExcel.executeAsync conf, 'STORE', (res) ->
     callback null, res
