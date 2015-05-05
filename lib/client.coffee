@@ -12,22 +12,24 @@ exports.sendMail = (template, options, callback) ->
   Mail.send template, options, callback
 
 aggregatePoints = (callback) ->
-  Model 'Moneybox', 'aggregate', [
-    $group:
-      _id:
-        client: '$client_id'
-        month: $month: '$time'
-        year: $year: '$time'
-      points:
-        $sum: '$points'
-  ,
-    $project:
-      _id: false
-      client_id: '$_id.client'
-      month: '$_id.month'
-      year: '$_id.year'
-      points: true
-  ], callback
+  return callback null, []
+  # Model 'Moneybox', 'aggregate', [
+  #   $group:
+  #     _id:
+  #       client: '$client_id'
+  #       month: $month: '$time'
+  #       year: $year: '$time'
+  #     points:
+  #       $sum: '$points'
+  # ,
+  #   $group:
+  #     _id: '$_id.client'
+  #     months:
+  #       $push:
+  #         month: '$_id.month'
+  #         year: '$_id.year'
+  #         points: '$points'
+  # ], callback
 
 processDocuments = (docs, data, callback) ->
   conf = {}
@@ -90,18 +92,18 @@ processDocuments = (docs, data, callback) ->
       type: 'string'
   ]
 
-  date = do moment
-  if date.isBefore [2014, 9, 1]
-    return callback 'Incorrect date is set, could not calculate points ranges.'
-
-  colDates = []
-  until date.month() is 9 and date.year() is 2014
-    conf.cols.push
-      caption: date.format 'MMMM YYYY'
-      type: 'number'
-
-    colDates.push [do date.month, do date.year]
-    date = date.subtract 1, 'months'
+  # date = do moment
+  # if date.isBefore [2014, 9, 1]
+  #   return callback 'Incorrect date is set, could not calculate points ranges.'
+  #
+  # colDates = []
+  # until date.month() is 9 and date.year() is 2014
+  #   conf.cols.push
+  #     caption: date.format 'MMMM YYYY'
+  #     type: 'number'
+  #
+  #   colDates.push [do date.month, do date.year]
+  #   date = date.subtract 1, 'months'
 
   conf.rows = []
 
@@ -139,13 +141,13 @@ processDocuments = (docs, data, callback) ->
       item.ip_address or 'N/A'
     ]
 
-    for dates in colDates
-      res = _.findWhere data,
-        client_id: item._id
-        month: dates[0] + 1
-        year: dates[1]
-
-      rowData.push _.result res, 'points', 0
+    # for dates in colDates
+    #   res = _.findWhere data,
+    #     client_id: item._id
+    #     month: dates[0] + 1
+    #     year: dates[1]
+    #
+    #   rowData.push _.result res, 'points', 0
 
     conf.rows.push rowData
 
