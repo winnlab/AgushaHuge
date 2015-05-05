@@ -7,28 +7,27 @@ Model = require './mongooseTransport'
 Logger = require './logger'
 Mail = require './mail'
 nodeExcel = require './excelExportFork'
-__cnt = 0
+
 exports.sendMail = (template, options, callback) ->
   Mail.send template, options, callback
 
 aggregatePoints = (callback) ->
   Model 'Moneybox', 'aggregate', [
-      $group:
-        _id:
-          client: '$client_id'
-          month: $month: '$time'
-          year: $year: '$time'
-        points:
-          $sum: '$points'
-    ,
-      $project:
-        _id: false
-        client_id: '$_id.client'
-        month: '$_id.month'
-        year: '$_id.year'
-        points: true
-    ]
-  , callback
+    $group:
+      _id:
+        client: '$client_id'
+        month: $month: '$time'
+        year: $year: '$time'
+      points:
+        $sum: '$points'
+  ,
+    $project:
+      _id: false
+      client_id: '$_id.client'
+      month: '$_id.month'
+      year: '$_id.year'
+      points: true
+  ], callback
 
 processDocuments = (docs, data, callback) ->
   conf = {}
@@ -146,16 +145,6 @@ processDocuments = (docs, data, callback) ->
         month: dates[0] + 1
         year: dates[1]
 
-      if __cnt < 5
-        Logger.log 'info', '--'
-        Logger.log 'info', data[0]
-        Logger.log 'info', item._id, dates
-        Logger.log 'info', '--'
-        __cnt += 1
-
-      if res
-        Logger.log 'info', res
-
       rowData.push _.result res, 'points', 0
 
     conf.rows.push rowData
@@ -164,5 +153,6 @@ processDocuments = (docs, data, callback) ->
     callback null, res
 
 exports.exportDocs = (docs, callback) ->
-  aggregatePoints (data) ->
+  aggregatePoints (err, data) ->
+    return callback err if err
     processDocuments docs, data, callback
