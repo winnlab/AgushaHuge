@@ -144,7 +144,7 @@ processDocuments = (docs, data, callback) ->
       res = _.findWhere data,
         client_id: item._id
         month: dates[0] + 1
-        year: dates[1] + 1
+        year: dates[1]
 
       rowData.push _.result res, 'points', 0
 
