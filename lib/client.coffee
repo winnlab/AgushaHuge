@@ -7,7 +7,7 @@ Model = require './mongooseTransport'
 Logger = require './logger'
 Mail = require './mail'
 nodeExcel = require './excelExportFork'
-
+__cnt = 0
 exports.sendMail = (template, options, callback) ->
   Mail.send template, options, callback
 
@@ -92,7 +92,7 @@ processDocuments = (docs, data, callback) ->
   ]
 
   date = do moment
-  if date.isBefore [2014, 10, 1]
+  if date.isBefore [2014, 9, 1]
     return callback 'Incorrect date is set, could not calculate points ranges.'
 
   colDates = []
@@ -145,6 +145,10 @@ processDocuments = (docs, data, callback) ->
         client_id: item._id
         month: dates[0] + 1
         year: dates[1]
+
+      if __cnt < 30
+        Logger.log 'info', res
+        __cnt += 1
 
       rowData.push _.result res, 'points', 0
 
