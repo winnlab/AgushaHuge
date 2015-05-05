@@ -1,42 +1,108 @@
+_ = require 'lodash'
 async = require 'async'
 moment = require 'moment'
 
 View = require './view'
-Model = require './model'
+Model = require './mongooseTransport'
 Logger = require './logger'
 Mail = require './mail'
 nodeExcel = require './excelExportFork'
 
-# do we even need this file?
-
 exports.sendMail = (template, options, callback) ->
   Mail.send template, options, callback
 
-exports.exportDocs = (docs, callback) ->
+aggregatePoints = (callback) ->
+  Model 'Moneybox', 'aggregate', [
+      $group:
+        _id:
+          client: '$client_id'
+          month: $month: '$time'
+          year: $year: '$time'
+        points:
+          $sum: '$points'
+    ,
+      $project:
+        _id: false
+        client_id: '$_id.client'
+        month: '$_id.month'
+        year: '$_id.year'
+        points: true
+    ]
+  , callback
+
+processDocuments = (docs, data, callback) ->
   conf = {}
 
   conf.stylesXmlFile = "#{process.cwd()}/meta/styles.xml"
 
   conf.cols = [
-    { caption: 'ID', type: 'number' },
-    { caption: 'Логин', type: 'string' },
-    { caption: 'E-m@il', type: 'string' },
-    { caption: 'Баллы', type: 'number' },
-    { caption: 'Дата регистрации', type: 'string' },
-    { caption: 'Дата активации', type: 'string' },
-    { caption: 'Тип', type: 'string' },
-    { caption: 'Приглашение:', type: 'string' },
-    { caption: 'Активен?', type: 'bool' },
-    { caption: 'Подарок', type: 'bool' },
-    { caption: 'Обработан?', type: 'bool' },
-    { caption: 'Имя', type: 'string' },
-    { caption: 'Телефон', type: 'string' },
-    { caption: 'Город', type: 'string' },
-    { caption: 'Улица', type: 'string' },
-    { caption: 'Номер дома', type: 'string' },
-    { caption: 'Квартира', type: 'string' },
-    { caption: 'IP-адрес', type: 'string' }
+      caption: 'ID'
+      type: 'number'
+    ,
+      caption: 'Логин'
+      type: 'string'
+    ,
+      caption: 'E-m@il'
+      type: 'string'
+    ,
+      caption: 'Баллы'
+      type: 'number'
+    ,
+      caption: 'Дата регистрации'
+      type: 'string'
+    ,
+      caption: 'Дата активации'
+      type: 'string'
+    ,
+      caption: 'Тип'
+      type: 'string'
+    ,
+      caption: 'Приглашение:'
+      type: 'string'
+    ,
+      caption: 'Активен?'
+      type: 'bool'
+    ,
+      caption: 'Подарок'
+      type: 'bool'
+    ,
+      caption: 'Обработан?'
+      type: 'bool'
+    ,
+      caption: 'Имя'
+      type: 'string'
+    ,
+      caption: 'Телефон'
+      type: 'string'
+    ,
+      caption: 'Город'
+      type: 'string'
+    ,
+      caption: 'Улица'
+      type: 'string'
+    ,
+      caption: 'Номер дома'
+      type: 'string'
+    ,
+      caption: 'Квартира'
+      type: 'string'
+    ,
+      caption: 'IP-адрес'
+      type: 'string'
   ]
+
+  date = do moment
+  if date.isBefore [2014, 10, 1]
+    return callback 'Incorrect date is set, could not calculate points ranges.'
+
+  colDates = []
+  until date.month() is 9 and date.year() is 2014
+    conf.cols.push
+      caption: date.format 'MMMM YYYY'
+      type: 'number'
+
+    colDates.push [do date.month, do date.year]
+    date = date.subtract 1, 'months'
 
   conf.rows = []
 
@@ -74,5 +140,17 @@ exports.exportDocs = (docs, callback) ->
       item.ip_address or 'N/A'
     ]
 
+    for dates in colDates
+      res = _.findWhere data,
+        client_id: item._id
+        month: dates[0]
+        year: dates[1]
+
+      conf.rows.push _.result res, 'points', 0
+
   nodeExcel.executeAsync conf, 'STORE', (res) ->
     callback null, res
+
+exports.exportDocs = (docs, callback) ->
+  aggregatePoints (data) ->
+    processDocuments docs, data, callback
