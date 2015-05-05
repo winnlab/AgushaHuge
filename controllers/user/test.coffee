@@ -381,13 +381,17 @@ send_moneybox_3 = (res, doc, callback) ->
 	Client.sendMail 'moneybox_3', options, callback
 
 exports.email_moneybox_3 = (req, res) ->
+	options =
+		email:
+			'$ne': null
+	
 	sortOptions =
 		lean: true
-		skip: 2474
+		skip: 0
 	
 	async.waterfall [
 		(next) ->
-			Model 'Client', 'find', next, null, '_id email profile', sortOptions
+			Model 'Client', 'find', next, options, '_id email profile', sortOptions
 		(docs, next) ->
 			console.log docs.length
 			
