@@ -80,28 +80,7 @@ module.exports.rest = crud.request.bind crud
 module.exports.restFile = crud.fileRequest.bind crud
 
 module.exports.export = (req, res) ->
-  field = req.body.type
-  range = req.body.range.split ' - '
-  from = moment range[0], 'DD/MM/YYYY HH:mm'
-  to = moment range[1], 'DD/MM/YYYY HH:mm'
+  Client.processExport req, res
 
-  async.waterfall [
-    (next) ->
-      where = {}
-      where[field] =
-        $gte: from.valueOf()
-        $lt: to.valueOf()
-
-      Model('Client', 'find', where)
-        .populate('invited_by city')
-        .lean(true)
-        .exec next
-    (docs, next) ->
-      Client.exportDocs docs, next
-    (result) ->
-      res.setHeader 'Content-Type', 'application/vnd.openxmlformats'
-      res.setHeader "Content-Disposition", "attachment; filename=Clients.xlsx"
-      res.end result, 'binary'
-  ], (err) ->
-    Logger.log 'error', 'Error in excel client export: ', err
-    console.error err
+module.exports.downloadFile = (req, res) ->
+  Client.downloadFile req, res

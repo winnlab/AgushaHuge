@@ -85,6 +85,7 @@ configure = () ->
 	@use '/admin', Auth.isAdmin
 	@use View.globals
 	@post '/admin/clients/export', Client.export
+	@post '/admin/clients/downloadFile', Client.downloadFile
 
 	@use '/admin', (req, res, next) ->
 		Ajax.isAjax req, res, next, adminController.layoutPage
