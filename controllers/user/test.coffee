@@ -257,7 +257,6 @@ exports.ranks_count = (req, res) ->
 exports.rankToExcel = (req, res) ->
 	ranks =
 		novice:
-			$gt: -1
 			$lt: 201
 		
 		disciple:
@@ -273,18 +272,24 @@ exports.rankToExcel = (req, res) ->
 			$lt: 801
 		
 		pro:
-			$gt: 600
-			$lt: 1001
+			$gt: 800
 	
 	rank = req.params.rank
 	
 	sortOptions =
 		lean: true
 		sort:
-			'profile.first_name': 1
+			points: 1
 	
 	options =
 		email:
+			'$ne': null
+	
+	if req.params.advanced
+		options.image =
+			'$ne': null
+		
+		options.children =
 			'$ne': null
 	
 	filename = 'data.xlsx'
