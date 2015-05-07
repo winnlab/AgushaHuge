@@ -261,6 +261,7 @@ winners_array = [
 		
 		expert: [
 			'marianna0805@rambler.ru'
+			'chuplak87@mail.ru'
 		]
 		
 		pro: [
