@@ -127,14 +127,14 @@ getPrizes = (cb) ->
 		if lvl.points is 800
 			lvl.prizes = [
 				[
-					'/img/user/moneybox/shapka_nabor/shapka1.jpg'
+					'/img/user/moneybox/rukzak/Trunki_03.jpg'
 				]
 				[
-					'/img/user/moneybox/shapka_nabor/shapka2.jpg'
+					'/img/user/moneybox/rukzak/Trunki_04.jpg'
 				]
 			]
-			lvl.prizeName = 'Милые шапочки'
-			lvl.prizeQty = '5 штук'
+			lvl.prizeName = 'Детский рюкзак Trunki'
+			lvl.prizeQty = '2 штуки'
 		if lvl.points is 1000
 			lvl.prizes = [
 				[
