@@ -20,7 +20,9 @@ exports.index = (req, res) ->
 			product.populate('age certificate').exec next
 		(doc, next) ->
 			if !doc
-				return next new Error 'Something went wrong - product not found'
+				msg = "Something went wrong - product #{req.params.alias} not found"
+				Logger.log 'info', msg
+				return next new Error msg
 			
 			volume = doc.getFormattedVolume()
 			
