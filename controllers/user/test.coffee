@@ -645,7 +645,7 @@ exports.email_mama = (req, res) ->
 	
 	sortOptions =
 		lean: true
-		skip: 0
+		skip: 11226
 	
 	async.waterfall [
 		(next) ->
