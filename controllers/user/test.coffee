@@ -22,7 +22,7 @@ exports.email = (req, res) ->
 		friend:
 			firstName: 'Имя'
 	
-	Client.sendMail 'moneybox_3', options, (err, html) ->
+	Client.sendMail 'mama', options, (err, html) ->
 		if err
 			return res.send err
 		
@@ -618,3 +618,50 @@ exports.add_registration_points = (req, res) ->
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/get_novice_winners: #{error}"
+
+send_mama = (res, doc, callback) ->
+	name = doc.email
+	
+	if doc.profile
+		if doc.profile.first_name
+			name = doc.profile.first_name
+	
+		if doc.profile.last_name
+			name += ' ' + doc.profile.last_name
+	
+	options =
+		toName: stringUtil.title_case name
+		to: doc.email
+		subject: 'Поздравление с днем матери'
+	
+	console.log doc
+	
+	Client.sendMail 'mama', options, callback
+
+exports.email_mama = (req, res) ->
+	options =
+		email:
+			'$ne': null
+	
+	sortOptions =
+		lean: true
+		skip: 0
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, '_id email profile', sortOptions
+		(docs, next) ->
+			console.log docs.length
+			
+			async.timesSeries docs.length, (n, next2) ->
+				console.log n
+				doc = docs[n]
+				
+				send_mama res, doc, next2
+			, next
+		(results) ->
+			console.log 'send_mama done'
+			res.send true
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/email_mama: #{error}"
