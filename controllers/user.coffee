@@ -169,7 +169,8 @@ Router.get '/rankToExcel/:rank?/:advanced?', Test.rankToExcel
 # Router.get '/email_apologize', Test.email_apologize
 # Router.get '/get_novice_winners', Test.get_novice_winners
 # Router.get '/add_registration_points', Test.add_registration_points
-Router.get '/email_mama', Test.email_mama
+# Router.get '/email_mama', Test.email_mama
+Router.get '/email_baby_active', Test.email_baby_active
 
 #
 
