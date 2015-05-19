@@ -24,7 +24,7 @@ exports.findOne = (req, res) ->
 	async.waterfall [
 		(next) ->
 			consultation = Model 'Consultation', 'findOne', '-__v', transliterated: link
-			consultation.select watchers: $elemMatch: $in: [req.user._id]
+			consultation.select watchers: $elemMatch: $in: [req?.user?._id]
 			consultation.populate('author.author_id answer.author.author_id').exec next
 		(doc, next) ->
 			data.consultation = doc
