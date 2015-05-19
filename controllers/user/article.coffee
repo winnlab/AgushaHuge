@@ -74,7 +74,7 @@ exports.findOne = (req, res) ->
 		(doc, next) ->
 			data.article = doc
 
-			Article.similarArticles req?.user?._id,
+			Article.similarArticles req?.user?._id or null,
 				_.pluck(doc.theme, '_id'),
 				_.pluck(data.article.age, '_id'),
 				next,
@@ -141,7 +141,7 @@ exports.saveAnswer = (req, res) ->
 			(doc, next) ->
 				if doc
 					answerIndex = _.findIndex doc.answer, (element) ->
-						return element._id.toString() is data.answer.toString()
+						return element._id.toString() is data?.answer?.toString()
 
 					if answerIndex isnt -1
 						doc.answer[answerIndex].clients.push {
