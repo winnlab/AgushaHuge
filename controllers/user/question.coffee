@@ -1,6 +1,7 @@
 async = require 'async'
 _ = require 'lodash'
 
+Article = require '../../lib/article'
 View = require '../../lib/view'
 Model = require '../../lib/model'
 Logger = require '../../lib/logger'
@@ -14,40 +15,23 @@ breadcrumbs = require '../../meta/breadcrumbs'
 exports.findOne = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'encyclopedia'
-	
 		alias: req.params.alias
 
 	link = req.params.id
-	
+
 	res.locals.params = req.params # req.params is not accessible in middlewares -_-
-	
+
 	async.waterfall [
 		(next) ->
-			consultation = Model 'Consultation', 'findOne', null, transliterated: link
-
+			consultation = Model 'Consultation', 'findOne', '-__v', transliterated: link
+			consultation.select watchers: $elemMatch: $in: [req.user._id]
 			consultation.populate('author.author_id answer.author.author_id').exec next
 		(doc, next) ->
-			if doc
-				data.consultation = doc
-
-				Model 'Article', 'find', next, {
-					'theme._id': { $in: _.pluck doc.theme, '_id' },
-				}, null, {
-					limit: 9
-				}
-		(docs, next) ->
-			if docs.length > 3
-				next null, docs
-			else
-				Model 'Article', 'find', next, {
-					'age._id': {
-						$in: _.pluck data.consultation.age, '_id'
-					},
-				}, null, {
-					limit: 9,
-					sort: 'updated'
-				}
-
+			data.consultation = doc
+			Article.similarArticles req.user._id,
+				_.pluck(doc.theme, '_id'),
+				_.pluck(data.consultation.age, '_id'),
+				next
 		(docs, next) ->
 			if docs
 				data.similarArticles = docs

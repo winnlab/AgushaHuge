@@ -45,6 +45,9 @@ exports.add = (req, res) ->
 						content: content
 					}
 
+					if model is 'Article'
+						doc.counter.comment += 1
+
 					commentariesLength = doc.commentaries.push addData
 
 					doc.save next

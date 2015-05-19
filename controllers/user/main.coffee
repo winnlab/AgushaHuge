@@ -3,6 +3,7 @@ underscore = require 'underscore'
 async = require 'async'
 moment = require 'moment'
 
+Article = require '../../lib/article'
 Model = require '../../lib/mongooseTransport'
 
 View = require '../../lib/view'
@@ -14,7 +15,9 @@ getSubscriptions = (userId, cb) ->
 		(next) ->
 			Model 'Subscription', 'find', { client_id: userId }, next
 		(docs, next) ->
-			Model 'Article', 'find', { 'theme._id': { $in: _.pluck(docs, 'theme_id') } }, next
+			Article.getArticlesData userId, {
+				'theme._id': { $in: _.pluck docs, 'theme_id' }
+			}, next
 	], (err, docs) ->
 		cb err, (if docs.length then docs else [])
 
@@ -23,14 +26,16 @@ getConsultations = (userId, cb) ->
 		(next) ->
 			Model 'Watcher', 'find', { client_id: userId }, next
 		(docs, next) ->
-			Model 'Consultation', 'find', {
+			consultation = Model 'Consultation', 'find', {
 				$or: [
 					_id:
 						$in: _.pluck(docs, 'consultation_id')
 				,
 					'author.author_id': userId
 				]
-			}, next
+			}, '-__v', null
+			consultation.select watchers: $elemMatch: $in: [userId]
+			consultation.exec next
 	], (err, docs) ->
 		cb err, (if docs.length then docs else [])
 
@@ -48,7 +53,7 @@ getFeed = (user, data, cb) ->
 		_.extend data, results if results
 		cb err
 
-getArticles = (cb, options = {}) ->
+getArticles = (req, cb, options = {}) ->
 	docsCount = 24
 	if options.lastId
 		anchorId = options.lastId
@@ -64,8 +69,15 @@ getArticles = (cb, options = {}) ->
 			hideOnMain: false
 	options.sort =
 		position: -1
+	options.lean = true
 
-	Model 'Article', 'findPaginated', query, '-desc.text -image.dataB -image.dataL -image.dataS -image.dataSOCIAL -image.dataXL', options, cb, docsCount, anchorId
+	Model 'Article', 'findPaginated', query, '_id position', options, (err, docs) ->
+		Article.getArticlesData req?.user?._id, {
+			_id: $in: _.pluck docs.documents, '_id'
+		}, (err, articles) ->
+			docs.documents = articles
+			cb err, docs
+	, docsCount, anchorId
 
 exports.index = (req, res) ->
 	if req.query?.referer
@@ -89,7 +101,7 @@ exports.index = (req, res) ->
 
 	async.waterfall [
 		(next) ->
-			getArticles next
+			getArticles req, next
 		(docs, next) ->
 			data.articles = docs
 
@@ -109,7 +121,7 @@ exports.feed = (req, res) ->
 
 exports.articles = (req, res) ->
 	query = _.pick req.query, 'lastId', 'age', 'theme', 'nestedAnchor', 'sort'
-	getArticles (err, docs) ->
+	getArticles req, (err, docs) ->
 		res.json docs
 	, query
 

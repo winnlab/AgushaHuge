@@ -1,5 +1,6 @@
 mongoose = require 'mongoose'
 moment = require 'moment'
+mongoosePages = require 'mongoose-pages'
 translit = require 'transliteration.cyr'
 
 ObjectId = mongoose.Schema.Types.ObjectId
@@ -144,5 +145,7 @@ schema.pre 'save', (next) ->
     .replace /[^\w\d_]/g, ''
 
   next()
+
+mongoosePages.anchor schema
 
 module.exports = mongoose.model 'Consultation', schema

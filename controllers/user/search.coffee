@@ -13,38 +13,38 @@ breadcrumbs = require '../../meta/breadcrumbs'
 
 exports.index = (req, res) ->
 	phrase = req.params.phrase + ''
-	
+
 	if req.params.phrase.indexOf(' ') > -1
 		phrase = phrase.replace(/\s+/g, '_')
 		return res.redirect '/search/' + phrase
-	
+
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'search'
-	
+
 	phrase = decodeURI phrase
 	phrase = phrase.toLowerCase()
 	phrase = phrase.trim()
-	
+
 	req.params.phrase = phrase.replace(/_/g, ' ')
-	
-	res.locals.params = req.params # req.params is not accessable in middlewares -_- 
-	
+
+	res.locals.params = req.params # req.params is not accessable in middlewares -_-
+
 	words = phrase.split '_'
-	
+
 	# regexpString = ''
-	
+
 	# wordsLength = words.length
 	# while wordsLength--
 		# regexpString += words[wordsLength]
-		
+
 		# if wordsLength != 0
 			# regexpString += '|'
-	
+
 	# regexp = new RegExp regexpString, 'i'
-	
+
 	async.parallel
 		articles: (next) ->
-			Article.search req.params.phrase, next
+			Article.search req.user._id, req.params.phrase, next
 		consultations: (next) ->
 			Consultation.search req.params.phrase, next
 	, (err, results) ->
@@ -52,7 +52,7 @@ exports.index = (req, res) ->
 			error = err.message or err
 			Logger.log 'info', "Error in controllers/user/search/index: #{error}"
 			return res.send error
-		
+
 		_.extend data, results
-		
+
 		View.render 'user/search/index', res, data

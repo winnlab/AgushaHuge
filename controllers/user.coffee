@@ -106,6 +106,7 @@ Router.post '/consultation', Consultation.setConsultation
 #
 
 Router.get '/specialist', Specialist.index
+Router.get '/consultations', Specialist.consultations
 
 #
 

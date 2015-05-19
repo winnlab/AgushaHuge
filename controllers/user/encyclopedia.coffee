@@ -10,7 +10,14 @@ tree = require '../../utils/tree'
 
 breadcrumbs = require '../../meta/breadcrumbs'
 
-findAgesThemesArticles = (age, theme, callback) ->
+getArticles = (userId, docs, cb) ->
+	Article.getArticlesData userId, {
+		_id: $in: _.pluck docs.documents, '_id'
+	}, (err, articles) ->
+		docs.documents = articles
+		cb err, docs
+
+findAgesThemesArticles = (userId, age, theme, callback) ->
 	searchOptions =
 		active: true
 
@@ -37,7 +44,9 @@ findAgesThemesArticles = (age, theme, callback) ->
 				options.sort =
 					position: -1
 
-				return Model 'Article', 'findPaginated', query, null, options, next, docsCount
+				return Model 'Article', 'findPaginated', query, null, options, (err, docs) ->
+					getArticles userId, docs, next
+				, docsCount
 
 			Model 'Age', 'findOne', { value: age }, '_id', (err, doc) ->
 				query['age._id'] = doc._id
@@ -49,7 +58,9 @@ findAgesThemesArticles = (age, theme, callback) ->
 					anchorField: 'position'
 				options.sort =
 					'theme.position': -1
-				Model 'Article', 'findPaginated', query, '-desc.text -image.dataB -image.dataL -image.dataS -image.dataSOCIAL -image.dataXL', options, next, docsCount
+				Model 'Article', 'findPaginated', query, '_id position', options, (err, docs) ->
+					getArticles userId, docs, next
+				, docsCount
 	, callback
 
 getSubscription = (user, theme, cb) ->
@@ -70,7 +81,7 @@ exports.index = (req, res) ->
 
 	async.waterfall [
 		(next) ->
-			findAgesThemesArticles age, theme, next
+			findAgesThemesArticles req?.user?._id, age, theme, next
 		(results, next) ->
 			_.extend data, results
 			getSubscription req.user, theme, next

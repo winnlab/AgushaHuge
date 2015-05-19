@@ -13,19 +13,19 @@ breadcrumbs = require '../../meta/breadcrumbs'
 exports.index = (req, res) ->
 	data =
 		breadcrumbs: tree.findWithParents breadcrumbs, 'encyclopedia'
-	
+
 	alias: req.params.alias
-	
-	res.locals.params = req.params # req.params is not accessable in middlewares -_- 
-	
+
+	res.locals.params = req.params # req.params is not accessable in middlewares -_-
+
 	async.waterfall [
 		(next) ->
 			# product = Model 'Product', 'findOne', null, alias: alias
-			
+
 			# product.populate('age certificate').exec next
 		# (doc, next) ->
 			# data.article = doc
-			
+
 			View.render 'user/article/index', res, data
 	], (err) ->
 		error = err.message or err
@@ -34,13 +34,13 @@ exports.index = (req, res) ->
 
 exports.findAll = (req, res) ->
 	data = {}
-	
+
 	async.waterfall [
 		(next) ->
 			Article.findAll req.body.age, req.body.theme, next
 		(docs, next) ->
 			data.articles = docs
-			
+
 			View.ajaxResponse res, null, data
 	], (err) ->
 		error = err.message or err
@@ -54,9 +54,9 @@ exports.findOne = (req, res) ->
 	alias: req.params.alias
 
 	link = req.params.id
-	
-	res.locals.params = req.params # req.params is not accessable in middlewares -_- 
-	
+
+	res.locals.params = req.params # req.params is not accessable in middlewares -_-
+
 	async.waterfall [
 		(next) ->
 			Model 'Article', 'findOne', next, transliterated: link, null, {lean: true}
@@ -72,36 +72,18 @@ exports.findOne = (req, res) ->
 			else
 				next 404
 		(doc, next) ->
-			if doc
-				data.article = doc
+			data.article = doc
 
-				Model 'Article', 'find', next, {
-					_id: {$ne: doc._id},
-					'theme._id': {
-						$in: _.pluck doc.theme, '_id'
-					},
-				}, null, {
-					limit: 9
-				}
-		(docs, next) ->
-			if docs.length > 3
-				next null, docs
-			else
-				Model 'Article', 'find', next, {
-					_id: {$ne: data.article._id},
-					'age._id': {
-						$in: _.pluck data.article.age, '_id'
-					},
-				}, null, {
-					limit: 9,
-					sort: 'updated'
-				}
-
+			Article.similarArticles req?.user?._id,
+				_.pluck(doc.theme, '_id'),
+				_.pluck(data.article.age, '_id'),
+				next,
+				doc._id
 		(docs, next) ->
 			if docs
 				data.similarArticles = docs
 
-			if req.user?._id
+			if req?.user?._id
 				if data.article.is_quiz
 					if req.userVoted
 						data.userVoted = true
@@ -165,7 +147,7 @@ exports.saveAnswer = (req, res) ->
 						doc.answer[answerIndex].clients.push {
 							client: userId
 						}
-
+						doc.counter.answer += 1
 						doc.save next
 					else
 						next 404

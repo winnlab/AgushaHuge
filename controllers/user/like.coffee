@@ -36,15 +36,18 @@ exports.toggleLike = (req, res) ->
 
 						if likeIndex isnt -1
 							doc.likes.splice likeIndex, 1
+							doc.counter.like -= 1
 							toggleResult = 0
 						else
 							doc.likes.push {client: userId}
+							doc.counter.like += 1
 							toggleResult = 1
 
 						doc.save next
 
 					else
 						doc.likes.push {client: userId}
+						doc.counter.like += 1
 						toggleResult = 1
 						doc.save next
 				else
@@ -70,6 +73,5 @@ exports.socialLike = (req, res) ->
 	return res.send 400 unless req.body?.network
 	return res.send 403 unless req.user
 
-	Moneybox.socialLike req.user._id, req.body.network, () ->
+	Moneybox.socialLike req?.user?._id, req.body.network, () ->
 		res.send req.body.network
-
