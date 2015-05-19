@@ -28,7 +28,7 @@ exports.findOne = (req, res) ->
 			consultation.populate('author.author_id answer.author.author_id').exec next
 		(doc, next) ->
 			data.consultation = doc
-			Article.similarArticles req.user._id,
+			Article.similarArticles req?.user?._id,
 				_.pluck(doc.theme, '_id'),
 				_.pluck(data.consultation.age, '_id'),
 				next
