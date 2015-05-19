@@ -125,7 +125,14 @@ schema = new mongoose.Schema
     counter:
       type: Number
       default: 0
-  ]
+  ],
+  counter:
+    like:
+      type: Number
+      default: 0
+    watch:
+      type: Number
+      default: 0
 ,
   collection: 'consultation'
 

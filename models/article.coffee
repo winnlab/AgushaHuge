@@ -185,6 +185,9 @@ schema = new mongoose.Schema
     view:
       type: Number
       default: 0
+    answer:
+      type: Number
+      default: 0
 ,
   collection: 'article'
 
