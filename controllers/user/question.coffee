@@ -27,6 +27,7 @@ exports.findOne = (req, res) ->
 			consultation.select watchers: $elemMatch: $in: [req?.user?._id]
 			consultation.populate('author.author_id answer.author.author_id').exec next
 		(doc, next) ->
+			return next 404 unless doc
 			data.consultation = doc
 			Article.similarArticles req?.user?._id,
 				_.pluck(doc.theme, '_id'),
@@ -55,7 +56,7 @@ exports.findOne = (req, res) ->
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/question/index: #{error}"
-		res.send error
+		View.ajaxResponse res, err
 
 
 
