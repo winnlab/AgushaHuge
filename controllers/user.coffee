@@ -119,7 +119,7 @@ Router.get '/search/:phrase', Search.index
 
 #
 
-# Router.get '/springregistration', Springregistration.index
+Router.get '/springregistration', Springregistration.index
 # Router.get '/springregistration/success', Springregistration.success
 
 #
