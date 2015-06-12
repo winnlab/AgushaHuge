@@ -22,7 +22,7 @@ exports.email = (req, res) ->
 		client:
 			first_name: 'tratata'
 	
-	Client.sendMail 'baby_active', options, (err, html) ->
+	Client.sendMail 'moneybox_4', options, (err, html) ->
 		if err
 			return res.send err
 		
