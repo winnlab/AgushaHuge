@@ -44,3 +44,4 @@ random/
 
 # database settings
 init/database.coffee
+lib/mail.coffee
