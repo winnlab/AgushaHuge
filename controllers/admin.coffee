@@ -16,6 +16,7 @@ Rank = require './admin/rank'
 Theme = require './admin/themes'
 User = require './admin/user'
 Stats = require './admin/stats'
+Partner = require './admin/partner'
 
 Router = express.Router()
 
@@ -62,6 +63,9 @@ Router.use '/certificate/img', Certificate.restFile
 Router.use '/certificate/:id?', Certificate.rest
 
 Router.use '/productCategory/:id?', ProductCategory.rest
+
+Router.use '/partner/img', Partner.restFile
+Router.use '/partner/:id?', Partner.rest
 
 # Random data getter without REST wrapper
 Router.get '/user', User.get
