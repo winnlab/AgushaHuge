@@ -49,4 +49,8 @@ module.exports = [
 	id: 'springregistration'
 	title: 'Акции'
 	href: '/springregistration'
+,
+	id: 'partners'
+	title: 'Партнеры'
+	href: '/partners'
 ]

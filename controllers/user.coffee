@@ -27,6 +27,7 @@ Rating = require './user/rating'
 Test = require './user/test'
 Contacts = require './user/contacts'
 Download = require './user/download'
+Partners = require './user/partners'
 
 Middleware = require './helper/middleware'
 
@@ -121,6 +122,10 @@ Router.get '/search/:phrase', Search.index
 
 Router.get '/springregistration', Springregistration.index
 # Router.get '/springregistration/success', Springregistration.success
+
+#
+
+Router.get '/partners', Partners.index
 
 #
 
