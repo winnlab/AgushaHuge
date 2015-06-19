@@ -19,6 +19,11 @@ module.exports = [
 	href: '/production'
 	parent_id: 'about'
 ,
+	id: 'news'
+	title: 'Новости'
+	href: '/news'
+	parent_id: 'about'
+,
 	id: 'search'
 	title: 'Результаты поиска'
 	href: '/search'

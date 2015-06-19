@@ -28,6 +28,7 @@ Test = require './user/test'
 Contacts = require './user/contacts'
 Download = require './user/download'
 Partners = require './user/partners'
+News = require './user/news'
 
 Middleware = require './helper/middleware'
 
@@ -126,6 +127,10 @@ Router.get '/springregistration', Springregistration.index
 #
 
 Router.get '/partners', Partners.index
+
+#
+
+Router.get '/news', News.index
 
 #
 
