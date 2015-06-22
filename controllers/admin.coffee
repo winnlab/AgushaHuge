@@ -15,6 +15,8 @@ ProductCategory = require './admin/productCategory'
 Rank = require './admin/rank'
 Theme = require './admin/themes'
 User = require './admin/user'
+Stats = require './admin/stats'
+Partner = require './admin/partner'
 
 Router = express.Router()
 
@@ -62,26 +64,31 @@ Router.use '/certificate/:id?', Certificate.rest
 
 Router.use '/productCategory/:id?', ProductCategory.rest
 
+Router.use '/partner/img', Partner.restFile
+Router.use '/partner/:id?', Partner.rest
+
 # Random data getter without REST wrapper
 Router.get '/user', User.get
 
+Router.get '/stats/children', Stats.childrenAges
+
 # TEMPORARY BENEATH#
 Router.post '/tmpUserRemove', (req, res) ->
-    ClientModel = require '../models/client'
-    async = require 'async'
-    string = req.body.email
-    emails = string.split ' '
-    if emails
-        async.each emails, (item, cb) ->
-            ClientModel.remove {email: new RegExp(".*#{item}.*", 'gi')}, cb
-        , (err) ->
-            res.send unless err then true else err
-    else
-        res.send 'No emails string aquired'
+  ClientModel = require '../models/client'
+  async = require 'async'
+  string = req.body.email
+  emails = string.split ' '
+  if emails
+    async.each emails, (item, cb) ->
+      ClientModel.remove {email: new RegExp(".*#{item}.*", 'gi')}, cb
+    , (err) ->
+      res.send unless err then true else err
+  else
+    res.send 'No emails string aquired'
 
 Router.delete '/tmpUserRemove', (req, res) ->
-    require('../models/client').remove {}, (err) ->
-        res.send unless err then true else err
+  require('../models/client').remove {}, (err) ->
+    res.send unless err then true else err
 
 # TEMPORARY ABOVE#
 

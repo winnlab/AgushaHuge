@@ -56,10 +56,14 @@ configure = () ->
 	@use '/css', express.static "#{__dirname}/../public/css"
 	@use '/fonts', express.static "#{__dirname}/../public/fonts"
 	@use '/doc', express.static "#{__dirname}/../public/doc"
+	@use '/dist', express.static "#{__dirname}/../public/dist"
 	@use '/robots.txt', (req, res)->
 		res.set 'Content-Type', 'text/plain'
 		res.send "User-agent: *\nDisallow: /"
-
+	@use '/fs.js', (req, res)->
+		res.set 'Content-Type', 'text/plain'
+		res.send ''
+	
 	@use bodyParser limit: '16mb'
 	@use methodOverride()
 

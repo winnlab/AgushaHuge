@@ -27,6 +27,8 @@ Rating = require './user/rating'
 Test = require './user/test'
 Contacts = require './user/contacts'
 Download = require './user/download'
+Partners = require './user/partners'
+News = require './user/news'
 
 Middleware = require './helper/middleware'
 
@@ -124,6 +126,14 @@ Router.get '/springregistration', Springregistration.index
 
 #
 
+Router.get '/partners', Partners.index
+
+#
+
+Router.get '/news', News.index
+
+#
+
 Router.use '/user', User
 
 #
@@ -172,6 +182,7 @@ Router.get '/rankToExcel/:rank?/:advanced?', Test.rankToExcel
 # Router.get '/add_registration_points', Test.add_registration_points
 # Router.get '/email_mama', Test.email_mama
 # Router.get '/email_baby_active', Test.email_baby_active
+Router.get '/email_moneybox_4', Test.email_moneybox_4
 
 #
 
