@@ -27,7 +27,6 @@ findAgesThemesArticles = (userId, age, theme, callback) ->
 				lean: true
 				sort:
 					value: 1
-				limit: 6
 
 			Model 'Age', 'find', searchOptions, 'title value icon desc', sortOptions, next
 		themes: (next) ->
