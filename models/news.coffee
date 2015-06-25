@@ -188,6 +188,13 @@ schema = new mongoose.Schema
     answer:
       type: Number
       default: 0
+  meta:
+    title:
+      type: String
+    desc:
+      type: String
+    keywords:
+      type: String
 ,
   collection: 'news'
 
