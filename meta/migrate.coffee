@@ -122,8 +122,11 @@ module.exports = [
 	,
 		_id: 'partners'
 		name: 'partners'
+	,
+		_id: 'news'
+		name: 'news'
 	]
-,	
+,
 	modelName: 'role'
 	data: [
 		_id: 'admin'
@@ -169,6 +172,7 @@ module.exports = [
 			'stats'
 			'partner'
 			'partners'
+			'news'
 		]
 	,
 		_id: 'user'

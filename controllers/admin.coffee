@@ -2,6 +2,7 @@ express = require 'express'
 
 Age = require './admin/age'
 Article = require './admin/article'
+News = require './admin/news'
 ArticleType = require './admin/articleType'
 Certificate = require './admin/certificate'
 Client = require './admin/clients'
@@ -39,6 +40,7 @@ Router.use '/theme', Theme
 Router.use '/articleType/:id?', ArticleType.rest
 
 Router.use '/article', Article
+Router.use '/news', News
 
 Router.use '/faq/:id?', FAQ.rest
 
@@ -73,23 +75,23 @@ Router.get '/user', User.get
 Router.get '/stats/children', Stats.childrenAges
 
 # TEMPORARY BENEATH#
-Router.post '/tmpUserRemove', (req, res) ->
-  ClientModel = require '../models/client'
-  async = require 'async'
-  string = req.body.email
-  emails = string.split ' '
-  if emails
-    async.each emails, (item, cb) ->
-      ClientModel.remove {email: new RegExp(".*#{item}.*", 'gi')}, cb
-    , (err) ->
-      res.send unless err then true else err
-  else
-    res.send 'No emails string aquired'
-
-Router.delete '/tmpUserRemove', (req, res) ->
-  require('../models/client').remove {}, (err) ->
-    res.send unless err then true else err
-
+# Router.post '/tmpUserRemove', (req, res) ->
+#   ClientModel = require '../models/client'
+#   async = require 'async'
+#   string = req.body.email
+#   emails = string.split ' '
+#   if emails
+#     async.each emails, (item, cb) ->
+#       ClientModel.remove {email: new RegExp(".*#{item}.*", 'gi')}, cb
+#     , (err) ->
+#       res.send unless err then true else err
+#   else
+#     res.send 'No emails string aquired'
+#
+# Router.delete '/tmpUserRemove', (req, res) ->
+#   require('../models/client').remove {}, (err) ->
+#     res.send unless err then true else err
+# 
 # TEMPORARY ABOVE#
 
 #########################
