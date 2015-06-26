@@ -131,6 +131,9 @@ Router.get '/partners', Partners.index
 #
 
 Router.get '/news', News.index
+Router.get '/news-list', News.news
+Router.get '/news/:id', News.findOne
+Router.get '/article/:id/news', News.findOne
 
 #
 

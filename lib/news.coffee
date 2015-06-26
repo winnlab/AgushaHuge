@@ -115,4 +115,4 @@ exports.similarArticles = (userId, themes, ages, cb, articleId = null) ->
 		if data.theme.length >= 3
 			return getArticlesData userId, { _id: $in: _.pluck data.theme, '_id' }, cb
 
-		return getArticlesData userId, { _id: $in: _.pluck data.age, '_id' }, cb
+		getArticlesData userId, { _id: $in: _.pluck data.age, '_id' }, cb
