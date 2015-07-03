@@ -45,6 +45,9 @@ schema = new mongoose.Schema
 		type: ObjectId
 		ref: "ProductCategory"
 	]
+	positionInsideCategory:
+		type: Number
+		default: 999
 	age_level:
 		type: Number
 	alias:
