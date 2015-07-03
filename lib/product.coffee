@@ -67,7 +67,7 @@ exports.findAll = (category, age, callback) ->
 							toReturn += 0.3
 				
 				if doc.positionInsideCategory
-					toReturn += ((1000 - doc.positionInsideCategory) / 1000)
+					toReturn += (doc.positionInsideCategory / 1000)
 				
 				return toReturn
 			
