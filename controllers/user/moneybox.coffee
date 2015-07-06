@@ -267,6 +267,45 @@ winners_array = [
 		pro: [
 			'ludmila.kirneva@gmail.ua'
 		]
+,
+	date: '17.06.2015'
+	data:
+		novice: [
+			'kryzhanovskaja@mail.ru'
+			'kisa191186@mail.ru'
+			'kunec_l@ukr.net'
+			'jessika900@mail.ru'
+			'svet88ik@ukr.net'
+			'lauri85@mail.ru'
+			'anna.angel87@mail.ru'
+			'milisa1248@mail.ru'
+			'strilchuk.v@mail.ru'
+			'irina.serdyuk.82@mail.ru'
+		]
+		
+		disciple: [
+			'katja222208@rambler.ru'
+			'loris.promo@mail.ru'
+			'verunya_85@mail.ru'
+			'volsasha@gmail.com'
+			'matveeva_83@mail.ru'
+		]
+		
+		adept: [
+			'prokopchuk.ya@yandex.ua'
+			'olga_mushka@mail.ru'
+			'nastya.od@mail.ru'
+			'sotges@mail.ru'
+		]
+		
+		expert: [
+			'nikemike126@gmail.com'
+			'polugarus@outlook.com'
+		]
+		
+		pro: [
+			'sjankam@gmail.com'
+		]
 ]
 
 getWinners = (winners_item, callback) ->

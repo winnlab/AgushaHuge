@@ -27,6 +27,8 @@ Rating = require './user/rating'
 Test = require './user/test'
 Contacts = require './user/contacts'
 Download = require './user/download'
+Partners = require './user/partners'
+News = require './user/news'
 
 Middleware = require './helper/middleware'
 
@@ -106,6 +108,7 @@ Router.post '/consultation', Consultation.setConsultation
 #
 
 Router.get '/specialist', Specialist.index
+Router.get '/consultations', Specialist.consultations
 
 #
 
@@ -119,7 +122,18 @@ Router.get '/search/:phrase', Search.index
 #
 
 Router.get '/springregistration', Springregistration.index
-Router.get '/springregistration/success', Springregistration.success
+# Router.get '/springregistration/success', Springregistration.success
+
+#
+
+Router.get '/partners', Partners.index
+
+#
+
+Router.get '/news', News.index
+Router.get '/news-list', News.news
+Router.get '/news/:id', News.findOne
+Router.get '/article/:id/news', News.findOne
 
 #
 
@@ -169,7 +183,9 @@ Router.get '/rankToExcel/:rank?/:advanced?', Test.rankToExcel
 # Router.get '/email_apologize', Test.email_apologize
 # Router.get '/get_novice_winners', Test.get_novice_winners
 # Router.get '/add_registration_points', Test.add_registration_points
-Router.get '/email_mama', Test.email_mama
+# Router.get '/email_mama', Test.email_mama
+# Router.get '/email_baby_active', Test.email_baby_active
+Router.get '/email_moneybox_4', Test.email_moneybox_4
 
 #
 

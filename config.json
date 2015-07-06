@@ -1,6 +1,6 @@
 {
-    "port": 80,
-    "adminRootPath": "ranks",
+    "port": 8080,
+    "adminRootPath": "stats",
     "vk": {
         "APP_ID": 4699559,
         "CLIENT_SECRET": "mP9UhB5NkGetPb4JOt7R"

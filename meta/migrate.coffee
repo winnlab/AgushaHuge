@@ -113,13 +113,25 @@ module.exports = [
 	,
 		_id: 'exportСlients'
 		name: 'exportСlients'
+	,
+		_id: 'stats'
+		name: 'stats'
+	,
+		_id: 'partner'
+		name: 'partner'
+	,
+		_id: 'partners'
+		name: 'partners'
+	,
+		_id: 'news'
+		name: 'news'
 	]
 ,
 	modelName: 'role'
 	data: [
 		_id: 'admin'
 		name: 'admin'
-		'permissions': [
+		permissions: [
 			'denied'
 			'dashboard'
 			'users'
@@ -157,6 +169,10 @@ module.exports = [
 			'ages'
 			'logout'
 			'exportСlients'
+			'stats'
+			'partner'
+			'partners'
+			'news'
 		]
 	,
 		_id: 'user'
@@ -268,18 +284,18 @@ module.exports = [
 			month: 0
 			year: 0
 	,
-	    _id: '549d5d756d32142da970870c'
-	    name: 'fbLike'
-	    label: 'Лайк, шеринг статьи в ФБ'
-	    description: '6 баллов в сутки; не более 60 баллов в месяц'
-	    points: 2
-	    active: true
-	    multi: true
-	    limits:
-	        day: 6
-	        week: 0
-	        month: 60
-	        year: 0
+			_id: '549d5d756d32142da970870c'
+			name: 'fbLike'
+			label: 'Лайк, шеринг статьи в ФБ'
+			description: '6 баллов в сутки; не более 60 баллов в месяц'
+			points: 2
+			active: true
+			multi: true
+			limits:
+					day: 6
+					week: 0
+					month: 60
+					year: 0
 	,
 		_id: '549d5d9c6d32142da970870d'
 		name: 'vkLike'
@@ -289,24 +305,24 @@ module.exports = [
 		active: true
 		multi: true
 		limits:
-		    day: 6
-		    week: 0
-		    month: 60
-		    year: 0
+				day: 6
+				week: 0
+				month: 60
+				year: 0
 	,
-	    _id: '549d5db06d32142da970870e'
-	    name: 'okLike'
-	    label: 'Лайк, шеринг статьи в Одноклассниках'
-	    description: '6 баллов в сутки; не более 60 баллов в месяц'
-	    points: 2
-	    active: true
-	    multi: true
-	    limits:
-	        day: 6
-	        week: 0
-	        month: 60
-	        year: 0
-    ,
+			_id: '549d5db06d32142da970870e'
+			name: 'okLike'
+			label: 'Лайк, шеринг статьи в Одноклассниках'
+			description: '6 баллов в сутки; не более 60 баллов в месяц'
+			points: 2
+			active: true
+			multi: true
+			limits:
+					day: 6
+					week: 0
+					month: 60
+					year: 0
+		,
 		_id: '549d5e196d32142da970870f',
 		name: 'communityQuestion',
 		label: 'Вопрос к сообществу',
@@ -315,10 +331,10 @@ module.exports = [
 		active: true,
 		multi: true,
 		limits:
-		    day: 1,
-		    week: 0,
-		    month: 10,
-		    year: 0
+				day: 1,
+				week: 0,
+				month: 10,
+				year: 0
 	]
 ,
 	modelName: 'client'

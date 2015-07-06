@@ -12,17 +12,17 @@ stringUtil = require '../../utils/string'
 
 exports.email = (req, res) ->
 	email = 'hydra0@bigmir.net'
-	email = 'hydraorc@gmail.com'
+	# email = 'hydraorc@gmail.com'
 	# email = 'dkirpa@gmail.com'
 	
 	options =
 		toName: 'Имя Фамилия'
 		to: email
 		subject: 'Агуша тест'
-		friend:
-			firstName: 'Имя'
+		client:
+			first_name: 'tratata'
 	
-	Client.sendMail 'mama', options, (err, html) ->
+	Client.sendMail 'moneybox_4', options, (err, html) ->
 		if err
 			return res.send err
 		
@@ -645,7 +645,7 @@ exports.email_mama = (req, res) ->
 	
 	sortOptions =
 		lean: true
-		skip: 11690
+		skip: 0
 	
 	async.waterfall [
 		(next) ->
@@ -665,3 +665,105 @@ exports.email_mama = (req, res) ->
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/email_mama: #{error}"
+
+send_baby_active = (res, doc, callback) ->
+	name = doc.email
+	clientName = doc.username || doc.email
+	
+	if doc.profile
+		if doc.profile.first_name
+			name = doc.profile.first_name
+			clientName = doc.profile.first_name
+	
+		if doc.profile.last_name
+			name += ' ' + doc.profile.last_name
+	
+	options =
+		toName: stringUtil.title_case name
+		to: doc.email
+		subject: "Выставка-фестиваль семейного досуга BABY Active' 2015"
+		client:
+			first_name: stringUtil.title_case clientName
+	
+	console.log doc
+	
+	Client.sendMail 'baby_active', options, callback
+
+exports.email_baby_active = (req, res) ->
+	options =
+		email:
+			'$ne': null
+	
+	sortOptions =
+		lean: true
+		skip: 3503
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, '_id username email profile', sortOptions
+		(docs, next) ->
+			console.log docs.length
+			
+			async.timesSeries docs.length, (n, next2) ->
+				console.log n
+				doc = docs[n]
+				
+				send_baby_active res, doc, next2
+			, next
+		(results) ->
+			console.log 'send_baby_active done'
+			res.send true
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/email_baby_active: #{error}"
+
+send_moneybox_4 = (res, doc, callback) ->
+	name = doc.email
+	clientName = doc.username || doc.email
+	
+	if doc.profile
+		if doc.profile.first_name
+			name = doc.profile.first_name
+			clientName = doc.profile.first_name
+	
+		if doc.profile.last_name
+			name += ' ' + doc.profile.last_name
+	
+	options =
+		toName: stringUtil.title_case name
+		to: doc.email
+		subject: "Копилка"
+		client:
+			first_name: stringUtil.title_case clientName
+	
+	console.log doc
+	
+	Client.sendMail 'moneybox_4', options, callback
+
+exports.email_moneybox_4 = (req, res) ->
+	options =
+		email:
+			'$ne': null
+	
+	sortOptions =
+		lean: true
+		skip: 0
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, '_id username email profile', sortOptions
+		(docs, next) ->
+			console.log docs.length
+			
+			async.timesSeries docs.length, (n, next2) ->
+				console.log n
+				doc = docs[n]
+				
+				send_moneybox_4 res, doc, next2
+			, next
+		(results) ->
+			console.log 'send_moneybox_4 done'
+			res.send true
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/email_moneybox_4: #{error}"

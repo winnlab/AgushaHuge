@@ -3,8 +3,8 @@ async = require 'async'
 
 opts =
 	server: { auto_reconnect: true, primary:null, poolSize: 50 },
-	user: 'admin'
-	pass: 'jHn42K2p1mK'
+	user: ''
+	pass: ''
 	host: 'localhost'
 	port: '27017'
 	database: 'AgushaHuge'

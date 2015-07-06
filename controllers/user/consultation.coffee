@@ -26,26 +26,15 @@ exports.findOne = (req, res) ->
 
 	async.waterfall [
 		(next) ->
-			Model 'Consultation', 'findOne', _id: id, next
+			consultation = Model 'Consultation', 'findOne', _id: id, '-__v'
+			consultation.select watchers: $elemMatch: $in: [req?.user?._id]
+			consultation.exec next
 		(doc, next) ->
-			if doc
-				data.consultation = doc
-
-				Model 'Article', 'find', {
-					'theme.theme_id': doc.theme.theme_id
-				}, next
-		(docs, next) ->
-			if docs.length > 3
-				data.similarArticles = docs
-			else
-				Model 'Article', 'find', next, {
-					'age._id': {
-						$in: _.pluck data.consultation.age, '_id'
-					},
-				}, null, {
-					limit: 9,
-					sort: 'updated'
-				}
+			data.consultation = doc
+			Article.similarArticles req?.user?._id,
+				_.pluck(doc.theme, '_id'),
+				_.pluck(data.consultation.age, '_id'),
+				next
 		(docs, next) ->
 			if docs
 				data.similarArticles = docs
@@ -70,7 +59,7 @@ getDenormalizedData = (obj, user, cb) ->
 				author_id: user?._id
 				name: (user?.profile?.first_name or '') + ' ' + (user?.profile?.last_name or '')
 			type:
-			    name: "Статья от пользователя"
+				name: "Статья от пользователя"
 			encyclopedia: false
 			closed: false
 			active: true
@@ -100,7 +89,7 @@ exports.setConsultation = (req, res) ->
 			doc.save next
 		(doc, numEffected, next) ->
 			consultation = doc
-			Moneybox.consultation req.user._id, next
+			Moneybox.consultation req?.user?._id, next
 		(userId, next) ->
 			emailMeta =
 				toName: "Ольга Ковалева"

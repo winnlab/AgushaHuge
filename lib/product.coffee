@@ -66,6 +66,9 @@ exports.findAll = (category, age, callback) ->
 						when 150
 							toReturn += 0.3
 				
+				if doc.positionInsideCategory
+					toReturn += (doc.positionInsideCategory / 1000)
+				
 				return toReturn
 			
 			callback null, docs

@@ -196,7 +196,7 @@ schema = new mongoose.Schema
     keywords:
       type: String
 ,
-  collection: 'article'
+  collection: 'news'
 
 schema.methods.name = -> @title
 
@@ -211,4 +211,4 @@ schema.pre 'save', (next) ->
 
 mongoosePages.anchor schema
 
-module.exports = mongoose.model 'Article', schema
+module.exports = mongoose.model 'News', schema

@@ -2,6 +2,7 @@ http = require 'http'
 
 express = require 'express'
 async = require 'async'
+compression = require 'compression'
 passport = require 'passport'
 roles = require 'roles'
 _ = require 'underscore'
@@ -51,14 +52,21 @@ configure = () ->
 	@set 'view engine', 'jade'
 	@set 'view options', jadeOptions
 
+	@use compression
+		level: 1
+
 	@use '/js', express.static "#{__dirname}/../public/js"
 	@use '/img', express.static "#{__dirname}/../public/img"
 	@use '/css', express.static "#{__dirname}/../public/css"
 	@use '/fonts', express.static "#{__dirname}/../public/fonts"
 	@use '/doc', express.static "#{__dirname}/../public/doc"
+	@use '/dist', express.static "#{__dirname}/../public/dist"
 	@use '/robots.txt', (req, res)->
 		res.set 'Content-Type', 'text/plain'
 		res.send "User-agent: *\nDisallow: /"
+	@use '/fs.js', (req, res)->
+		res.set 'Content-Type', 'text/plain'
+		res.send ''
 
 	@use bodyParser limit: '16mb'
 	@use methodOverride()

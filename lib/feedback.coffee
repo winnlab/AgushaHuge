@@ -10,6 +10,7 @@ emails = [
 	'dkirpa@gmail.com'
 	'contact@agusha.com.ua'
 	'omkovalova@gmail.com'
+	'olga.kovaleva@pepsico.com'
 ]
 
 sendEmail = (res, email, data, callback) ->

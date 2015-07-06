@@ -33,6 +33,7 @@ exports.toggleWatch = (req, res) ->
                 else
                     doc.watchers.push userId
                     toggleResult = 1
+                doc.counter.watch = doc.counter.watch + if toggleResult then 1 else -1
                 doc.save next
             else
                 next "Error in controllers/user/watch/toggleWatch: No document was found in Consultation model with _id: #{_id}"
