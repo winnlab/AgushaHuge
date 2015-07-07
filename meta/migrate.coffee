@@ -125,6 +125,9 @@ module.exports = [
 	,
 		_id: 'news'
 		name: 'news'
+	,
+		_id: 'encyclopedia-article'
+		name: 'encyclopedia-article'
 	]
 ,
 	modelName: 'role'
@@ -172,7 +175,8 @@ module.exports = [
 			'stats'
 			'partner'
 			'partners'
-			'news'
+			'news',
+			'encyclopedia-article'
 		]
 	,
 		_id: 'user'

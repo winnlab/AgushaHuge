@@ -46,7 +46,7 @@ exports.isAdmin = (req, res, next) ->
 			
 			if not profile
 				return res.send 'Your account has unexpected permissions'
-			
+
 			if not profile.hasRoles 'agusha.' + section
 				return res.send 'Your profile does not have required permissions'
 			
