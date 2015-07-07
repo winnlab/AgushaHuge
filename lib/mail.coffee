@@ -1,7 +1,7 @@
 _ = require 'underscore'
 async = require 'async'
 nodemailer = require 'nodemailer'
-# emailTemplates = require 'email-templates'
+emailTemplates = require 'email-templates'
 mail = nodemailer.mail
 
 Logger = require './logger'
