@@ -1,7 +1,7 @@
 _ = require 'underscore'
 async = require 'async'
 nodemailer = require 'nodemailer'
-emailTemplates = require 'email-templates'
+# emailTemplates = require 'email-templates'
 mail = nodemailer.mail
 
 Logger = require './logger'
@@ -47,9 +47,9 @@ exports.send = (name, data, cb) ->
 		->
 			cb null, cb_html
 	], (err) ->
-		error = err.message or err
-		Logger.log 'info', "Error in lib/mail/send: #{error}"
+		# error = err.message or err
+		# Logger.log 'info', "Error in lib/mail/send: #{error}"
 		
-		return cb null
+		# return cb null
 		
-		# cb err
+		cb err
