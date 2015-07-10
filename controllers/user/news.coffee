@@ -70,7 +70,6 @@ exports.findOne = (req, res) ->
 		(next) ->
 			Model 'News', 'findOne', transliterated: link, null, {lean: true}, next
 		(doc, next) ->
-			console.log doc._id
 			if doc
 				next null, doc
 			else
@@ -81,8 +80,6 @@ exports.findOne = (req, res) ->
 			Model 'Gallery', 'findOne', article_id: data.article._id, next
 
 		(doc, next) ->
-
-			console.log doc
 
 			if doc
 				data.article.gallery = doc
