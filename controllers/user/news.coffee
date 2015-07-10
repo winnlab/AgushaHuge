@@ -77,11 +77,18 @@ exports.findOne = (req, res) ->
 		(doc, next) ->
 			data.article = doc
 
+			Model 'Gallery', 'findOne', next, article_id: data.article._id
+
+		(doc, next) ->
+
+			if doc
+				data.article.gallery = doc
+
 			News.similarArticles req?.user?._id or null,
-				_.pluck(doc.theme, '_id'),
+				_.pluck(data.article.theme, '_id'),
 				_.pluck(data.article.age, '_id'),
 				next,
-				doc._id
+				data.article._id
 
 		(docs, next) ->
 			data.similarArticles = if docs? then docs else []
