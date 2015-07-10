@@ -22,7 +22,7 @@ exports.email = (req, res) ->
 		client:
 			first_name: 'tratata'
 	
-	Client.sendMail 'moneybox_4', options, (err, html) ->
+	Client.sendMail 'juice', options, (err, html) ->
 		if err
 			return res.send err
 		
@@ -767,3 +767,54 @@ exports.email_moneybox_4 = (req, res) ->
 	], (err) ->
 		error = err.message or err
 		Logger.log 'info', "Error in controllers/user/test/email_moneybox_4: #{error}"
+
+send_juice = (res, doc, callback) ->
+	name = doc.email
+	clientName = doc.username || doc.email
+	
+	if doc.profile
+		if doc.profile.first_name
+			name = doc.profile.first_name
+			clientName = doc.profile.first_name
+	
+		if doc.profile.last_name
+			name += ' ' + doc.profile.last_name
+	
+	options =
+		toName: stringUtil.title_case name
+		to: doc.email
+		subject: "Дитячі соки «Агуша». Зроблено в Україні"
+		client:
+			first_name: stringUtil.title_case clientName
+	
+	console.log doc
+	
+	Client.sendMail 'juice', options, callback
+
+exports.email_juice = (req, res) ->
+	options =
+		email:
+			'$ne': null
+	
+	sortOptions =
+		lean: true
+		skip: 0
+	
+	async.waterfall [
+		(next) ->
+			Model 'Client', 'find', next, options, '_id username email profile', sortOptions
+		(docs, next) ->
+			console.log docs.length
+			
+			async.timesSeries docs.length, (n, next2) ->
+				console.log n
+				doc = docs[n]
+				
+				send_juice res, doc, next2
+			, next
+		(results) ->
+			console.log 'send_juice done'
+			res.send true
+	], (err) ->
+		error = err.message or err
+		Logger.log 'info', "Error in controllers/user/test/email_juice: #{error}"
